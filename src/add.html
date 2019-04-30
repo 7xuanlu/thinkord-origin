@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <style media="screen">
+            body{
+                background-color: rgb(0, 0, 0);
+                -webkit-user-select: none;
+                -webkit-app-region: drag;
+            }
+            .btn {
+                background-color: rgb(0, 0, 0);
+                border: none;
+                color: white;
+                font-size: 18px;
+                cursor: pointer;
+                -webkit-app-region: no-drag;
+            }
+            .btn:hover {
+                background-color: rgb(54, 54, 54);
+            }
+        </style>
+    </head>
+
+    <body>
+        <form>
+            <div id="content" style="color: white;">
+                <p>            
+                    <button id="audio" class="btn">
+                        <img src="assets/microphone-black-shape.png" style="width:36px; height:36px;">
+                        Audio
+                    </button>
+                </p>
+                <p>
+                    <button id="video" class="btn">
+                        <img src="assets/video-camera.png" style="width:36px; height:36px;">
+                        Video
+                    </button>
+                </p>
+                <p>  
+                    <button id="screenshot" class="btn">
+                        <img src="assets/screenshot.png" style="width:36px; height:36px;">
+                        Screenshot
+                    </button>
+                </p>
+                <p>
+                    <button id="text" class="btn">
+                        <img src="assets/support.png" style="width:36px; height:36px;">
+                        Text
+                    </button>
+                </p>
+                <p> 
+                    <button id="mark" class="btn">
+                        <img src="assets/mark-as-favorite-star.png" style="width:36px; height:36px;">
+                        Mark
+                    </button>
+                </p>
+                <p>
+                    <button id="minimum" class="btn" style="width: 200px; height:24px; background-color: rgb(54, 54, 54);">
+                        <img src="assets/arrow-down-sign-to-navigate.png" style="width:24px; height:24px;">
+                    </button>
+                </p>
+            </div>
+        </form>
+
+        <script src="add.js"></script>
+    </body>
+</html>

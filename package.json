@@ -1,0 +1,24 @@
+{
+  "name": "3071-note",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/h164654156465/3071-note.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/h164654156465/3071-note/issues"
+  },
+  "homepage": "https://github.com/h164654156465/3071-note#readme",
+  "devDependencies": {
+    "electron": "^5.0.0"
+  }
+}
