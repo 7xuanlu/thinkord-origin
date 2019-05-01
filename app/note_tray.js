@@ -23,7 +23,7 @@ class NoteTray extends Tray {
         } else {
             const yPosition = process.platform === 'darwin' ? y : y-height;
             this.controlWindow.setBounds({
-                x: x - width / 2,
+                x: Math.round(x - width / 2),
                 y: yPosition,
                 height: height,
                 width: width
