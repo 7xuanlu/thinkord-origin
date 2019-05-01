@@ -109,11 +109,12 @@ function createHome(){
         maximizable: true
     });
 
-    home.loadURL(url.format({
-        pathname: path.join(__dirname, 'src/home.html'),
-        protocol: 'file:',
-        slashes: true
-    }));
+    // home.loadURL(url.format({
+    //     pathname: path.join(__dirname, 'src/index.html'),
+    //     protocol: 'file:',
+    //     slashes: true
+    // }));
+    home.loadURL('http://localhost:3000');
 
     home.maximize();
     home.setMenu(null);

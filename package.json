@@ -1,24 +1,35 @@
 {
   "name": "3071-note",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.1.0",
   "main": "main.js",
+  "private": true,
+  "dependencies": {
+    "electron": "^5.0.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-event-timeline": "^1.6.3",
+    "react-scripts": "3.0.0"
+  },
   "scripts": {
-    "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "electron-start": "electron ."
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/h164654156465/3071-note.git"
+  "eslintConfig": {
+    "extends": "react-app"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/h164654156465/3071-note/issues"
-  },
-  "homepage": "https://github.com/h164654156465/3071-note#readme",
-  "devDependencies": {
-    "electron": "^5.0.0"
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
