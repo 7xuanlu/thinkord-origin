@@ -1,47 +1,55 @@
-const { app, BrowserWindow, ipcMain , Menu} = require('electron');
+const electron = require('electron');
+const { app, BrowserWindow, ipcMain , Menu} = electron;
 const path = require('path');
 const url = require('url');
+const NoteTray = require('./app/note_tray.js')
 
 let controlbar = null;
 let add = null;
 let home = null;
 let file = null;
 
-app.on('ready', createControlBar);
+app.on('ready', () => {
+    createControlBar();
 
-app.on('window-all-closed', function(){
-    if(process.platform !== 'darwin'){
+    const iconName = 'windows-icon.png'
+    const iconPath = path.join(__dirname, `./src/assets/${iconName}`);
+    tray = new NoteTray(iconPath, controlbar);
+});
+
+app.on('window-all-closed', function() {
+    if(process.platform !== 'darwin') {
         app.quit();
     }
 });
 
-app.on('activate', function(){
+app.on('activate', function() {
     if(controlbar === null){
         createControlBar();
     }
 });
 
-ipcMain.on('add-click', ()=>{
+ipcMain.on('add-click', () => {
     if(add === null){
         createAdd();
     }
 });
 
-ipcMain.on('minimum-click', ()=>{
+ipcMain.on('minimum-click', () => {
     add.destroy();
 })
 
-ipcMain.on('home-click', ()=>{
+ipcMain.on('home-click', () => {
     if(home === null){
         createHome();
     }
 });
 
-ipcMain.on('quit-click', ()=>{
+ipcMain.on('quit-click', () => {
     app.quit();
 });
 
-function createControlBar(){
+function createControlBar() {
     controlbar = new BrowserWindow({
         width: 381,
         height: 59,
