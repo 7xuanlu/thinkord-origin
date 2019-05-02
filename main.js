@@ -2,12 +2,13 @@ const electron = require('electron');
 const { app, BrowserWindow, ipcMain , Menu} = electron;
 const path = require('path');
 const url = require('url');
-const NoteTray = require('./app/note_tray.js')
+const NoteTray = require('./main_process/note_tray.js')
 
 let controlbar = null;
 let add = null;
 let home = null;
 let file = null;
+let tray;
 
 app.on('ready', () => {
     createControlBar();
