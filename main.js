@@ -10,11 +10,10 @@ let audio = null;
 let video = null;
 let text = null;
 let home = null;
-<<<<<<< HEAD
+
 let file = null;
 let tray;
-=======
->>>>>>> 247c5eee837bac99c621957c2261530a24c13b51
+
 
 app.on('ready', () => {
     createControlBar();
