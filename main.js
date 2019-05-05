@@ -61,7 +61,17 @@ ipcMain.on('audio-click', ()=>{
     }
 });
 
-ipcMain.on('audio-cancel-click', ()=>{
+
+
+ipcMain.on('audio_start', ()=>{
+    audio.webContents.send('audio_start');
+});
+
+ipcMain.on('audio_stop', () =>{
+    audio.webContents.send('audio_stop');
+});
+
+ipcMain.on('audio_cancel', ()=>{
     audio.destroy();
     audio = null;
 });
@@ -163,12 +173,12 @@ function createAudio(){
     audio = new BrowserWindow({
         width: 230,
         height: 195,
-        skipTaskbar:true,
+        //skipTaskbar:true,
         frame: false,
         webPreferences: {
             nodeIntegration: true
         },
-        resizable: false,
+        //resizable: false,
         x: 1051,
         y: 445
     });
