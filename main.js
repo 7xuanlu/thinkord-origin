@@ -191,8 +191,8 @@ function createAudio(){
             nodeIntegration: true
         },
         //resizable: false,
-        x: 1051,
-        y: 445
+        x: controlbar.getPosition()[0] + 151,
+        y: controlbar.getPosition()[1] - 225
     });
 
     audio.loadURL(url.format({
@@ -216,8 +216,8 @@ function createVideo(){
             nodeIntegration: true
         },
         resizable: false,
-        x: 1051,
-        y: 445
+        x: controlbar.getPosition()[0] + 151,
+        y: controlbar.getPosition()[1] - 225
     });
 
     video.loadURL(url.format({
@@ -240,8 +240,8 @@ function createText(){
             nodeIntegration: true
         },
         resizable: false,
-        x: 981,
-        y: 455
+        x: controlbar.getPosition()[0] + 81,
+        y: controlbar.getPosition()[1] - 195
     });
     
     text.loadURL(url.format({
