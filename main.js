@@ -21,6 +21,9 @@ app.on('ready', () => {
     const iconName = 'windows-icon.png'
     const iconPath = path.join(__dirname, `./src/assets/${iconName}`);
     tray = new NoteTray(iconPath, controlbar);
+
+    // Make Win10 notification available
+    app.setAppUserModelId(process.execPath);
 });
 
 app.on('window-all-closed', function() {
