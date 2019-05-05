@@ -1,5 +1,5 @@
 const electron = require('electron');
-const { app, BrowserWindow, ipcMain , Menu} = electron;
+const { app, BrowserWindow, ipcMain} = electron;
 const path = require('path');
 const url = require('url');
 const NoteTray = require('./main_process/note_tray.js')
@@ -116,6 +116,14 @@ ipcMain.on('home-click', () => {
     }
 });
 
+ipcMain.on('controlbar-click', ()=>{
+    if(controlbar === null){
+        createControlBar();
+    }else{
+        controlbar.show();
+    }
+})
+
 ipcMain.on('quit-click', () => {
     app.quit();
 });
@@ -157,8 +165,9 @@ function createAdd(){
         frame: false,
         resizable: false,
         maximizable: false,
-        x: 1061,
-        y: 280
+        parent: controlbar,
+        x: controlbar.getPosition()[0] + 161,
+        y: controlbar.getPosition()[1] - 370
     });
 
     add.loadURL(url.format({
@@ -256,12 +265,12 @@ function createHome(){
         maximizable: true
     });
 
-    // home.loadURL(url.format({
-    //     pathname: path.join(__dirname, 'src/index.html'),
-    //     protocol: 'file:',
-    //     slashes: true
-    // }));
-    home.loadURL('http://localhost:3000');
+    home.loadURL(url.format({
+        pathname: path.join(__dirname, 'src/home.html'),
+        protocol: 'file:',
+        slashes: true
+    }));
+    //home.loadURL('http://localhost:3000');
 
     home.maximize();
     home.setMenu(null);

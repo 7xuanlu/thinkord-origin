@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "electron": "^5.0.0",
+    "jquery": "^3.4.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-event-timeline": "^1.6.3",
