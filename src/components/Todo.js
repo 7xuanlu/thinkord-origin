@@ -17,6 +17,12 @@ export class Todo extends Component {
                             width: 850
                         }}
                         title={todo.time}
+                        container="card"
+                        cardHeaderStyle={{
+                            backgroundColor: '#007799',
+                            color: '#FFFFFF',
+                            height: 15
+                        }}
                     >
                         <TodoItem
                             key={todo.id}

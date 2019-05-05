@@ -7,7 +7,7 @@ export class TodoItem extends Component {
         return {
             bakground: '#f4f4f4',
             padding: '10px',
-            borderBottom: '1px #ccc dotted',
+            // borderBottom: '1px #ccc dotted',
             textDecoration: this.props.todo.completed ? 'line-through' : 'none'
         }
     }
@@ -37,10 +37,10 @@ TodoItem.propTypes = {
 }
 
 const btnStyle = {
-    background: '#ff0000',
+    background: '#AA0000',
     color: '#fff',
     border: 'none',
-    padding: '5px 10px',
+    padding: '5px 8px',
     borderRadius: '50%',
     cursor: 'pointer',
     float: 'right'
