@@ -111,6 +111,7 @@ function createControlBar() {
     controlbar = new BrowserWindow({
         width: 381,
         height: 59,
+        skipTaskbar:true,
         webPreferences: {
             nodeIntegration: true
         },
@@ -136,6 +137,7 @@ function createAdd(){
     add = new BrowserWindow({
         width: 220,
         height: 360,
+        skipTaskbar:true,
         webPreferences: {
             nodeIntegration: true
         },
@@ -161,6 +163,7 @@ function createAudio(){
     audio = new BrowserWindow({
         width: 230,
         height: 195,
+        skipTaskbar:true,
         frame: false,
         webPreferences: {
             nodeIntegration: true
@@ -185,6 +188,7 @@ function createVideo(){
     video = new BrowserWindow({
         width: 230,
         height: 195,
+        skipTaskbar:true,
         frame: false,
         webPreferences: {
             nodeIntegration: true
