@@ -144,7 +144,7 @@ function createControlBar() {
     });
 
     controlbar.loadURL(url.format({
-        pathname: path.join(__dirname, 'src/controlbar.html'),
+        pathname: path.join(__dirname, 'section/controlbar.html'),
         protocol: 'file:',
         slashes: true
     }));
@@ -171,7 +171,7 @@ function createAdd(){
     });
 
     add.loadURL(url.format({
-        pathname: path.join(__dirname, 'src/add.html'),
+        pathname: path.join(__dirname, 'section/add.html'),
         protocol: 'file:',
         slashes: true
     }));
@@ -192,11 +192,11 @@ function createAudio(){
         },
         //resizable: false,
         x: controlbar.getPosition()[0] + 151,
-        y: controlbar.getPosition()[1] - 225
+        y: controlbar.getPosition()[1] - 205
     });
 
     audio.loadURL(url.format({
-        pathname: path.join(__dirname, 'src/audio.html'),
+        pathname: path.join(__dirname, 'section/audio.html'),
         protocol: 'file:',
         slashes: true
     }));
@@ -217,11 +217,11 @@ function createVideo(){
         },
         resizable: false,
         x: controlbar.getPosition()[0] + 151,
-        y: controlbar.getPosition()[1] - 225
+        y: controlbar.getPosition()[1] - 205
     });
 
     video.loadURL(url.format({
-        pathname: path.join(__dirname, 'src/video.html'),
+        pathname: path.join(__dirname, 'section/video.html'),
         protocol: 'file:',
         slashes: true
     }));
@@ -241,11 +241,11 @@ function createText(){
         },
         resizable: false,
         x: controlbar.getPosition()[0] + 81,
-        y: controlbar.getPosition()[1] - 195
+        y: controlbar.getPosition()[1] - 190
     });
     
     text.loadURL(url.format({
-        pathname: path.join(__dirname, 'src/text.html'),
+        pathname: path.join(__dirname, 'section/text.html'),
         protocol: 'file:',
         slashes: true
     }));
@@ -266,7 +266,7 @@ function createHome(){
     });
 
     home.loadURL(url.format({
-        pathname: path.join(__dirname, 'src/home.html'),
+        pathname: path.join(__dirname, 'section/home.html'),
         protocol: 'file:',
         slashes: true
     }));
