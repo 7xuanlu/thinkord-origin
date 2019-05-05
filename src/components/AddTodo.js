@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 
 export class AddTodo extends Component {
     state = {
-        title: ''
+        title: '',
+        time:''
     }
     onSubmit = (e) => {
         e.preventDefault();
-        this.props.addTodo(this.state.title);   // pass it to the App component
+        this.props.addTodo(this.state.title,this.getInstantTime());   // pass it to the App component
         this.setState({ title: '' })    // reset the AddTodo State
     }
 
@@ -15,6 +16,13 @@ export class AddTodo extends Component {
             [e.target.name]: e.target.value
         })
     }
+    getInstantTime = () => {
+        let timestamp = new Date();
+        let time = timestamp.getFullYear() + '/' + (timestamp.getMonth() + 1) + '/' + timestamp.getDate() + ' '
+            + timestamp.getHours() + ':' + timestamp.getMinutes() + ':' + timestamp.getSeconds()
+        return time
+    }
+    
     render() {
         return (
             <form onSubmit={this.onSubmit} style={{ display: 'flex' }}>
@@ -25,6 +33,7 @@ export class AddTodo extends Component {
                     placeholder="Add Todo ..."
                     value={this.state.title}
                     onChange={this.onChange}
+                   
                 />
                 <input
                     type="submit"

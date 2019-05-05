@@ -8,21 +8,21 @@ import uuid from 'uuid';
 class App extends Component {
   state = {
     todos: [
-      {
-        id: uuid.v4(),
-        title: 'Take out the trash',
-        completed: false
-      },
-      {
-        id: uuid.v4(),
-        title: 'Dinner with wife',
-        completed: false
-      },
-      {
-        id: uuid.v4(),
-        title: 'Meeting with boss',
-        completed: false
-      }
+      // {
+      //   id: uuid.v4(),
+      //   title: 'Take out the trash',
+      //   completed: false
+      // },
+      // {
+      //   id: uuid.v4(),
+      //   title: 'Dinner with wife',
+      //   completed: false
+      // },
+      // {
+      //   id: uuid.v4(),
+      //   title: 'Meeting with boss',
+      //   completed: false
+      // }
     ]
   }
 
@@ -49,11 +49,13 @@ class App extends Component {
   }
 
   // Add Todo
-  addTodo = (title) => {
+  addTodo = (title, time) => {
     console.log(title);
+    console.log(time)
     const newTodo = {
       id: uuid.v4(),
       title: title,
+      time: time,
       completed: false
     }
     this.setState({ todos: [...this.state.todos, newTodo] })
@@ -69,7 +71,8 @@ class App extends Component {
           <Todo
             todos={this.state.todos}
             markComplete={this.markComplete}
-            delTodo={this.delTodo} />
+            delTodo={this.delTodo}
+          />
 
 
         </div>
