@@ -5,8 +5,6 @@
         <style media="screen">
             body{
                 background-color: rgb(0, 0, 0);
-                -webkit-user-select: none;
-                -webkit-app-region: drag;
             }
             .btn {
                 background-color: rgb(0, 0, 0);
@@ -19,6 +17,10 @@
             .btn:hover {
                 background-color: rgb(54, 54, 54);
             }
+            .icon{
+                width: 25px;
+                height: 25px;
+            }
         </style>
     </head>
 
@@ -27,20 +29,20 @@
             <div id="content">
                 <p>
                     <button id="audio_start" class="btn">
-                        <img src="../src/assets/music-player-play.png" style="width: 36px; height: 36px;">
-                        <label>Start Recording</label>
+                        <img class="icon" src="./assets/music-player-play.png">
+                        <label> Start Recording</label>
                     </button>
                 </p>
                 <p>
                     <button id="audio_stop" class="btn">
-                        <img src="../src/assets/stop_without_circle.png" style="width: 36px; height: 36px;">
-                        <label>Stop Recording</label>
+                        <img class="icon" src="./assets/stop_without_circle.png">
+                        <label> Stop Recording</label>
                     </button>
                 </p>
                 <p>
                     <button id="audio_cancel" class="btn">
-                        <img src="../src/assets/cancel.png" style="width: 36px; height: 36px;">
-                        <label>Cancel</label>
+                        <img class="icon" src="./assets/cancel.png">
+                        <label> Cancel</label>
                     </button>
                 </p>
             </div>

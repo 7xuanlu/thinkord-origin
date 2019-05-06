@@ -64,8 +64,6 @@ ipcMain.on('audio-click', ()=>{
     }
 });
 
-
-
 ipcMain.on('audio_start', ()=>{
     audio.webContents.send('audio_start');
 });
@@ -130,8 +128,8 @@ ipcMain.on('quit-click', () => {
 
 function createControlBar() {
     controlbar = new BrowserWindow({
-        width: 381,
-        height: 59,
+        width: 339,
+        height: 53,
         skipTaskbar:true,
         webPreferences: {
             nodeIntegration: true
@@ -152,12 +150,31 @@ function createControlBar() {
     controlbar.on('close', function(){
         controlbar = null;
     });
+
+    controlbar.on('move', function(){
+        if(add !== null){
+            add.destroy();
+            add = null;
+        }
+        if(audio !== null){
+            audio.destroy();
+            audio = null;
+        }
+        if(video !== null){
+            video.destroy();
+            video = null;
+        }
+        if(text !== null){
+            text.destroy();
+            text = null;
+        }
+    });
 }
 
 function createAdd(){
     add = new BrowserWindow({
-        width: 220,
-        height: 360,
+        width: 172,
+        height: 326,
         skipTaskbar:true,
         webPreferences: {
             nodeIntegration: true
@@ -166,8 +183,8 @@ function createAdd(){
         resizable: false,
         maximizable: false,
         parent: controlbar,
-        x: controlbar.getPosition()[0] + 161,
-        y: controlbar.getPosition()[1] - 370
+        x: controlbar.getPosition()[0] + 167,
+        y: controlbar.getPosition()[1] - 336
     });
 
     add.loadURL(url.format({
@@ -183,16 +200,16 @@ function createAdd(){
 
 function createAudio(){
     audio = new BrowserWindow({
-        width: 230,
-        height: 195,
+        width: 205,
+        height: 160,
         //skipTaskbar:true,
         frame: false,
         webPreferences: {
             nodeIntegration: true
         },
         //resizable: false,
-        x: controlbar.getPosition()[0] + 151,
-        y: controlbar.getPosition()[1] - 205
+        x: controlbar.getPosition()[0] + 134,
+        y: controlbar.getPosition()[1] - 170
     });
 
     audio.loadURL(url.format({
@@ -208,16 +225,16 @@ function createAudio(){
 
 function createVideo(){
     video = new BrowserWindow({
-        width: 230,
-        height: 195,
+        width: 205,
+        height: 160,
         skipTaskbar:true,
         frame: false,
         webPreferences: {
             nodeIntegration: true
         },
         resizable: false,
-        x: controlbar.getPosition()[0] + 151,
-        y: controlbar.getPosition()[1] - 205
+        x: controlbar.getPosition()[0] + 134,
+        y: controlbar.getPosition()[1] - 170
     });
 
     video.loadURL(url.format({
@@ -233,15 +250,15 @@ function createVideo(){
 
 function createText(){
     text = new BrowserWindow({
-        width: 300,
-        height: 180,
+        width: 215,
+        height: 170,
         frame: false,
         webPreferences: {
             nodeIntegration: true
         },
         resizable: false,
-        x: controlbar.getPosition()[0] + 81,
-        y: controlbar.getPosition()[1] - 190
+        x: controlbar.getPosition()[0] + 124,
+        y: controlbar.getPosition()[1] - 180
     });
     
     text.loadURL(url.format({
