@@ -1,9 +1,8 @@
 const electron = require('electron');
-const {desktopCapturer, screen, shell} = electron;
+const {desktopCapturer, screen} = electron;
 const remote = require('electron').remote;
 const app = remote.app;
 const fs = require('fs');
-const os = require('os');
 const path = require('path');
 const uuidv1 = require('uuid/v1');
 
@@ -23,20 +22,11 @@ screenshot.addEventListener('click', (event) => {
     sources.forEach((source) => {
       if (source.name === 'Entire screen' || source.name === 'Screen 1') {
         const screenshotName = `${uuidv1()}.png`;
-        let screenshotPath = path.join(userPath, screenshotName);
+        let screenshotPath = path.join(userPath, 'Local Storage', screenshotName);
 
-        // fs.access(`${screenshotPath}`, (err) => {
-        //   if (err) {
-        //     screenshotPath = path.join(userPath, 'screenshot1.png');
-        //   } else {
-        //     screenshotPath.replace(`${num}`, `${num+1}`)
-        //     num++;
-        //   }
-        // })
-
-        fs.writeFile(screenshotPath, source.thumbnail.toPNG(), (error) => {
-          if (error) {
-            return console.log(error);
+        fs.writeFile(screenshotPath, source.thumbnail.toPNG(), (err) => {
+          if (err) {
+            return console.log(err);
           } else {
             let myNotification = new Notification(
               '已經幫您存好檔案囉!', {

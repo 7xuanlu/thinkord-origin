@@ -64,20 +64,21 @@ ipcMain.on('audio-click', ()=>{
     }
 });
 
-ipcMain.on('audio_start', ()=>{
-    audio.webContents.send('audio_start');
+// Main process will switch the icon to remind user it is recording now.
+ipcMain.on('audio_start', () => {
+    // audio.webContents.send('audio_start');
 });
 
-ipcMain.on('audio_stop', () =>{
-    audio.webContents.send('audio_stop');
-});
+// ipcMain.on('audio_stop', () => {
+//     audio.webContents.send('audio_stop');
+// });
 
-ipcMain.on('audio_cancel', ()=>{
+ipcMain.on('audio_cancel', () => {
     audio.destroy();
     audio = null;
 });
 
-ipcMain.on('video-click', ()=>{
+ipcMain.on('video-click', () => {
     if(video === null){
         createVideo();
         add.destroy();
@@ -85,12 +86,12 @@ ipcMain.on('video-click', ()=>{
     }
 });
 
-ipcMain.on('video-cancel-click', ()=>{
+ipcMain.on('video-cancel-click', () => {
     video.destroy();
     video = null;
 });
 
-ipcMain.on('text-click', ()=>{
+ipcMain.on('text-click', () => {
     if(text === null){
         createText();
         add.destroy();
@@ -98,7 +99,7 @@ ipcMain.on('text-click', ()=>{
     }
 });
 
-ipcMain.on('text-cancel-click', ()=>{
+ipcMain.on('text-cancel-click', () => {
     text.destroy();
     text = null;
 })
@@ -114,7 +115,7 @@ ipcMain.on('home-click', () => {
     }
 });
 
-ipcMain.on('controlbar-click', ()=>{
+ipcMain.on('controlbar-click', () => {
     if(controlbar === null){
         createControlBar();
     }else{
