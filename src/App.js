@@ -36,8 +36,8 @@ class App extends Component {
 
   // Add Todo
   addTodo = (title, time) => {
-    console.log(title);
-    console.log(time)
+    // console.log(title);
+    // console.log(time)
     const newTodo = {
       id: uuid.v4(),
       title: title,

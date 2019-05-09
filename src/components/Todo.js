@@ -16,15 +16,9 @@ export class Todo extends Component {
                 <Timeline>
                     <TimelineEvent
                         style={{
-                            width: 700
+                            width: 600
                         }}
                         title={todo.time}
-                        // container="card"
-                        // cardHeaderStyle={{
-                        //     backgroundColor: '#007799',
-                        //     color: '#FFFFFF',
-                        //     height: 15
-                        // }}
                     >
                         <TodoItem
                             key={todo.id}
