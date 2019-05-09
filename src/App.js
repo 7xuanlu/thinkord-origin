@@ -11,33 +11,19 @@ class App extends Component {
       // {
       //   id: uuid.v4(),
       //   title: 'Take out the trash',
-      //   completed: false
+      //   description:''
       // },
       // {
       //   id: uuid.v4(),
       //   title: 'Dinner with wife',
-      //   completed: false
+      //   description:''
       // },
       // {
       //   id: uuid.v4(),
       //   title: 'Meeting with boss',
-      //   completed: false
+      //   description:''
       // }
     ]
-  }
-
-
-  // Toggle complete
-  markComplete = (id) => {
-    // console.log(id)
-    this.setState({
-      todos: this.state.todos.map(todo => {
-        if (todo.id === id) {
-          todo.completed = !todo.completed;
-        }
-        return todo;
-      })
-    })
   }
 
   // Delete Todo
@@ -56,10 +42,25 @@ class App extends Component {
       id: uuid.v4(),
       title: title,
       time: time,
-      completed: false
     }
     this.setState({ todos: [...this.state.todos, newTodo] })
   }
+
+  // Add Description
+  addDescription = (des, id) => {
+    let data = this.state.todos;
+    this.state.todos.map((todo, index) => {
+      console.log(todo, index);
+      if (todo.id === id) {
+        data[index].description = des;
+      }
+    })
+    this.setState({
+      todos: data
+    })
+  }
+
+
   render() {
     // console.log(this.state.todos);
     return (
@@ -70,8 +71,8 @@ class App extends Component {
 
           <Todo
             todos={this.state.todos}
-            markComplete={this.markComplete}
             delTodo={this.delTodo}
+            addDescription={this.addDescription}
           />
 
 

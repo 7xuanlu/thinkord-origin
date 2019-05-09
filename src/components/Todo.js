@@ -3,33 +3,36 @@ import TodoItem from './TodoItem';
 import PropTypes from 'prop-types';
 import { Timeline, TimelineEvent } from "react-event-timeline";
 
+
+
 export class Todo extends Component {
-    
+
 
     render() {
         // console.log(this.props.todos);
         return (
-            
+
             this.props.todos.map((todo) => (
                 <Timeline>
                     <TimelineEvent
                         style={{
-                            width: 850
+                            width: 700
                         }}
                         title={todo.time}
-                        container="card"
-                        cardHeaderStyle={{
-                            backgroundColor: '#007799',
-                            color: '#FFFFFF',
-                            height: 15
-                        }}
+                        // container="card"
+                        // cardHeaderStyle={{
+                        //     backgroundColor: '#007799',
+                        //     color: '#FFFFFF',
+                        //     height: 15
+                        // }}
                     >
                         <TodoItem
                             key={todo.id}
                             todo={todo}
-                            markComplete={this.props.markComplete}
-                            delTodo={this.props.delTodo} />
-                           
+                            delTodo={this.props.delTodo}
+                            description={todo.description}
+                            addDescription={this.props.addDescription} />
+
                     </TimelineEvent>
                 </Timeline>
 
