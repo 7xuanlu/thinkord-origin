@@ -64,15 +64,6 @@ ipcMain.on('audio-click', ()=>{
     }
 });
 
-// Main process will switch the icon to remind user it is recording now.
-ipcMain.on('audio_start', () => {
-    // audio.webContents.send('audio_start');
-});
-
-// ipcMain.on('audio_stop', () => {
-//     audio.webContents.send('audio_stop');
-// });
-
 ipcMain.on('audio_cancel', () => {
     audio.destroy();
     audio = null;
@@ -132,6 +123,7 @@ function createControlBar() {
         width: 339,
         height: 53,
         skipTaskbar:true,
+        //backgroundThrottling : false,
         webPreferences: {
             nodeIntegration: true
         },
@@ -177,6 +169,7 @@ function createAdd(){
         width: 172,
         height: 326,
         skipTaskbar:true,
+        //backgroundThrottling : false,
         webPreferences: {
             nodeIntegration: true
         },
@@ -203,12 +196,12 @@ function createAudio(){
     audio = new BrowserWindow({
         width: 205,
         height: 160,
-        //skipTaskbar:true,
+        skipTaskbar:true,
         frame: false,
         webPreferences: {
             nodeIntegration: true
         },
-        //resizable: false,
+        resizable: false,
         x: controlbar.getPosition()[0] + 134,
         y: controlbar.getPosition()[1] - 170
     });
@@ -229,11 +222,13 @@ function createVideo(){
         width: 205,
         height: 160,
         skipTaskbar:true,
+        backgroundThrottling : false,
+        alwaysOnTop : true,
+        resizable : true,
         frame: false,
         webPreferences: {
             nodeIntegration: true
         },
-        resizable: false,
         x: controlbar.getPosition()[0] + 134,
         y: controlbar.getPosition()[1] - 170
     });

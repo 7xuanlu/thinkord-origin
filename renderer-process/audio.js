@@ -31,10 +31,7 @@ document.querySelector('#audio_stop').addEventListener('click', (event) => {
     event.preventDefault();
     event.stopPropagation();
 
-    // Once you are done singing your best song, stop and get the mp3.
     recorder.stop().getMp3().then(([buffer, blob]) => {
-        // do what ever you want with buffer and blob
-        // Example: Create a mp3 file and play
         let reader = new FileReader()
 
         reader.onload = function() {
