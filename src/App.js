@@ -4,6 +4,7 @@ import Todo from './components/Todo';
 import AddTodo from "./components/AddTodo";
 import Header from "./components/layout/Header";
 import uuid from 'uuid';
+import '../src/components/css/style.css'
 
 class App extends Component {
   state = {
@@ -76,8 +77,9 @@ class App extends Component {
           />
 
 
+
         </div>
-      </div>
+      </div >
     );
   }
 

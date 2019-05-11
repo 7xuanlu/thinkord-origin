@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 export class AddTodo extends Component {
     state = {
         title: '',
-        time: ''
+        time: '',
     }
     onSubmit = (e) => {
         e.preventDefault();
@@ -19,8 +19,8 @@ export class AddTodo extends Component {
     getInstantTime = () => {
         let timestamp = new Date();
         let time = timestamp.getFullYear() + '/' + (timestamp.getMonth() + 1) + '/' + timestamp.getDate() + ' '
-            + timestamp.getHours() + ':' + timestamp.getMinutes() + ':' + timestamp.getSeconds()
-        return time
+            + timestamp.getHours() + ':' + timestamp.getMinutes() + ':' + timestamp.getSeconds();
+        return time;
     }
 
     render() {

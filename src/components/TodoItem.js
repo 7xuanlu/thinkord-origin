@@ -22,6 +22,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 const styles = theme => ({
     card: {
         maxWidth: 600,
+        background: '#d0d0d0	'
     },
     media: {
         height: 0,
@@ -63,13 +64,13 @@ export class TodoItem extends Component {
     render() {
         // console.log(this.props)
         const { classes } = this.props;
-        const { id, title, description } = this.props.todo;
+        const { id, title, description, time } = this.props.todo;
         return (
             <Card className={classes.card}>
                 <div style={this.getStyle()}>
                     <CardHeader
                         avatar={
-                            <Avatar aria-label="Programming" className={classes.avatar}>
+                            <Avatar aria-label="Programming" className={classes.avatar} style={{ backgroundColor: '#5cadad' }}>
                                 P
                             </Avatar>
                         }
@@ -78,13 +79,17 @@ export class TodoItem extends Component {
                                 <MoreVertIcon />
                             </IconButton>
                         }
-                        title={title} />
+                        title={title}
+                        subheader={time} />
 
 
                     <CardContent>
                         <Typography component="p">
                             {description}
                         </Typography>
+                        <br></br>
+                        <br></br>
+                        <br></br>
                         <AddDescription
                             addDescription={this.props.addDescription}
                             id={id}
@@ -93,11 +98,11 @@ export class TodoItem extends Component {
                     </CardContent>
 
                     <CardActions className={classes.actions} disableActionSpacing>
-                        <IconButton>
-                            <button onClick={this.props.delTodo.bind(this, id)}
-                                style={btnStyle}
-                                size="small">delete</button>
-                        </IconButton>
+
+                        <button onClick={this.props.delTodo.bind(this, id)}
+                            style={btnStyle}
+                            size="small">delete</button>
+
                         <IconButton
                             className={classnames(classes.expand, {
                                 [classes.expandOpen]: this.state.expanded,
