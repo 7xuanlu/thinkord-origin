@@ -1,16 +1,15 @@
 {
-  "name": "3071",
+  "name": "3071-note",
   "version": "1.0.0",
   "description": "",
+  "private": true,
   "main": "main.js",
   "scripts": {
-    "open": "webpack-dev-server",
-    "start": "electron .",
-    "build": "webpack",
-    "build:prod": "webpack -p"
+    "start": "webpack-dev-server --open --mode development",
+    "build": "webpack --mode production"
   },
   "keywords": [],
-  "author": "",
+  "author": "3071",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.4.4",

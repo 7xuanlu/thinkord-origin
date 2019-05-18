@@ -1,4 +1,8 @@
+// webpack configuration
+
+const webpack = require('webpack');
 const path = require('path');
+const { spawn } = require('child_process');
 
 module.exports = {
     entry: ['./src/index.jsx'],
@@ -48,7 +52,21 @@ module.exports = {
             }
         ]
     },
+    plugins: [
+        new webpack.DefinePlugin({
+          'process.env.NODE_ENV': JSON.stringify('development')
+        })
+    ],
     devServer: {
-        port: 9000
+        contentBase: path.resolve(__dirname, 'dist'),
+        before() {
+          spawn(
+            'electron',
+            ['.'],
+            { shell: true, env: process.env, stdio: 'inherit' }
+          )
+          .on('close', code => process.exit(0))
+          .on('error', spawnError => console.error(spawnError))
+        }
     }
 }
