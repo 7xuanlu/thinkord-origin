@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import './App.css';
-import Todo from "./components/Todo";
-import AddTodo from "./components/AddTodo";
-import Header from "./components/layout/Header";
+import Todo from "../components/Todo";
+import AddTodo from "../components/AddTodo";
+import Header from "../components/layout/Header";
 import uuid from "uuid";
-import '../src/components/css/style.css';
+import '../components/css/style.css';
 
 class App extends Component {
   state = {
