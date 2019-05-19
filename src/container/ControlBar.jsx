@@ -14,10 +14,10 @@ class ControlBar extends Component{
                 <button className = "btn" id = "start">
                     <img className = "icon" src = "./assets/play-button.png"></img>
                 </button>
-                <button className = "btn" id = "stop">
+                <button className = "btn" id = "stop" disabled>
                     <img className = "icon" src = "./assets/stop.png"></img>
                 </button>
-                <button className = "btn" id = "open_extra">
+                <button className = "btn" id = "open_extra" disabled>
                     <img className = "icon" src = "./assets/chevron-sign-to-left-white.png"></img>
                 </button>
                 <label>

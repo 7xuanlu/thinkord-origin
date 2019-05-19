@@ -38,15 +38,13 @@ function createControlBarWindow() {
 }
 
 ipcMain.on('quit-click', (e, args)=>{
-    console.log(args)
     app.quit();
 })
 
-app.on('ready',createControlBarWindow)
+app.on('ready', createControlBarWindow)
 
 
 app.on('window-all-closed', function () {
-
     if (process.platform !== 'darwin') {
         app.quit()
     }
