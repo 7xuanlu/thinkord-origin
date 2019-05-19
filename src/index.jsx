@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css'
-import App from './container/App';
-const { ipcRenderer } = require('electron');
-ipcRenderer.send('shut', 'the fuck up')
+import ControlBar from './container/ControlBar';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const { ipcRenderer } = require('electron');
+
+ReactDOM.render(<ControlBar />, document.getElementById('root'));

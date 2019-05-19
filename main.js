@@ -2,15 +2,19 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const url = require('url');
 
-let mainWindow;
+let controlbar;
 
 // if environment mode is not set, it will default to be in development
 let mode = require('./webpack.config').mode;
 
-function createWindow() {
-    mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
+function createControlBarWindow() {
+    controlbar = new BrowserWindow({
+        width: 290,
+        height: 41,
+        frame: false,
+        resizable: true,
+        x: 1100,
+        y: 700,
         webPreferences: {
             nodeIntegration: true
         }
@@ -18,27 +22,27 @@ function createWindow() {
     
     if(mode === "development") {
 		// Load index.html via webpack dev server.
-		mainWindow.loadURL('http://localhost:3071/index.html');
+		controlbar.loadURL('http://localhost:3071/index.html');
 
 		// Open the DevTools.
-		mainWindow.webContents.openDevTools();
+		//mainWindow.webContents.openDevTools();
 	}
 	else {
 		// Load index.html from the file system.
-		mainWindow.loadFile('dist/index.html');
+		controlbar.loadFile('dist/index.html');
 	}
 
-    mainWindow.on('closed', () => {
-        mainWindow = null;
+    controlbar.on('closed', () => {
+        controlbar = null;
     })
 }
 
-ipcMain.on('shut',(e,args)=>{
-    console.log(args);
+ipcMain.on('quit-click', (e, args)=>{
+    console.log(args)
+    app.quit();
 })
 
-
-app.on('ready',createWindow)
+app.on('ready',createControlBarWindow)
 
 
 app.on('window-all-closed', function () {
@@ -50,7 +54,7 @@ app.on('window-all-closed', function () {
 
 
 app.on('activate', () => {
-    if (mainWindow === null) {
-        createWindow();
+    if (controlbar === null) {
+        createControlBarWindow();
     }
 })

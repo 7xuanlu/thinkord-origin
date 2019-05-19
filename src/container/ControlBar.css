@@ -1,0 +1,16 @@
+body{
+    background-color: rgb(68, 68, 68);
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
+}
+
+.btn{
+    background-color: rgb(68, 68, 68);
+    -webkit-app-region: no-drag;
+}
+
+.icon{
+    background-color: rgb(68, 68, 68);
+    width: 25px;
+    height: 25px;
+}
