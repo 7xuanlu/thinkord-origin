@@ -4,6 +4,7 @@ import './ControlBar.css';
 const { ipcRenderer } = require('electron');
 
 class ControlBar extends Component{
+
     handleQuit(){
         ipcRenderer.send('quit-click', 'quit-click');
     }
