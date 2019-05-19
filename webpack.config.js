@@ -1,11 +1,14 @@
 // webpack configuration
 
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 const path = require('path');
 const { spawn } = require('child_process');
 
 module.exports = {
-    entry: ['./src/index.jsx'],
+    mode: 'development',
+    entry: './src/index.jsx',
     target: 'electron-renderer',
     output: {
         filename: 'bundle.js',
@@ -42,7 +45,12 @@ module.exports = {
                     }
                 }
             },
-            // third loader: compile css
+            // loader: compile html
+            {
+                test: /\.html$/,
+                use: "html-loader"
+            },
+            // loader: compile css
             {
                 test: /.css$/,
                 use: [
@@ -50,7 +58,7 @@ module.exports = {
                     'css-loader'
                 ]
             },
-            // fourth loader: compile image
+            // loader: compile image
             {
                 test: /\.(jpe?g|png)$/, 
                 use: 'file-loader?name=asset/[name].[ext]'
@@ -60,10 +68,15 @@ module.exports = {
     plugins: [
         new webpack.DefinePlugin({
           'process.env.NODE_ENV': JSON.stringify('development')
-        })
+        }),
+        new HtmlWebpackPlugin({
+            template: './src/index.html'
+        }),
+        new webpack.HotModuleReplacementPlugin()
     ],
     devServer: {
         contentBase: path.resolve(__dirname, 'dist'),
+        port: 3071,
         before() {
           spawn(
             'electron',

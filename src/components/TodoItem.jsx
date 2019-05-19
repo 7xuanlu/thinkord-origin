@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import AddDescription from './AddDescription';
 
 /**************************************************************************************/
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
+import Img from '../asset/anatomy.png';
 /**************************************************************************************/
 
 
@@ -17,7 +18,7 @@ export class TodoItem extends Component {
 
             <Card>
                 <Card.Header>{time}</Card.Header>
-                <Card.Img variant="top" />
+                <Card.Img variant="top" src={ Img } />
                 <Card.Body>
 
                     <Card.Text>{description}</Card.Text>

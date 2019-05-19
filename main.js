@@ -4,6 +4,9 @@ const url = require('url');
 
 let mainWindow;
 
+// if environment mode is not set, it will default to be in development
+let mode = require('./webpack.config').mode;
+
 function createWindow() {
     mainWindow = new BrowserWindow({
         width: 800,
@@ -12,8 +15,18 @@ function createWindow() {
             nodeIntegration: true
         }
     })
-   
-    mainWindow.loadURL(`file://${__dirname}/src/index.html`);
+    
+    if(mode === "development") {
+		// Load index.html via webpack dev server.
+		mainWindow.loadURL('http://localhost:3071/index.html');
+
+		// Open the DevTools.
+		mainWindow.webContents.openDevTools();
+	}
+	else {
+		// Load index.html from the file system.
+		mainWindow.loadFile('dist/index.html');
+	}
 
     mainWindow.on('closed', () => {
         mainWindow = null;

@@ -69,7 +69,7 @@ class App extends Component {
             addDescription={this.addDescription}
           />
         </div>
-      </div >
+      </div>
     );
   }
 
