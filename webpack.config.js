@@ -49,6 +49,11 @@ module.exports = {
                     'style-loader',
                     'css-loader'
                 ]
+            },
+            // fourth loader: compile image
+            {
+                test: /\.(jpe?g|png)$/, 
+                use: 'file-loader?name=asset/[name].[ext]'
             }
         ]
     },
