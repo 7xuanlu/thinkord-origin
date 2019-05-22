@@ -8,10 +8,13 @@ const { spawn } = require('child_process');
 
 module.exports = {
     mode: 'development',
-    entry: './src/index.jsx',
+    entry: {
+        controlbar: './src/indexCB.jsx',
+        home: './src/indexH.jsx'
+    },
     target: 'electron-renderer',
     output: {
-        filename: 'bundle.js',
+        filename: '[name].bundle.js',
         path: path.resolve('./dist')
     },
     resolve: {
@@ -60,17 +63,24 @@ module.exports = {
             },
             // loader: compile image
             {
-                test: /\.(jpe?g|png)$/, 
+                test: /\.(jpe?g|png)$/,
                 use: 'file-loader?name=asset/[name].[ext]'
             }
         ]
     },
     plugins: [
         new webpack.DefinePlugin({
-          'process.env.NODE_ENV': JSON.stringify('development')
+            'process.env.NODE_ENV': JSON.stringify('development')
         }),
         new HtmlWebpackPlugin({
-            template: './src/index.html'
+            filename: 'controlbar.html',
+            template: './src/indexCB.html',
+            chunks: ['controlbar']
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'home.html',
+            template: './src/indexH.html',
+            chunks: ['home']
         }),
         new webpack.HotModuleReplacementPlugin()
     ],
@@ -78,13 +88,13 @@ module.exports = {
         contentBase: path.resolve(__dirname, 'dist'),
         port: 3071,
         before() {
-          spawn(
-            'electron',
-            ['.'],
-            { shell: true, env: process.env, stdio: 'inherit' }
-          )
-          .on('close', code => process.exit(0))
-          .on('error', spawnError => console.error(spawnError))
+            spawn(
+                'electron',
+                ['.'],
+                { shell: true, env: process.env, stdio: 'inherit' }
+            )
+                .on('close', code => process.exit(0))
+                .on('error', spawnError => console.error(spawnError))
         }
     }
 }

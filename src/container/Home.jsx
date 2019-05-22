@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import './App.css';
+import './Home.css';
 import Todo from "../components/Todo";
 import AddTodo from "../components/AddTodo";
 import Header from "../components/layout/Header";

@@ -5,7 +5,7 @@ import AddDescription from './AddDescription';
 /**************************************************************************************/
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import Img from '../asset/anatomy.png';
+// import Img from '../asset/anatomy.png';
 /**************************************************************************************/
 
 
@@ -18,7 +18,7 @@ export class TodoItem extends Component {
 
             <Card>
                 <Card.Header>{time}</Card.Header>
-                <Card.Img variant="top" src={ Img } />
+                <Card.Img variant="top" />
                 <Card.Body>
 
                     <Card.Text>{description}</Card.Text>
