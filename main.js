@@ -1,86 +1,35 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
-const path = require('path');
-const url = require('url');
+const { app, ipcMain } = require('electron');
+const noteTray = require('./app/main_process/note_tray');
+const browserWindow = require('./app/main_process/browser_window');
 
-let controlbar;
-let home;
+// Make Win10 notification available
+app.setAppUserModelId(process.execPath);
 
-// if environment mode is not set, it will default to be in development
-let mode = require('./webpack.config').mode;
+let controlbar = null;
+let home = null;
+let tray = null;
 
-function createControlBarWindow() {
-    controlbar = new BrowserWindow({
-        width: 290,
-        height: 41,
-        frame: false,
-        resizable: true,
-        x: 1100,
-        y: 700,
-        webPreferences: {
-            nodeIntegration: true
-        }
-    })
-    
-    if(mode === "development") {
-		// Load index.html via webpack dev server.
-		controlbar.loadURL('http://localhost:3071/controlbar.html');
-
-		// Open the DevTools.
-		//mainWindow.webContents.openDevTools();
-	}
-	else {
-		// Load index.html from the file system.
-		controlbar.loadFile('dist/controlbar.html');
-	}
-
-    controlbar.on('closed', () => {
-        controlbar = null;
-    })
-}
-
-function createHomeWindow() {
-    home = new BrowserWindow({
-        width: 800,
-        height: 600,
-        resizable:true,
-        webPreferences: {
-            nodeIntegration: true
-        }
-    })
-
-    if(mode === "development") {
-		// Load index.html via webpack dev server.
-		home.loadURL('http://localhost:3071/home.html');
-
-		// Open the DevTools.
-		//mainWindow.webContents.openDevTools();
-	}
-	else {
-		// Load index.html from the file system.
-		home.loadFile('dist/home.html');
-	}
-}
-
-ipcMain.on('quit-click', (e, args)=>{
+ipcMain.on('quit-click', (e, args) => {
     app.quit();
 })
 
-ipcMain.on('home-click',(e,args)=>{
-    createHomeWindow();
+ipcMain.on('home-click', (e, args) => {
+    home = browserWindow.createHomeWindow();
 })
 
-app.on('ready', createControlBarWindow)
+app.on('ready', (e, args) => {
+    controlbar = browserWindow.createControlBarWindow();
+    tray = noteTray.enable(controlbar);
+});
 
-
-app.on('window-all-closed', function () {
+app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
         app.quit()
     }
 })
 
-
 app.on('activate', () => {
     if (controlbar === null) {
-        createControlBarWindow();
+        browserWindow.createControlBarWindow(controlbar);
     }
 })
