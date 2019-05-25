@@ -6,7 +6,7 @@ let mode = require('../../webpack.config').mode;
 
 exports.createControlBarWindow = () => {
     controlbar = new BrowserWindow({
-        width: 290,
+        width: 310,
         height: 41,
         frame: false,
         resizable: true,
