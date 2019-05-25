@@ -9,26 +9,26 @@ class ControlBar extends Component {
     }
 
     ChangeToExtension = () => {
-        this.setState({isExtension: true});
+        this.setState({ isExtension: true });
     }
 
     ChangeToMain = () => {
-        this.setState({isExtension: false});
+        this.setState({ isExtension: false });
     }
 
     render() {
-        if(this.state.isExtension == false){
+        if (this.state.isExtension == false) {
             return (
                 <div>
                     <ControlBarMain
-                        ChangeToExtension = {this.ChangeToExtension}
+                        ChangeToExtension={this.ChangeToExtension}
                     />
                 </div>
             );
-        }else{
-            return(
+        } else {
+            return (
                 <div>
-                    <ControlBarExtension ChangeToMain = {this.ChangeToMain} />
+                    <ControlBarExtension ChangeToMain={this.ChangeToMain} />
                 </div>
             );
         }

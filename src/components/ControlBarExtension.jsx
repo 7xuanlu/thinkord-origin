@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import ControlBarButton from './ControlBarButton';
+import { getScreenshot } from '../renderer_process/screenshot';
+
+// import icon from assets folder
 import AudioButton from '../asset/microphone-black-shape.png';
 import AudioStartButton from '../asset/microphone-black-shape-start.png';
 import VideoButton from '../asset/video-camera.png';
@@ -57,16 +60,16 @@ export class ControlBarExtension extends Component{
         ipcRenderer.send('text-click');
     }
 
-    handleScreenShot = () => {
-        ipcRenderer.send('screenshot-click');
-    }
-
     handleMark = () => {
         ipcRenderer.send('mark-click');
     }
 
     handleCloseExtension = () => {
         return this.props.ChangeToMain;
+    }
+
+    handleScreenshot = () => {
+        getScreenshot();
     }
 
     render(){
@@ -79,7 +82,7 @@ export class ControlBarExtension extends Component{
                         onAudio = {this.handleAudio}
                         onVideo = {this.handleVideo}
                         onText = {this.handleText}
-                        onScreenshot = {this.handleScreenShot}
+                        onScreenshot = {this.handleScreenshot}
                         onMark = {this.handleMark}
                         onCloseExtension = {this.handleCloseExtension()}
                 />)}

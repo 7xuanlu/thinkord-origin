@@ -1,12 +1,19 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import './Home.css';
 import Todo from "../components/Todo";
 import AddTodo from "../components/AddTodo";
 import Header from "../components/layout/Header";
-import uuid from "uuid";
+import uuidv4 from "uuid/v4";
 import '../components/css/style.css';
 
-class App extends Component {
+const { ipcRenderer } = require('electron');
+
+ipcRenderer.on('screen-save', (event, path) => {
+  console.log('hello');
+  console.log(path);
+});
+
+class Home extends Component {
   state = {
     todos: [
       // {
@@ -30,7 +37,7 @@ class App extends Component {
     // console.log(title);
     // console.log(time)
     const newTodo = {
-      id: uuid.v4(),
+      id: uuidv4(),
       title: title,
       time: time,
     }
@@ -51,11 +58,6 @@ class App extends Component {
     })
   }
 
-  componentDidMount(){
-    console.log('fuck')
-  }
-
-
   render() {
     // console.log(this.state.todos);
     return (
@@ -75,5 +77,5 @@ class App extends Component {
 
 }
 
-export default App;
+export default Home;
 

@@ -1,7 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './container/Home'
+import Home from './container/Home'
 
 const { ipcRenderer } = require('electron');
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ipcRenderer.on('screen-save', (event, path) => {
+    console.log('hello');
+    console.log(path);
+});
+
+console.log('h')
+
+ReactDOM.render(<Home />, document.getElementById('root'));

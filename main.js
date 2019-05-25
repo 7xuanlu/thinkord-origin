@@ -31,13 +31,13 @@ ipcMain.on('mark-click', (e, args) => {
 
 ipcMain.on('quit-click', (e, args) => {
     app.quit();
-})
+});
 
-ipcMain.on('home-click', (e, args) => {
+ipcMain.on('home-click', (event, args) => {
     home = browserWindow.createHomeWindow();
-})
+});
 
-app.on('ready', (e, args) => {
+app.on('ready', (event, args) => {
     controlbar = browserWindow.createControlBarWindow();
     tray = noteTray.enable(controlbar);
 });
