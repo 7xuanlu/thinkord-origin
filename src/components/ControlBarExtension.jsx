@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import ControlBarButton from './ControlBarButton';
 import AudioButton from '../asset/microphone-black-shape.png';
+import AudioStartButton from '../asset/microphone-black-shape-start.png';
 import VideoButton from '../asset/video-camera.png';
+import VideoStartButton from '../asset/video-camera-start.png';
 import TextButton from '../asset/support.png';
 import ScreenShotButton from '../asset/screenshot.png';
 import MarkButton from '../asset/mark-as-favorite-star.png';
 import CloseExtensionButton from '../asset/chevron-sign-to-right-white.png';
+
+const { ipcRenderer } = require('electron');
 
 export class ControlBarExtension extends Component{
     state = {
@@ -19,6 +23,48 @@ export class ControlBarExtension extends Component{
         ]
     };
 
+    handleAudio = () => {
+        const button = this.state.controlbar_button.map(button => {
+            if(button.id == 'audio'){
+                if(button.src == AudioButton){
+                    button.src = AudioStartButton;
+                }else{
+                    button.src = AudioButton;
+                }
+            }
+            return button;
+        });
+        this.setState({button});
+        ipcRenderer.send('audio-click');
+    }
+
+    handleVideo = () => {
+        const button = this.state.controlbar_button.map(button => {
+            if(button.id == 'video'){
+                if(button.src == VideoButton){
+                    button.src = VideoStartButton;
+                }else{
+                    button.src = VideoButton;
+                }
+            }
+            return button;
+        });
+        this.setState({button});
+        ipcRenderer.send('video-click');
+    }
+
+    handleText = () => {
+        ipcRenderer.send('text-click');
+    }
+
+    handleScreenShot = () => {
+        ipcRenderer.send('screenshot-click');
+    }
+
+    handleMark = () => {
+        ipcRenderer.send('mark-click');
+    }
+
     handleCloseExtension = () => {
         return this.props.ChangeToMain;
     }
@@ -30,6 +76,11 @@ export class ControlBarExtension extends Component{
                     <ControlBarButton
                         key = {button.id}
                         button = {button}
+                        onAudio = {this.handleAudio}
+                        onVideo = {this.handleVideo}
+                        onText = {this.handleText}
+                        onScreenshot = {this.handleScreenShot}
+                        onMark = {this.handleMark}
                         onCloseExtension = {this.handleCloseExtension()}
                 />)}
             </div>

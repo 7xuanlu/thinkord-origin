@@ -12,6 +12,16 @@ export class ControlBarButton extends Component{
             return this.props.onQuit;
         }else if(this.props.button.id === 'home'){
             return this.props.onHome;
+        }else if(this.props.button.id === 'audio'){
+            return this.props.onAudio;
+        }else if(this.props.button.id === 'video'){
+            return this.props.onVideo;
+        }else if(this.props.button.id === 'text'){
+            return this.props.onText;
+        }else if(this.props.button.id === 'screenshot'){
+            return this.props.onScreenshot;
+        }else if(this.props.button.id === 'mark'){
+            return this.props.onMark;
         }else if(this.props.button.id === 'close_extension'){
             return this.props.onCloseExtension;
         }

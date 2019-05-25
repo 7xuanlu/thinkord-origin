@@ -9,6 +9,26 @@ let controlbar = null;
 let home = null;
 let tray = null;
 
+ipcMain.on('audio-click', (e, args) => {
+    console.log('audio click');
+})
+
+ipcMain.on('video-click', (e, args) => {
+    console.log('video click');
+})
+
+ipcMain.on('text-click', (e, args) => {
+    console.log('text click');
+})
+
+ipcMain.on('screenshot-click', (e, args) => {
+    console.log('screenshot click');
+})
+
+ipcMain.on('mark-click', (e, args) => {
+    console.log('mark click');
+})
+
 ipcMain.on('quit-click', (e, args) => {
     app.quit();
 })
