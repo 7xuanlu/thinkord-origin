@@ -13,10 +13,18 @@ export class ControlBarButton extends Component {
                 return this.props.onQuit;
             case 'home':
                 return this.props.onHome;
-            case 'close_extension':
-                return this.props.onCloseExtension;
+            case 'audio':
+                return this.props.onAudio;
+            case 'video':
+                return this.props.onVideo;
+            case 'text':
+                return this.props.onText;
+            case 'mark':
+                return this.props.onMark;
             case 'screenshot':
                 return this.props.onScreenshot;
+            case 'close_extension':
+                return this.props.onCloseExtension;
         }
     }
 
