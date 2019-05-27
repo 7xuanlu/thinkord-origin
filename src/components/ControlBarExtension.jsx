@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ControlBarButton from './ControlBarButton';
 import { getScreenshot } from '../renderer_process/screenshot';
+import {audioRecordStart, audioRecordStop} from '../renderer_process/audioRecord';
+import {videoRecordStart, videoRecordStop} from '../renderer_process/videoRecord';
 
 // import icon from assets folder
 import AudioButton from '../asset/microphone-black-shape.png';
@@ -31,8 +33,10 @@ export class ControlBarExtension extends Component{
             if(button.id == 'audio'){
                 if(button.src == AudioButton){
                     button.src = AudioStartButton;
+                    audioRecordStart();
                 }else{
                     button.src = AudioButton;
+                    audioRecordStop();
                 }
             }
             return button;
@@ -46,8 +50,10 @@ export class ControlBarExtension extends Component{
             if(button.id == 'video'){
                 if(button.src == VideoButton){
                     button.src = VideoStartButton;
+                    videoRecordStart();
                 }else{
                     button.src = VideoButton;
+                    videoRecordStop();
                 }
             }
             return button;
