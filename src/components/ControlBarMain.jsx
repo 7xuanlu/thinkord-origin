@@ -1,5 +1,12 @@
+const remote = require('electron').remote;
+const app = remote.app;
+const path = require('path');
+const uuidv1 = require('uuid/v1');
+const { ipcRenderer } = require('electron');
 import React, { Component } from 'react';
 import ControlBarButton from './ControlBarButton';
+import { NoteManager } from '../renderer_process/note-manager';
+
 import StartButton from '../asset/play-button.png';
 import StopButton from '../asset/stop.png';
 import OpenExtensionButton from '../asset/chevron-sign-to-left-white.png';
@@ -7,8 +14,10 @@ import Substract from '../asset/substract.png';
 import HomeButton from '../asset/home.png';
 import QuitButton from '../asset/cross-mark-on-a-black-circle-background.png';
 
-const { ipcRenderer } = require('electron');
+
 let isRecord = false;
+export const notePath = path.join(app.getPath('userData').replace(/\\/g, '\\\\'), 'Local Storage', uuidv1() + '.json');
+console.log(notePath);
 
 export class ControlBarMain extends Component{
     state = {
@@ -24,6 +33,7 @@ export class ControlBarMain extends Component{
 
     handleStart = () => {
         isRecord = true;
+        const noteManager = new NoteManager();
         const button = this.state.controlbar_button.map(button => {
             if(button.id === 'stop'){
                 button.disable = false;
@@ -37,6 +47,9 @@ export class ControlBarMain extends Component{
             return button;
         });
         this.setState({button});
+
+        // Every time user click start in the control bar, Note create a json for them.
+        noteManager.initBlock(notePath);
     }
 
     handleStop = () => {
