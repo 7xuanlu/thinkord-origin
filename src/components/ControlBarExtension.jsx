@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ControlBarButton from './ControlBarButton';
 import { getScreenshot } from '../renderer_process/screenshot';
-// import {audioRecordStart, audioRecordStop} from '../renderer_process/audioRecord';
+import {audioRecordStart, audioRecordStop} from '../renderer_process/audioRecord';
 import {videoRecordStart, videoRecordStop} from '../renderer_process/videoRecord';
 
 // import icon from assets folder

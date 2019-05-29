@@ -8,7 +8,8 @@ const uuidv1 = require('uuid/v1');
 
 const userPath = app.getPath('userData').replace(/\\/g, '\\\\');
 let recorder;
-let blobs;
+let videoChunks,videoBlob;
+let reader;
 
 export function videoRecordStart(){
     desktopCapturer.getSources({ types: ['window', 'screen'] }, () => {
@@ -20,43 +21,35 @@ export function videoRecordStart(){
         }).then( (stream) => {
             recorder = new MediaRecorder(stream);
             recorder.ondataavailable = (event) =>{
-                blobs = [];
-                blobs.push(event.data);
+                videoChunks = [];
+                videoChunks.push(event.data);
             };
             recorder.start();
-        }).catch((e) => console.log('Error~~!!'));
+        }).catch((err) => console.log(err));
     });
 }
 
-
 export function videoRecordStop(){
-    let reader = new FileReader();
-        recorder.stop();
-        recorder.onstop = function (){
-            reader.onload = ()=>{
-                let recName = `${uuidv1()}.mp4`;
-                let recPath = path.join(userPath, 'Local Storage', recName);
-
-                if (reader.readyState == 2) {
-                    let videoBuffer = new Buffer(reader.result);
-    
-                    fs.writeFile(recPath, videoBuffer, (err) => {
-                        if(err) {
-                            console.log(err);
-                        } else {
-                            console.log('Your .mp4 file has been saved');
-                            let myNotification = new Notification(
-                                '已經幫您存好檔案囉!', 
-                                { body: `檔案路徑 ${recPath}` }
-                            );
-                            myNotification.onclick = () => {
-                                console.log('Notification clicked')
-                            }
-                        }
-                    });
-                }
-            };
-            let blobb = new Blob(blobs, {type: 'video/mp4'})
-            reader.readAsArrayBuffer(blobb);
+    reader = new FileReader();
+    recorder.stop();
+    recorder.onstop = function (){
+        reader.onload = ()=>{
+            let recName = `${uuidv1()}.mp4`;
+            let recPath = path.join(userPath, 'Local Storage', recName);
+            if (reader.readyState == 2) {
+                let videoBuffer = new Buffer(reader.result);
+                fs.writeFile(recPath, videoBuffer, (err) => {
+                    if(err) {
+                        console.log(err);
+                    } else {
+                        console.log('Your .mp4 file has been saved');
+                        let myNotification = new Notification( '已經幫您存好檔案囉!', { body: `檔案路徑 ${recPath}` } );
+                        myNotification.onclick = () => console.log('Notification clicked');
+                    }
+                });
+            }
         };
+        videoBlob = new Blob(videoChunks, {type: 'video/mp4'})
+        reader.readAsArrayBuffer(videoBlob);
+    };
 }
