@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ControlBarButton from './ControlBarButton';
 import { getScreenshot } from '../renderer_process/screenshot';
-import {audioRecordStart, audioRecordStop} from '../renderer_process/audioRecord';
+// import {audioRecordStart, audioRecordStop} from '../renderer_process/audioRecord';
 import {videoRecordStart, videoRecordStop} from '../renderer_process/videoRecord';
 
 // import icon from assets folder
@@ -22,7 +22,8 @@ export class ControlBarExtension extends Component{
             { id: 'audio', src: AudioButton},
             { id: 'video', src: VideoButton},
             { id: 'text', src: TextButton},
-            { id: 'screenshot', src: ScreenShotButton},
+            // { id: 'screenshot', src: ScreenShotButton},
+            { id: 'js-capture', src: ScreenShotButton},
             { id: 'mark', src: MarkButton},
             { id: 'close_extension', src: CloseExtensionButton}
         ]
@@ -70,6 +71,10 @@ export class ControlBarExtension extends Component{
         ipcRenderer.send('mark-click');
     }
 
+    handleDragsnip = () => {
+        ipcRenderer.send('capture-screen');
+    }
+
     handleCloseExtension = () => {
         return this.props.ChangeToMain;
     }
@@ -89,6 +94,7 @@ export class ControlBarExtension extends Component{
                         onVideo = {this.handleVideo}
                         onText = {this.handleText}
                         onScreenshot = {this.handleScreenshot}
+                        onDragsnip = {this.handleDragsnip}
                         onMark = {this.handleMark}
                         onCloseExtension = {this.handleCloseExtension()}
                 />)}

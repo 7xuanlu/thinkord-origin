@@ -1,6 +1,7 @@
 const { app, ipcMain } = require('electron');
 const noteTray = require('./app/main_process/note_tray');
 const browserWindow = require('./app/main_process/browser_window');
+const { useCapture } = require('./src/renderer_process/dragsnip/capture-main')
 
 // Make Win10 notification available
 app.setAppUserModelId(process.execPath);
@@ -38,8 +39,9 @@ ipcMain.on('home-click', (event, args) => {
 });
 
 app.on('ready', (event, args) => {
+    useCapture();
     controlbar = browserWindow.createControlBarWindow();
-    tray = noteTray.enable(controlbar);
+    tray = noteTray.enable(controlbar);  
 });
 
 app.on('window-all-closed', () => {

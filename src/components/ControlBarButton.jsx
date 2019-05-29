@@ -25,6 +25,8 @@ export class ControlBarButton extends Component {
                 return this.props.onScreenshot;
             case 'close_extension':
                 return this.props.onCloseExtension;
+            case 'js-capture':
+                return this.props.onDragsnip;
         }
     }
 
