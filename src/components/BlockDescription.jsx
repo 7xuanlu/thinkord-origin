@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-export class AddDescription extends Component {
+export class BlockDescription extends Component {
 
     state = {
         description: ''
@@ -39,4 +39,4 @@ export class AddDescription extends Component {
         )
     }
 }
-export default AddDescription
+export default BlockDescription

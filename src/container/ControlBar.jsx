@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ControlBarMain from '../components/ControlBarMain';
-import './ControlBar.css';
+import './css/ControlBar.css';
 import { ControlBarExtension } from '../components/ControlBarExtension';
 
 class ControlBar extends Component {

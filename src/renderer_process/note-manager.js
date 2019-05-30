@@ -11,11 +11,11 @@ export class NoteManager {
     constructor() {
         // JSON data model
         this.JSONFormat = {
-            "block": [
+            "blocks": [
                 {
                     "timestamp": getCurrentTime(),
                     "mark": false,
-                    "cell": [
+                    "cells": [
                         {
                             "path": null,
                             "comment": null
@@ -40,7 +40,7 @@ export class NoteManager {
                         }
 
                         resolve({
-                            "block": []
+                            "blocks": []
                         });
                     })
                 } else {
@@ -67,7 +67,7 @@ export class NoteManager {
             json = data;
 
             // Add default null block to json
-            json["block"].push(this.JSONFormat["block"][0]);
+            json["blocks"].push(this.JSONFormat["blocks"][0]);
 
             let jsonString = JSON.stringify(json);
 
@@ -83,28 +83,28 @@ export class NoteManager {
         this.getNoteJSON(notePath).then((json) => {
             if (filePath.split('.').pop() === 'png') {
                 // Insert a new template block to json
-                json["block"].push(this.JSONFormat['block'][0]);
+                json["blocks"].push(this.JSONFormat['blocks'][0]);
 
-                let blockArrLength = json["block"].length;
+                let blockArrLength = json["blocks"].length;
 
                 // Update file path for newly created block
-                json["block"][blockArrLength - 1]["cell"][0]["path"] = filePath;
+                json["blocks"][blockArrLength - 1]["cells"][0]["path"] = filePath;
             } else if (filePath.split('.').pop() === 'mp4') {
                 // Insert a new template block to json
-                json["block"].push(this.JSONFormat['block'][0]);
+                json["blocks"].push(this.JSONFormat['blocks'][0]);
 
-                let blockArrLength = json["block"].length;
+                let blockArrLength = json["blocks"].length;
 
                 // Update file path for newly created block
-                json["block"][blockArrLength - 1]["cell"][0]["path"] = filePath;
+                json["blocks"][blockArrLength - 1]["cells"][0]["path"] = filePath;
             } else if (filePath.split('.').pop() === 'mp3') {
                 // Insert a new template block to json
-                json["block"].push(this.JSONFormat['block'][0]);
+                json["blocks"].push(this.JSONFormat['blocks'][0]);
 
-                let blockArrLength = json["block"].length;
+                let blockArrLength = json["blocks"].length;
 
                 // Update file path for newly created block
-                json["block"][blockArrLength - 1]["cell"][0]["path"] = filePath;
+                json["blocks"][blockArrLength - 1]["cells"][0]["path"] = filePath;
             }
 
             let jsonString = JSON.stringify(json);

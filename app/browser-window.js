@@ -15,18 +15,18 @@ exports.createControlBarWindow = () => {
             nodeIntegration: true
         }
     })
-    
-    if(mode === "development") {
-		// Load index.html via webpack dev server.
-		controlbar.loadURL('http://localhost:3071/controlbar.html');
 
-		// Open the DevTools.
-		// controlbar.webContents.openDevTools();
-	}
-	else {
-		// Load index.html from the file system.
-		controlbar.loadFile('dist/controlbar.html');
-	}
+    if (mode === "development") {
+        // Load index.html via webpack dev server.
+        controlbar.loadURL('http://localhost:3071/controlbar.html');
+
+        // Open the DevTools.
+        // controlbar.webContents.openDevTools();
+    }
+    else {
+        // Load index.html from the file system.
+        controlbar.loadFile('dist/controlbar.html');
+    }
 
     controlbar.on('closed', () => {
         controlbar = null;
@@ -39,23 +39,24 @@ exports.createHomeWindow = () => {
     home = new BrowserWindow({
         width: 800,
         height: 600,
-        resizable:true,
+        resizable: true,
         webPreferences: {
-            nodeIntegration: true
+            nodeIntegration: true,
+            webSecurity: false
         }
     })
 
-    if(mode === "development") {
-		// Load index.html via webpack dev server.
-		home.loadURL('http://localhost:3071/home.html');
+    if (mode === "development") {
+        // Load index.html via webpack dev server.
+        home.loadURL('http://localhost:3071/home.html');
 
-		// Open the DevTools.
-		// home.webContents.openDevTools();
-	}
-	else {
-		// Load index.html from the file system.
-		home.loadFile('dist/home.html');
+        // Open the DevTools.
+        // home.webContents.openDevTools();
     }
-    
+    else {
+        // Load index.html from the file system.
+        home.loadFile('dist/home.html');
+    }
+
     return home;
 }
