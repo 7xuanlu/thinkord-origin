@@ -21,8 +21,6 @@ export class ControlBarButton extends Component {
                 return this.props.onText;
             case 'mark':
                 return this.props.onMark;
-            case 'screenshot':
-                return this.props.onScreenshot;
             case 'close_extension':
                 return this.props.onCloseExtension;
             case 'js-capture':

@@ -5,6 +5,7 @@ const app = remote.app;
 const fs = require('fs');
 const path = require('path');
 const uuidv1 = require('uuid/v1');
+
 import { NoteManager } from './note-manager';
 import { notePath } from '../components/ControlBarMain';
 

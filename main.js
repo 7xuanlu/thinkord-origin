@@ -1,7 +1,7 @@
 const { app, ipcMain } = require('electron');
-const noteTray = require('./app/main_process/note_tray');
-const browserWindow = require('./app/main_process/browser_window');
-const { useCapture } = require('./src/renderer_process/dragsnip/capture-main')
+const noteTray = require('./app/note-tray');
+const browserWindow = require('./app/browser-window');
+const { useCapture } = require('./src/renderer_process/dragsnip/capture-main');
 
 // Make Win10 notification available
 app.setAppUserModelId(process.execPath);
@@ -10,27 +10,23 @@ let controlbar = null;
 let home = null;
 let tray = null;
 
-ipcMain.on('audio-click', (e, args) => {
+ipcMain.on('audio-click', (event, args) => {
     console.log('audio click');
 })
 
-ipcMain.on('video-click', (e, args) => {
+ipcMain.on('video-click', (event, args) => {
     console.log('video click');
 })
 
-ipcMain.on('text-click', (e, args) => {
+ipcMain.on('text-click', (event, args) => {
     console.log('text click');
 })
 
-ipcMain.on('screenshot-click', (e, args) => {
-    console.log('screenshot click');
-})
-
-ipcMain.on('mark-click', (e, args) => {
+ipcMain.on('mark-click', (event, args) => {
     console.log('mark click');
-})
+});
 
-ipcMain.on('quit-click', (e, args) => {
+ipcMain.on('quit-click', (event, args) => {
     app.quit();
 });
 

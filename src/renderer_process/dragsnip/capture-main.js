@@ -1,17 +1,23 @@
-
 const { BrowserWindow, ipcMain, globalShortcut } = require('electron')
 const os = require('os')
-const path = require('path')
 
+// if environment mode is not set, it will default to be in development
+const mode = require('../../../webpack.config').mode;
 let captureWins = []
 
 const captureScreen = (e, args) => {
-    if (captureWins.length) {
-        return
+    // Close all the minimized windows, as an unavoidable solution to writing out json before closing the window
+    if (captureWins) {
+        captureWins.forEach(win => win.close());
+        captureWins = [];
     }
-    const { screen } = require('electron')
 
-    let displays = screen.getAllDisplays()
+    if (captureWins.length) {
+        return;
+    }
+    const { screen } = require('electron');
+
+    let displays = screen.getAllDisplays();
     captureWins = displays.map((display) => {
         let captureWin = new BrowserWindow({
             // window 使用 fullscreen,  mac 設置為 undefined, 不可為 false
@@ -22,8 +28,7 @@ const captureScreen = (e, args) => {
             y: display.bounds.y,
             transparent: true,
             frame: false,
-            // skipTaskbar: true,
-            // autoHideMenuBar: true,
+            skipTaskbar: true,
             movable: false,
             resizable: false,
             enableLargerThanScreen: true,
@@ -32,55 +37,68 @@ const captureScreen = (e, args) => {
                 nodeIntegration: true
             },
         })
-        captureWin.setAlwaysOnTop(true, 'screen-saver')
-        captureWin.setVisibleOnAllWorkspaces(true)
-        captureWin.setFullScreenable(false)
+        captureWin.setAlwaysOnTop(true, 'screen-saver');
+        captureWin.setVisibleOnAllWorkspaces(true);
+        captureWin.setFullScreenable(false);
 
-        captureWin.loadFile(path.join(__dirname, 'capture.html'))
+        if(mode === "development") {
+            // Load dragsnip.html via webpack dev server.
+            captureWin.loadURL('http://localhost:3071/dragsnip.html');
+    
+            // Open the DevTools.
+            // controlbar.webContents.openDevTools();
+        }
+        else {
+            // Load dragsnip.html from the file system.
+            captureWin.loadFile('dist/dragsnip.html');
+        }
 
-        let { x, y } = screen.getCursorScreenPoint()
+        let { x, y } = screen.getCursorScreenPoint();
         if (x >= display.bounds.x && x <= display.bounds.x + display.bounds.width && y >= display.bounds.y && y <= display.bounds.y + display.bounds.height) {
-            captureWin.focus()
+            captureWin.focus();
         } else {
-            captureWin.blur()
+            captureWin.blur();
         }
         // 調試用
         // captureWin.openDevTools()
 
         captureWin.on('closed', () => {
-            let index = captureWins.indexOf(captureWin)
+            let index = captureWins.indexOf(captureWin);
             if (index !== -1) {
-                captureWins.splice(index, 1)
+                captureWins.splice(index, 1);
             }
-            captureWins.forEach(win => win.close())
-        })
-        return captureWin
-    })
+            captureWins.forEach(win => win.close());
+        });
 
+        return captureWin;
+    })
 }
 
 const useCapture = () => {
     globalShortcut.register('Esc', () => {
         if (captureWins) {
-            captureWins.forEach(win => win.close())
-            captureWins = []
+            captureWins.forEach(win => win.close());
+            captureWins = [];
         }
     })
-
     // globalShortcut.register('CmdOrCtrl+Shift+A', captureScreen)
 
     ipcMain.on('capture-screen', (e, { type = 'start', screenId } = {}) => {
         if (type === 'start') {
-            captureScreen()
+            captureScreen();
         } else if (type === 'complete') {
             // nothing
         } else if (type === 'select') {
-            captureWins.forEach(win => win.webContents.send('capture-screen', { type: 'select', screenId }))
+            captureWins.forEach(win => win.webContents.send('capture-screen', { type: 'select', screenId }));
         }
     })
 
-
+    ipcMain.on('dragsnip-saved', (event) => {
+        if (captureWins) {
+            captureWins.forEach(win => win.minimize());
+        }
+    });
 }
 
-exports.useCapture = useCapture
-exports.captureSceen = captureScreen
+exports.useCapture = useCapture;
+exports.captureSceen = captureScreen;

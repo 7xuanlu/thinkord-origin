@@ -1,4 +1,3 @@
-
 const { getCurrentScreen } = require('./utils')
 
 const curScreen = getCurrentScreen()

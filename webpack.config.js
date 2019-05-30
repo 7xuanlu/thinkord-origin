@@ -9,8 +9,10 @@ const { spawn } = require('child_process');
 module.exports = {
     mode: 'development',
     entry: {
+        polyfill: '@babel/polyfill',
         controlbar: './src/indexCB.jsx',
-        home: './src/indexH.jsx'
+        home: './src/indexH.jsx',
+        dragsnip: './src/renderer_process/dragsnip/capture-renderer.js'
     },
     target: 'electron-renderer',
     output: {
@@ -81,6 +83,11 @@ module.exports = {
             filename: 'home.html',
             template: './src/indexH.html',
             chunks: ['home']
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'dragsnip.html',
+            template: './src/dragsnip.html',
+            chunks: ['dragsnip']
         }),
         new webpack.HotModuleReplacementPlugin()
     ],

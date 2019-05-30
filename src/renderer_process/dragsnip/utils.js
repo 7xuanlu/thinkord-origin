@@ -1,6 +1,4 @@
-
 const { remote, screen } = require('electron')
-
 
 let currentWindow = remote.getCurrentWindow()
 

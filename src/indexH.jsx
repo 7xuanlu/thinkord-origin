@@ -1,3 +1,5 @@
+import "@babel/polyfill";
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Home from './container/Home'
@@ -8,7 +10,5 @@ ipcRenderer.on('screen-save', (event, path) => {
     console.log('hello');
     console.log(path);
 });
-
-console.log('h')
 
 ReactDOM.render(<Home />, document.getElementById('root'));

@@ -1,10 +1,9 @@
+const Event = require('events');
+const { getCurrentScreen } = require('./utils');
 
-const Event = require('events')
-const { getCurrentScreen } = require('./utils')
-
-const CREATE_RECT = 1
-const MOVING_RECT = 2
-const RESIZE = 3
+const CREATE_RECT = 1;
+const MOVING_RECT = 2;
+const RESIZE = 3;
 
 const ANCHORS = [
     { row: 'x', col: 'y', cursor: 'nwse-resize' },
@@ -20,7 +19,6 @@ const ANCHORS = [
 ]
 
 class CaptureEditor extends Event {
-
     constructor($canvas, $bg, imageSrc) {
         super()
         this.$canvas = $canvas

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import ControlBarButton from './ControlBarButton';
-import { getScreenshot } from '../renderer_process/screenshot';
-import {audioRecordStart, audioRecordStop} from '../renderer_process/audioRecord';
-import {videoRecordStart, videoRecordStop} from '../renderer_process/videoRecord';
+
+import {audioRecordStart, audioRecordStop} from '../renderer_process/audio-recorder';
+import {videoRecordStart, videoRecordStop} from '../renderer_process/video-recorder';
 
 // import icon from assets folder
 import AudioButton from '../asset/microphone-black-shape.png';
@@ -79,10 +79,6 @@ export class ControlBarExtension extends Component{
         return this.props.ChangeToMain;
     }
 
-    handleScreenshot = () => {
-        getScreenshot();
-    }
-
     render(){
         return(
             <div>
@@ -93,7 +89,6 @@ export class ControlBarExtension extends Component{
                         onAudio = {this.handleAudio}
                         onVideo = {this.handleVideo}
                         onText = {this.handleText}
-                        onScreenshot = {this.handleScreenshot}
                         onDragsnip = {this.handleDragsnip}
                         onMark = {this.handleMark}
                         onCloseExtension = {this.handleCloseExtension()}

@@ -1,8 +1,6 @@
+import "@babel/polyfill";
 
-const {
-    ipcRenderer, clipboard, nativeImage, remote,
-} = require('electron');
-
+const { ipcRenderer, remote } = require('electron');
 const fs = require('fs');
 const uuidv1 = require('uuid/v1');
 const path = require('path');
@@ -11,6 +9,8 @@ const app = remote.app;
 const { getScreenSources } = require('./desktop-capturer');
 const { CaptureEditor } = require('./capture-editor');
 const { getCurrentScreen } = require('./utils');
+import { NoteManager } from '../note-manager';
+import { notePath } from '../../components/ControlBarMain';
 
 const $canvas = document.getElementById('js-canvas');
 const $bg = document.getElementById('js-bg');
@@ -21,14 +21,10 @@ const $btnClose = document.getElementById('js-tool-close');
 const $btnSave = document.getElementById('js-tool-save');
 const $btnReset = document.getElementById('js-tool-reset');
 
-
 const currentScreen = getCurrentScreen();
 
 getScreenSources({}, (imgSrc) => {
-
     // console.timeEnd('capture')
-
-
     let capture = new CaptureEditor($canvas, $bg, imgSrc);
 
     let onDrag = (selectRect) => {
@@ -96,36 +92,34 @@ getScreenSources({}, (imgSrc) => {
             type: 'complete',
             url,
         })
-
     }
 
     $btnSave.addEventListener('click', () => {
         const userPath = app.getPath('userData').replace(/\\/g, '\\\\');
         let url = capture.getImageUrl();
-        
-        remote.getCurrentWindow().hide();
+
+        // remote.getCurrentWindow().hide();
         let dragsnipName = `${uuidv1()}.png`;
-        let dragsnipPath = path.join(userPath, 'Local Storage',dragsnipName);
+        let dragsnipPath = path.join(userPath, 'Local Storage', dragsnipName);
 
         fs.writeFile(dragsnipPath, new Buffer(url.replace('data:image/png;base64,', ''), 'base64'), (err) => {
             if (err) {
-                return console.log(err);
+                reject(err);
             } else {
-                let myNotification = new Notification(
-                    '已經幫你存好檔案囉!',{
+                new Notification(
+                    '已經幫你存好檔案囉!', {
                         body: `檔案路徑 ${dragsnipPath}`
                     });
- 
-                myNotification.onclick = () => {
-                     console.log('Notification clicked');
-                }
+
+                const noteManager = new NoteManager();
+
+                // Add new block to the json file
+                noteManager.addBlock(notePath, dragsnipPath);
             }
-            window.close();
+            ipcRenderer.send('dragsnip-saved')
         })
-    })
-
-
-})
+    });
+});
 
 
 

@@ -38,7 +38,7 @@ export class NoteManager {
                         if (err) {
                             throw err;
                         }
-                        
+
                         resolve({
                             "block": []
                         });
@@ -82,6 +82,22 @@ export class NoteManager {
     addBlock(notePath, filePath) {
         this.getNoteJSON(notePath).then((json) => {
             if (filePath.split('.').pop() === 'png') {
+                // Insert a new template block to json
+                json["block"].push(this.JSONFormat['block'][0]);
+
+                let blockArrLength = json["block"].length;
+
+                // Update file path for newly created block
+                json["block"][blockArrLength - 1]["cell"][0]["path"] = filePath;
+            } else if (filePath.split('.').pop() === 'mp4') {
+                // Insert a new template block to json
+                json["block"].push(this.JSONFormat['block'][0]);
+
+                let blockArrLength = json["block"].length;
+
+                // Update file path for newly created block
+                json["block"][blockArrLength - 1]["cell"][0]["path"] = filePath;
+            } else if (filePath.split('.').pop() === 'mp3') {
                 // Insert a new template block to json
                 json["block"].push(this.JSONFormat['block'][0]);
 
