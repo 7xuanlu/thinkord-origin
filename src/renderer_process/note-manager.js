@@ -64,6 +64,9 @@ export class NoteManager {
         let json = null;
 
         this.getNoteJSON(notePath).then((data) => {
+            // Clear previous blocks
+            data["blocks"].length = 0;
+             
             json = data;
 
             // Add default null block to json

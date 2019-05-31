@@ -46,7 +46,7 @@ export class Block extends Component {
     }
 }
 
-Todo.propTypes = {
+Block.propTypes = {
     blocks: PropTypes.array.isRequired
 }
 

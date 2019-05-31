@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import Block from "../components/Block";
 import Header from "../components/layout/Header";
-import { read } from "../renderer_process/fetch-data";
+import { NoteManager } from "../renderer_process/note-manager";
+import { notePath } from "../components/ControlBarMain";
+
 import './css/style.css';
 import './css/Home.css'
 
+const noteManager = new NoteManager();
 
 class Home extends Component {
   state = {
@@ -14,7 +17,7 @@ class Home extends Component {
   }
 
   componentWillMount() {
-    read().then((blockdata) => {
+    noteManager.getNoteJSON(notePath).then((blockdata) => {
       this.setState({
         timeline: blockdata
       })
@@ -44,7 +47,6 @@ class Home extends Component {
   // }
 
   render() {
-   
     // shield undefined, because the first value it gets is undefined
     if (this.state.timeline.blocks === undefined) { return null }
 
