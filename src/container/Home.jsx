@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Block from "../components/Block";
 import Header from "../components/layout/Header";
-import { NoteManager } from "../renderer_process/note-manager";
+import { NoteManager } from "../renderer/note-manager";
 import { notePath } from "../components/ControlBarMain";
 
 import './css/style.css';

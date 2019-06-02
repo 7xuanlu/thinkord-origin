@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { ipcRenderer } from 'electron';
 
 export class ControlBarButton extends Component {
     EvenetChoose() {
@@ -32,6 +33,7 @@ export class ControlBarButton extends Component {
         return (
             <button
                 className="btn"
+                ref={button => this.button = button}
                 id={this.props.button.id}
                 disabled={this.props.button.disable}
                 onClick={this.EvenetChoose()}>

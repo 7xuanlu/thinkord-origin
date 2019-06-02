@@ -12,7 +12,7 @@ module.exports = {
         polyfill: '@babel/polyfill',
         controlbar: './src/indexCB.jsx',
         home: './src/indexH.jsx',
-        dragsnip: './src/renderer_process/dragsnip/capture-renderer.js'
+        dragsnip: './src/renderer/dragsnip/capture-renderer.js'
     },
     target: 'electron-renderer',
     output: {

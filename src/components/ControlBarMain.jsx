@@ -7,7 +7,7 @@ const { ipcRenderer } = require('electron');
 import React, { Component } from 'react';
 
 import ControlBarButton from './ControlBarButton';
-import { NoteManager } from '../renderer_process/note-manager';
+import { NoteManager } from '../renderer/note-manager';
 
 import StartButton from '../asset/play-button.png';
 import StopButton from '../asset/stop.png';
@@ -52,7 +52,7 @@ export class ControlBarMain extends Component {
         // Every time user click start in the control bar, Note create a json for them.
         noteManager.initBlock(notePath);
 
-        ipcRenderer.send('register-screenshot-shortcut');
+        ipcRenderer.send('register-shortcuts');
     }
 
     handleStop = () => {
@@ -70,6 +70,8 @@ export class ControlBarMain extends Component {
             return button;
         });
         this.setState({ button });
+
+        ipcRenderer.send('unregister-shortcuts')
     }
 
     handleOpenExtension = () => {
