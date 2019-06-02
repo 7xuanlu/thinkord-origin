@@ -30,9 +30,11 @@ export class Block extends Component {
                             <li className="event" data-date={block.timestamp}>
                                 <div className="member-infos">
                                     <h1 className="member-title" onClick={this.toggle}>Topic</h1>
+                                    {/* {console.log(cell)} */}
                                     {this.state.on && (
                                         <Cell
                                             time={block.timestamp}
+                                            cells={cell}
                                             imgPath={cell.path}
                                         />
                                     )}
