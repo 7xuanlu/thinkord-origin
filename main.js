@@ -76,4 +76,5 @@ ipcMain.on('quit-click', (event, args) => {
 
 ipcMain.on('home-click', (event, args) => {
     home = browserWindow.createHomeWindow();
+    home.maximize();
 });
