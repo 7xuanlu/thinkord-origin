@@ -7,6 +7,7 @@ const { useCapture } = require('./src/renderer/dragsnip/capture-main');
 app.setAppUserModelId(process.execPath);
 
 let controlbar = null;
+let text = null;
 let home = null;
 let tray = null;
 
@@ -63,7 +64,18 @@ ipcMain.on('video-click', (event, args) => {
 })
 
 ipcMain.on('text-click', (event, args) => {
+    text = browserWindow.createTextWindow();
     console.log('text click');
+})
+
+ipcMain.on('cancel-click', (event, args) => {
+    text.close();
+    text = null;
+    console.log('cancel-click');
+})
+
+ipcMain.on('ok-click', (event, args) => {
+    console.log('ok-click');
 })
 
 ipcMain.on('mark-click', (event, args) => {

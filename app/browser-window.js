@@ -5,7 +5,7 @@ const mode = require('../webpack.config').mode;
 
 exports.createControlBarWindow = () => {
     controlbar = new BrowserWindow({
-        width: 520,
+        width: 460,
         height: 41,
         frame: false,
         resizable: true,
@@ -33,6 +33,35 @@ exports.createControlBarWindow = () => {
     })
 
     return controlbar;
+}
+
+exports.createTextWindow = () => {
+    text = new BrowserWindow({
+        width: 280,
+        height: 180,
+        x: controlbar.getPosition()[0] + 181,
+        y: controlbar.getPosition()[1] - 190,
+        frame: false,
+        resizable: true,
+        webPreferences: {
+            nodeIntegration: true,
+            webSecurity: false
+        }
+    })
+
+    if (mode === "development") {
+        // Load index.html via webpack dev server.
+        text.loadURL('http://localhost:3071/textwindow.html');
+
+        // Open the DevTools.
+        // home.webContents.openDevTools();
+    }
+    else {
+        // Load index.html from the file system.
+        text.loadFile('dist/textwindow.html');
+    }
+
+    return text;
 }
 
 exports.createHomeWindow = () => {

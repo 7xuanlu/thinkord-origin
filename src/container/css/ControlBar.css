@@ -1,7 +1,24 @@
 body{
     background-color: rgb(68, 68, 68);
+    color: white;
     -webkit-user-select: none;
     -webkit-app-region: drag;
+}
+
+textarea{
+    border-radius: 5px;
+    padding: 10px;
+    background-color: rgb(90, 90, 90);
+    color: white;
+}
+
+.textdiv{
+    padding: 10px;
+}
+
+.textbtndiv{
+    position: absolute;
+    right: 8px;
 }
 
 .btn{

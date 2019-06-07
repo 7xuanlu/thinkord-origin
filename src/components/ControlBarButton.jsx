@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import { ipcRenderer } from 'electron';
 
 export class ControlBarButton extends Component {
     EvenetChoose() {
         switch (this.props.button.id) {
             case 'start':
                 return this.props.onStart;
-            case 'stop':
-                return this.props.onStop;
             case 'open_extension':
                 return this.props.onOpenExtension;
             case 'quit':
@@ -26,6 +23,10 @@ export class ControlBarButton extends Component {
                 return this.props.onCloseExtension;
             case 'js-capture':
                 return this.props.onDragsnip;
+            case 'ok':
+                return this.props.onOK;
+            case 'cancel':
+                return this.props.onCancel;
         }
     }
 

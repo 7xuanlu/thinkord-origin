@@ -11,6 +11,7 @@ module.exports = {
     entry: {
         polyfill: '@babel/polyfill',
         controlbar: './src/indexCB.jsx',
+        textwindow: './src/indexTXT.jsx',
         home: './src/indexH.jsx',
         dragsnip: './src/renderer/dragsnip/capture-renderer.js'
     },
@@ -78,6 +79,11 @@ module.exports = {
             filename: 'controlbar.html',
             template: './src/indexCB.html',
             chunks: ['controlbar']
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'textwindow.html',
+            template: './src/indexTXT.html',
+            chunks: ['textwindow']
         }),
         new HtmlWebpackPlugin({
             filename: 'home.html',

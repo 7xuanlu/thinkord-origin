@@ -35,8 +35,7 @@ console.log(notePath);
 export class ControlBarMain extends Component {
     state = {
         controlbar_button: [
-            { id: 'start', src: StartButton, disable: isRecord },
-            { id: 'stop', src: StopButton, disable: !isRecord },
+            { id: 'start', src: StartButton, disable: false },
             { id: 'audio', src: AudioButton, disable: !isRecord },
             { id: 'video', src: VideoButton, disable: !isRecord },
             { id: 'js-capture', src: ScreenShotButton, disable: !isRecord },
@@ -45,73 +44,68 @@ export class ControlBarMain extends Component {
             { id: 'substract', src: Substract, disable: false },
             { id: 'home', src: HomeButton, disable: false },
             { id: 'quit', src: QuitButton, disable: false }
-        ]
+        ],
+        show: false
     };
 
     handleStart = () => {
-        isRecord = true;
-        const noteManager = new NoteManager();
-        const button = this.state.controlbar_button.map(button => {
-            if (button.id === 'stop') {
-                button.disable = false;
-            }
-            if (button.id === 'audio') {
-                button.disable = false;
-            }
-            if (button.id === 'video') {
-                button.disable = false;
-            }
-            if (button.id === 'js-capture') {
-                button.disable = false;
-            }
-            if (button.id === 'text') {
-                button.disable = false;
-            }
-            if (button.id === 'mark') {
-                button.disable = false;
-            }
-            if (button.id === 'start') {
-                button.disable = true;
-            }
-            return button;
-        });
-        this.setState({ button });
+        if(isRecord === false){
+            isRecord = true;
+            const noteManager = new NoteManager();
+            const button = this.state.controlbar_button.map(button => {
+                if (button.id === 'start') {
+                    button.src = StopButton;
+                }
+                if (button.id === 'audio') {
+                    button.disable = false;
+                }
+                if (button.id === 'video') {
+                    button.disable = false;
+                }
+                if (button.id === 'js-capture') {
+                    button.disable = false;
+                }
+                if (button.id === 'text') {
+                    button.disable = false;
+                }
+                if (button.id === 'mark') {
+                    button.disable = false;
+                }
+                return button;
+            });
+            this.setState({ button });
 
-        // Every time user click start in the control bar, Note create a json for them.
-        noteManager.initBlock(notePath);
+            // Every time user click start in the control bar, Note create a json for them.
+            noteManager.initBlock(notePath);
 
-        ipcRenderer.send('register-shortcuts');
-    }
+            ipcRenderer.send('register-shortcuts');
+        }else{
+            isRecord = false;
+            const button = this.state.controlbar_button.map(button => {
+                if (button.id === 'start') {
+                    button.src = StartButton;
+                }
+                if (button.id === 'audio') {
+                    button.disable = true;
+                }
+                if (button.id === 'video') {
+                    button.disable = true;
+                }
+                if (button.id === 'js-capture') {
+                    button.disable = true;
+                }
+                if (button.id === 'text') {
+                    button.disable = true;
+                }
+                if (button.id === 'mark') {
+                    button.disable = true;
+                }
+                return button;
+            });
+            this.setState({ button });
 
-    handleStop = () => {
-        isRecord = false;
-        const button = this.state.controlbar_button.map(button => {
-            if (button.id === 'stop') {
-                button.disable = true;
-            }
-            if (button.id === 'audio') {
-                button.disable = true;
-            }
-            if (button.id === 'video') {
-                button.disable = true;
-            }
-            if (button.id === 'js-capture') {
-                button.disable = true;
-            }
-            if (button.id === 'text') {
-                button.disable = true;
-            }
-            if (button.id === 'mark') {
-                button.disable = true;
-            }
-            if (button.id === 'start') {
-                button.disable = false;
-            }
-            return button;
-        });
-        this.setState({ button });
-
-        ipcRenderer.send('unregister-shortcuts')
+            ipcRenderer.send('unregister-shortcuts')
+        }
     }
 
     handleAudio = () => {
@@ -196,7 +190,6 @@ export class ControlBarMain extends Component {
                         key={button.id}
                         button={button}
                         onStart={this.handleStart}
-                        onStop={this.handleStop}
                         onAudio={this.handleAudio}
                         onVideo={this.handleVideo}
                         onText={this.handleText}
