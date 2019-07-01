@@ -70,12 +70,12 @@ ipcMain.on('text-click', (event, args) => {
 
 ipcMain.on('cancel-click', (event, args) => {
     text.close();
-    text = null;
     console.log('cancel-click');
 })
 
 ipcMain.on('ok-click', (event, args) => {
     console.log('ok-click');
+    text.close();
 })
 
 ipcMain.on('mark-click', (event, args) => {

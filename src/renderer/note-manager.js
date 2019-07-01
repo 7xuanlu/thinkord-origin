@@ -10,21 +10,27 @@ let getCurrentTime = () => {
 export class NoteManager {
     constructor() {
         // JSON data model
-        this.JSONFormat = {
+        this.mediaFormat = {
             "blocks": [
                 {
+                    "title": "",
                     "timestamp": getCurrentTime(),
-                    "mark": false,
-                    "cells": [
-                        {
-                            "path": null,
-                            "comment": null
-                        }
-                    ],
+                    "paths": [],
                     "description": null
                 }
             ]
-        }
+        };
+
+        this.textFormat = {
+            "blocks": [
+                {
+                    "title": "",
+                    "timestamp": getCurrentTime(),
+                    "text": "",
+                    "mark": false
+                }
+            ]
+        };
     }
 
     // Define a function which help get our user's Note file
@@ -49,10 +55,9 @@ export class NoteManager {
                         if (err) {
                             throw err
                         }
-
                         // Parse json to JS object
                         let json = JSON.parse(data);
-
+                        
                         resolve(json);
                     });
                 }
@@ -61,16 +66,9 @@ export class NoteManager {
     }
 
     initBlock(notePath) {
-        let json = null;
-
-        this.getNoteJSON(notePath).then((data) => {
+        this.getNoteJSON(notePath).then((json) => {
             // Clear previous blocks
-            data["blocks"].length = 0;
-             
-            json = data;
-
-            // Add default null block to json
-            json["blocks"].push(this.JSONFormat["blocks"][0]);
+            json["blocks"].length = 0;
 
             let jsonString = JSON.stringify(json);
 
@@ -82,32 +80,24 @@ export class NoteManager {
         });
     }
 
-    addBlock(notePath, filePath) {
+    addBlock(notePath, filePath, text) {
         this.getNoteJSON(notePath).then((json) => {
-            if (filePath.split('.').pop() === 'png') {
+            if (filePath === null) {
                 // Insert a new template block to json
-                json["blocks"].push(this.JSONFormat['blocks'][0]);
+                json["blocks"].push(this.textFormat['blocks'][0]);
+
+                let blockArrLength = json["blocks"].length;
+
+                // Update text for newly created block
+                json["blocks"][blockArrLength - 1]["text"] = text;
+            } else {
+                // Insert a new template block to json
+                json["blocks"].push(this.mediaFormat['blocks'][0]);
 
                 let blockArrLength = json["blocks"].length;
 
                 // Update file path for newly created block
-                json["blocks"][blockArrLength - 1]["cells"][0]["path"] = filePath;
-            } else if (filePath.split('.').pop() === 'mp4') {
-                // Insert a new template block to json
-                json["blocks"].push(this.JSONFormat['blocks'][0]);
-
-                let blockArrLength = json["blocks"].length;
-
-                // Update file path for newly created block
-                json["blocks"][blockArrLength - 1]["cells"][0]["path"] = filePath;
-            } else if (filePath.split('.').pop() === 'mp3') {
-                // Insert a new template block to json
-                json["blocks"].push(this.JSONFormat['blocks'][0]);
-
-                let blockArrLength = json["blocks"].length;
-
-                // Update file path for newly created block
-                json["blocks"][blockArrLength - 1]["cells"][0]["path"] = filePath;
+                json["blocks"][blockArrLength - 1]["paths"].push(filePath);
             }
 
             let jsonString = JSON.stringify(json);

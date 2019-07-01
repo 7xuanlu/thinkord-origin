@@ -54,14 +54,11 @@ export function videoRecordStop() {
                             '已經幫您存好檔案囉!',
                             { body: `檔案路徑 ${recPath}` }
                         );
-                        myNotification.onclick = () => {
-                            console.log('Notification clicked')
-                        }
 
                         const noteManager = new NoteManager();
 
                         // Add new block to the json file
-                        noteManager.addBlock(notePath, recPath);
+                        noteManager.addBlock(notePath, recPath, null);
                     }
                 });
             }
