@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Cell from './Cell'
+import MainActivity from './MainActivity'
 import PropTypes from 'prop-types'
 
 
@@ -18,24 +18,23 @@ export class Block extends Component {
 
     render() {
         // remove the first element which is null
-        if (this.props.blocks[0].cells[0].path === null) {
-            this.props.blocks.shift();
-        }
-
+        // if (this.props.blocks[0].cells[0].path === null) {
+        //     this.props.blocks.shift();
+        // }
+        console.log(this.props.blocks)
         return (
+
             this.props.blocks.map((block) => (
-                block.cells.map((cell) => (
+
+                block.paths.map((path) => (
                     <div id="blockContent" key={block.timestamp}>
-                        <ul className="timeline" style={{width:900}}>
+                        <ul className="timeline" style={{ width: 900 }}>
                             <li className="event" data-date={block.timestamp}>
                                 <div className="member-infos">
-                                    <h1 className="member-title" onClick={this.toggle}>Topic</h1>
-                                    {/* {console.log(cell)} */}
+                                    <h1 className="member-title">Topic</h1>
                                     {this.state.on && (
-                                        <Cell
-                                            time={block.timestamp}
-                                            cells={cell}
-                                            imgPath={cell.path}
+                                        <MainActivity
+                                            main={path}
                                         />
                                     )}
                                 </div>
@@ -44,6 +43,7 @@ export class Block extends Component {
                     </div>
                 ))
             ))
+            
         )
     }
 }

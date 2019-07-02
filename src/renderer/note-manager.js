@@ -82,6 +82,7 @@ export class NoteManager {
 
     addBlock(notePath, filePath, text) {
         this.getNoteJSON(notePath).then((json) => {
+            console.log(json);
             if (filePath === null) {
                 // Insert a new template block to json
                 json["blocks"].push(this.textFormat['blocks'][0]);

@@ -26,7 +26,7 @@ export function getScreenshot() {
 
         fs.writeFile(screenshotPath, source.thumbnail.toPNG(), (err) => {
           if (err) {
-            throw err;
+            throw err; 
           } else {
             new Notification(
               '已經幫您存好檔案囉!', {

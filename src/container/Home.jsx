@@ -18,6 +18,7 @@ class Home extends Component {
 
   componentWillMount() {
     noteManager.getNoteJSON(notePath).then((blockdata) => {
+      // console.log(blockdata)
       this.setState({
         timeline: blockdata
       })
@@ -25,12 +26,12 @@ class Home extends Component {
   }
 
   // Delete Todo
-  // delTodo = (id) => {
-  //   // console.log(id)
-  //   this.setState({
-  //     todos: [...this.state.todos.filter(todo => todo.id !== id)]
-  //   })
-  // }
+  delTodo = (id) => {
+    // console.log(id)
+    this.setState({
+      todos: [...this.state.timeline.blocks.filter(todo => todo.id !== id)]
+    })
+  }
 
   // Add Description
   // addDescription = (des, id) => {
@@ -47,6 +48,7 @@ class Home extends Component {
   // }
 
   render() {
+    console.log(this.state.timeline.blocks)
     // shield undefined, because the first value it gets is undefined
     if (this.state.timeline.blocks === undefined) { return null }
 
@@ -55,11 +57,12 @@ class Home extends Component {
         <div className="container">
           <Header />
           <Block 
-            blocks={this.state.timeline.blocks}
-          />
+            blocks={this.state.timeline.blocks} 
+            delTodo={this.delTodo}/>
         </div>
       </div>
-    );
+    )
+
   }
 
 }
