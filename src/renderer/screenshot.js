@@ -36,7 +36,7 @@ export function getScreenshot() {
             const noteManager = new NoteManager();
 
             // Add new block to the json file
-            noteManager.addBlock(notePath, screenshotPath, null);
+            noteManager.addBlock(notePath, {"filePath": screenshotPath});
           }
         });
       }

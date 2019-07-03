@@ -114,7 +114,7 @@ getScreenSources({}, (imgSrc) => {
                 const noteManager = new NoteManager();
 
                 // Add new block to the json file
-                noteManager.addBlock(notePath, dragsnipPath, null);
+                noteManager.addBlock(notePath, {"filePath": dragsnipPath});
             }
             ipcRenderer.send('dragsnip-saved')
         })

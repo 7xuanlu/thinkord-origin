@@ -41,7 +41,7 @@ export function audioRecordStop() {
                         const noteManager = new NoteManager();
 
                         // Add new block to the json file
-                        noteManager.addBlock(notePath, recPath, null);
+                        noteManager.addBlock(notePath, {"filePath": recPath});
                     }
                 });
             }
