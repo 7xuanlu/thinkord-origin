@@ -27,7 +27,8 @@ export class NoteManager {
                     "title": "",
                     "timestamp": getCurrentTime(),
                     "text": "",
-                    "mark": false
+                    "mark": false,
+                    "paths":[]
                 }
             ]
         };

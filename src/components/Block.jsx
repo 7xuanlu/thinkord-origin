@@ -21,29 +21,29 @@ export class Block extends Component {
         // if (this.props.blocks[0].cells[0].path === null) {
         //     this.props.blocks.shift();
         // }
-        console.log(this.props.blocks)
-        return (
 
+        return (
             this.props.blocks.map((block) => (
 
-                block.paths.map((path) => (
-                    <div id="blockContent" key={block.timestamp}>
-                        <ul className="timeline" style={{ width: 900 }}>
-                            <li className="event" data-date={block.timestamp}>
-                                <div className="member-infos">
-                                    <h1 className="member-title">Topic</h1>
-                                    {this.state.on && (
-                                        <MainActivity
-                                            main={path}
-                                        />
-                                    )}
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                ))
+                <div id="blockContent" key={block.timestamp}>
+                    <ul className="timeline" style={{ width: 900 }}>
+                        <li className="event" data-date={block.timestamp}>
+                            <div className="member-infos">
+                                <h1 className="member-title" onClick={this.toggle}>Topic</h1>
+                                {this.state.on && (
+                                    <MainActivity
+                                        main={block}
+                                        time={block.timestamp}
+                                        delTodo={this.props.delTodo}
+                                    />
+                                )}
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
             ))
-            
+
         )
     }
 }

@@ -26,10 +26,17 @@ class Home extends Component {
   }
 
   // Delete Todo
-  delTodo = (id) => {
+  delTodo = (time) => {
     // console.log(id)
+    // this.setState({
+    //   todos: [...this.state.timeline.blocks.filter(todo => todo.id !== id)]
+    // })
+    // this.setState({
+    //   timeline: { blocks: [] }
+    // })
+    console.log('shut the fuck up',time);
     this.setState({
-      todos: [...this.state.timeline.blocks.filter(todo => todo.id !== id)]
+      timeline:{blocks:[...this.state.timeline.blocks.filter(block=> block.timestamp !== time)]}
     })
   }
 
@@ -56,9 +63,9 @@ class Home extends Component {
       <div className="App">
         <div className="container">
           <Header />
-          <Block 
-            blocks={this.state.timeline.blocks} 
-            delTodo={this.delTodo}/>
+          <Block
+            blocks={this.state.timeline.blocks}
+            delTodo={this.delTodo} />
         </div>
       </div>
     )
