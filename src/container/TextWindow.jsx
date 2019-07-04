@@ -13,6 +13,7 @@ const { ipcRenderer } = require('electron');
 export class TextWindow extends Component {
     constructor(props) {
         super(props);
+
         this.myRef = React.createRef();
         this.handleOK = this.handleOK.bind(this);
     }
@@ -29,9 +30,9 @@ export class TextWindow extends Component {
         const noteManager = new NoteManager();
         const textarea = this.myRef.current;
 
-        ipcRenderer.send('ok-click');
+        noteManager.addBlock(notePath, {"text": textarea.value});
 
-        noteManager.addBlock(notePath, null, textarea.value);
+        ipcRenderer.send('ok-click');
     }
 
     handleCancel = () => {
