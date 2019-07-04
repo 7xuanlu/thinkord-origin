@@ -8,7 +8,7 @@ export class BlockDescription extends Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        this.props.addDescription(this.state.description, this.props.id);
+        this.props.addDescription(this.state.description, this.props.time);
         this.setState({
             description: ''
         })
@@ -32,7 +32,7 @@ export class BlockDescription extends Component {
                 />
                 <input
                     type="submit"
-                    value="post"
+                    value="comment"
                     className="btn"
                     style={{ flex: 1 }} />
             </form>

@@ -24,7 +24,7 @@ export class Block extends Component {
 
         return (
             this.props.blocks.map((block) => (
-
+                
                 <div id="blockContent" key={block.timestamp}>
                     <ul className="timeline" style={{ width: 900 }}>
                         <li className="event" data-date={block.timestamp}>
@@ -35,6 +35,8 @@ export class Block extends Component {
                                         main={block}
                                         time={block.timestamp}
                                         delTodo={this.props.delTodo}
+                                        description={block.description}
+                                        addDescription={this.props.addDescription}
                                     />
                                 )}
                             </div>

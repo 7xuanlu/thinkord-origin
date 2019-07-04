@@ -18,7 +18,6 @@ class Home extends Component {
 
   componentWillMount() {
     noteManager.getNoteJSON(notePath).then((blockdata) => {
-      // console.log(blockdata)
       this.setState({
         timeline: blockdata
       })
@@ -27,35 +26,33 @@ class Home extends Component {
 
   // Delete Todo
   delTodo = (time) => {
-    // console.log(id)
-    // this.setState({
-    //   todos: [...this.state.timeline.blocks.filter(todo => todo.id !== id)]
-    // })
-    // this.setState({
-    //   timeline: { blocks: [] }
-    // })
-    console.log('shut the fuck up',time);
+    console.log('Now you choose the block', time);
     this.setState({
-      timeline:{blocks:[...this.state.timeline.blocks.filter(block=> block.timestamp !== time)]}
+      timeline: { blocks: [...this.state.timeline.blocks.filter(block => block.timestamp !== time)] }
     })
   }
 
   // Add Description
-  // addDescription = (des, id) => {
-  //   let data = this.state.todos;
-  //   this.state.todos.map((todo, index) => {
-  //     console.log(todo, index);
-  //     if (todo.id === id) {
-  //       data[index].description = des;
-  //     }
-  //   })
-  //   this.setState({
-  //     todos: data
-  //   })
-  // }
+  addDescription = (des, time) => {
+    let data = this.state.timeline.blocks;
+
+    data.map((block) => {
+      // assign the description to the block you point
+      if (block.timestamp === time) {
+        block.description = des
+      }
+      this.setState({
+        timeline: {
+          blocks: data
+        }
+      })
+    })
+
+
+
+  }
 
   render() {
-    console.log(this.state.timeline.blocks)
     // shield undefined, because the first value it gets is undefined
     if (this.state.timeline.blocks === undefined) { return null }
 
@@ -65,7 +62,9 @@ class Home extends Component {
           <Header />
           <Block
             blocks={this.state.timeline.blocks}
-            delTodo={this.delTodo} />
+            delTodo={this.delTodo}
+            addDescription={this.addDescription}
+          />
         </div>
       </div>
     )

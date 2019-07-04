@@ -16,7 +16,7 @@ export class NoteManager {
                     "title": "",
                     "timestamp": getCurrentTime(),
                     "paths": [],
-                    "description": null
+                    "description": ""
                 }
             ]
         };
@@ -112,4 +112,6 @@ export class NoteManager {
             });
         });
     }
+
+    
 }

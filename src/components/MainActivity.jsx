@@ -6,12 +6,15 @@ import Button from 'react-bootstrap/Button'
 /**************************************************************************************/
 import { Player, BigPlayButton } from 'video-react'
 import '../../node_modules/video-react/dist/video-react.css';
+import BlockDescription from './BlockDescription';
 
 
 export class MainActivity extends Component {
 
     render() {
         let block = this.props.main;
+        let time = this.props.time;
+        let description = this.props.description;
 
         if (block.paths[0] !== undefined) {
             if (block.paths[0].split('.').pop() === 'png') {
@@ -19,9 +22,15 @@ export class MainActivity extends Component {
                     <Card>
                         <Card.Img src={block.paths[0]} style={{ width: 600 }} />
                         <Card.Body>
-                            <Card.Text></Card.Text>
+                            <Card.Text>{description}</Card.Text>
                         </Card.Body>
-                        <Button onClick={this.props.delTodo.bind(this, this.props.time)}>delete</Button>
+                        <br/><br/>
+                        <BlockDescription
+                            addDescription={this.props.addDescription}
+                            time={time}
+                        />
+                        <br/><br/>
+                        <Button onClick={this.props.delTodo.bind(this, time)}>delete</Button>
                     </Card>
                 )
             } else if (block.paths[0].split('.').pop() === 'mp3') {
@@ -31,7 +40,14 @@ export class MainActivity extends Component {
                             <audio controls="controls">
                                 <source src={block.paths[0]} />
                             </audio>
+                            <Card.Text>{description}</Card.Text>
                         </Card.Body>
+                        <br/><br/>
+                        <BlockDescription
+                            addDescription={this.props.addDescription}
+                            time={time}
+                        />
+                        <br/><br/>
                         <Button onClick={this.props.delTodo.bind(this, this.props.time)}>delete</Button>
                     </Card>
                 )
@@ -43,7 +59,14 @@ export class MainActivity extends Component {
                                 <BigPlayButton position="center" />
                                 <source src={block.paths[0]} />
                             </Player>
+                            <Card.Text>{description}</Card.Text>
                         </Card.Body>
+                        <br/><br/>
+                        <BlockDescription
+                            addDescription={this.props.addDescription}
+                            time={time}
+                        />
+                        <br/><br/>
                         <Button onClick={this.props.delTodo.bind(this, this.props.time)}>delete</Button>
                     </Card>
                 )
