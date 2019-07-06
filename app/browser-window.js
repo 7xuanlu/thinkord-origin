@@ -64,8 +64,8 @@ exports.createTextWindow = () => {
     return text;
 }
 
-exports.createHomeWindow = () => {
-    home = new BrowserWindow({
+exports.createMainWindow = () => {
+    main = new BrowserWindow({
         width: 800,
         height: 600,
         resizable: true,
@@ -77,15 +77,29 @@ exports.createHomeWindow = () => {
 
     if (mode === "development") {
         // Load index.html via webpack dev server.
-        home.loadURL('http://localhost:3071/home.html');
+        main.loadURL('http://localhost:3071/main.html');
 
         // Open the DevTools.
         // home.webContents.openDevTools();
     }
     else {
         // Load index.html from the file system.
-        home.loadFile('dist/home.html');
+        main.loadFile('dist/main.html');
     }
 
-    return home;
+    return main;
+}
+
+exports.ChangeMainToTimeline = () => {
+    if (mode === "development") {
+        // Load index.html via webpack dev server.
+        main.loadURL('http://localhost:3071/home.html');
+        // Open the DevTools.
+        // home.webContents.openDevTools();
+    }
+    else {
+        // Load index.html from the file system.
+        main.loadFile('dist/home.html');
+    }
+    return main;
 }

@@ -12,6 +12,7 @@ module.exports = {
         polyfill: '@babel/polyfill',
         controlbar: './src/indexCB.jsx',
         textwindow: './src/indexTXT.jsx',
+        main: './src/indexMain.jsx',
         home: './src/indexH.jsx',
         dragsnip: './src/renderer/dragsnip/capture-renderer.js'
     },
@@ -84,6 +85,11 @@ module.exports = {
             filename: 'textwindow.html',
             template: './src/indexTXT.html',
             chunks: ['textwindow']
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'main.html',
+            template: './src/indexMain.html',
+            chunks: ['main']
         }),
         new HtmlWebpackPlugin({
             filename: 'home.html',

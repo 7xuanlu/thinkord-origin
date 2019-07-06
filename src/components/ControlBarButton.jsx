@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export class ControlBarButton extends Component {
+export default class ControlBarButton extends Component {
     EvenetChoose() {
         switch (this.props.button.id) {
             case 'start':
@@ -43,5 +43,3 @@ export class ControlBarButton extends Component {
         )
     }
 }
-
-export default ControlBarButton;

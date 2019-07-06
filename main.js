@@ -8,7 +8,8 @@ app.setAppUserModelId(process.execPath);
 
 let controlbar = null;
 let text = null;
-let home = null;
+// let home = null;
+let main = null;
 let tray = null;
 
 app.on('ready', (event, args) => {
@@ -87,6 +88,14 @@ ipcMain.on('quit-click', (event, args) => {
 });
 
 ipcMain.on('home-click', (event, args) => {
-    home = browserWindow.createHomeWindow();
-    home.maximize();
+    main = browserWindow.createMainWindow();
+    main.maximize();
+    // main.removeMenu();
+});
+
+ipcMain.on('timeline-click', (event, args) => {
+    main = browserWindow.ChangeMainToTimeline();
+    main.maximize();
+    // main.removeMenu();
+    console.log('timeline-click');
 });
