@@ -17,8 +17,6 @@ export default class ControlBarButton extends Component {
                 return this.props.onVideo;
             case 'text':
                 return this.props.onText;
-            case 'mark':
-                return this.props.onMark;
             case 'close_extension':
                 return this.props.onCloseExtension;
             case 'js-capture':

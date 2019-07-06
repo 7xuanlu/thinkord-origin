@@ -79,10 +79,6 @@ ipcMain.on('ok-click', (event, args) => {
     text.close();
 })
 
-ipcMain.on('mark-click', (event, args) => {
-    console.log('mark click');
-});
-
 ipcMain.on('quit-click', (event, args) => {
     app.quit();
 });

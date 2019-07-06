@@ -40,7 +40,6 @@ export class ControlBarMain extends Component {
             { id: 'video', src: VideoButton, disable: !isRecord },
             { id: 'js-capture', src: ScreenShotButton, disable: !isRecord },
             { id: 'text', src: TextButton, disable: !isRecord },
-            { id: 'mark', src: MarkButton, disable: !isRecord },
             { id: 'substract', src: Substract, disable: false },
             { id: 'home', src: HomeButton, disable: false },
             { id: 'quit', src: QuitButton, disable: false }
@@ -146,10 +145,6 @@ export class ControlBarMain extends Component {
         ipcRenderer.send('text-click');
     }
 
-    handleMark = () => {
-        ipcRenderer.send('mark-click');
-    }
-
     handleDragsnip = () => {
         ipcRenderer.send('capture-screen');
     }
@@ -184,7 +179,7 @@ export class ControlBarMain extends Component {
         this.ipcOn();
 
         return (
-            <div>
+            <div className="bar_container">
                 {this.state.controlbar_button.map(button =>
                     <ControlBarButton
                         key={button.id}
@@ -194,7 +189,6 @@ export class ControlBarMain extends Component {
                         onVideo={this.handleVideo}
                         onText={this.handleText}
                         onDragsnip={this.handleDragsnip}
-                        onMark={this.handleMark}
                         onQuit={this.handleQuit}
                         onHome={this.EnterHome}
                     />)}

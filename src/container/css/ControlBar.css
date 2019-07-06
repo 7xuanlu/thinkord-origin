@@ -25,10 +25,18 @@ textarea{
 .btn{
     background-color: rgb(68, 68, 68);
     -webkit-app-region: no-drag;
+    padding-right: 1px;
+    padding-top: 0px;
+    padding-bottom: 0px;
 }
 
 .icon{
     background-color: rgb(68, 68, 68);
-    width: 25px;
-    height: 25px;
+    width: 20px;
+    height: 20px;
+}
+
+.bar_container{
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
