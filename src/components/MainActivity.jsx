@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button'
 import { Player, BigPlayButton } from 'video-react'
 import '../../node_modules/video-react/dist/video-react.css';
 import BlockDescription from './BlockDescription';
+import UploadFile from './UploadFile';
 
 
 export class MainActivity extends Component {
@@ -30,6 +31,7 @@ export class MainActivity extends Component {
                             time={time}
                         />
                         <br/><br/>
+                        
                         <Button onClick={this.props.delTodo.bind(this, time)}>delete</Button>
                     </Card>
                 )
@@ -67,6 +69,8 @@ export class MainActivity extends Component {
                             time={time}
                         />
                         <br/><br/>
+                        <UploadFile/>
+                        <br/>
                         <Button onClick={this.props.delTodo.bind(this, this.props.time)}>delete</Button>
                     </Card>
                 )
@@ -77,6 +81,8 @@ export class MainActivity extends Component {
                     <Card.Body>
                         <Card.Text>{block.text}</Card.Text>
                     </Card.Body>
+                    <UploadFile/>
+                    <br/>
                     <Button onClick={this.props.delTodo.bind(this, this.props.time)}>delete</Button>
                 </Card>
             )
