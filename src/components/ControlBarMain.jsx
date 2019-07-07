@@ -175,6 +175,14 @@ export class ControlBarMain extends Component {
 
     handleText = () => {
         ipcRenderer.send('text-click');
+        ipcRenderer.on('save-textarea-value', (event, value) => {
+            const noteManager = new NoteManager();
+
+            // Add new text block to the note object
+            let note = noteManager.addBlock(this.state.timeline, value)
+            this.setState({ timeline: note })
+        })
+
     }
 
     handleDragsnip = () => {

@@ -67,13 +67,14 @@ ipcMain.on('text-click', (event, args) => {
     console.log('text click');
 })
 
-ipcMain.on('cancel-click', (event, args) => {
+ipcMain.on('cancel-click-on-text-window', (event, args) => {
     text.close();
     console.log('cancel-click');
 })
 
-ipcMain.on('ok-click', (event, args) => {
+ipcMain.on('ok-click-on-text-window', (event, textObject) => {
     console.log('ok-click');
+    controlbar.webContents.send('save-textarea-value', textObject);
     text.close();
 })
 

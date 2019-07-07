@@ -27,16 +27,13 @@ export class TextWindow extends Component {
     }
 
     handleOK = () => {
-        const noteManager = new NoteManager();
         const textarea = this.myRef.current;
 
-        noteManager.addBlock(notePath, {"text": textarea.value});
-
-        ipcRenderer.send('ok-click');
+        ipcRenderer.send('ok-click-on-text-window', {"text": textarea.value});
     }
 
     handleCancel = () => {
-        ipcRenderer.send('cancel-click');
+        ipcRenderer.send('cancel-click-on-text-window');
     }
 
     render() {
