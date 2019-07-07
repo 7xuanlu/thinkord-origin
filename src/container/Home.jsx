@@ -5,7 +5,14 @@ import { JSONManager } from "../renderer/json-manager";
 import { ipcRenderer } from 'electron';
 import './css/ViewPage.css';
 
+<<<<<<< HEAD
 const jsonManager = new JSONManager();
+=======
+
+import './css/ViewPageStyle.css';
+
+const noteManager = new NoteManager();
+>>>>>>> ViewPage css(undone)
 
 class Home extends Component {
   constructor(props) {
@@ -66,6 +73,14 @@ class Home extends Component {
     return (
       <div className="App">
         <div className="container" >
+          <div className="sideBar">
+            <button className="sideBar_close" onClick="closeSideBar()">Close</button>
+            <a href="#" className="button1">button1</a>
+            <a href="#" className="button2">button2</a>
+            <a href="#" className="button3">button3</a>
+            <a href="#" className="button4">button4</a>
+          </div>
+          
           <Header />
           <body>
 
@@ -79,6 +94,7 @@ class Home extends Component {
               addDescription={this.addDescription}
             />
           </body>
+<<<<<<< HEAD
 
             <ul className="navigatorBar">
               <li><a href="#"><i className="fas fa-bars"></i></a></li> 
@@ -89,6 +105,17 @@ class Home extends Component {
               <li><a href="#"><i className="fas fa-times"></i></a></li>
             </ul>
             
+=======
+            <ul className="navigatorBar">
+              <li><a className="NavMenu" href="#"><i className="fas fa-bars"></i></a></li> 
+              <li><input className="search" type="text" value=""/></li>
+              <li><a href="#"><i className="fas fa-search"></i></a></li>
+              <li><a href="#"><i className="fas fa-arrow-up"></i></a></li>
+              <li><a href="#"><i class="far fa-edit"></i></a></li>
+              <li><a href="#"><i className="fas fa-times"></i></a></li>
+            </ul>
+
+>>>>>>> ViewPage css(undone)
         </div>
       </div>
     )
