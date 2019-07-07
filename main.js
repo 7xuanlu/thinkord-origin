@@ -11,8 +11,8 @@ let text = null;
 let main = null;
 
 app.on('ready', (event) => {
-    useCapture();
     controlbar = browserWindow.createControlBarWindow();
+    useCapture(controlbar);
     let tray = noteTray.enable(controlbar);
 });
 
@@ -99,8 +99,8 @@ ipcMain.on('mark-click', (event, args) => {
     console.log('mark click');
 });
 
-ipcMain.on('dragsnip-saved', (event, dragsnipPath) => {
-    controlbar.webContents.send('dragsnip-saved', dragsnipPath);
+ipcMain.once('initialize-note', () => {
+    controlbar.webContents.send('initialize-note');
 });
 
 ipcMain.on('sync-with-note', (event, note) => {

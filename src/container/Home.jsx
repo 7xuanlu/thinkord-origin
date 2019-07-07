@@ -1,18 +1,12 @@
 import React, { Component } from 'react';
 import Block from "../components/Block";
 import Header from "../components/layout/Header";
-import { JSONManager } from "../renderer/json-manager";
 import { ipcRenderer } from 'electron';
+
+// import './css/style.css';
+// import './css/Home.css'
 import './css/ViewPage.css';
-
-<<<<<<< HEAD
-const jsonManager = new JSONManager();
-=======
-
-import './css/ViewPageStyle.css';
-
-const noteManager = new NoteManager();
->>>>>>> ViewPage css(undone)
+// import './css/ViewPageStyle.css';
 
 class Home extends Component {
   constructor(props) {
@@ -24,6 +18,8 @@ class Home extends Component {
   }
 
   componentDidMount() {
+    ipcRenderer.send('initialize-note');
+
     ipcRenderer.on('sync-with-note', (event, note) => {
       this.setState({
         timeline: note
@@ -62,7 +58,7 @@ class Home extends Component {
     if (this.state.timeline.blocks === undefined) { return null }
 
     //progressBar related
-    window.onscroll = () =>{
+    window.onscroll = () => {
       const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
       let h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
       let scrolled = (winScroll / h) * 100;
@@ -80,42 +76,30 @@ class Home extends Component {
             <a href="#" className="button3">button3</a>
             <a href="#" className="button4">button4</a>
           </div>
-          
+
           <Header />
           <body>
 
             <div className="progressContainer">
               <div className="progressBar" id="bar"></div>
             </div>
-            
+
             <Block
               blocks={this.state.timeline.blocks}
               delTodo={this.delTodo}
               addDescription={this.addDescription}
             />
           </body>
-<<<<<<< HEAD
 
-            <ul className="navigatorBar">
-              <li><a href="#"><i className="fas fa-bars"></i></a></li> 
-              <li><input className="search" type="text" value=""/></li>
-              <li><a href="#"><i className="fas fa-search"></i></a></li>
-              <li><a href="#"><i className="fas fa-compress-arrows-alt"></i></a></li>
-              <li><a href="#"><i className="fas fa-edit"></i></a></li>
-              <li><a href="#"><i className="fas fa-times"></i></a></li>
-            </ul>
-            
-=======
-            <ul className="navigatorBar">
-              <li><a className="NavMenu" href="#"><i className="fas fa-bars"></i></a></li> 
-              <li><input className="search" type="text" value=""/></li>
-              <li><a href="#"><i className="fas fa-search"></i></a></li>
-              <li><a href="#"><i className="fas fa-arrow-up"></i></a></li>
-              <li><a href="#"><i class="far fa-edit"></i></a></li>
-              <li><a href="#"><i className="fas fa-times"></i></a></li>
-            </ul>
+          <ul className="navigatorBar">
+            <li><a href="#"><i className="fas fa-bars"></i></a></li>
+            <li><input className="search" type="text" value="" /></li>
+            <li><a href="#"><i className="fas fa-search"></i></a></li>
+            <li><a href="#"><i className="fas fa-compress-arrows-alt"></i></a></li>
+            <li><a href="#"><i className="fas fa-edit"></i></a></li>
+            <li><a href="#"><i className="fas fa-times"></i></a></li>
+          </ul>
 
->>>>>>> ViewPage css(undone)
         </div>
       </div>
     )

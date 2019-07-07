@@ -61,6 +61,10 @@ exports.createTextWindow = () => {
         text.loadFile('dist/textwindow.html');
     }
 
+    text.on('closed', () => {
+        text = null;
+    })
+
     return text;
 }
 
@@ -87,6 +91,10 @@ exports.createMainWindow = () => {
         main.loadFile('dist/main.html');
     }
 
+    main.on('closed', () => {
+        main = null;
+    })
+
     return main;
 }
 
@@ -101,5 +109,6 @@ exports.ChangeMainToTimeline = () => {
         // Load index.html from the file system.
         main.loadFile('dist/home.html');
     }
+
     return main;
 }

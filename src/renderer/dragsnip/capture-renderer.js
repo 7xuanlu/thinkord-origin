@@ -9,8 +9,6 @@ const app = remote.app;
 const { getScreenSources } = require('./desktop-capturer');
 const { CaptureEditor } = require('./capture-editor');
 const { getCurrentScreen } = require('./utils');
-import { NoteManager } from '../note-manager';
-import { notePath } from '../../components/ControlBarMain';
 
 const $canvas = document.getElementById('js-canvas');
 const $bg = document.getElementById('js-bg');

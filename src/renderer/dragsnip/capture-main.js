@@ -41,10 +41,10 @@ const captureScreen = (e, args) => {
         captureWin.setVisibleOnAllWorkspaces(true);
         captureWin.setFullScreenable(false);
 
-        if(mode === "development") {
+        if (mode === "development") {
             // Load dragsnip.html via webpack dev server.
             captureWin.loadURL('http://localhost:3071/dragsnip.html');
-    
+
             // Open the DevTools.
             // controlbar.webContents.openDevTools();
         }
@@ -74,7 +74,7 @@ const captureScreen = (e, args) => {
     })
 }
 
-const useCapture = () => {
+const useCapture = (controlbar) => {
     globalShortcut.register('Esc', () => {
         if (captureWins) {
             captureWins.forEach(win => win.close());
@@ -93,10 +93,11 @@ const useCapture = () => {
         }
     })
 
-    ipcMain.on('dragsnip-saved', () => {
+    ipcMain.on('dragsnip-saved', (event, dragsnipPath) => {
         if (captureWins) {
             captureWins.forEach(win => win.minimize());
         }
+        controlbar.webContents.send('dragsnip-saved', dragsnipPath);
     });
 }
 

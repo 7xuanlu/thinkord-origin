@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import ControlBarButton from '../components/ControlBarButton'
 import './css/ControlBar.css';
 
-import { NoteManager } from '../renderer/note-manager';
-import { notePath } from '../components/ControlBarMain';
-
 import OKButton from '../asset/check.png';
 import CancelButton from '../asset/remove.png';
 

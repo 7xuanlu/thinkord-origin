@@ -24,7 +24,6 @@ import VideoButton from '../asset/video.png';
 import VideoStartButton from '../asset/no-video.png';
 import TextButton from '../asset/chat.png';
 import ScreenShotButton from '../asset/screenshot.png';
-import MarkButton from '../asset/star.png';
 import Substract from '../asset/substract.png';
 import HomeButton from '../asset/home.png';
 import QuitButton from '../asset/error.png';
@@ -44,7 +43,6 @@ export class ControlBarMain extends Component {
                 { id: 'video', src: VideoButton, disable: !isRecord },
                 { id: 'js-capture', src: ScreenShotButton, disable: !isRecord },
                 { id: 'text', src: TextButton, disable: !isRecord },
-                { id: 'mark', src: MarkButton, disable: !isRecord },
                 { id: 'substract', src: Substract, disable: false },
                 { id: 'home', src: HomeButton, disable: false },
                 { id: 'quit', src: QuitButton, disable: false }
@@ -52,6 +50,12 @@ export class ControlBarMain extends Component {
             timeline: {},
             show: false
         };
+    }
+
+    componentDidMount() {
+        ipcRenderer.once('initialize-note', () => {
+            ipcRenderer.send('sync-with-note', this.state.timeline);
+        });
     }
 
     componentDidUpdate() {
@@ -182,7 +186,6 @@ export class ControlBarMain extends Component {
             let note = noteManager.addBlock(this.state.timeline, value)
             this.setState({ timeline: note })
         })
-
     }
 
     handleDragsnip = () => {
@@ -194,7 +197,6 @@ export class ControlBarMain extends Component {
             let note = noteManager.addBlock(this.state.timeline, { "filePath": dragsnipPath });
             this.setState({ timeline: note });
         });
-
     }
 
     handleQuit = () => {
