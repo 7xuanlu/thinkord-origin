@@ -24,11 +24,12 @@ export class Block extends Component {
         return (
             this.props.blocks.map((block) => (
                 
-                <div id="blockContent" key={block.timestamp}>
-                    <ul className="timeline" style={{ width: 900 }}>
+                <div className="blockContent" key={block.timestamp}>
+
+                    <ul className="timeline">
                         <li className="event" data-date={block.timestamp}>
                             <div className="member-infos">
-                                <h1 className="member-title" onClick={this.toggle}>Topic</h1>
+                                <h1 className="member-title" onClick={this.toggle}>TITLE</h1>
                                 {this.state.on && (
                                     <MainActivity
                                         main={block}

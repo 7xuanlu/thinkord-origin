@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import Block from "../components/Block";
 import Header from "../components/layout/Header";
 import { JSONManager } from "../renderer/json-manager";
-
-import './css/style.css';
-import './css/Home.css'
 import { ipcRenderer } from 'electron';
+import './css/ViewPage.css';
 
 const jsonManager = new JSONManager();
 
@@ -56,15 +54,41 @@ class Home extends Component {
     // Yield undefined, because the first value it gets is undefined
     if (this.state.timeline.blocks === undefined) { return null }
 
+    //progressBar related
+    window.onscroll = () =>{
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      let h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      let scrolled = (winScroll / h) * 100;
+      document.getElementById("bar").style.height = scrolled + "%";
+    }
+
+
     return (
       <div className="App">
-        <div className="container">
+        <div className="container" >
           <Header />
-          <Block
-            blocks={this.state.timeline.blocks}
-            delTodo={this.delTodo}
-            addDescription={this.addDescription}
-          />
+          <body>
+
+            <div className="progressContainer">
+              <div className="progressBar" id="bar"></div>
+            </div>
+            
+            <Block
+              blocks={this.state.timeline.blocks}
+              delTodo={this.delTodo}
+              addDescription={this.addDescription}
+            />
+          </body>
+
+            <ul className="navigatorBar">
+              <li><a href="#"><i className="fas fa-bars"></i></a></li> 
+              <li><input className="search" type="text" value=""/></li>
+              <li><a href="#"><i className="fas fa-search"></i></a></li>
+              <li><a href="#"><i className="fas fa-compress-arrows-alt"></i></a></li>
+              <li><a href="#"><i className="fas fa-edit"></i></a></li>
+              <li><a href="#"><i className="fas fa-times"></i></a></li>
+            </ul>
+            
         </div>
       </div>
     )
