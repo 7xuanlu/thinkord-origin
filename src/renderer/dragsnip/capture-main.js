@@ -93,7 +93,7 @@ const useCapture = () => {
         }
     })
 
-    ipcMain.on('dragsnip-saved', (event) => {
+    ipcMain.on('dragsnip-saved', () => {
         if (captureWins) {
             captureWins.forEach(win => win.minimize());
         }

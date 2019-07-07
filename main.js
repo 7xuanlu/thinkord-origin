@@ -3,19 +3,17 @@ const noteTray = require('./app/note-tray');
 const browserWindow = require('./app/browser-window');
 const { useCapture } = require('./src/renderer/dragsnip/capture-main');
 
-// Make Win10 notification available
-app.setAppUserModelId(process.execPath);
+// // Make Win10 notification available
+// app.setAppUserModelId(process.execPath);
 
 let controlbar = null;
 let text = null;
-// let home = null;
 let main = null;
-let tray = null;
 
-app.on('ready', (event, args) => {
+app.on('ready', (event) => {
     useCapture();
     controlbar = browserWindow.createControlBarWindow();
-    tray = noteTray.enable(controlbar);
+    let tray = noteTray.enable(controlbar);
 });
 
 app.on('window-all-closed', () => {
@@ -52,7 +50,7 @@ ipcMain.on('register-shortcuts', () => {
     });
 });
 
-ipcMain.on('unregister-shortcuts', () => {
+ipcMain.once('unregister-shortcuts', () => {
     globalShortcut.unregisterAll();
 });
 
@@ -94,4 +92,18 @@ ipcMain.on('timeline-click', (event, args) => {
     main.maximize();
     // main.removeMenu();
     console.log('timeline-click');
+});
+
+ipcMain.on('mark-click', (event, args) => {
+    console.log('mark click');
+});
+
+ipcMain.on('dragsnip-saved', (event, dragsnipPath) => {
+    controlbar.webContents.send('dragsnip-saved', dragsnipPath);
+});
+
+ipcMain.on('sync-with-note', (event, note) => {
+    if (main !== null) {  // Only send when the home is open
+        main.webContents.send('sync-with-note', note);
+    }
 });

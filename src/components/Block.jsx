@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import MainActivity from './MainActivity'
 import PropTypes from 'prop-types'
 
-
 export class Block extends Component {
 
     state = {

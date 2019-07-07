@@ -106,17 +106,9 @@ getScreenSources({}, (imgSrc) => {
             if (err) {
                 reject(err);
             } else {
-                new Notification(
-                    '已經幫你存好檔案囉!', {
-                        body: `檔案路徑 ${dragsnipPath}`
-                    });
-
-                const noteManager = new NoteManager();
-
-                // Add new block to the json file
-                noteManager.addBlock(notePath, {"filePath": dragsnipPath});
+                console.log("Dragsnip has been saved!")
+                ipcRenderer.send('dragsnip-saved', dragsnipPath);
             }
-            ipcRenderer.send('dragsnip-saved')
         })
     });
 });

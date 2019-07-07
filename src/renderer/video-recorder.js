@@ -36,13 +36,13 @@ export function videoRecordStart() {
     });
 }
 
-export function videoRecordStop() {
+export async function videoRecordStop() {
+    let recPath = path.join(userPath, 'Local Storage', `${uuidv1()}.mp4`);
     reader = new FileReader();
     recorder.stop();
+
     recorder.onstop = function () {
         reader.onload = () => {
-            let recName = `${uuidv1()}.mp4`;
-            let recPath = path.join(userPath, 'Local Storage', recName);
             if (reader.readyState == 2) {
                 let videoBuffer = new Buffer(reader.result);
                 fs.writeFile(recPath, videoBuffer, (err) => {
@@ -50,15 +50,6 @@ export function videoRecordStop() {
                         console.log(err);
                     } else {
                         console.log('Your .mp4 file has been saved');
-                        let myNotification = new Notification(
-                            '已經幫您存好檔案囉!',
-                            { body: `檔案路徑 ${recPath}` }
-                        );
-
-                        const noteManager = new NoteManager();
-
-                        // Add new block to the json file
-                        noteManager.addBlock(notePath, {"filePath": recPath});
                     }
                 });
             }
@@ -66,4 +57,6 @@ export function videoRecordStop() {
         videoBlob = new Blob(videoChunks, { type: 'video/mp4' })
         reader.readAsArrayBuffer(videoBlob);
     };
+
+    return recPath;
 }

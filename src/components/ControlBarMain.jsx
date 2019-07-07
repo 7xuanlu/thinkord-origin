@@ -7,12 +7,13 @@ const { ipcRenderer } = require('electron');
 import React, { Component } from 'react';
 
 import ControlBarButton from './ControlBarButton';
-import { NoteManager } from '../renderer/note-manager';
 
 // import API modules
 import { getScreenshot } from '../renderer/screenshot';
 import { audioRecordStart, audioRecordStop } from '../renderer/audio-recorder';
 import { videoRecordStart, videoRecordStop } from '../renderer/video-recorder';
+import { JSONManager } from '../renderer/json-manager';
+import { NoteManager } from "../renderer/note-manager";
 
 // import icon from assets folder
 import StartButton from '../asset/play-button.png';
@@ -29,28 +30,38 @@ import HomeButton from '../asset/home.png';
 import QuitButton from '../asset/error.png';
 
 let isRecord = false;
+const jsonManager = new JSONManager();
+
 export const notePath = path.join(app.getPath('userData').replace(/\\/g, '\\\\'), 'Local Storage', 'test.json');
-console.log(notePath);
 
 export class ControlBarMain extends Component {
-    state = {
-        controlbar_button: [
-            { id: 'start', src: StartButton, disable: false },
-            { id: 'audio', src: AudioButton, disable: !isRecord },
-            { id: 'video', src: VideoButton, disable: !isRecord },
-            { id: 'js-capture', src: ScreenShotButton, disable: !isRecord },
-            { id: 'text', src: TextButton, disable: !isRecord },
-            { id: 'substract', src: Substract, disable: false },
-            { id: 'home', src: HomeButton, disable: false },
-            { id: 'quit', src: QuitButton, disable: false }
-        ],
-        show: false
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            controlbar_button: [
+                { id: 'start', src: StartButton, disable: false },
+                { id: 'audio', src: AudioButton, disable: !isRecord },
+                { id: 'video', src: VideoButton, disable: !isRecord },
+                { id: 'js-capture', src: ScreenShotButton, disable: !isRecord },
+                { id: 'text', src: TextButton, disable: !isRecord },
+                { id: 'mark', src: MarkButton, disable: !isRecord },
+                { id: 'substract', src: Substract, disable: false },
+                { id: 'home', src: HomeButton, disable: false },
+                { id: 'quit', src: QuitButton, disable: false }
+            ],
+            timeline: {},
+            show: false
+        };
+    }
+
+    componentDidUpdate() {
+        ipcRenderer.send('sync-with-note', this.state.timeline);
+    }
 
     handleStart = () => {
-        if(isRecord === false){
+        if (isRecord === false) {
             isRecord = true;
-            const noteManager = new NoteManager();
+
             const button = this.state.controlbar_button.map(button => {
                 if (button.id === 'start') {
                     button.src = StopButton;
@@ -72,13 +83,16 @@ export class ControlBarMain extends Component {
                 }
                 return button;
             });
-            this.setState({ button });
 
             // Every time user click start in the control bar, Note create a json for them.
-            noteManager.initBlock(notePath);
-
-            ipcRenderer.send('register-shortcuts');
-        }else{
+            jsonManager.initJSON(notePath);
+            jsonManager.readJSON(notePath).then((json) => {
+                this.setState({ timeline: json })
+                ipcRenderer.send('register-shortcuts');
+                this.ipcOnShortcut();
+                this.setState({ button });
+            })
+        } else {
             isRecord = false;
             const button = this.state.controlbar_button.map(button => {
                 if (button.id === 'start') {
@@ -101,9 +115,12 @@ export class ControlBarMain extends Component {
                 }
                 return button;
             });
-            this.setState({ button });
 
-            ipcRenderer.send('unregister-shortcuts')
+            jsonManager.writeJSON(this.state.timeline, notePath).then(() => {
+                this.setState({ timeline: {} })
+                ipcRenderer.send('unregister-shortcuts');
+                this.setState({ button });
+            })
         }
     }
 
@@ -115,12 +132,20 @@ export class ControlBarMain extends Component {
                     audioRecordStart();
                 } else {
                     button.src = AudioButton;
-                    audioRecordStop();
+                    audioRecordStop().then((recPath) => {
+                        const noteManager = new NoteManager();
+
+                        // Add new block to the note object
+                        let note = noteManager.addBlock(this.state.timeline, { "filePath": recPath });
+
+                        this.setState({ timeline: note });
+                    });
                 }
             }
             return button;
         });
         this.setState({ button });
+
         ipcRenderer.send('audio-click');
     }
 
@@ -132,7 +157,14 @@ export class ControlBarMain extends Component {
                     videoRecordStart();
                 } else {
                     button.src = VideoButton;
-                    videoRecordStop();
+                    videoRecordStop().then((recPath) => {
+                        const noteManager = new NoteManager();
+
+                        // Add new block to the note object
+                        let note = noteManager.addBlock(this.state.timeline, { "filePath": recPath });
+
+                        this.setState({ timeline: note });
+                    });
                 }
             }
             return button;
@@ -147,6 +179,14 @@ export class ControlBarMain extends Component {
 
     handleDragsnip = () => {
         ipcRenderer.send('capture-screen');
+        ipcRenderer.on('dragsnip-saved', (event, dragsnipPath) => {
+            const noteManager = new NoteManager();
+
+            // Add new block to the note object
+            let note = noteManager.addBlock(this.state.timeline, { "filePath": dragsnipPath });
+            this.setState({ timeline: note });
+        });
+
     }
 
     handleQuit = () => {
@@ -157,9 +197,16 @@ export class ControlBarMain extends Component {
         ipcRenderer.send('home-click');
     }
 
-    ipcOn() {
+    ipcOnShortcut = () => {
         ipcRenderer.on('F1', () => {
-            getScreenshot();
+            getScreenshot().then((screenshotPath) => {
+                const noteManager = new NoteManager();
+
+                // Add new block to the note object
+                let note = noteManager.addBlock(this.state.timeline, { "filePath": screenshotPath });
+
+                this.setState({ timeline: note });
+            });
         });
 
         ipcRenderer.on('F2', () => {
@@ -176,8 +223,6 @@ export class ControlBarMain extends Component {
     }
 
     render() {
-        this.ipcOn();
-
         return (
             <div className="bar_container">
                 {this.state.controlbar_button.map(button =>

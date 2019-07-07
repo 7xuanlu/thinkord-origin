@@ -1,27 +1,30 @@
 import React, { Component } from 'react';
 import Block from "../components/Block";
 import Header from "../components/layout/Header";
-import { NoteManager } from "../renderer/note-manager";
-import { notePath } from "../components/ControlBarMain";
+import { JSONManager } from "../renderer/json-manager";
 
 import './css/style.css';
 import './css/Home.css'
+import { ipcRenderer } from 'electron';
 
-const noteManager = new NoteManager();
+const jsonManager = new JSONManager();
 
 class Home extends Component {
-  state = {
-    timeline: {
+  constructor(props) {
+    super(props);
 
+    this.state = {
+      timeline: {}
     }
   }
 
-  componentWillMount() {
-    noteManager.getNoteJSON(notePath).then((blockdata) => {
+  componentDidMount() {
+    ipcRenderer.on('sync-with-note', (event, note) => {
       this.setState({
-        timeline: blockdata
-      })
-    })
+        timeline: note
+      });
+      console.log(this.state.timeline);
+    });
   }
 
   // Delete Todo
@@ -47,13 +50,10 @@ class Home extends Component {
         }
       })
     })
-
-
-
   }
 
   render() {
-    // shield undefined, because the first value it gets is undefined
+    // Yield undefined, because the first value it gets is undefined
     if (this.state.timeline.blocks === undefined) { return null }
 
     return (
@@ -68,10 +68,7 @@ class Home extends Component {
         </div>
       </div>
     )
-
   }
-
 }
 
 export default Home;
-
