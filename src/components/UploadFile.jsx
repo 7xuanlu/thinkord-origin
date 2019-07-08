@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
-import Image from 'react-image-resizer'
+import React, { Component } from 'react';
+import {Button} from 'react-bootstrap';
+import Image from 'react-image-resizer';
 import { shell } from 'electron';
 
 
@@ -56,17 +57,18 @@ export class UploadFile extends Component{
                     height={400}
                   />
         }else{
-          image = <button 
+          image = <Button 
                     id="fileBtn"
+                    size="sm"
                     onClick={this.OpenFileButton}
-                  />
+                  >open</Button>
         }
     
          
         return (
     
           <div>
-            <input className="fileInput" type="file" onChange={this.handleImageChange} />
+            <input className="fileInput" type="file"  onChange={this.handleImageChange} />
             {image}
           </div>
         )
