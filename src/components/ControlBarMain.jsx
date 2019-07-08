@@ -2,7 +2,6 @@ const remote = require('electron').remote;
 const { app } = remote;
 
 const path = require('path');
-const uuidv1 = require('uuid/v1');
 const { ipcRenderer } = require('electron');
 import React, { Component } from 'react';
 
@@ -53,7 +52,7 @@ export class ControlBarMain extends Component {
     }
 
     componentDidMount() {
-        ipcRenderer.once('initialize-note', () => {
+        ipcRenderer.on('initialize-note', () => {
             ipcRenderer.send('sync-with-note', this.state.timeline);
         });
     }
@@ -87,14 +86,15 @@ export class ControlBarMain extends Component {
                 }
                 return button;
             });
-
             // Every time user click start in the control bar, Note create a json for them.
             jsonManager.initJSON(notePath);
             jsonManager.readJSON(notePath).then((json) => {
-                this.setState({ timeline: json })
+                this.setState({
+                    controlbar_button: button,
+                    timeline: json
+                });
                 ipcRenderer.send('register-shortcuts');
                 this.ipcOnShortcut();
-                this.setState({ button });
             })
         } else {
             isRecord = false;
@@ -121,9 +121,11 @@ export class ControlBarMain extends Component {
             });
 
             jsonManager.writeJSON(this.state.timeline, notePath).then(() => {
-                this.setState({ timeline: {} })
+                this.setState({
+                    controlbar_button: button,
+                    timeline: {}
+                });
                 ipcRenderer.send('unregister-shortcuts');
-                this.setState({ button });
             })
         }
     }
@@ -179,7 +181,7 @@ export class ControlBarMain extends Component {
 
     handleText = () => {
         ipcRenderer.send('text-click');
-        ipcRenderer.on('save-textarea-value', (event, value) => {
+        ipcRenderer.once('save-textarea-value', (event, value) => {
             const noteManager = new NoteManager();
 
             // Add new text block to the note object
@@ -190,7 +192,7 @@ export class ControlBarMain extends Component {
 
     handleDragsnip = () => {
         ipcRenderer.send('capture-screen');
-        ipcRenderer.on('dragsnip-saved', (event, dragsnipPath) => {
+        ipcRenderer.once('dragsnip-saved', (event, dragsnipPath) => {
             const noteManager = new NoteManager();
 
             // Add new block to the note object

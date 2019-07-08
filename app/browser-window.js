@@ -28,10 +28,6 @@ exports.createControlBarWindow = () => {
         controlbar.loadFile('dist/controlbar.html');
     }
 
-    controlbar.on('closed', () => {
-        controlbar = null;
-    })
-
     return controlbar;
 }
 
@@ -61,10 +57,6 @@ exports.createTextWindow = () => {
         text.loadFile('dist/textwindow.html');
     }
 
-    text.on('closed', () => {
-        text = null;
-    })
-
     return text;
 }
 
@@ -90,10 +82,6 @@ exports.createMainWindow = () => {
         // Load index.html from the file system.
         main.loadFile('dist/main.html');
     }
-
-    main.on('closed', () => {
-        main = null;
-    })
 
     return main;
 }

@@ -19,7 +19,6 @@ export class JSONManager {
     // Define a function which help get our user's Note file
     readJSON(notePath) {
         return new Promise((resolve, reject) => {
-            console.log(notePath);
             fs.access(notePath, (err) => {
                 if (err) {
                     console.log('File not yet existed, initializing json file')

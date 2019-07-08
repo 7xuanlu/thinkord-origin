@@ -24,7 +24,7 @@ app.on('window-all-closed', () => {
 
 app.on('activate', () => {
     if (controlbar === null) {
-        browserWindow.createControlBarWindow(controlbar);
+        controlbar = browserWindow.createControlBarWindow();
     }
 })
 
@@ -54,20 +54,20 @@ ipcMain.once('unregister-shortcuts', () => {
     globalShortcut.unregisterAll();
 });
 
-ipcMain.on('audio-click', (event, args) => {
+ipcMain.on('audio-click', () => {
     console.log('audio click');
 })
 
-ipcMain.on('video-click', (event, args) => {
+ipcMain.on('video-click', () => {
     console.log('video click');
 })
 
-ipcMain.on('text-click', (event, args) => {
+ipcMain.on('text-click', () => {
     text = browserWindow.createTextWindow();
     console.log('text click');
 })
 
-ipcMain.on('cancel-click-on-text-window', (event, args) => {
+ipcMain.on('cancel-click-on-text-window', () => {
     text.close();
     console.log('cancel-click');
 })
@@ -78,28 +78,36 @@ ipcMain.on('ok-click-on-text-window', (event, textObject) => {
     text.close();
 })
 
-ipcMain.on('quit-click', (event, args) => {
+ipcMain.on('quit-click', () => {
     app.quit();
 });
 
-ipcMain.on('home-click', (event, args) => {
-    main = browserWindow.createMainWindow();
-    main.maximize();
-    // main.removeMenu();
+ipcMain.on('home-click', () => {
+    if (main === null) {
+        main = browserWindow.createMainWindow();
+        main.maximize();
+        main.on('closed', () => {
+            main = null;
+        });
+        // main.removeMenu();
+    } else {
+        main.show();
+    }
+
 });
 
-ipcMain.on('timeline-click', (event, args) => {
+ipcMain.on('timeline-click', () => {
     main = browserWindow.ChangeMainToTimeline();
     main.maximize();
     // main.removeMenu();
     console.log('timeline-click');
 });
 
-ipcMain.on('mark-click', (event, args) => {
+ipcMain.on('mark-click', () => {
     console.log('mark click');
 });
 
-ipcMain.once('initialize-note', () => {
+ipcMain.on('initialize-note', () => {
     controlbar.webContents.send('initialize-note');
 });
 
