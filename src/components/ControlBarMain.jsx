@@ -58,7 +58,9 @@ export class ControlBarMain extends Component {
     }
 
     componentDidUpdate() {
-        ipcRenderer.send('sync-with-note', this.state.timeline);
+        if (isRecord) {
+            ipcRenderer.send('sync-with-note', this.state.timeline);
+        }
     }
 
     handleStart = () => {
@@ -126,6 +128,7 @@ export class ControlBarMain extends Component {
                     timeline: {}
                 });
                 ipcRenderer.send('unregister-shortcuts');
+                ipcRenderer.send('savebutton')
             })
         }
     }

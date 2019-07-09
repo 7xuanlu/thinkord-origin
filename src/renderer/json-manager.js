@@ -24,7 +24,7 @@ export class JSONManager {
                     console.log('File not yet existed, initializing json file')
                     fs.writeFile(notePath, {}, (err) => {
                         if (err) {
-                            throw err;
+                            throw err; 
                         }
 
                         resolve({

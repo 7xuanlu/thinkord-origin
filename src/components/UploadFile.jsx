@@ -48,7 +48,7 @@ export class UploadFile extends Component{
         
 
         if(file === ''){
-          console.log('nothing')
+          // console.log('nothing')
           image = null
         }else if(imageTypes.includes(fileType)){
           image = <Image 

@@ -1,3 +1,5 @@
+
+
 let getCurrentTime = () => {
     let timestamp = new Date();
     let time = timestamp.getFullYear() + '/' + (timestamp.getMonth() + 1) + '/' + timestamp.getDate() + ' '
@@ -33,7 +35,7 @@ export class NoteManager {
     }
 
     addBlock(note, args) {
-        console.log(note);
+        // console.log(note);
         if (args.hasOwnProperty("text")) {
             // Insert a new template block to json
             note["blocks"].push(this.textFormat['blocks'][0]);
@@ -56,4 +58,18 @@ export class NoteManager {
             return note;
         }
     };
+
+    deleteBlock(note, timeid) {
+        // console.log(note, timeid);
+
+        let changedblocks = note.blocks.filter((block) => {
+            return block.timestamp !== timeid
+        })
+        note["blocks"] = changedblocks
+
+        return note;
+        // console.log(note)
+        // console.log(notePath)
+        // jsonmanager.writeJSON(note, notePath)
+    }
 }

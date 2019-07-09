@@ -54,6 +54,12 @@ ipcMain.once('unregister-shortcuts', () => {
     globalShortcut.unregisterAll();
 });
 
+ipcMain.on('savebutton',()=>{
+    if (main !== null) {
+        main.webContents.send('savebutton')
+    }
+})
+
 ipcMain.on('audio-click', () => {
     console.log('audio click');
 })
