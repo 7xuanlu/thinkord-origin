@@ -2,7 +2,7 @@ import "@babel/polyfill";
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Home from './container/Home'
+import Timeline from './container/Timeline'
 
 const { ipcRenderer } = require('electron');
 
@@ -11,4 +11,4 @@ ipcRenderer.on('screen-save', (event, path) => {
     console.log(path);
 });
 
-ReactDOM.render(<Home />, document.getElementById('root'));
+ReactDOM.render(<Timeline />, document.getElementById('root'));

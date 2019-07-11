@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import Block from "../components/Block";
 import Header from "../components/layout/Header";
 import { ipcRenderer } from 'electron';
-import { NoteManager } from '../renderer/note-manager'
 import { JSONManager } from '../renderer/json-manager'
 import { notePath } from '../components/ControlBarMain'
 
-const notemanager = new NoteManager();
+
 const jsonmanager = new JSONManager();
-let notemodel;
-class Home extends Component {
+
+class Timeline extends Component {
   constructor(props) {
     super(props);
 
@@ -28,6 +27,7 @@ class Home extends Component {
       });
     });
 
+    // when you press stop recording, the save button will show up
     ipcRenderer.on('savebutton', () => {
       console.log('I want to save the action I did')
       this.setState({
@@ -40,44 +40,41 @@ class Home extends Component {
 
 
 
-  // Delete Todo (frontend)
-  delTodo = (time) => {
+  // Delete the block you choose (frontend)
+  delBlock = (time) => {
     console.log('Now you choose the block', time);
     this.setState({
       timeline: { blocks: [...this.state.timeline.blocks.filter(block => block.timestamp !== time)] }
     })
-    notemodel = notemanager.deleteBlock(this.state.timeline, time)
-    // console.log(notemodel)
   }
 
   // Add Description (frontend)
   addDescription = (des, time) => {
-    let data = this.state.timeline.blocks;
+    let note = this.state.timeline.blocks;
 
-    data.map((block) => {
+    note.map((block) => {
       // assign the description to the block you point
       if (block.timestamp === time) {
         block.description = des
       }
-      this.setState({
-        timeline: {
-          blocks: data
-        }
-      })
+    })
+    this.setState({
+      timeline: {
+        blocks: note
+      }
     })
   }
 
-  // Ready to write the data model to the json file
+  // Write the data model to the json file
   saveChange = () => {
-    // console.log(this.state.timeline)
-    jsonmanager.writeJSON(notemodel, notePath)
+    jsonmanager.writeJSON(this.state.timeline, notePath)
   }
 
   render() {
     // Yield undefined, because the first value it gets is undefined
     if (this.state.timeline.blocks === undefined) { return null }
 
-    console.log(this.state.timeline) // the data model of the timeline
+    // console.log(this.state.timeline) // the data model of the timeline
     return (
       <div className="App">
         {this.state.saveSign && <button onClick={this.saveChange}>save</button>}
@@ -85,7 +82,7 @@ class Home extends Component {
         <Header />
         <Block
           blocks={this.state.timeline.blocks}
-          delTodo={this.delTodo}
+          delBlock={this.delBlock}
           addDescription={this.addDescription}
         />
       </div>
@@ -93,4 +90,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default Timeline;

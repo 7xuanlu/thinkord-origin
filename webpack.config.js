@@ -90,7 +90,7 @@ module.exports = {
             filename: 'main.html',
             template: './src/indexMain.html',
             chunks: ['main']
-        }),
+        }), 
         new HtmlWebpackPlugin({
             filename: 'home.html',
             template: './src/indexH.html',
