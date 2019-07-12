@@ -5,6 +5,7 @@ import { ipcRenderer } from 'electron';
 import { JSONManager } from '../renderer/json-manager'
 import { notePath } from '../components/ControlBarMain'
 
+import './css/Timeline.css';
 
 const jsonmanager = new JSONManager();
 
@@ -74,17 +75,38 @@ class Timeline extends Component {
     // Yield undefined, because the first value it gets is undefined
     if (this.state.timeline.blocks === undefined) { return null }
 
+    // progressBar animation
+    window.onscroll = () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      let h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      let scrolled = (winScroll / h) * 100;
+      document.getElementById("progress_bar").style.height = scrolled + "%";
+    }
     // console.log(this.state.timeline) // the data model of the timeline
     return (
       <div className="App">
         {this.state.saveSign && <button onClick={this.saveChange}>save</button>}
 
         <Header />
+
+        <div className="progressContainer">
+          <div className="progressBar" id="progress_bar"></div>
+        </div>
+
         <Block
           blocks={this.state.timeline.blocks}
           delBlock={this.delBlock}
           addDescription={this.addDescription}
         />
+        <div className="navigationBar">
+          <a  className="nav_menu" href="#"><i className="fas fa-bars"></i></a>
+          <input type="text" className="search_bar"/>
+          <a className="search" href="#"><i className="fas fa-search"></i></a>
+          <a className="up" href="#"><i className="fas fa-angle-up"></i></a>
+          <a className="edit" href="#"><i className="fas fa-pen"></i></a>
+          <a className="nav_close" href="#"><i className="fas fa-times"></i></a>
+        </div>
+
       </div>
     )
   }

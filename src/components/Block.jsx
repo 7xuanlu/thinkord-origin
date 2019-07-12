@@ -103,6 +103,11 @@ export class Block extends Component {
                 <div className="blockContent" key={block.timestamp}>
                     <ul className="timeline">
                         <li className="event" data-date={block.timestamp}>
+                            <div className="time">
+                                <div className="time_date">07/11</div>
+                                <div className="media_icon"><i className="far fa-images"></i></div>
+                                <div className="time_detail">18:00</div>
+                            </div>
                             <div className="member-infos">
                                 <h1 className="member-title" onClick={this.toggle}>TITLE</h1>
                                 {this.state.on && (
