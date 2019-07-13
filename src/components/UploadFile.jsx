@@ -27,6 +27,7 @@ class Uploadfile extends Component {
         preview: filepaths
       })))
     })
+    this.props.addFile(this.state.files,this.props.time)
   }
   //for files that are not images.
   OpenFileButton(filepath, e) {

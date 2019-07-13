@@ -49,7 +49,7 @@ class Timeline extends Component {
     })
   }
 
-  // Add Description (frontend)
+  // Add description (frontend)
   addDescription = (des, time) => {
     let note = this.state.timeline.blocks;
 
@@ -64,6 +64,32 @@ class Timeline extends Component {
         blocks: note
       }
     })
+  }
+
+
+  // Add file (frontend)
+  addFile = (files, time) => {
+    let note = this.state.timeline.blocks;
+    
+
+    note.map((block) => {
+      if (block.timestamp === time) {
+        files.map((file) => {
+          if (block.paths.includes(file.path)) {
+            return;
+          }
+          block.paths.push(file.path)
+        })
+      }
+    })
+    this.setState({
+      timeline: {
+        blocks: note
+      }
+    })
+
+
+
   }
 
   // Write the data model to the json file
@@ -97,10 +123,11 @@ class Timeline extends Component {
           blocks={this.state.timeline.blocks}
           delBlock={this.delBlock}
           addDescription={this.addDescription}
+          addFile={this.addFile}
         />
         <div className="navigationBar">
-          <a  className="nav_menu" href="#"><i className="fas fa-bars"></i></a>
-          <input type="text" className="search_bar"/>
+          <a className="nav_menu" href="#"><i className="fas fa-bars"></i></a>
+          <input type="text" className="search_bar" />
           <a className="search" href="#"><i className="fas fa-search"></i></a>
           <a className="up" href="#"><i className="fas fa-angle-up"></i></a>
           <a className="edit" href="#"><i className="fas fa-pen"></i></a>

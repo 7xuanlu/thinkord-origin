@@ -76,7 +76,7 @@ export class Block extends Component {
                             time={block.timestamp}
                         />
                         <br />
-                        <UploadFile />
+                        <UploadFile time={block.timestamp} addFile={this.props.addFile}/>
                         <br />
                         <Button onClick={this.props.delBlock.bind(this, block.timestamp)}>delete</Button>
                     </Card>
@@ -89,7 +89,7 @@ export class Block extends Component {
                         <br />
                         <Card.Text>{block.text}</Card.Text>
                     </Card.Body>
-                    <UploadFile />
+                    <UploadFile time={block.timestamp} addFile={this.props.addFile}/>
                     <br />
                     <Button onClick={this.props.delBlock.bind(this, block.timestamp)}>delete</Button>
                 </Card>

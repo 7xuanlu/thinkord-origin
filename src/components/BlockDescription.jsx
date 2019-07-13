@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 export class BlockDescription extends Component {
-
+ 
     state = {
         description: ''
     }
