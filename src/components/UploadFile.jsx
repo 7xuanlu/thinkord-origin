@@ -25,7 +25,7 @@ class Uploadfile extends Component {
       }))
     })
   }
-
+  //for files that are not images.
   OpenFileButton(e){
     const fileBtn = document.getElementById('fileBtn');
     if(fileBtn){
