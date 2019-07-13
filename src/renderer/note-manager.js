@@ -60,16 +60,16 @@ export class NoteManager {
     };
 
     deleteBlock(note, timeid) {
-        // console.log(note, timeid);
 
+        // Changedblocks: blocks after deleted
         let changedblocks = note.blocks.filter((block) => {
             return block.timestamp !== timeid
         })
         note["blocks"] = changedblocks
 
         return note;
-        // console.log(note)
-        // console.log(notePath)
-        // jsonmanager.writeJSON(note, notePath)
     }
+
+
+    
 }

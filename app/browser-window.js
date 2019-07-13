@@ -98,5 +98,5 @@ exports.ChangeMainToTimeline = () => {
         main.loadFile('dist/home.html');
     }
 
-    return main;
+    return main; 
 }

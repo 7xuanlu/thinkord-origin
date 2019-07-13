@@ -1,6 +1,14 @@
 import React, { Component } from 'react'
-import MainActivity from './MainActivity'
 import PropTypes from 'prop-types'
+/**************************************************************************************/
+import Card from 'react-bootstrap/Card'
+import Button from 'react-bootstrap/Button'
+/**************************************************************************************/
+import { Player, BigPlayButton } from 'video-react'
+import '../../node_modules/video-react/dist/video-react.css';
+import BlockDescription from './BlockDescription';
+import UploadFile from './UploadFile';
+
 
 export class Block extends Component {
 
@@ -15,29 +23,132 @@ export class Block extends Component {
         })
     }
 
-    render() {
-        // remove the first element which is null
-        // if (this.props.blocks[0].cells[0].path === null) {
-        //     this.props.blocks.shift();
-        // }
+    // Distinguish the type of the block
+    distBlockType = (block) => {
+        if (block.paths[0] !== undefined) {
+            if (block.paths[0].split('.').pop() === 'png') {
+                return (
+                    <Card>
+                        <Card.Img src={block.paths[0]} style={{ width: 600 }} />
+                        <Card.Body>
+                            <Card.Text>{block.description}</Card.Text>
+                        </Card.Body>
+                        <br /><br />
+                        <BlockDescription
+                            addDescription={this.props.addDescription}
+                            time={block.timestamp}
+                        />
+                        <br /><br />
 
+                        <Button onClick={this.props.delBlock.bind(this, block.timestamp)}>delete</Button>
+                    </Card>
+                )
+            } else if (block.paths[0].split('.').pop() === 'mp3') {
+                return (
+                    <Card>
+                        <Card.Body>
+                            <audio controls="controls">
+                                <source src={block.paths[0]} />
+                            </audio>
+                            <Card.Text>{block.description}</Card.Text>
+                        </Card.Body>
+                        <br /><br />
+                        <BlockDescription
+                            addDescription={this.props.addDescription}
+                            time={block.timestamp}
+                        />
+                        <br /><br />
+                        <Button onClick={this.props.delBlock.bind(this, block.timestamp)}>delete</Button>
+                    </Card>
+                )
+            } else if (block.paths[0].split('.').pop() === 'mp4') {
+                return (
+                    <Card>
+                        <Card.Body>
+                            <Player>
+                                <BigPlayButton position="center" />
+                                <source src={block.paths[0]} />
+                            </Player>
+                            <Card.Text>{block.description}</Card.Text>
+                        </Card.Body>
+                        <br /><br />
+                        <BlockDescription
+                            addDescription={this.props.addDescription}
+                            time={block.timestamp}
+                        />
+                        <br /><br />
+                        <UploadFile />
+                        <br />
+                        <Button onClick={this.props.delBlock.bind(this, block.timestamp)}>delete</Button>
+                    </Card>
+                )
+            }
+        } else {
+            return (
+                <Card>
+                    <Card.Body>
+                        <Card.Text>{block.text}</Card.Text>
+                    </Card.Body>
+                    <UploadFile />
+                    <br />
+                    <Button onClick={this.props.delBlock.bind(this, block.timestamp)}>delete</Button>
+                </Card>
+            )
+        }
+    }
+
+    ChooseMediaIcon = (block) => {
+        if (block.paths[0] !== undefined) {
+            if (block.paths[0].split('.').pop() === 'png') {
+                return (
+                    <i className="far fa-images"></i>
+                )
+            } else if (block.paths[0].split('.').pop() === 'mp3') {
+                return (
+                    <i className="fas fa-microphone"></i>
+                )
+            } else if (block.paths[0].split('.').pop() === 'mp4') {
+                return (
+                    <i className="fab fa-youtube"></i>
+                )
+            }
+        } else {
+            return (
+                <i className="fas fa-quote-right"></i>
+            )
+        }
+    }
+
+    PrintTime = (block) => {
+        let time = block.timestamp.split(' ').pop();
+        time = time.split(':')
+        time = time[0] + ':' + time[1]
+        return(
+            <div className="time_detail">{time}</div>
+        )
+    }
+
+    render() {
         return (
             this.props.blocks.map((block) => (
-                
                 <div className="blockContent" key={block.timestamp}>
-
                     <ul className="timeline">
                         <li className="event" data-date={block.timestamp}>
+                            <div className="time">
+                                <div className="time_date">07/11</div>
+                                <div className="media_icon">
+                                    {this.state.on && (
+                                        this.ChooseMediaIcon(block)
+                                    )}
+                                </div>
+                                {this.state.on && (
+                                    this.PrintTime(block)
+                                )}
+                            </div>
                             <div className="member-infos">
                                 <h1 className="member-title" onClick={this.toggle}>TITLE</h1>
                                 {this.state.on && (
-                                    <MainActivity
-                                        main={block}
-                                        time={block.timestamp}
-                                        delTodo={this.props.delTodo}
-                                        description={block.description}
-                                        addDescription={this.props.addDescription}
-                                    />
+                                    this.distBlockType(block)
                                 )}
                             </div>
                         </li>

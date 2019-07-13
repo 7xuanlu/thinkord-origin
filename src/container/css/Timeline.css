@@ -1,0 +1,137 @@
+@import url("https://fonts.googleapis.com/css?family=Noto+Serif+TC&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+body{
+  font-family: 'Noto Serif TC', serif;
+}
+.App{
+  margin-top:50px;
+  /* background: rgb(122, 122, 122); */
+}
+header{
+  width: 100%;
+  text-align: center;
+  background-color: #fff;
+  height: 35px;
+  top: 0;
+  position: fixed;
+}
+.file-title{
+  color: #69cb43;
+  font-size: 26px;
+}
+.progressContainer {
+  width: 6px;
+  background: #bdd4cb;
+  top: 50px;
+  left: 80px;
+  bottom: 0;
+  position: fixed;
+  z-index: 199;
+}
+.progressBar {
+  width: 6px;
+  background: linear-gradient(135deg, #69cb43, #35c189 60%, #35c189);
+  top: 50px;
+  left: 80px;
+  position: fixed;
+  z-index: 200;
+}
+
+.blockContent{
+  color: #35c189;
+  width: 95%;
+  /* background: rgb(255, 163, 163); */
+  font-size: 16px;
+  margin-bottom: 40px;
+}
+
+li{
+  list-style:none;
+}
+.time{
+  font-size: 14px;
+  width:150px;
+  height: 70px;
+  margin-left: 0;
+  /* background: #000; */
+  padding-left:8px;
+  float: left;
+  display: inline-block;
+}
+.time_date{
+  float: left;
+  width: 70px;
+  text-align: right;
+  /* background-color: pink; */
+}
+.media_icon{
+  text-align: center;
+  margin-left: 80px;
+  font-size: 25px;
+  /* background-color: green; */
+}
+.time_detail{
+  text-align: center;
+  margin-left: 80px;
+  /* background-color: aqua; */
+}
+
+.member-infos{
+  margin:0 0 20px 180px;
+  color:#143938;
+}
+.member-title{
+  color: #35c189;
+  font-size: 22px;
+  padding-left: 10px;
+  margin-bottom: 15px;
+}
+
+.navigationBar{
+  width: 100%;
+  background-color:#143938;
+  height: 30px;
+  bottom: 0;
+  position: fixed; 
+  clear:both;
+  z-index: 300;
+}
+
+.navigationBar a{
+
+  text-align: center;
+  display: inline-block;
+}
+
+.navigationBar i{
+  font-size: 16px;
+  color: #fff;
+  padding: 7px 20px 0;
+}
+
+.nav_menu{
+  height: 30px;
+  background-color: #35c189;
+}
+.search_bar{
+
+  margin-left: 10px;
+  border-radius: 4px;
+  border:1px solid #DBDBDB;
+}
+.fa-search{
+  margin-left:-15px;
+}
+
+.nav_close{
+  right: 0;
+  position: fixed;
+  z-index: 200;
+}
