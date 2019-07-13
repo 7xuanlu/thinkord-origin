@@ -34,7 +34,6 @@ class Uploadfile extends Component {
   }
 
   deleteButton(filepath, e) {
-
     console.log(filepath)
     this.setState({
       files: [...this.state.files.filter((file) => file.path !== filepath)]
@@ -44,7 +43,7 @@ class Uploadfile extends Component {
   render() {
 
     const getColor = (props) => {
-      return '#eeeeee';
+      return '#69CB43';
     }
     const Container = styled.div`
       flex: 1;
@@ -57,7 +56,7 @@ class Uploadfile extends Component {
       border-color: ${props => getColor(props)};
       border-style: dashed;
       background-color: #fafafa;
-      color: #bdbdbd;
+      color: #69CB43;
       outline: none;
       transition: border .24s ease-in-out;
     `;
@@ -68,35 +67,48 @@ class Uploadfile extends Component {
       let imageTypes = ['image/gif', 'image/jpeg', 'image/png'];
       if (imageTypes.includes(fileType)) {
         return (
-          <div>
-            <li key={file.name}>
-              {file.name}
-              <br />
-              <Image
-                src={file.path}
-                width={600}
-                height={400}
-              />
-            </li>
-          </div>
+          <li key={file.name}>
+            {file.name}
+            <i
+              id="fileBtn"
+              size='sm'
+              className="far fa-file file_edit_icon"
+              onClick={(e) => this.OpenFileButton(file.path, e)}
+            >
+            </i>
+            <i
+              size="sm"
+              onClick={(e) => this.deleteButton(file.path, e)}
+              className="fas fa-trash-alt file_edit_icon"
+            >
+            </i>
+            <br />
+            <Image
+              src={file.path}
+              className="file_img"
+              width={300}
+              height={200}
+            />
+          </li>
         )
       } else {
         return (
-          <div>
-            <li key={file.name}>
-              {file.name}
-              <br />
-              <button
-                id="fileBtn"
-                size='sm'
-                onClick={(e) => this.OpenFileButton(file.path, e)}
-              >open</button>
-              <button
-                size="sm"
-                onClick={(e) => this.deleteButton(file.path, e)}
-              >delete</button>
-            </li>
-          </div>
+          <li key={file.name}>
+            {file.name}
+            <i
+              id="fileBtn"
+              size='sm'
+              className="far fa-file file_edit_icon"
+              onClick={(e) => this.OpenFileButton(file.path, e)}
+            >
+            </i>
+            <i
+              size="sm"
+              onClick={(e) => this.deleteButton(file.path, e)}
+              className="fas fa-trash-alt file_edit_icon"
+            >
+            </i>
+          </li>
         )
       }
     })
@@ -109,10 +121,9 @@ class Uploadfile extends Component {
               <input {...getInputProps()} />
               {isDragActive ? 'Drop it!' : 'Drag and drop some files here, or click to select files'}
             </Container>
-            <aside>
-              <h4>Files</h4>
+            <br/>
+            <aside className="file_upload">
               {files}
-
             </aside>
           </div>
         )}
