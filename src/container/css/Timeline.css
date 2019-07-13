@@ -72,9 +72,10 @@ li{
   /* background-color: pink; */
 }
 .media_icon{
- text-align: center;
- margin-left: 80px;
- /* background-color: green; */
+  text-align: center;
+  margin-left: 80px;
+  font-size: 25px;
+  /* background-color: green; */
 }
 .time_detail{
   text-align: center;

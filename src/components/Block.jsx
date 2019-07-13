@@ -97,6 +97,37 @@ export class Block extends Component {
         }
     }
 
+    ChooseMediaIcon = (block) => {
+        if (block.paths[0] !== undefined) {
+            if (block.paths[0].split('.').pop() === 'png') {
+                return (
+                    <i className="far fa-images"></i>
+                )
+            } else if (block.paths[0].split('.').pop() === 'mp3') {
+                return (
+                    <i className="fas fa-microphone"></i>
+                )
+            } else if (block.paths[0].split('.').pop() === 'mp4') {
+                return (
+                    <i className="fab fa-youtube"></i>
+                )
+            }
+        } else {
+            return (
+                <i className="fas fa-quote-right"></i>
+            )
+        }
+    }
+
+    PrintTime = (block) => {
+        let time = block.timestamp.split(' ').pop();
+        time = time.split(':')
+        time = time[0] + ':' + time[1]
+        return(
+            <div className="time_detail">{time}</div>
+        )
+    }
+
     render() {
         return (
             this.props.blocks.map((block) => (
@@ -105,8 +136,14 @@ export class Block extends Component {
                         <li className="event" data-date={block.timestamp}>
                             <div className="time">
                                 <div className="time_date">07/11</div>
-                                <div className="media_icon"><i className="far fa-images"></i></div>
-                                <div className="time_detail">18:00</div>
+                                <div className="media_icon">
+                                    {this.state.on && (
+                                        this.ChooseMediaIcon(block)
+                                    )}
+                                </div>
+                                {this.state.on && (
+                                    this.PrintTime(block)
+                                )}
                             </div>
                             <div className="member-infos">
                                 <h1 className="member-title" onClick={this.toggle}>TITLE</h1>
