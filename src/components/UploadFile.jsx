@@ -25,14 +25,20 @@ class Uploadfile extends Component {
     this.setState({
       files: this.state.files.concat(files.map(file => Object.assign(file, {
         preview: filepaths
-
       })))
     })
   }
   //for files that are not images.
-  OpenFileButton(e, filepath) {
-    console.log(e, filepath)
-    shell.openItem(e, filepath)
+  OpenFileButton(filepath, e) {
+    shell.openItem(filepath)
+  }
+
+  deleteButton(filepath, e) {
+
+    console.log(filepath)
+    this.setState({
+      files: [...this.state.files.filter((file) => file.path !== filepath)]
+    })
   }
 
   render() {
@@ -80,11 +86,15 @@ class Uploadfile extends Component {
             <li key={file.name}>
               {file.name}
               <br />
-              <Button
+              <button
                 id="fileBtn"
                 size='sm'
-                onClick={this.OpenFileButton.bind(this, file.path)}
-              >open!</Button>
+                onClick={(e) => this.OpenFileButton(file.path, e)}
+              >open</button>
+              <button
+                size="sm"
+                onClick={(e) => this.deleteButton(file.path, e)}
+              >delete</button>
             </li>
           </div>
         )
