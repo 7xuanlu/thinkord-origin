@@ -9,9 +9,9 @@ import '../../node_modules/video-react/dist/video-react.css';
 import BlockDescription from './BlockDescription';
 import UploadFile from './UploadFile';
 
+let old_date = '';
 
 export class Block extends Component {
-
     state = {
         on: true
     }
@@ -128,6 +128,24 @@ export class Block extends Component {
         )
     }
 
+    PrintDate = (block) => {
+        let new_date = block.timestamp.split(' ')
+        new_date = new_date[0]
+        new_date = new_date.split('/')
+        new_date = new_date[1] + '/' + new_date[2]
+
+        if(new_date === old_date){
+            return(
+                <div className="time_date"></div>
+            )
+        }else{
+            old_date = new_date
+            return(
+                <div className="time_date">{new_date}</div>
+            )
+        }
+    }
+
     render() {
         return (
             this.props.blocks.map((block) => (
@@ -135,7 +153,9 @@ export class Block extends Component {
                     <ul className="timeline">
                         <li className="event" data-date={block.timestamp}>
                             <div className="time">
-                                <div className="time_date">07/11</div>
+                                {this.state.on && (
+                                    this.PrintDate(block)
+                                )}
                                 <div className="media_icon">
                                     {this.state.on && (
                                         this.ChooseMediaIcon(block)
