@@ -1,15 +1,13 @@
-@import url("https://fonts.googleapis.com/css?family=Noto+Serif+TC&display=swap");
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Noto Serif TC', serif;
 }
 ::-webkit-scrollbar {
   display: none;
 }
-body{
-  font-family: 'Noto Serif TC', serif;
-}
+
 .App{
   margin-top:50px;
   /* background: rgb(122, 122, 122); */
@@ -21,6 +19,7 @@ header{
   height: 35px;
   top: 0;
   position: fixed;
+  z-index: 300;
 }
 .file-title{
   color: #69cb43;
@@ -135,3 +134,74 @@ li{
   position: fixed;
   z-index: 200;
 }
+
+
+/* description */
+
+form{
+  margin: 5% 0 10px 0;
+  width: 90%;
+}
+
+.description, span, .dcp{
+  display: block;
+  border: none;
+  font-size: 16px;
+}
+
+.description:focus {
+  outline: 0;
+}
+
+.description{
+  width: 90%;
+  background: rgba(0, 0, 0, 0);
+  transition: padding-top 0.2s ease, margin-top 0.2s ease;
+
+}
+
+
+.description + .dcp {
+  display: block;
+  position: relative;
+  white-space: nowrap;
+  width: 40%;
+  border-bottom: 1px solid #35c189;
+  -webkit-transition: width 0.4s ease;
+  transition: width 0.4s ease;
+}
+
+.description:focus + .dcp{
+  width: 90%;
+}
+
+.description:focus,
+.description:valid {
+  padding-top: 20px;
+}
+
+input.description:focus + .dcp > span,
+input.description:valid + .dcp > span {
+  top: -50px;
+  font-size: 16px;
+  color: #143938;
+}
+
+
+input.description:valid + .dcp{
+  border-color: green;
+}
+
+
+.description + .dcp > span{
+  margin: 0;
+  position: absolute;
+  color: #bdd4cb;
+  font-size: 20px;
+  top: -30px;
+  left: 0px;
+  z-index: -1;
+  -webkit-transition: top 0.2s ease, font-size 0.2s ease, color 0.2s ease;
+  transition: top 0.2s ease, font-size 0.2s ease, color 0.2s ease;
+}
+

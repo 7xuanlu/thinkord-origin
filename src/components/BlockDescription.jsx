@@ -21,21 +21,32 @@ export class BlockDescription extends Component {
     }
     render() {
         return (
-            <form onSubmit={this.onSubmit} style={{ display: 'flex' }}>
-                <input
-                    type="text"
-                    name="description"
-                    style={{ flex: 5, padding: '5px' }}
-                    placeholder="Descript sth ..."
+                <form onSubmit={this.onSubmit} >
+                    <input 
+                    type="text" 
+                    name="description" 
+                    className="description" 
+                    required autocomplete="off"                             
                     value={this.state.description}
-                    onChange={this.onChange}
-                />
-                <input
-                    type="submit"
-                    value="comment"
-                    className="btn"
-                    style={{ flex: 1 }} />
-            </form>
+                    onChange={this.onChange}/>
+
+                    <label className="dcp">
+                        <span>Descript something ...</span>
+                    </label>
+
+                        {/* <input
+                            type="text"
+                            name="description"
+                            // placeholder="Descript something ..."
+                            value={this.state.description}
+                            onChange={this.onChange}
+                        /> */}
+
+                    <input
+                        type="hidden"
+                        value="comment"
+                        className="btn"/>
+                </form>
         )
     }
 }
