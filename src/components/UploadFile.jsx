@@ -40,6 +40,38 @@ class Uploadfile extends Component {
     })
   }
 
+  ChooseFileIcon = (file) => {
+    if(file.name.split('.').pop() === 'docx'){
+      return(
+        <i className="far fa-file-word fa-3x file_preview_icon"></i>
+      )
+    }else if(file.name.split('.').pop() === 'pdf'){
+      return(
+        <i class="far fa-file-pdf fa-3x file_preview_icon"></i>
+      )
+    }else if(file.name.split('.').pop() === 'mp3'){
+      return(
+        <i class="far fa-file-audio fa-3x file_preview_icon"></i>
+      )
+    }else if(file.name.split('.').pop() === 'mp4'){
+      return(
+        <i class="far fa-file-video fa-3x file_preview_icon"></i>
+      )
+    }else if(file.name.split('.').pop() === 'xls'){
+      return(
+        <i class="far fa-file-excel fa-3x file_preview_icon"></i>
+      )
+    }else if(file.name.split('.').pop() === 'zip'){
+      return(
+        <i class="far fa-file-archive fa-3x file_preview_icon"></i>
+      )
+    }else{
+      return(
+        <i class="far fa-file-alt fa-3x file_preview_icon"></i>
+      )
+    }
+  }
+
   render() {
 
     const getColor = (props) => {
@@ -83,17 +115,21 @@ class Uploadfile extends Component {
             >
             </i>
             <br />
-            <Image
-              src={file.path}
-              className="file_img"
-              width={300}
-              height={200}
-            />
+            <div className="file_img">
+              <Image
+                src={file.path}
+                width={300}
+                height={200}
+              />
+            </div> 
           </li>
         )
       } else {
         return (
           <li key={file.name}>
+            {file.name && (
+              this.ChooseFileIcon(file)
+            )}
             {file.name}
             <i
               id="fileBtn"

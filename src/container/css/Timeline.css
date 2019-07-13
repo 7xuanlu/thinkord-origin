@@ -210,17 +210,22 @@ input.description:valid + .dcp{
 
 .file_img{
   border-radius: 5px;
-  padding: 5px;
+  padding: 10px;
 }
 
 .file_edit_icon{
   padding-left: 10px;
 }
 
-.file_upload{
+.file_preview_icon{
+  padding: 10px;
+}
+
+/* .file_upload{
   color: #143938;
+  background-color: #35c189;
   padding: 5px;
   border-radius: 5px;
   text-align: left;
   align-items: left;
-}
+} */
