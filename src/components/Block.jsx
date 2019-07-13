@@ -31,15 +31,14 @@ export class Block extends Component {
                     <Card>
                         <Card.Img src={block.paths[0]} style={{ width: 600 }} />
                         <Card.Body>
+                            <br />
                             <Card.Text>{block.description}</Card.Text>
                         </Card.Body>
-                        <br /><br />
                         <BlockDescription
                             addDescription={this.props.addDescription}
                             time={block.timestamp}
                         />
                         <br /><br />
-
                         <Button onClick={this.props.delBlock.bind(this, block.timestamp)}>delete</Button>
                     </Card>
                 )
@@ -50,9 +49,9 @@ export class Block extends Component {
                             <audio controls="controls">
                                 <source src={block.paths[0]} />
                             </audio>
+                            <br />
                             <Card.Text>{block.description}</Card.Text>
                         </Card.Body>
-                        <br /><br />
                         <BlockDescription
                             addDescription={this.props.addDescription}
                             time={block.timestamp}
@@ -69,14 +68,14 @@ export class Block extends Component {
                                 <BigPlayButton position="center" />
                                 <source src={block.paths[0]} />
                             </Player>
+                            <br />
                             <Card.Text>{block.description}</Card.Text>
                         </Card.Body>
-                        <br /><br />
                         <BlockDescription
                             addDescription={this.props.addDescription}
                             time={block.timestamp}
                         />
-                        <br /><br />
+                        <br />
                         <UploadFile />
                         <br />
                         <Button onClick={this.props.delBlock.bind(this, block.timestamp)}>delete</Button>
@@ -87,6 +86,7 @@ export class Block extends Component {
             return (
                 <Card>
                     <Card.Body>
+                        <br />
                         <Card.Text>{block.text}</Card.Text>
                     </Card.Body>
                     <UploadFile />
