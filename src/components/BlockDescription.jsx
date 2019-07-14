@@ -31,7 +31,7 @@ export class BlockDescription extends Component {
                     onChange={this.onChange}/>
 
                     <label className="dcp">
-                        <span>Descript something ...</span>
+                        <span>Describe something ...</span>
                     </label>
 
                     <input
