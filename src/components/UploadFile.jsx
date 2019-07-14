@@ -12,7 +12,8 @@ class Uploadfile extends Component {
     //   this.setState({files:this.state.files.concat(files)})
     // };
     this.state = {
-      files: []
+      files: [],
+
     };
     this.OpenFileButton = this.OpenFileButton.bind(this);
   }
@@ -27,7 +28,7 @@ class Uploadfile extends Component {
         preview: filepaths
       })))
     })
-    this.props.addFile(this.state.files,this.props.time)
+    this.props.addFile(this.state.files, this.props.time)
   }
   //for files that are not images.
   OpenFileButton(filepath, e) {
@@ -35,39 +36,47 @@ class Uploadfile extends Component {
   }
 
   deleteButton(filepath, e) {
-    console.log(filepath)
     this.setState({
-      files: [...this.state.files.filter((file) => file.path !== filepath)]
+      files: [...this.state.files.filter((file) => file.path !== filepath)],
+ 
     })
   }
 
+  componentDidUpdate() {
+    // console.log(this.state.files);
+    
+      this.props.delFile(this.state.files, this.props.time);
+    
+
+  }
+
   ChooseFileIcon = (file) => {
-    if(file.name.split('.').pop() === 'docx'){
-      return(
+    if (file.name.split('.').pop() === 'docx') {
+      return (
         <i className="far fa-file-word fa-3x file_preview_icon"></i>
       )
-    }else if(file.name.split('.').pop() === 'pdf'){
-      return(
+    } else if (file.name.split('.').pop() === 'pdf') {
+      return (
         <i class="far fa-file-pdf fa-3x file_preview_icon"></i>
       )
-    }else if(file.name.split('.').pop() === 'mp3'){
-      return(
+    } else if (file.name.split('.').pop() === 'mp3') {
+      return (
         <i class="far fa-file-audio fa-3x file_preview_icon"></i>
       )
-    }else if(file.name.split('.').pop() === 'mp4'){
-      return(
+    } else if (file.name.split('.').pop() === 'mp4') {
+      return (
         <i class="far fa-file-video fa-3x file_preview_icon"></i>
       )
-    }else if(file.name.split('.').pop() === 'xls'){
-      return(
+    } else if (file.name.split('.').pop() === 'xls') {
+      return (
         <i class="far fa-file-excel fa-3x file_preview_icon"></i>
       )
-    }else if(file.name.split('.').pop() === 'zip'){
-      return(
+    } else if (file.name.split('.').pop() === 'zip') {
+      return (
         <i class="far fa-file-archive fa-3x file_preview_icon"></i>
       )
-    }else{
-      return(
+    } else {
+      return (
         <i class="far fa-file-alt fa-3x file_preview_icon"></i>
       )
     }
@@ -122,7 +131,7 @@ class Uploadfile extends Component {
                 width={300}
                 height={200}
               />
-            </div> 
+            </div>
           </li>
         )
       } else {
@@ -158,7 +167,7 @@ class Uploadfile extends Component {
               <input {...getInputProps()} />
               {isDragActive ? 'Drop it!' : 'Drag and drop some files here, or click to select files'}
             </Container>
-            <br/>
+            <br />
             <aside className="file_upload">
               {files}
             </aside>

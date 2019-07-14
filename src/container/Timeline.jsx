@@ -70,8 +70,6 @@ class Timeline extends Component {
   // Add file (frontend)
   addFile = (files, time) => {
     let note = this.state.timeline.blocks;
-    
-
     note.map((block) => {
       if (block.timestamp === time) {
         files.map((file) => {
@@ -87,9 +85,21 @@ class Timeline extends Component {
         blocks: note
       }
     })
+  }
 
-
-
+  // Delete file (frontend)
+  delFile = (files, time) => {
+    let note = this.state.timeline.blocks;
+    note.map((block) => {
+      if (block.timestamp === time) {
+        
+        block.paths.splice(1)
+        files.map((file)=>{
+          block.paths.push(file.path)
+        })
+      }
+    })
+    // console.log(note);
   }
 
   // Write the data model to the json file
@@ -124,7 +134,9 @@ class Timeline extends Component {
           delBlock={this.delBlock}
           addDescription={this.addDescription}
           addFile={this.addFile}
+          delFile={this.delFile}
         />
+
         <div className="navigationBar">
           <a className="nav_menu" href="#"><i className="fas fa-bars"></i></a>
           <input type="text" className="search_bar" />

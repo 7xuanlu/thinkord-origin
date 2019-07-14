@@ -34,14 +34,6 @@ export class BlockDescription extends Component {
                         <span>Descript something ...</span>
                     </label>
 
-                        {/* <input
-                            type="text"
-                            name="description"
-                            // placeholder="Descript something ..."
-                            value={this.state.description}
-                            onChange={this.onChange}
-                        /> */}
-
                     <input
                         type="hidden"
                         value="comment"

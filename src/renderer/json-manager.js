@@ -28,7 +28,7 @@ export class JSONManager {
                         }
 
                         resolve({
-                            "blocks": []
+                            "blocks": [] 
                         });
                     })
                 } else {
