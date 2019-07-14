@@ -26,14 +26,14 @@ export class BlockDescription extends Component {
                     type="text" 
                     name="description" 
                     className="description" 
-                    required autocomplete="off"                             
+                    required autoComplete="off"                             
                     value={this.state.description}
                     onChange={this.onChange}/>
 
                     <label className="dcp">
                         <span>Describe something ...</span>
                     </label>
-
+                    
                     <input
                         type="hidden"
                         value="comment"

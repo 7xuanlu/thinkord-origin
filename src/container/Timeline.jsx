@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import Block from "../components/Block";
 import Header from "../components/layout/Header";
+import Sidebar from "../components/layout/Sidebar";
+import Progressbar from "../components/layout/Progressbar";
+import Navigationbar from "../components/layout/Navigationbar";
 import { ipcRenderer } from 'electron';
 import { JSONManager } from '../renderer/json-manager'
 import { notePath } from '../components/ControlBarMain'
@@ -111,39 +114,23 @@ class Timeline extends Component {
     // Yield undefined, because the first value it gets is undefined
     if (this.state.timeline.blocks === undefined) { return null }
 
-    // progressBar animation
-    window.onscroll = () => {
-      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-      let h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      let scrolled = (winScroll / h) * 100;
-      document.getElementById("progress_bar").style.height = scrolled + "%";
-    }
     // console.log(this.state.timeline) // the data model of the timeline
     return (
-      <div className="App">
+      <div className="App" id="App">
         {this.state.saveSign && <button onClick={this.saveChange}>save</button>}
+        <Sidebar />
+        <Navigationbar />
+        <div className="content" id="content">
+          <Header />
+          <div className="allBlocks">
+            <Progressbar />
+            <Block
+              blocks={this.state.timeline.blocks}
+              delBlock={this.delBlock}
+              addDescription={this.addDescription}
+            />
+          </div>
 
-        <Header />
-
-        <div className="progressContainer">
-          <div className="progressBar" id="progress_bar"></div>
-        </div>
-
-        <Block
-          blocks={this.state.timeline.blocks}
-          delBlock={this.delBlock}
-          addDescription={this.addDescription}
-          addFile={this.addFile}
-          delFile={this.delFile}
-        />
-
-        <div className="navigationBar">
-          <a className="nav_menu" href="#"><i className="fas fa-bars"></i></a>
-          <input type="text" className="search_bar" />
-          <a className="search" href="#"><i className="fas fa-search"></i></a>
-          <a className="up" href="#"><i className="fas fa-angle-up"></i></a>
-          <a className="edit" href="#"><i className="fas fa-pen"></i></a>
-          <a className="nav_close" href="#"><i className="fas fa-times"></i></a>
         </div>
 
       </div>

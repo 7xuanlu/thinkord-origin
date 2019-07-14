@@ -29,7 +29,7 @@ export class Block extends Component {
             if (block.paths[0].split('.').pop() === 'png') {
                 return (
                     <Card>
-                        <Card.Img src={block.paths[0]} style={{ width: 600 }} />
+                        <Card.Img src={block.paths[0]} />
                         <Card.Body>
                             <br />
                             <Card.Text>{block.description}</Card.Text>
@@ -39,7 +39,9 @@ export class Block extends Component {
                             time={block.timestamp}
                         />
                         <br /><br />
-                        <Button onClick={this.props.delBlock.bind(this, block.timestamp)}>delete</Button>
+                        <div className="btn-style">
+                            <Button className="icon-btn add-btn" onClick={this.props.delBlock.bind(this, block.timestamp)}><div className="btn-txt">Remove</div></Button>
+                        </div>          
                     </Card>
                 )
             } else if (block.paths[0].split('.').pop() === 'mp3') {
@@ -49,7 +51,7 @@ export class Block extends Component {
                             <audio controls="controls">
                                 <source src={block.paths[0]} />
                             </audio>
-                            <br />
+                            <br /><br />
                             <Card.Text>{block.description}</Card.Text>
                         </Card.Body>
                         <BlockDescription
@@ -57,7 +59,9 @@ export class Block extends Component {
                             time={block.timestamp}
                         />
                         <br /><br />
-                        <Button onClick={this.props.delBlock.bind(this, block.timestamp)}>delete</Button>
+                        <div className="btn-style">
+                            <Button className="icon-btn add-btn" onClick={this.props.delBlock.bind(this, block.timestamp)}><div className="btn-txt">Remove</div></Button>
+                        </div> 
                     </Card>
                 )
             } else if (block.paths[0].split('.').pop() === 'mp4') {
@@ -78,7 +82,9 @@ export class Block extends Component {
                         <br />
                         <UploadFile time={block.timestamp} addFile={this.props.addFile} delFile={this.props.delFile} />
                         <br />
-                        <Button onClick={this.props.delBlock.bind(this, block.timestamp)}>delete</Button>
+                        <div className="btn-style">
+                            <Button className="icon-btn add-btn" onClick={this.props.delBlock.bind(this, block.timestamp)}><div className="btn-txt">Remove</div></Button>
+                        </div> 
                     </Card>
                 )
             }
@@ -91,7 +97,9 @@ export class Block extends Component {
                     </Card.Body>
                     <UploadFile time={block.timestamp} addFile={this.props.addFile} deletFile={this.props.deletFile}/>
                     <br />
-                    <Button onClick={this.props.delBlock.bind(this, block.timestamp)}>delete</Button>
+                    <div className="btn-style">
+                            <Button className="icon-btn add-btn" onClick={this.props.delBlock.bind(this, block.timestamp)}><div className="btn-txt">Remove</div></Button>
+                    </div> 
                 </Card>
             )
         }
@@ -166,10 +174,13 @@ export class Block extends Component {
                                 )}
                             </div>
                             <div className="member-infos">
-                                <h1 className="member-title" onClick={this.toggle}>TITLE</h1>
-                                {this.state.on && (
-                                    this.distBlockType(block)
-                                )}
+                                <span>
+                                    <h1 className="member-title" onClick={this.toggle}>TITLE</h1>
+                                    {this.state.on && (
+                                        this.distBlockType(block)
+                                    )}
+                                </span>
+                               
                             </div>
                         </li>
                     </ul>
