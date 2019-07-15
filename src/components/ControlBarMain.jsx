@@ -27,7 +27,6 @@ import Substract from '../asset/substract.png';
 import HomeButton from '../asset/home.png';
 import QuitButton from '../asset/error.png';
 
-let isRecord = false;
 const jsonManager = new JSONManager();
 
 export const notePath = path.join(app.getPath('userData').replace(/\\/g, '\\\\'), 'Local Storage', 'test.json');
@@ -38,16 +37,16 @@ export class ControlBarMain extends Component {
         this.state = {
             controlbar_button: [
                 { id: 'start', src: StartButton, disable: false },
-                { id: 'audio', src: AudioButton, disable: !isRecord },
-                { id: 'video', src: VideoButton, disable: !isRecord },
-                { id: 'js-capture', src: ScreenShotButton, disable: !isRecord },
-                { id: 'text', src: TextButton, disable: !isRecord },
+                { id: 'audio', src: AudioButton, disable: true },
+                { id: 'video', src: VideoButton, disable: true },
+                { id: 'js-capture', src: ScreenShotButton, disable: true },
+                { id: 'text', src: TextButton, disable: true },
                 { id: 'substract', src: Substract, disable: false },
                 { id: 'home', src: HomeButton, disable: false },
                 { id: 'quit', src: QuitButton, disable: false }
             ],
             timeline: {},
-            show: false
+            isRecord: false
         };
     }
 
@@ -58,14 +57,14 @@ export class ControlBarMain extends Component {
     }
 
     componentDidUpdate() {
-        if (isRecord) {
+        if (this.state.isRecord) {
             ipcRenderer.send('sync-with-note', this.state.timeline);
         }
     }
 
     handleStart = () => {
-        if (isRecord === false) {
-            isRecord = true;
+        if (this.state.isRecord === false) {
+            this.setState({ isRecord: true});
 
             const button = this.state.controlbar_button.map(button => {
                 if (button.id === 'start') {
@@ -88,6 +87,7 @@ export class ControlBarMain extends Component {
                 }
                 return button;
             });
+
             // Every time user click start in the control bar, Note create a json for them.
             jsonManager.initJSON(notePath);
             jsonManager.readJSON(notePath).then((json) => {
@@ -99,7 +99,7 @@ export class ControlBarMain extends Component {
                 this.ipcOnShortcut();
             })
         } else {
-            isRecord = false;
+            this.setState({ isRecord: false})
             const button = this.state.controlbar_button.map(button => {
                 if (button.id === 'start') {
                     button.src = StartButton;
@@ -127,8 +127,12 @@ export class ControlBarMain extends Component {
                     controlbar_button: button,
                     timeline: {}
                 });
+                ipcRenderer.removeAllListeners("F1");
+                ipcRenderer.removeAllListeners("F2");
+                ipcRenderer.removeAllListeners("F3");
+                ipcRenderer.removeAllListeners("F4");
                 ipcRenderer.send('unregister-shortcuts');
-                ipcRenderer.send('savebutton')
+                ipcRenderer.send('savebutton');
             })
         }
     }
