@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button'
 /**************************************************************************************/
 import { Player, BigPlayButton } from 'video-react'
 import '../../node_modules/video-react/dist/video-react.css';
+import BlockTitle from "./BlockTitle";
 import BlockDescription from './BlockDescription';
 import UploadFile from './UploadFile';
 
@@ -132,7 +133,7 @@ export class Block extends Component {
         let time = block.timestamp.split(' ').pop();
         time = time.split(':')
         time = time[0] + ':' + time[1]
-        return(
+        return (
             <div className="time_detail">{time}</div>
         )
     }
@@ -143,13 +144,13 @@ export class Block extends Component {
         new_date = new_date.split('/')
         new_date = new_date[1] + '/' + new_date[2]
 
-        if(new_date === old_date){
-            return(
+        if (new_date === old_date) {
+            return (
                 <div className="time_date"></div>
             )
-        }else{
+        } else {
             old_date = new_date
-            return(
+            return (
                 <div className="time_date">{new_date}</div>
             )
         }
@@ -175,13 +176,14 @@ export class Block extends Component {
                                 )}
                             </div>
                             <div className="member-infos">
-                                <span>
-                                    <h1 className="member-title" onClick={this.toggle}>TITLE</h1>
-                                    {this.state.on && (
-                                        this.distBlockType(block)
-                                    )}
-                                </span>
-                               
+                                <BlockTitle
+                                    className="member-title"
+                                    time={block.timestamp}
+                                    onChangeTitle={this.props.onChangeTitle}
+                                />
+                                {this.state.on && (
+                                    this.distBlockType(block)
+                                )}
                             </div>
                         </li>
                     </ul>

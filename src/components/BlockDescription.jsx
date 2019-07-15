@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 export class BlockDescription extends Component {
- 
+
     state = {
         description: ''
     }
@@ -21,24 +21,24 @@ export class BlockDescription extends Component {
     }
     render() {
         return (
-                <form onSubmit={this.onSubmit} >
-                    <input 
-                    type="text" 
-                    name="description" 
-                    className="description" 
-                    required autoComplete="off"                             
+            <form onSubmit={this.onSubmit} >
+                <input
+                    type="text"
+                    name="description"
+                    className="description"
+                    required autoComplete="off"
                     value={this.state.description}
-                    onChange={this.onChange}/>
+                    onChange={this.onChange} />
 
-                    <label className="dcp">
-                        <span>Describe something ...</span>
-                    </label>
-                    
-                    <input
-                        type="hidden"
-                        value="comment"
-                        className="btn"/>
-                </form>
+                <label className="dcp">
+                    <span>Descript something ...</span>
+                </label>
+
+                <input
+                    type="hidden"
+                    value="comment"
+                    className="btn" />
+            </form>
         )
     }
 }

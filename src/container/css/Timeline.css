@@ -5,6 +5,7 @@
   font-family: 'Ubuntu', 'Noto Serif TC','Noto Serif SC',serif; 
   /*Latin font:ubuntu, Chinese font: Noto, others: sans-serif */
 }
+
 ::-webkit-scrollbar {
   display: none;
 }
@@ -31,7 +32,8 @@ header{
   position: sticky;
   z-index: 298;
 }
-.file-title{
+
+.file-title {
   color: #69cb43;
   font-size: 26px;
 }
@@ -67,7 +69,8 @@ header{
 .blockContent li{
   list-style:none;
 }
-.time{
+
+.time {
   font-size: 14px;
   width: 120px;
   color: #35c189;
@@ -236,41 +239,43 @@ header{
 /* navigationbar */
 .navigationBar{
   width: 100%;
-  background-color:#143938;
+  background-color: #143938;
   height: 30px;
   bottom: 0;
-  position: fixed; 
-  clear:both;
+  position: fixed;
+  clear: both;
   z-index: 300;
 }
 
-.navigationBar a{
+.navigationBar a {
 
   text-align: center;
   display: inline-block;
 }
 
-.navigationBar i{
+.navigationBar i {
   font-size: 16px;
   color: #fff;
   padding: 7px 20px 0;
 }
 
-.nav_menu{
+.nav_menu {
   height: 30px;
   background-color: #35c189;
 }
-.search_bar{
+
+.search_bar {
 
   margin-left: 10px;
   border-radius: 4px;
-  border:1px solid #DBDBDB;
-}
-.fa-search{
-  margin-left:-15px;
+  border: 1px solid #DBDBDB;
 }
 
-.nav_close{
+.fa-search {
+  margin-left: -15px;
+}
+
+.nav_close {
   right: 0;
   position: fixed;
   z-index: 200;
@@ -279,12 +284,14 @@ header{
 
 /* description */
 
-form{
+form {
   margin: 5% 0 10px 0;
   width: 90%;
 }
 
-.description, span, .dcp{
+.description,
+span,
+.dcp {
   display: block;
   border: none;
   font-size: 16px;
@@ -294,7 +301,7 @@ form{
   outline: 0;
 }
 
-.description{
+.description {
   width: 90%;
   background: rgba(0, 0, 0, 0);
   transition: padding-top 0.2s ease, margin-top 0.2s ease;
@@ -302,7 +309,7 @@ form{
 }
 
 
-.description + .dcp {
+.description+.dcp {
   display: block;
   position: relative;
   white-space: nowrap;
@@ -312,7 +319,7 @@ form{
   transition: width 0.4s ease;
 }
 
-.description:focus + .dcp{
+.description:focus+.dcp {
   width: 90%;
 }
 
@@ -321,20 +328,20 @@ form{
   padding-top: 20px;
 }
 
-input.description:focus + .dcp > span,
-input.description:valid + .dcp > span {
+input.description:focus+.dcp>span,
+input.description:valid+.dcp>span {
   top: -50px;
   font-size: 16px;
   color: #143938;
 }
 
 
-input.description:valid + .dcp{
+input.description:valid+.dcp {
   border-color: green;
 }
 
 
-.description + .dcp > span{
+.description+.dcp>span {
   margin: 0;
   position: absolute;
   color: #bdd4cb;
@@ -346,16 +353,16 @@ input.description:valid + .dcp{
   transition: top 0.2s ease, font-size 0.2s ease, color 0.2s ease;
 }
 
-.file_img{
+.file_img {
   border-radius: 5px;
   padding: 10px;
 }
 
-.file_edit_icon{
+.file_edit_icon {
   padding-left: 10px;
 }
 
-.file_preview_icon{
+.file_preview_icon {
   padding: 10px;
 }
 

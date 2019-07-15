@@ -33,23 +33,20 @@ class Timeline extends Component {
 
     // when you press stop recording, the save button will show up
     ipcRenderer.on('savebutton', () => {
-      console.log('I want to save the action I did')
+      console.log('I want to save the action I did');
       this.setState({
         saveSign: true
-      })
-      console.log(this.state.saveSign)
+      });
+      console.log(this.state.saveSign);
     })
-
   }
-
-
 
   // Delete the block you choose (frontend)
   delBlock = (time) => {
     console.log('Now you choose the block', time);
     this.setState({
       timeline: { blocks: [...this.state.timeline.blocks.filter(block => block.timestamp !== time)] }
-    })
+    });
   }
 
   // Add description (frontend)
@@ -61,12 +58,30 @@ class Timeline extends Component {
       if (block.timestamp === time) {
         block.description = des
       }
-    })
+    });
+
     this.setState({
       timeline: {
         blocks: note
       }
-    })
+    });
+  }
+
+  handleTitle = (title, time) => {
+    let note = this.state.timeline.blocks;
+
+    note.map((block) => {
+      // assign the description to the block you point
+      if (block.timestamp === time) {
+        block.title = title
+      }
+    });
+
+    this.setState({
+      timeline: {
+        blocks: note
+      }
+    });
   }
 
 
@@ -130,6 +145,7 @@ class Timeline extends Component {
               addDescription={this.addDescription}
               delFile={this.delFile}
               addFile={this.addFile}
+              onChangeTitle={this.handleTitle}
             />
           </div>
         </div>
