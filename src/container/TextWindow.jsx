@@ -31,7 +31,7 @@ export class TextWindow extends Component {
 
     handleCancel = () => {
         ipcRenderer.send('cancel-click-on-text-window');
-    }
+    } 
 
     render() {
         return (

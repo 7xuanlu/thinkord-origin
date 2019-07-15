@@ -25,6 +25,7 @@ export class Block extends Component {
 
     // Distinguish the type of the block
     distBlockType = (block) => {
+        console.log(block)
         if (block.paths[0] !== undefined) {
             if (block.paths[0].split('.').pop() === 'png') {
                 return (
@@ -95,7 +96,7 @@ export class Block extends Component {
                         <br />
                         <Card.Text>{block.text}</Card.Text>
                     </Card.Body>
-                    <UploadFile time={block.timestamp} addFile={this.props.addFile} deletFile={this.props.deletFile}/>
+                    <UploadFile time={block.timestamp} addFile={this.props.addFile} delFile={this.props.delFile}/>
                     <br />
                     <div className="btn-style">
                             <Button className="icon-btn add-btn" onClick={this.props.delBlock.bind(this, block.timestamp)}><div className="btn-txt">Remove</div></Button>

@@ -13,7 +13,6 @@ class Uploadfile extends Component {
     // };
     this.state = {
       files: [],
-
     };
     this.OpenFileButton = this.OpenFileButton.bind(this);
   }
@@ -38,16 +37,13 @@ class Uploadfile extends Component {
   deleteButton(filepath, e) {
     this.setState({
       files: [...this.state.files.filter((file) => file.path !== filepath)],
- 
+
     })
   }
 
   componentDidUpdate() {
     // console.log(this.state.files);
-    
-      this.props.delFile(this.state.files, this.props.time);
-    
-
+    this.props.delFile(this.state.files, this.props.time);
   }
 
   ChooseFileIcon = (file) => {

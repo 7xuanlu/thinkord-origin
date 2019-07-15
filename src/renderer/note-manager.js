@@ -44,7 +44,8 @@ export class NoteManager {
 
             // Update text for newly created block
             note["blocks"][blockArrLength - 1]["text"] = args.text;
-
+        
+           
             return note;
         } else {
             // Insert a new template block to json
@@ -54,7 +55,7 @@ export class NoteManager {
 
             // Update file path for newly created block
             note["blocks"][blockArrLength - 1]["paths"].push(args.filePath);
-
+ 
             return note;
         }
     };
