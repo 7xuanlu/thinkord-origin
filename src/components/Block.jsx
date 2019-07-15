@@ -43,7 +43,7 @@ export class Block extends Component {
                         <br /><br />
                         <div className="btn-style">
                             <Button className="icon-btn add-btn" onClick={this.props.delBlock.bind(this, block.timestamp)}><div className="btn-txt">Remove</div></Button>
-                        </div>          
+                        </div>
                     </Card>
                 )
             } else if (block.paths[0].split('.').pop() === 'mp3') {
@@ -63,7 +63,7 @@ export class Block extends Component {
                         <br /><br />
                         <div className="btn-style">
                             <Button className="icon-btn add-btn" onClick={this.props.delBlock.bind(this, block.timestamp)}><div className="btn-txt">Remove</div></Button>
-                        </div> 
+                        </div>
                     </Card>
                 )
             } else if (block.paths[0].split('.').pop() === 'mp4') {
@@ -86,7 +86,7 @@ export class Block extends Component {
                         <br />
                         <div className="btn-style">
                             <Button className="icon-btn add-btn" onClick={this.props.delBlock.bind(this, block.timestamp)}><div className="btn-txt">Remove</div></Button>
-                        </div> 
+                        </div>
                     </Card>
                 )
             }
@@ -97,11 +97,11 @@ export class Block extends Component {
                         <br />
                         <Card.Text>{block.text}</Card.Text>
                     </Card.Body>
-                    <UploadFile time={block.timestamp} addFile={this.props.addFile} delFile={this.props.delFile}/>
+                    <UploadFile time={block.timestamp} addFile={this.props.addFile} delFile={this.props.delFile} />
                     <br />
                     <div className="btn-style">
-                            <Button className="icon-btn add-btn" onClick={this.props.delBlock.bind(this, block.timestamp)}><div className="btn-txt">Remove</div></Button>
-                    </div> 
+                        <Button className="icon-btn add-btn" onClick={this.props.delBlock.bind(this, block.timestamp)}><div className="btn-txt">Remove</div></Button>
+                    </div>
                 </Card>
             )
         }
@@ -121,12 +121,12 @@ export class Block extends Component {
                 return (
                     <i className="fab fa-youtube"></i>
                 )
+            } else {
+                return (
+                    <i className="fas fa-quote-right"></i>
+                )
             }
-        } else {
-            return (
-                <i className="fas fa-quote-right"></i>
-            )
-        }
+        } 
     }
 
     PrintTime = (block) => {
@@ -176,14 +176,16 @@ export class Block extends Component {
                                 )}
                             </div>
                             <div className="member-infos">
-                                <BlockTitle
-                                    className="member-title"
-                                    time={block.timestamp}
-                                    onChangeTitle={this.props.onChangeTitle}
-                                />
-                                {this.state.on && (
-                                    this.distBlockType(block)
-                                )}
+                                <span>
+                                    <BlockTitle
+                                        className="member-title"
+                                        time={block.timestamp}
+                                        onChangeTitle={this.props.onChangeTitle}
+                                    />
+                                    {this.state.on && (
+                                        this.distBlockType(block)
+                                    )}
+                                </span>
                             </div>
                         </li>
                     </ul>

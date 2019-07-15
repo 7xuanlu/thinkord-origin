@@ -6,7 +6,7 @@ import Progressbar from "../components/layout/Progressbar";
 import Navigationbar from "../components/layout/Navigationbar";
 import { ipcRenderer } from 'electron';
 import { JSONManager } from '../renderer/json-manager'
-import { notePath } from '../components/ControlBarMain'
+import { notePath } from './ControlBar'
 
 import './css/Timeline.css';
 
@@ -110,9 +110,9 @@ class Timeline extends Component {
     let note = this.state.timeline.blocks;
     note.map((block) => {
       if (block.timestamp === time) {
-        
+
         block.paths.splice(1)
-        files.map((file)=>{
+        files.map((file) => {
           block.paths.push(file.path)
         })
       }
@@ -137,17 +137,15 @@ class Timeline extends Component {
         <Navigationbar />
         <div className="content" id="content">
           <Header />
-          <div className="allBlocks">
-            <Progressbar />
-            <Block
-              blocks={this.state.timeline.blocks}
-              delBlock={this.delBlock}
-              addDescription={this.addDescription}
-              delFile={this.delFile}
-              addFile={this.addFile}
-              onChangeTitle={this.handleTitle}
-            />
-          </div>
+          <Progressbar />
+          <Block
+            blocks={this.state.timeline.blocks}
+            delBlock={this.delBlock}
+            addDescription={this.addDescription}
+            delFile={this.delFile}
+            addFile={this.addFile}
+            onChangeTitle={this.handleTitle}
+          />
         </div>
       </div>
     )

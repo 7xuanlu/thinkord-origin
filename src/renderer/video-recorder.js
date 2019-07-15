@@ -6,9 +6,6 @@ const fs = require('fs');
 const path = require('path');
 const uuidv1 = require('uuid/v1');
 
-import { NoteManager } from './note-manager';
-import { notePath } from '../components/ControlBarMain';
-
 const userPath = app.getPath('userData').replace(/\\/g, '\\\\');
 let recorder;
 let videoChunks, videoBlob;

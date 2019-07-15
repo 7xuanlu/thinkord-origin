@@ -1,10 +1,11 @@
-*{
+* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-html, body {
+html,
+body {
     height: 100%;
     overflow: hidden;
     font-family: 'Roboto Condensed', sans-serif;
@@ -50,7 +51,8 @@ html, body {
     color: #f0f0f0;
 }
 
-.menu_toggle .menu_open, .menu_toggle .menu_close {
+.menu_toggle .menu_open,
+.menu_toggle .menu_close {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -173,17 +175,17 @@ h1 {
     border-bottom: 1px solid #ddd;
 }
 
-.search_bar{
+.search_bar {
     width: 300px;
     height: 40px;
     border-radius: 5px;
 }
 
-.content_inner .icon{
+.content_inner .icon {
     padding: 10px;
 }
 
-.btn{
+.btn {
     color: white;
     background-color: #143938;
     border: none;
