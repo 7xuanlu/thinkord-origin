@@ -128,11 +128,11 @@ class Timeline extends Component {
               blocks={this.state.timeline.blocks}
               delBlock={this.delBlock}
               addDescription={this.addDescription}
+              delFile={this.delFile}
+              addFile={this.addFile}
             />
           </div>
-
         </div>
-
       </div>
     )
   }
