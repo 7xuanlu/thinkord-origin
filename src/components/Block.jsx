@@ -27,7 +27,7 @@ export class Block extends Component {
     // Distinguish the type of the block
     distBlockType = (block) => {
         console.log(block)
-        if (block.paths[0] !== undefined) {
+        if (block.paths[0] !== "") {
             if (block.paths[0].split('.').pop() === 'png') {
                 return (
                     <Card>

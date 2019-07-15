@@ -44,8 +44,12 @@ export class NoteManager {
 
             // Update text for newly created block
             note["blocks"][blockArrLength - 1]["text"] = args.text;
-        
-           
+            if (note["blocks"][blockArrLength - 1]["paths"].length === 0) {
+                console.log('yo man')
+                note["blocks"][blockArrLength - 1]["paths"].push("")
+            }
+            console.log(note["blocks"][blockArrLength - 1]["paths"])
+
             return note;
         } else {
             // Insert a new template block to json
@@ -55,7 +59,7 @@ export class NoteManager {
 
             // Update file path for newly created block
             note["blocks"][blockArrLength - 1]["paths"].push(args.filePath);
- 
+
             return note;
         }
     };
@@ -72,5 +76,5 @@ export class NoteManager {
     }
 
 
-    
+
 }
