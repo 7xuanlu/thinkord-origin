@@ -117,8 +117,8 @@ ipcMain.on('initialize-note', () => {
     controlbar.webContents.send('initialize-note');
 });
 
-ipcMain.on('sync-with-note', (event, note) => {
+ipcMain.on('sync-with-note', (event, args) => {
     if (main !== null) {  // Only send when the home is open
-        main.webContents.send('sync-with-note', note);
+        main.webContents.send('sync-with-note', args);
     }
 });

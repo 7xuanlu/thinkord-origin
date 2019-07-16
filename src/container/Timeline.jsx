@@ -6,7 +6,6 @@ import Progressbar from "../components/layout/Progressbar";
 import Navigationbar from "../components/layout/Navigationbar";
 import { ipcRenderer } from 'electron';
 import { JSONManager } from '../renderer/json-manager'
-import { notePath } from './ControlBar'
 
 import './css/Timeline.css';
 
@@ -18,6 +17,7 @@ class Timeline extends Component {
 
     this.state = {
       timeline: {},
+      notePath: "",
       saveSign: false
     }
   }
@@ -25,9 +25,10 @@ class Timeline extends Component {
   componentDidMount() {
     ipcRenderer.send('initialize-note');
 
-    ipcRenderer.on('sync-with-note', (event, note) => {
+    ipcRenderer.on('sync-with-note', (event, args) => {
       this.setState({
-        timeline: note
+        notePath: args.notePath,
+        timeline: args.timeline
       });
     });
 
@@ -122,7 +123,7 @@ class Timeline extends Component {
 
   // Write the data model to the json file
   saveChange = () => {
-    jsonmanager.writeJSON(this.state.timeline, notePath)
+    jsonmanager.writeJSON(this.state.timeline, this.state.notePath)
   }
 
   render() {
