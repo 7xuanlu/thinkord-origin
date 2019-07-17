@@ -64,6 +64,8 @@ export default class ControlBar extends Component {
     }
 
     handleStart = () => {
+        const jsonManager = new JSONManager();
+        
         if (this.state.isRecord === false) {
             this.setState({ isRecord: true });
 
@@ -88,8 +90,6 @@ export default class ControlBar extends Component {
                 }
                 return button;
             });
-            
-            const jsonManager = new JSONManager();
 
             // Every time user click start in the control bar, Note create a json for them.
             jsonManager.initJSON().then((notePath) => {

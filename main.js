@@ -53,8 +53,9 @@ ipcMain.on('register-shortcuts', () => {
     });
 });
 
-ipcMain.once('unregister-shortcuts', () => {
+ipcMain.on('unregister-shortcuts', () => {
     globalShortcut.unregisterAll();
+    console.log('Unregistered all global shortcuts');
 });
 
 ipcMain.on('savebutton', () => {
@@ -112,16 +113,14 @@ ipcMain.on('timeline-click', () => {
     console.log('timeline-click');
 });
 
-ipcMain.on('mark-click', () => {
-    console.log('mark click');
-});
-
 ipcMain.on('initialize-note', () => {
     controlbar.webContents.send('initialize-note');
+    console.log('initializing slu');
 });
 
 ipcMain.on('sync-with-note', (event, args) => {
     if (main !== null) {  // Only send when the home is open
         main.webContents.send('sync-with-note', args);
+        console.log('syncing slu with Timeline.jsx');
     }
 });
