@@ -1,10 +1,10 @@
-const electron = require('electron');
-const MicRecorder = require('mic-recorder-to-mp3');
 const remote = require('electron').remote;
 const app = remote.app;
+
 const fs = require('fs');
 const path = require('path');
 const uuidv1 = require('uuid/v1');
+const MicRecorder = require('mic-recorder-to-mp3');
 
 const userPath = app.getPath('userData').replace(/\\/g, '\\\\');
 const recorder = new MicRecorder({ bitRate: 128 });

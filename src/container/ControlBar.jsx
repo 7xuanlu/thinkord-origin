@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import ControlBarButton from '../components/ControlBarButton';
 import './css/ControlBar.css';
+
 const { ipcRenderer } = require('electron');
 
 // import API modules
@@ -23,8 +24,6 @@ import ScreenShotButton from '../asset/screenshot.png';
 import Substract from '../asset/substract.png';
 import HomeButton from '../asset/home.png';
 import QuitButton from '../asset/error.png';
-
-const jsonManager = new JSONManager();
 
 export default class ControlBar extends Component {
     constructor(props) {
@@ -89,6 +88,9 @@ export default class ControlBar extends Component {
                 }
                 return button;
             });
+            
+            const jsonManager = new JSONManager();
+
             // Every time user click start in the control bar, Note create a json for them.
             jsonManager.initJSON().then((notePath) => {
                 jsonManager.readJSON(notePath).then((json) => {

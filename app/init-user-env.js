@@ -10,7 +10,7 @@ exports.initUserEnv = () => {
 
     // Below object store Slu's paths as well as settings and preferences for user
     let appSettingObj = {
-        "Slus": []
+        "slus": []
     }
 
     let appSettingStr = JSON.stringify(appSettingObj);

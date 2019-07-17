@@ -3,10 +3,19 @@ const { app } = remote;
 
 const path = require('path');
 const fs = require('fs');
+const uuidv1 = require('uuid/v1');
 
 export class JSONManager {
     constructor() {
+        const sluId = uuidv1();
+
+        this.initSluPathObj = {
+            "id": sluId,
+            "path": ""
+        }
+
         this.initSluObj = {
+            "id": sluId,
             "name": "",
             "blocks": []
         }
@@ -14,8 +23,10 @@ export class JSONManager {
 
     async initJSON() {
         let counter = 1;
-        let sluDir = path.join(app.getPath('userData').replace(/\\/g, '\\\\'), 'Slu');
-        let sluPath = path.join(app.getPath('userData').replace(/\\/g, '\\\\'), 'Slu', 'Untitled 1.json');
+        let userDir = app.getPath('userData');
+        let appSettingPath = path.join(userDir, 'app.json');
+        let sluDir = path.join(userDir, 'Slu');
+        let sluPath = path.join(sluDir, 'Untitled 1.json');
         let sluName = "Untitled 1";
 
         // If the file "Untitled 1" is existed, it will be incremented by 1
@@ -30,8 +41,26 @@ export class JSONManager {
         let jsonString = JSON.stringify(this.initSluObj);
 
         fs.writeFile(sluPath, jsonString, (err) => {
+            if (err) { throw err; }
+        });
+
+        // Insert newly created slu's path to app.json
+        fs.readFile(appSettingPath, (err, data) => {
             if (err) {
                 throw err;
+            } else {
+                // Parse string to JS object
+                let json = JSON.parse(data);
+
+                // Record the path of user's newly created slu 
+                this.initSluPathObj.path = sluPath;
+                json['slus'].push(this.initSluPathObj);
+
+                let jsonString = JSON.stringify(json);
+
+                fs.writeFile(appSettingPath, jsonString, (err) => {
+                    if (err) { throw err; }
+                });
             }
         });
 
