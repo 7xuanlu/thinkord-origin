@@ -6,7 +6,7 @@ const fs = require('fs');
 
 export class JSONManager {
     constructor() {
-        this.defaultJSON = {
+        this.initSluObj = {
             "name": "",
             "blocks": []
         }
@@ -25,9 +25,9 @@ export class JSONManager {
             notePath = path.join(noteDir, "Untitled " + counter + ".json");
         }
 
-        this.defaultJSON.name = noteName;
+        this.initSluObj.name = noteName;
 
-        let jsonString = JSON.stringify(this.defaultJSON);
+        let jsonString = JSON.stringify(this.initSluObj);
 
         fs.writeFile(notePath, jsonString, (err) => {
             if (err) {
@@ -38,7 +38,7 @@ export class JSONManager {
         return notePath;
     }
 
-    // Define a function which help get our user's Note file
+    // Define a function getting our user's Slu file
     readJSON(notePath) {
         return new Promise((resolve, reject) => {
             fs.access(notePath, (err) => {

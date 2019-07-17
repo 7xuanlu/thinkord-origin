@@ -1,19 +1,22 @@
 const { app, ipcMain, globalShortcut } = require('electron');
+
 const noteTray = require('./app/note-tray');
 const browserWindow = require('./app/browser-window');
 const { useCapture } = require('./src/renderer/dragsnip/capture-main');
+const { initUserEnv } = require('./app/init-user-env');
 
 // // Make Win10 notification available
 // app.setAppUserModelId(process.execPath);
-
 let controlbar = null;
 let text = null;
 let main = null;
+let tray = null;
 
 app.on('ready', (event) => {
+    initUserEnv();
     controlbar = browserWindow.createControlBarWindow();
     useCapture(controlbar);
-    let tray = noteTray.enable(controlbar);
+    tray = noteTray.enable(controlbar);
 });
 
 app.on('window-all-closed', () => {
@@ -54,7 +57,7 @@ ipcMain.once('unregister-shortcuts', () => {
     globalShortcut.unregisterAll();
 });
 
-ipcMain.on('savebutton',()=>{
+ipcMain.on('savebutton', () => {
     if (main !== null) {
         main.webContents.send('savebutton')
     }
