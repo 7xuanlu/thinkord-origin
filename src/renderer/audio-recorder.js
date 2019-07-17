@@ -19,7 +19,7 @@ export function audioRecordStart() {
 }
 
 export async function audioRecordStop() {
-    let recPath = path.join(userPath, 'Local Storage', `${uuidv1()}.mp3`);
+    let recPath = path.join(userPath, 'MediaResource', `${uuidv1()}.mp3`);
 
     recorder.stop().getMp3()
         .then(([buffer, blob]) => {
@@ -42,7 +42,7 @@ export async function audioRecordStop() {
             reader.readAsArrayBuffer(blob);
         })
         .catch((err) => console.log(err));
-    
+
     return recPath;
 }
 

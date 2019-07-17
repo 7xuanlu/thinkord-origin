@@ -34,7 +34,7 @@ export function videoRecordStart() {
 }
 
 export async function videoRecordStop() {
-    let recPath = path.join(userPath, 'Local Storage', `${uuidv1()}.mp4`);
+    let recPath = path.join(userPath, 'MediaResource', `${uuidv1()}.mp4`);
     reader = new FileReader();
     recorder.stop();
 

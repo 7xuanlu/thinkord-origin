@@ -14,39 +14,39 @@ export class JSONManager {
 
     async initJSON() {
         let counter = 1;
-        let noteDir = path.join(app.getPath('userData').replace(/\\/g, '\\\\'), 'Local Storage');
-        let notePath = path.join(app.getPath('userData').replace(/\\/g, '\\\\'), 'Local Storage', 'Untitled 1.json');
-        let noteName = "Untitled 1";
+        let sluDir = path.join(app.getPath('userData').replace(/\\/g, '\\\\'), 'Slu');
+        let sluPath = path.join(app.getPath('userData').replace(/\\/g, '\\\\'), 'Slu', 'Untitled 1.json');
+        let sluName = "Untitled 1";
 
         // If the file "Untitled 1" is existed, it will be incremented by 1
-        while (fs.existsSync(notePath)) {
+        while (fs.existsSync(sluPath)) {
             counter += 1;
-            noteName = "Untitled " + counter;
-            notePath = path.join(noteDir, "Untitled " + counter + ".json");
+            sluName = "Untitled " + counter;
+            sluPath = path.join(sluDir, "Untitled " + counter + ".json");
         }
 
-        this.initSluObj.name = noteName;
+        this.initSluObj.name = sluName;
 
         let jsonString = JSON.stringify(this.initSluObj);
 
-        fs.writeFile(notePath, jsonString, (err) => {
+        fs.writeFile(sluPath, jsonString, (err) => {
             if (err) {
                 throw err;
             }
         });
 
-        return notePath;
+        return sluPath;
     }
 
     // Define a function getting our user's Slu file
-    readJSON(notePath) {
+    readJSON(sluPath) {
         return new Promise((resolve, reject) => {
-            fs.access(notePath, (err) => {
+            fs.access(sluPath, (err) => {
                 if (err) {
                     throw err;
                 } else {
                     console.log('File existed, trying to read Note json file')
-                    fs.readFile(notePath, (err, data) => {
+                    fs.readFile(sluPath, (err, data) => {
                         if (err) {
                             throw err;
                         }
@@ -60,11 +60,11 @@ export class JSONManager {
         })
     }
 
-    async writeJSON(json, notePath) {
+    async writeJSON(json, sluPath) {
         let jsonString = JSON.stringify(json);
 
         // Write to the original json file
-        fs.writeFile(notePath, jsonString, 'utf8', (err) => {
+        fs.writeFile(sluPath, jsonString, 'utf8', (err) => {
             if (err) {
                 throw err;
             } else {

@@ -1,5 +1,3 @@
-
-
 let getCurrentTime = () => {
     let timestamp = new Date();
     let time = timestamp.getFullYear() + '/' + (timestamp.getMonth() + 1) + '/' + timestamp.getDate() + ' '
@@ -9,7 +7,7 @@ let getCurrentTime = () => {
 
 export class NoteManager {
     constructor() {
-        // JSON data model
+        // Slu block format
         this.mediaFormat = {
             "blocks": [
                 {
@@ -35,7 +33,6 @@ export class NoteManager {
     }
 
     addBlock(note, args) {
-        // console.log(note);
         if (args.hasOwnProperty("text")) {
             // Insert a new template block to json
             note["blocks"].push(this.textFormat['blocks'][0]);
@@ -74,7 +71,4 @@ export class NoteManager {
 
         return note;
     }
-
-
-
 }

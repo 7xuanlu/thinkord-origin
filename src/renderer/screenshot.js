@@ -9,7 +9,7 @@ const uuidv1 = require('uuid/v1');
 const userPath = app.getPath('userData').replace(/\\/g, '\\\\');
 
 export async function getScreenshot() {
-  let screenshotPath = path.join(userPath, 'Local Storage', `${uuidv1()}.png`);
+  let screenshotPath = path.join(userPath, 'MediaResource', `${uuidv1()}.png`);
   const thumbSize = determineScreenShotSize();
   let options = { types: ['screen'], thumbnailSize: thumbSize };
 

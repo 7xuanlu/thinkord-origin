@@ -98,7 +98,7 @@ getScreenSources({}, (imgSrc) => {
 
         // remote.getCurrentWindow().hide();
         let dragsnipName = `${uuidv1()}.png`;
-        let dragsnipPath = path.join(userPath, 'Local Storage', dragsnipName);
+        let dragsnipPath = path.join(userPath, 'MediaResource', dragsnipName);
 
         fs.writeFile(dragsnipPath, new Buffer(url.replace('data:image/png;base64,', ''), 'base64'), (err) => {
             if (err) {
