@@ -205,6 +205,7 @@ export default class ControlBar extends Component {
 
     handleDragsnip = () => {
         ipcRenderer.send('capture-screen');
+        ipcRenderer.removeAllListeners('dragsnip-saved');
         ipcRenderer.once('dragsnip-saved', (event, dragsnipPath) => {
             const noteManager = new NoteManager();
 

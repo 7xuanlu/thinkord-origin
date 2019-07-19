@@ -16,10 +16,9 @@ const captureScreen = (e, args) => {
         return;
     }
     const { screen } = require('electron');
-
     let displays = screen.getAllDisplays();
     captureWins = displays.map((display) => {
-        let captureWin = new BrowserWindow({
+        captureWin = new BrowserWindow({
             // window 使用 fullscreen,  mac 設置為 undefined, 不可為 false
             fullscreen: os.platform() === 'win32' || undefined,
             width: display.bounds.width,
@@ -36,7 +35,13 @@ const captureScreen = (e, args) => {
             webPreferences: {
                 nodeIntegration: true
             },
+            show:false
         })
+
+        captureWin.once('ready-to-show',() =>{
+            captureWin.show()
+        });
+
         captureWin.setAlwaysOnTop(true, 'screen-saver');
         captureWin.setVisibleOnAllWorkspaces(true);
         captureWin.setFullScreenable(false);
@@ -44,7 +49,6 @@ const captureScreen = (e, args) => {
         if (mode === "development") {
             // Load dragsnip.html via webpack dev server.
             captureWin.loadURL('http://localhost:3071/dragsnip.html');
-
             // Open the DevTools.
             // controlbar.webContents.openDevTools();
         }
@@ -61,7 +65,6 @@ const captureScreen = (e, args) => {
         }
         // 調試用
         // captureWin.openDevTools()
-
         captureWin.on('closed', () => {
             let index = captureWins.indexOf(captureWin);
             if (index !== -1) {
@@ -81,8 +84,6 @@ const useCapture = (controlbar) => {
             captureWins = [];
         }
     })
-    // globalShortcut.register('CmdOrCtrl+Shift+A', captureScreen)
-
     ipcMain.on('capture-screen', (e, { type = 'start', screenId } = {}) => {
         if (type === 'start') {
             captureScreen();

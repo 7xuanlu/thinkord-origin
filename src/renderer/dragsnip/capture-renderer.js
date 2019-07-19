@@ -12,7 +12,6 @@ const { getCurrentScreen } = require('./utils');
 
 const $canvas = document.getElementById('js-canvas');
 const $bg = document.getElementById('js-bg');
-// const $sizeInfo = document.getElementById('js-size-info');
 const $toolbar = document.getElementById('js-toolbar');
 
 const $btnClose = document.getElementById('js-tool-close');
@@ -27,14 +26,6 @@ getScreenSources({}, (imgSrc) => {
 
     let onDrag = (selectRect) => {
         $toolbar.style.display = 'none'
-        // $sizeInfo.style.display = 'block'
-        // $sizeInfo.innerText = `${selectRect.w} * ${selectRect.h}`
-        // if (selectRect.y > 35) {
-        //     $sizeInfo.style.top = `${selectRect.y - 30}px`
-        // } else {
-        //     $sizeInfo.style.top = `${selectRect.y + 10}px`
-        // }
-        // $sizeInfo.style.left = `${selectRect.x}px`
     }
     capture.on('start-dragging', onDrag);
     capture.on('dragging', onDrag);
@@ -79,24 +70,10 @@ getScreenSources({}, (imgSrc) => {
         capture.reset()
     })
 
-    let selectCapture = () => {
-        if (!capture.selectRect) {
-            return
-        }
-        let url = capture.getImageUrl();
-        remote.getCurrentWindow().hide();
-
-        ipcRenderer.send('capture-screen', {
-            type: 'complete',
-            url,
-        })
-    }
-
     $btnSave.addEventListener('click', () => {
         const userPath = app.getPath('userData').replace(/\\/g, '\\\\');
         let url = capture.getImageUrl();
 
-        // remote.getCurrentWindow().hide();
         let dragsnipName = `${uuidv1()}.png`;
         let dragsnipPath = path.join(userPath, 'MediaResource', dragsnipName);
 
