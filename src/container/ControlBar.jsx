@@ -28,6 +28,7 @@ import QuitButton from '../asset/error.png';
 export default class ControlBar extends Component {
     constructor(props) {
         super(props);
+        const jsonManager = new JSONManager();
         this.state = {
             controlbar_button: [
                 { id: 'start', src: StartButton, disable: false },
@@ -40,19 +41,34 @@ export default class ControlBar extends Component {
                 { id: 'quit', src: QuitButton, disable: false }
             ],
             timeline: {},
-            notePath: "",
-            isRecord: false
+            sluPath: "",
+            isRecord: false,
+            jsonManager: jsonManager
         };
     }
 
     componentDidMount() {
-        ipcRenderer.on('initialize-note', () => {
-            // console.log(args);
+        ipcRenderer.send('initialize-note');
+
+        ipcRenderer.on('initialize-note', (event, args) => {
+            this.state.jsonManager.readJSON(args.path).then((json) => {
+                this.setState({
+                    timeline: json,
+                    sluPath: args.path
+                });
+
+                ipcRenderer.send('sync-with-note', {
+                    timeline: this.state.timeline,
+                    sluPath: this.state.sluPath
+                });
+            });
+        });
+
+        ipcRenderer.on('init-timeline', () => {
             ipcRenderer.send('sync-with-note', {
                 timeline: this.state.timeline,
-                notePath: this.state.notePath
+                sluPath: this.state.sluPath
             });
-            console.log(args);
         });
     }
 
@@ -60,14 +76,12 @@ export default class ControlBar extends Component {
         if (this.state.isRecord) {
             ipcRenderer.send('sync-with-note', {
                 timeline: this.state.timeline,
-                notePath: this.state.notePath
+                sluPath: this.state.sluPath
             });
         }
     }
 
     handleStart = () => {
-        const jsonManager = new JSONManager();
-        
         if (this.state.isRecord === false) {
             this.setState({ isRecord: true });
 
@@ -93,18 +107,20 @@ export default class ControlBar extends Component {
                 return button;
             });
 
-            // Every time user click start in the control bar, Note create a json for them.
-            jsonManager.initJSON().then((notePath) => {
-                jsonManager.readJSON(notePath).then((json) => {
-                    this.setState({
-                        controlbar_button: button,
-                        timeline: json,
-                        notePath: notePath
-                    });
-                    ipcRenderer.send('register-shortcuts');
-                    this.ipcOnShortcut();
-                });
-            });
+            ipcRenderer.send('register-shortcuts');
+            this.ipcOnShortcut();
+            // // Every time user click start in the control bar, Note create a json for them.
+            // jsonManager.initJSON().then((sluPath) => {
+            //     jsonManager.readJSON(sluPath).then((json) => {
+            //         this.setState({
+            //             controlbar_button: button,
+            //             timeline: json,
+            //             sluPath: sluPath
+            //         });
+            //         ipcRenderer.send('register-shortcuts');
+            //         this.ipcOnShortcut();
+            //     });
+            // });
         } else {
             this.setState({ isRecord: false })
             const button = this.state.controlbar_button.map(button => {
@@ -129,11 +145,11 @@ export default class ControlBar extends Component {
                 return button;
             });
 
-            jsonManager.writeJSON(this.state.timeline, this.state.notePath).then(() => {
+            this.state.jsonManager.writeJSON(this.state.timeline, this.state.sluPath).then(() => {
                 this.setState({
                     controlbar_button: button,
-                    timeline: {},
-                    notePath: ""
+                    // timeline: {},
+                    // sluPath: ""
                 });
                 ipcRenderer.removeAllListeners("F1");
                 ipcRenderer.removeAllListeners("F2");
@@ -222,7 +238,7 @@ export default class ControlBar extends Component {
     }
 
     EnterHome = () => {
-        ipcRenderer.send('home-click');
+        ipcRenderer.send('main-click');
     }
 
     ipcOnShortcut = () => {

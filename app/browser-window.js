@@ -3,7 +3,7 @@ const { BrowserWindow } = require('electron');
 // if environment mode is not set, it will default to be in development
 const mode = require('../webpack.config').mode;
 
-exports.createControlBarWindow = () => {
+exports.createControlBarWindow = (controlbar) => {
     controlbar = new BrowserWindow({
         width: 292,
         height: 41,
@@ -14,7 +14,7 @@ exports.createControlBarWindow = () => {
         webPreferences: {
             nodeIntegration: true
         },
-        show:false
+        show: false
     })
 
     controlbar.once('ready-to-show', () => {
@@ -27,8 +27,7 @@ exports.createControlBarWindow = () => {
 
         // Open the DevTools.
         // controlbar.webContents.openDevTools();
-    }
-    else {
+    } else {
         // Load index.html from the file system.
         controlbar.loadFile('dist/controlbar.html');
     }
@@ -36,7 +35,7 @@ exports.createControlBarWindow = () => {
     return controlbar;
 }
 
-exports.createTextWindow = () => {
+exports.createTextWindow = (text) => {
     text = new BrowserWindow({
         width: 270,
         height: 150,
@@ -48,7 +47,7 @@ exports.createTextWindow = () => {
             nodeIntegration: true,
             webSecurity: false
         },
-        show:false
+        show: false
     })
 
     text.once('ready-to-show', () => {
@@ -70,16 +69,25 @@ exports.createTextWindow = () => {
     return text;
 }
 
-exports.createMainWindow = () => {
+exports.createMainWindow = (main) => {
     main = new BrowserWindow({
         width: 800,
         height: 600,
         resizable: true,
+        show: false,
         webPreferences: {
             nodeIntegration: true,
             webSecurity: false
         }
-    })
+    });
+
+    main.once('ready-to-show', () => {
+        main.show()
+    });
+
+    main.on('closed', () => {
+        main = null;
+    });
 
     if (mode === "development") {
         // Load index.html via webpack dev server.
@@ -87,8 +95,7 @@ exports.createMainWindow = () => {
 
         // Open the DevTools.
         // home.webContents.openDevTools();
-    }
-    else {
+    } else {
         // Load index.html from the file system.
         main.loadFile('dist/main.html');
     }
@@ -96,7 +103,7 @@ exports.createMainWindow = () => {
     return main;
 }
 
-exports.ChangeMainToTimeline = () => {
+exports.ChangeMainToTimeline = (main) => {
     if (mode === "development") {
         // Load index.html via webpack dev server.
         main.loadURL('http://localhost:3071/home.html');
@@ -108,5 +115,5 @@ exports.ChangeMainToTimeline = () => {
         main.loadFile('dist/home.html');
     }
 
-    return main; 
+    return main;
 }

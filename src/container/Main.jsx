@@ -47,9 +47,9 @@ export default class Main extends Component {
         // console.log('menu close');
     }
 
-    EnterTimeLine = (path) => {
+    EnterTimeLine = (sluPath) => {
         ipcRenderer.send('file-open-click', {
-            path: path
+            path: sluPath
         });
     }
 

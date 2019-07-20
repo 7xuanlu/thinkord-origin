@@ -18,22 +18,21 @@ let tray = null;
 
 app.on('ready', (event) => {
     initUserEnv();
-    controlbar = browserWindow.createControlBarWindow();
-    useCapture(controlbar);
-    tray = noteTray.enable(controlbar);
+    main = browserWindow.createMainWindow(main);
+    // tray = noteTray.enable(controlbar);
 });
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
         app.quit()
     }
-})
+});
 
 app.on('activate', () => {
     if (controlbar === null) {
         controlbar = browserWindow.createControlBarWindow();
     }
-})
+});
 
 ipcMain.on('register-shortcuts', () => {
     globalShortcut.register('F1', () => {
@@ -78,7 +77,7 @@ ipcMain.on('video-click', () => {
 
 ipcMain.on('text-click', () => {
     if (text === null) {
-        text = browserWindow.createTextWindow();
+        text = browserWindow.createTextWindow(text);
     } else {
         text.focus();
     }
@@ -102,7 +101,7 @@ ipcMain.on('quit-click', () => {
     app.quit();
 });
 
-ipcMain.on('home-click', () => {
+ipcMain.on('main-click', () => {
     if (main === null) {
         main = browserWindow.createMainWindow();
         main.maximize();
@@ -113,33 +112,28 @@ ipcMain.on('home-click', () => {
     } else {
         main.show();
     }
-
 });
 
 ipcMain.on('file-open-click', (event, args) => {
-    main = browserWindow.ChangeMainToTimeline();
-    main.maximize();
+    main = browserWindow.ChangeMainToTimeline(main);
+    // main.maximize();
     // main.removeMenu();
 
-    // if(args){
-    //     fs.readFile(args.path, (err, data) => {
-    //         if(err){
-    //             throw err;
-    //         } else {
-    //             controlbar.webContents.send('initialize-note', {
-    //                 notePath: args.path,
-    //                 timeline: JSON.parse(data)
-    //             });
-    //         }
-    //     });
-    // }
+    controlbar = browserWindow.createControlBarWindow(controlbar);
+    useCapture(controlbar);
+
+    ipcMain.once('initialize-note', () => {
+        if (args) {
+            controlbar.webContents.send('initialize-note', args);
+        }
+        console.log('initializing slu');
+    });
+
     console.log('file-open-click');
-    console.log(args.path);
 });
 
-ipcMain.on('initialize-note', () => {
-    controlbar.webContents.send('initialize-note');
-    console.log('initializing slu');
+ipcMain.on('init-timeline', () => {
+    controlbar.webContents.send('init-timeline');
 });
 
 ipcMain.on('sync-with-note', (event, args) => {
