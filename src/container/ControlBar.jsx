@@ -151,10 +151,11 @@ export default class ControlBar extends Component {
                     // timeline: {},
                     // sluPath: ""
                 });
-                ipcRenderer.removeAllListeners("F1");
-                ipcRenderer.removeAllListeners("F2");
-                ipcRenderer.removeAllListeners("F3");
-                ipcRenderer.removeAllListeners("F4");
+                ipcRenderer.removeAllListeners("Shift+F1");
+                ipcRenderer.removeAllListeners("Shift+F2");
+                ipcRenderer.removeAllListeners("Shift+F3");
+                ipcRenderer.removeAllListeners("Shift+F4");
+                ipcRenderer.removeAllListeners("Shift+F5");
                 ipcRenderer.send('unregister-shortcuts');
                 ipcRenderer.send('savebutton');
             })
@@ -242,7 +243,7 @@ export default class ControlBar extends Component {
     }
 
     ipcOnShortcut = () => {
-        ipcRenderer.on('F1', () => {
+        ipcRenderer.on('Shift+F1', () => {
             getScreenshot().then((screenshotPath) => {
                 const noteManager = new NoteManager();
 
@@ -253,17 +254,21 @@ export default class ControlBar extends Component {
             });
         });
 
-        ipcRenderer.on('F2', () => {
+        ipcRenderer.on('Shift+F2', () => {
+            this.handleText();
+        });
+
+        ipcRenderer.on('Shift+F3', () => {
             this.handleDragsnip();
         });
 
-        ipcRenderer.on('F3', () => {
-            this.handleAudio();
-        })
-
-        ipcRenderer.on('F4', () => {
+        ipcRenderer.on('Shift+F4', () => {
             this.handleVideo();
-        })
+        });
+
+        ipcRenderer.on('Shift+F5', () => {
+            this.handleAudio();
+        });
     }
 
     render() {

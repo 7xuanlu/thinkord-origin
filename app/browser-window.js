@@ -35,7 +35,7 @@ exports.createControlBarWindow = (controlbar) => {
     return controlbar;
 }
 
-exports.createTextWindow = (text) => {
+exports.createTextWindow = (text, controlbar) => {
     text = new BrowserWindow({
         width: 270,
         height: 150,

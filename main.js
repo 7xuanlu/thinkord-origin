@@ -28,31 +28,36 @@ app.on('window-all-closed', () => {
     }
 });
 
-app.on('activate', () => {
-    if (controlbar === null) {
-        controlbar = browserWindow.createControlBarWindow();
-    }
-});
+// app.on('activate', () => {
+//     if (controlbar === null) {
+//         controlbar = browserWindow.createControlBarWindow();
+//     }
+// });
 
 ipcMain.on('register-shortcuts', () => {
-    globalShortcut.register('F1', () => {
-        controlbar.webContents.send('F1');
-        console.log('F1 pressed');
+    globalShortcut.register('Shift+F1', () => {
+        controlbar.webContents.send('Shift+F1');
+        console.log('Shift+F1 pressed');
     });
 
-    globalShortcut.register('F2', () => {
-        controlbar.webContents.send('F2');
-        console.log('F2 pressed');
+    globalShortcut.register('Shift+F2', () => {
+        controlbar.webContents.send('Shift+F2');
+        console.log('Shift+F2 pressed');
     });
 
-    globalShortcut.register('F3', () => {
-        controlbar.webContents.send('F3');
-        console.log('F3 pressed');
+    globalShortcut.register('Shift+F3', () => {
+        controlbar.webContents.send('Shift+F3');
+        console.log('Shift+F3 pressed');
     });
 
-    globalShortcut.register('F4', () => {
-        controlbar.webContents.send('F4');
-        console.log('F4 pressed');
+    globalShortcut.register('Shift+F4', () => {
+        controlbar.webContents.send('Shift+F4');
+        console.log('Shift+F4 pressed');
+    });
+
+    globalShortcut.register('Shift+F5', () => {
+        controlbar.webContents.send('Shift+F5');
+        console.log('Shift+F5 pressed');
     });
 });
 
@@ -77,7 +82,7 @@ ipcMain.on('video-click', () => {
 
 ipcMain.on('text-click', () => {
     if (text === null) {
-        text = browserWindow.createTextWindow(text);
+        text = browserWindow.createTextWindow(text, controlbar);
     } else {
         text.focus();
     }
@@ -119,8 +124,12 @@ ipcMain.on('file-open-click', (event, args) => {
     // main.maximize();
     // main.removeMenu();
 
-    controlbar = browserWindow.createControlBarWindow(controlbar);
-    useCapture(controlbar);
+    if (controlbar === null) {
+        controlbar = browserWindow.createControlBarWindow(controlbar);
+        useCapture(controlbar);
+    } else {
+        controlbar.focus();
+    }
 
     ipcMain.once('initialize-note', () => {
         if (args) {
