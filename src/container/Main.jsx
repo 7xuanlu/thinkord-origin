@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import FileIcon from '../asset/SLUNOTE-LOGO2.png';
 import './css/Main.css';
 
 const remote = require('electron').remote;
@@ -26,9 +27,9 @@ export default class Main extends Component {
                 throw err;
             } else {
                 // Parse string to JS object
-                let json = JSON.parse(data);        
+                let json = JSON.parse(data);   
                 this.setState({
-                   slus: json.slus
+                   slus: json.slus.reverse()
                 });
             }
         });
@@ -75,11 +76,12 @@ export default class Main extends Component {
                         <div>
                             {this.state.slus.map((file) =>
                                 <button key={file.path} className="btn" onClick={() => this.EnterTimeLine(file.path)}>
+                                    <img className="file_icon" src={FileIcon}/><br/>
                                     {file.path.split('\\').pop()}
                                 </button>
                             )}
+                            <i class="add_icon fa fa-plus-circle"></i>
                         </div>
-                        <h2>TEMPLATES</h2><br/>
                     </div>
                 </main>
             </div>
