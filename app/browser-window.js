@@ -13,7 +13,12 @@ exports.createControlBarWindow = () => {
         y: 600,
         webPreferences: {
             nodeIntegration: true
-        }
+        },
+        show:false
+    })
+
+    controlbar.once('ready-to-show', () => {
+        controlbar.show()
     })
 
     if (mode === "development") {
@@ -42,7 +47,12 @@ exports.createTextWindow = () => {
         webPreferences: {
             nodeIntegration: true,
             webSecurity: false
-        }
+        },
+        show:false
+    })
+
+    text.once('ready-to-show', () => {
+        text.show()
     })
 
     if (mode === "development") {
