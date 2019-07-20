@@ -36,7 +36,7 @@ export class TextWindow extends Component {
     render() {
         return (
             <div className="textdiv">
-                <label>Add your annotation:</label>
+                <label>Annotate here:</label>
                 <br />
                 <textarea
                     rows="2"

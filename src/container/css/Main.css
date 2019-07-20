@@ -171,14 +171,42 @@ body {
 h1 {
     color: #35C189;
     text-align: center;
+}
+
+h2{
+    color: #35C189;
+    text-align: left;
+    margin-top: 40px;
     padding-bottom: 15px;
     border-bottom: 1px solid #ddd;
 }
 
+.content_search{
+    background: #143938;
+    border-radius: 5px;
+    padding: 5px;
+    vertical-align: text-bottom;
+    width: 350px;
+    margin: 0px auto;
+}
+
 .search_bar {
     width: 300px;
-    height: 40px;
+    height: 35px;
+    border: 0px;
     border-radius: 5px;
+}
+
+.search_icon{
+    background: white;
+    color: #143938;
+    padding: 5px;
+    border-radius: 4px;
+    margin-left: 5px;
+    font-size: 25px;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: top;
 }
 
 .content_inner .icon {
@@ -192,4 +220,5 @@ h1 {
     border-radius: 5px;
     height: 40px;
     padding: 15px;
+    margin: 10px;
 }

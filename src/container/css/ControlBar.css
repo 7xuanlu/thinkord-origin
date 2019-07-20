@@ -13,13 +13,17 @@ textarea {
     -webkit-app-region: no-drag;
 }
 
+::-webkit-scrollbar{
+    display: none;
+}
+
 .textdiv {
     padding: 10px;
 }
 
 .textbtndiv {
     position: absolute;
-    right: 8px;
+    right: 20px;
 }
 
 .btn {

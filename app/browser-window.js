@@ -33,10 +33,10 @@ exports.createControlBarWindow = () => {
 
 exports.createTextWindow = () => {
     text = new BrowserWindow({
-        width: 280,
-        height: 180,
-        x: controlbar.getPosition()[0] + 181,
-        y: controlbar.getPosition()[1] - 190,
+        width: 270,
+        height: 150,
+        x: controlbar.getPosition()[0] + 21,
+        y: controlbar.getPosition()[1] - 160,
         frame: false,
         resizable: true,
         webPreferences: {

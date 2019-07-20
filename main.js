@@ -5,6 +5,10 @@ const browserWindow = require('./app/browser-window');
 const { useCapture } = require('./src/renderer/dragsnip/capture-main');
 const { initUserEnv } = require('./app/init-user-env');
 
+const remote = require('electron').remote;
+const fs = require('fs');
+const path = require('path');
+
 // // Make Win10 notification available
 // app.setAppUserModelId(process.execPath);
 let controlbar = null;
@@ -73,12 +77,17 @@ ipcMain.on('video-click', () => {
 })
 
 ipcMain.on('text-click', () => {
-    text = browserWindow.createTextWindow();
+    if (text === null) {
+        text = browserWindow.createTextWindow();
+    } else {
+        text.focus();
+    }
     console.log('text click');
 })
 
 ipcMain.on('cancel-click-on-text-window', () => {
     text.close();
+    text = null;
     console.log('cancel-click');
 })
 
@@ -86,6 +95,7 @@ ipcMain.on('ok-click-on-text-window', (event, textObject) => {
     console.log('ok-click');
     controlbar.webContents.send('save-textarea-value', textObject);
     text.close();
+    text = null;
 })
 
 ipcMain.on('quit-click', () => {
@@ -106,11 +116,25 @@ ipcMain.on('home-click', () => {
 
 });
 
-ipcMain.on('timeline-click', () => {
+ipcMain.on('file-open-click', (event, args) => {
     main = browserWindow.ChangeMainToTimeline();
     main.maximize();
     // main.removeMenu();
-    console.log('timeline-click');
+
+    // if(args){
+    //     fs.readFile(args.path, (err, data) => {
+    //         if(err){
+    //             throw err;
+    //         } else {
+    //             controlbar.webContents.send('initialize-note', {
+    //                 notePath: args.path,
+    //                 timeline: JSON.parse(data)
+    //             });
+    //         }
+    //     });
+    // }
+    console.log('file-open-click');
+    console.log(args.path);
 });
 
 ipcMain.on('initialize-note', () => {

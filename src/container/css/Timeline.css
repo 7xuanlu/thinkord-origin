@@ -17,6 +17,7 @@
   background-color: rgba(251, 253, 250, 0.986);
   min-width: 320px;
   max-width: 1080px;
+  margin: 0px auto;
   /* text-align: center; */
   /* margin-left:25%; */
 }
@@ -203,9 +204,10 @@ header {
 
 .member-title {
   color: #35c189;
-  font-size: 22px;
+  font-size: 18px;
   margin-left: 5px;
   margin-bottom: 15px;
+  padding-top: 5px;
 }
 
 /* blocks end */

@@ -52,7 +52,7 @@ export default class BlockTitle extends Component {
                 </form>
         }
         return (
-            <div>
+            <div className="member-title">
                 {title}
             </div>
         )

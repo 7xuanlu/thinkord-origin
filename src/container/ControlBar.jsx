@@ -47,10 +47,12 @@ export default class ControlBar extends Component {
 
     componentDidMount() {
         ipcRenderer.on('initialize-note', () => {
+            // console.log(args);
             ipcRenderer.send('sync-with-note', {
                 timeline: this.state.timeline,
                 notePath: this.state.notePath
             });
+            console.log(args);
         });
     }
 

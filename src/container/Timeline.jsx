@@ -23,7 +23,7 @@ class Timeline extends Component {
   }
 
   componentDidMount() {
-    ipcRenderer.send('initialize-note');
+    // ipcRenderer.send('initialize-note');
 
     ipcRenderer.on('sync-with-note', (event, args) => {
       this.setState({

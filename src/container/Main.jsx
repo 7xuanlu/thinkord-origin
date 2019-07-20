@@ -13,19 +13,23 @@ const appSettingPath = path.join(app.getPath('userData'), 'app.json');
 export default class Main extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            slus: []
+        }
     }
 
     componentDidMount() {
-        // Once the component is mounted, it then read app.json to get user's slu paths
+        //read slu path
         fs.readFile(appSettingPath, (err, data) => {
             if(err){
                 throw err;
             } else {
                 // Parse string to JS object
-                let json = JSON.parse(data);
-                
-                // Here are our slu paths
-                console.log(json);
+                let json = JSON.parse(data);        
+                this.setState({
+                   slus: json.slus
+                });
             }
         });
     }
@@ -42,9 +46,10 @@ export default class Main extends Component {
         // console.log('menu close');
     }
 
-    EnterTimeLine = () => {
-        ipcRenderer.send('timeline-click');
-        // console.log('timeline-click');
+    EnterTimeLine = (path) => {
+        ipcRenderer.send('file-open-click', {
+            path: path
+        });
     }
 
     render() {
@@ -62,13 +67,19 @@ export default class Main extends Component {
                 <main className="content" onClick={this.handleMenuClose}>
                     <div className="content_inner">
                         <h1>SLUNOTE</h1><br />
-                        <input className="search_bar" type="text" /><i className="icon fa fa-search fa-2x"></i>
-                        <br />
-                        <div>
-                            <button className="btn" onClick={this.EnterTimeLine}>
-                                Timeline
-                            </button>
+                        <div className="content_search">
+                            <input className="search_bar" type="text" /><i className="search_icon fa fa-search"></i>
                         </div>
+                        <br />
+                        <h2>OPEN RECENT</h2><br/>
+                        <div>
+                            {this.state.slus.map((file) =>
+                                <button key={file.path} className="btn" onClick={() => this.EnterTimeLine(file.path)}>
+                                    {file.path.split('\\').pop()}
+                                </button>
+                            )}
+                        </div>
+                        <h2>TEMPLATES</h2><br/>
                     </div>
                 </main>
             </div>
