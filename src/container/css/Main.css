@@ -220,6 +220,7 @@ h2{
     border-radius: 10px;
     padding: 5px;
     margin: 20px;
+    outline: none;
 }
 
 .file_icon{
@@ -229,11 +230,38 @@ h2{
     border-radius: 10px;
 }
 
-.add_icon{
-    font-size: 70px;
+.open_recent_icon{
+    font-size: 30px;
     color: #143938;
-    margin: 20px;
-    cursor: pointer;
-    display: inline-block;
-    vertical-align: 40%
+    margin-left: 10px;
+}
+
+.open_recent_btn{
+    background-color: #f0f0f0;
+    border: none;
+    position: relative;
+    right: -75%;
+    outline: none;
+}
+
+.visible {
+    visibility: visible;
+    opacity: 1;
+    transition-duration: 0.3s;
+}
+
+.hidden {
+    visibility: hidden;
+    opacity: 0;  
+    transition-duration: 0.3s;
+}
+
+.open_rotate{
+    transform: rotate(180deg);
+    transition-duration: 0.3s;
+}
+
+.close_rotate{
+    transform: rotate(0deg);
+    transition-duration: 0.3s;
 }

@@ -17,7 +17,8 @@ export default class Main extends Component {
         super(props);
 
         this.state = {
-            slus: []
+            slus: [],
+            expand: false
         }
     }
 
@@ -64,6 +65,34 @@ export default class Main extends Component {
         });
     }
 
+    OpenRecentToggle = () => {
+        Array.from(document.getElementsByClassName("btn")).forEach(
+            function(element) {
+                if(element.id > 4){
+                    element.className = "btn visible";
+                }
+            }
+        );
+        document.getElementsByClassName("fa-chevron-circle-down")[0].className ="open_recent_icon fa fa-chevron-circle-down open_rotate";
+        this.setState({
+            expand: true
+        });
+    }
+
+    OpenRecentRemove = () => {
+        Array.from(document.getElementsByClassName("btn")).forEach(
+            function(element) {
+                if(element.id > 4){
+                    element.className = "btn hidden";
+                }
+            }
+        );
+        document.getElementsByClassName("fa-chevron-circle-down")[0].className ="open_recent_icon fa fa-chevron-circle-down close_rotate";
+        this.setState({
+            expand: false
+        });
+    }
+
     render() {
         return (
             <div>
@@ -81,17 +110,32 @@ export default class Main extends Component {
                         <h1>SLUNOTE</h1><br />
                         <div className="content_search">
                             <input className="search_bar" type="text" /><i className="search_icon fa fa-search"></i>
-                        </div>
-                        <br />
-                        <h2>OPEN RECENT</h2><br />
+                        </div><br />
+                        <h2>
+                            OPEN RECENT
+                            <button className="open_recent_btn add">
+                                <i className="open_recent_icon fa fa-plus-circle"></i>
+                            </button>
+                            <button
+                                className="open_recent_btn expand"
+                                hidden={!this.state.slus.length > 5}
+                                onClick={this.state.expand ? () => this.OpenRecentRemove() : () => this.OpenRecentToggle()}
+                            >
+                                <i className="open_recent_icon fa fa-chevron-circle-down"></i>
+                            </button>
+                        </h2><br/>
                         <div>
                             {this.state.slus.map((file) =>
-                                <button key={file.path} className="btn" onClick={() => this.EnterTimeLine(file.path)}>
-                                    <img className="file_icon" src={FileIcon} /><br />
+                                <button
+                                    id={this.state.slus.indexOf(file)}
+                                    key={file.id}
+                                    className = {this.state.slus.indexOf(file) > 4 ? "btn hidden" : "btn"}
+                                    onClick={() => this.EnterTimeLine(file.path)}
+                                >
+                                    <img className="file_icon" src={FileIcon}/><br/>
                                     {file.path.split('\\').pop()}
                                 </button>
                             )}
-                            <i className="add_icon fa fa-plus-circle" onClick={this.handleAddClick}></i>
                         </div>
                     </div>
                 </main>
