@@ -122,7 +122,7 @@ ipcMain.on('file-open-click', (event, args) => {
     // main.maximize();
     // main.removeMenu();
 
-    if (controlbar === null) {
+    if (controlbar === null) { 
         controlbar = browserWindow.createControlBarWindow(controlbar);
         useCapture(controlbar);
     } else {
@@ -132,6 +132,7 @@ ipcMain.on('file-open-click', (event, args) => {
     ipcMain.once('initialize-note', () => {
         if (args) {
             controlbar.webContents.send('initialize-note', args);
+            console.log(args)
         }
         console.log('initializing slu');
     });
@@ -147,7 +148,8 @@ ipcMain.on('sync-with-note', (event, args) => {
     // Only sync when main windows and controlbar windows are open at once
     if (main !== null && controlbar !== null) {
         main.webContents.send('sync-with-note', args);
-        console.log('syncing controlbar with timeline');
+        // console.log(args)
+        // console.log('syncing controlbar with timeline');
     }
 });
 

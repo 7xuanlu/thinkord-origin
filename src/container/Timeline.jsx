@@ -8,27 +8,9 @@ import { ipcRenderer } from "electron";
 // import './css/Timeline.css';
 
 class Timeline extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      saveSign: false
-    }
+  constructor() {
+    super();
   }
-
-  componentDidMount() {
-
-    // when you press stop recording, the save button will show up
-    ipcRenderer.on('savebutton', () => {
-      console.log('I want to save the action I did');
-      this.setState({
-        saveSign: true
-      });
-      console.log(this.state.saveSign);
-    })
-  }
-
-
 
   returnToMain = () => {
     ipcRenderer.send('slu-return-to-main');
@@ -38,7 +20,7 @@ class Timeline extends Component {
 
     return (
       <div className="App" id="App">
-        {this.state.saveSign && <button onClick={this.saveChange}>save</button>}
+        
         <button onClick={this.returnToMain}>Return main</button>
       
         <Sidebar />

@@ -64,7 +64,7 @@ export class JSONManager {
             }
         });
 
-        return sluPath;
+        return sluPath; 
     }
 
     // Define a function getting our user's Slu file

@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
 import { ipcRenderer } from "electron";
 import { JSONManager } from "../renderer/json-manager";
-
 import PictureBlock from '../components/PictureBlock';
 import VideoBlock from "../components/VideoBlock";
 import TextBlock from "../components/TextBlock";
 import AudioBlock from "../components/AudioBlock";
 
 
-const jsonManager = new JSONManager();
+const jsonManager = new JSONManager(); 
 
 export class BlockContainer extends Component {
 
@@ -16,8 +15,9 @@ export class BlockContainer extends Component {
         super(props)
 
         this.state = {
-            timeline: {},
-            notePath: ""
+            timeline: {}, 
+            sluPath: "",
+            saveSign: false
         }
     }
 
@@ -26,9 +26,20 @@ export class BlockContainer extends Component {
 
         ipcRenderer.on('sync-with-note', (event, args) => {
             this.setState({
-                notePath: args.notePath,
+                sluPath: args.sluPath,
                 timeline: args.timeline
             })
+            console.log(this.state.timeline)
+        })
+
+        // when you press stop recording, the save button will show up
+        ipcRenderer.on('savebutton', () => {
+            console.log('I want to save the change I did');
+            this.setState({
+                saveSign: true
+            })
+            console.log(this.state.saveSign);
+            console.log(this.state.sluPath)
         })
     }
 
@@ -115,8 +126,9 @@ export class BlockContainer extends Component {
 
     // Write the data model to the json file
     saveChange = () => {
-        jsonManager.writeJSON(this.state.timeline, this.state.notePath)
-    }
+        jsonManager.writeJSON(this.state.timeline, this.state.sluPath)
+    } 
+
 
     distBlock = (block) => {
         if (block.paths[0] !== "") {
@@ -125,6 +137,7 @@ export class BlockContainer extends Component {
                     <PictureBlock
                         block={block}
                         delBlock={this.delBlock}
+                        handleTitle={this.handleTitle}
                         addDescription={this.addDescription}
                     />
                 )
@@ -133,6 +146,7 @@ export class BlockContainer extends Component {
                     <AudioBlock
                         block={block}
                         delBlock={this.delBlock}
+                        handleTitle={this.handleTitle}
                         addDescription={this.addDescription}
                     />
                 )
@@ -143,6 +157,7 @@ export class BlockContainer extends Component {
                         addFile={this.addFile}
                         delFile={this.delFile}
                         delBlock={this.delBlock}
+                        handleTitle={this.handleTitle}
                         addDescription={this.addDescription}
                     />
                 )
@@ -155,6 +170,7 @@ export class BlockContainer extends Component {
                     addFile={this.addFile}
                     delFile={this.delFile}
                     delBlock={this.delBlock}
+                    handleTitle={this.handleTitle}
                 />
             )
         }
@@ -165,9 +181,10 @@ export class BlockContainer extends Component {
         // Yield undefined, because the first value it gets is undefined
         if (this.state.timeline.blocks === undefined) { return null }
 
+
         return (
             <div>
-               
+                {this.state.saveSign && <button onClick={this.saveChange}>save</button>}
                 {this.state.timeline.blocks.map((block, id) => (
                     <div key={id}>
                         {this.distBlock(block)}
