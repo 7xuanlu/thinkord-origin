@@ -113,7 +113,7 @@ export default class Main extends Component {
                         </div><br />
                         <h2>
                             OPEN RECENT
-                            <button className="open_recent_btn add">
+                            <button className="open_recent_btn add" onClick={this.handleAddClick}>
                                 <i className="open_recent_icon fa fa-plus-circle"></i>
                             </button>
                             <button
