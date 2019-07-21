@@ -1,4 +1,4 @@
-const { BrowserWindow } = require('electron');
+const { app, BrowserWindow } = require('electron');
 
 // if environment mode is not set, it will default to be in development
 const mode = require('../webpack.config').mode;
@@ -82,11 +82,12 @@ exports.createMainWindow = (main) => {
     });
 
     main.once('ready-to-show', () => {
-        main.show()
+        main.maximize();
+        main.show();
     });
 
     main.on('closed', () => {
-        main = null;
+        main = app.quit();
     });
 
     if (mode === "development") {
@@ -103,16 +104,29 @@ exports.createMainWindow = (main) => {
     return main;
 }
 
-exports.ChangeMainToTimeline = (main) => {
+exports.changeMainToTimeline = (main) => {
     if (mode === "development") {
         // Load index.html via webpack dev server.
         main.loadURL('http://localhost:3071/home.html');
         // Open the DevTools.
         // home.webContents.openDevTools();
-    }
-    else {
+    } else {
         // Load index.html from the file system.
         main.loadFile('dist/home.html');
+    }
+
+    return main;
+}
+
+exports.changeTimelineToMain = (main) => {
+    if (mode === "development") {
+        // Load index.html via webpack dev server.
+        main.loadURL('http://localhost:3071/main.html');
+        // Open the DevTools.
+        // home.webContents.openDevTools();
+    } else {
+        // Load index.html from the file system.
+        main.loadFile('dist/main.html');
     }
 
     return main;

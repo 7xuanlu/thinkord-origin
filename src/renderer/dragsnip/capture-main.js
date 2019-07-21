@@ -35,10 +35,10 @@ const captureScreen = (e, args) => {
             webPreferences: {
                 nodeIntegration: true
             },
-            show:false
+            show: false
         })
 
-        captureWin.once('ready-to-show',() =>{
+        captureWin.once('ready-to-show', () => {
             captureWin.show()
         });
 
@@ -83,7 +83,8 @@ const useCapture = (controlbar) => {
             captureWins.forEach(win => win.close());
             captureWins = [];
         }
-    })
+    });
+
     ipcMain.on('capture-screen', (e, { type = 'start', screenId } = {}) => {
         if (type === 'start') {
             captureScreen();
@@ -92,13 +93,17 @@ const useCapture = (controlbar) => {
         } else if (type === 'select') {
             captureWins.forEach(win => win.webContents.send('capture-screen', { type: 'select', screenId }));
         }
-    })
+    });
 
     ipcMain.on('dragsnip-saved', (event, dragsnipPath) => {
         if (captureWins) {
             captureWins.forEach(win => win.minimize());
         }
         controlbar.webContents.send('dragsnip-saved', dragsnipPath);
+    });
+
+    controlbar.once('closed', () => {
+        ipcMain.removeAllListeners('dragsnip-saved');
     });
 }
 

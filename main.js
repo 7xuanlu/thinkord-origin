@@ -5,10 +5,6 @@ const browserWindow = require('./app/browser-window');
 const { useCapture } = require('./src/renderer/dragsnip/capture-main');
 const { initUserEnv } = require('./app/init-user-env');
 
-const remote = require('electron').remote;
-const fs = require('fs');
-const path = require('path');
-
 // // Make Win10 notification available
 // app.setAppUserModelId(process.execPath);
 let controlbar = null;
@@ -16,7 +12,7 @@ let text = null;
 let main = null;
 let tray = null;
 
-app.on('ready', (event) => {
+app.on('ready', () => {
     initUserEnv();
     main = browserWindow.createMainWindow(main);
     // tray = noteTray.enable(controlbar);
@@ -28,11 +24,11 @@ app.on('window-all-closed', () => {
     }
 });
 
-// app.on('activate', () => {
-//     if (controlbar === null) {
-//         controlbar = browserWindow.createControlBarWindow();
-//     }
-// });
+app.on('activate', () => {
+    if (main === null) {
+        main = browserWindow.createControlBarWindow();
+    }
+});
 
 ipcMain.on('register-shortcuts', () => {
     globalShortcut.register('Shift+F1', () => {
@@ -103,7 +99,9 @@ ipcMain.on('ok-click-on-text-window', (event, textObject) => {
 })
 
 ipcMain.on('quit-click', () => {
-    app.quit();
+    controlbar.close();
+    controlbar = null;
+    console.log('Closing controlbar window');
 });
 
 ipcMain.on('main-click', () => {
@@ -120,7 +118,7 @@ ipcMain.on('main-click', () => {
 });
 
 ipcMain.on('file-open-click', (event, args) => {
-    main = browserWindow.ChangeMainToTimeline(main);
+    main = browserWindow.changeMainToTimeline(main);
     // main.maximize();
     // main.removeMenu();
 
@@ -146,8 +144,18 @@ ipcMain.on('init-timeline', () => {
 });
 
 ipcMain.on('sync-with-note', (event, args) => {
-    if (main !== null) {  // Only send when the home is open
+    // Only sync when main windows and controlbar windows are open at once
+    if (main !== null && controlbar !== null) {
         main.webContents.send('sync-with-note', args);
-        console.log('syncing slu with Timeline.jsx');
+        console.log('syncing controlbar with timeline');
+    }
+});
+
+ipcMain.on('slu-return-to-main', () => {
+    main = browserWindow.changeTimelineToMain(main);
+
+    if (controlbar !== null) {
+        controlbar.close();
+        controlbar = null;
     }
 });

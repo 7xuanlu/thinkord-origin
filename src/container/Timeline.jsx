@@ -126,6 +126,10 @@ class Timeline extends Component {
     jsonmanager.writeJSON(this.state.timeline, this.state.notePath)
   }
 
+  returnToMain = () => {
+    ipcRenderer.send('slu-return-to-main');
+  }
+
   render() {
     // Yield undefined, because the first value it gets is undefined
     if (this.state.timeline.blocks === undefined) { return null }
@@ -134,6 +138,7 @@ class Timeline extends Component {
     return (
       <div className="App" id="App">
         {this.state.saveSign && <button onClick={this.saveChange}>save</button>}
+        <button onClick={this.returnToMain}>Return main</button>
         <Sidebar />
         <Navigationbar />
         <div className="content" id="content">

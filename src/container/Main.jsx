@@ -8,6 +8,7 @@ const app = remote.app;
 const { ipcRenderer } = require('electron');
 const fs = require('fs');
 const path = require('path');
+import { JSONManager } from '../renderer/json-manager';
 
 const appSettingPath = path.join(app.getPath('userData'), 'app.json');
 
@@ -23,13 +24,13 @@ export default class Main extends Component {
     componentDidMount() {
         //read slu path
         fs.readFile(appSettingPath, (err, data) => {
-            if(err){
+            if (err) {
                 throw err;
             } else {
                 // Parse string to JS object
-                let json = JSON.parse(data);   
+                let json = JSON.parse(data);
                 this.setState({
-                   slus: json.slus.reverse()
+                    slus: json.slus.reverse()
                 });
             }
         });
@@ -53,6 +54,16 @@ export default class Main extends Component {
         });
     }
 
+    handleAddClick = () => {
+        const jsonManager = new JSONManager();
+
+        jsonManager.initJSON().then((sluPath) => {
+            ipcRenderer.send('file-open-click', {
+                path: sluPath
+            });
+        });
+    }
+
     render() {
         return (
             <div>
@@ -72,15 +83,15 @@ export default class Main extends Component {
                             <input className="search_bar" type="text" /><i className="search_icon fa fa-search"></i>
                         </div>
                         <br />
-                        <h2>OPEN RECENT</h2><br/>
+                        <h2>OPEN RECENT</h2><br />
                         <div>
                             {this.state.slus.map((file) =>
                                 <button key={file.path} className="btn" onClick={() => this.EnterTimeLine(file.path)}>
-                                    <img className="file_icon" src={FileIcon}/><br/>
+                                    <img className="file_icon" src={FileIcon} /><br />
                                     {file.path.split('\\').pop()}
                                 </button>
                             )}
-                            <i class="add_icon fa fa-plus-circle"></i>
+                            <i className="add_icon fa fa-plus-circle" onClick={this.handleAddClick}></i>
                         </div>
                     </div>
                 </main>

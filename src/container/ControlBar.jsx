@@ -109,18 +109,7 @@ export default class ControlBar extends Component {
 
             ipcRenderer.send('register-shortcuts');
             this.ipcOnShortcut();
-            // // Every time user click start in the control bar, Note create a json for them.
-            // jsonManager.initJSON().then((sluPath) => {
-            //     jsonManager.readJSON(sluPath).then((json) => {
-            //         this.setState({
-            //             controlbar_button: button,
-            //             timeline: json,
-            //             sluPath: sluPath
-            //         });
-            //         ipcRenderer.send('register-shortcuts');
-            //         this.ipcOnShortcut();
-            //     });
-            // });
+            this.setState({ controlbar_button: button })
         } else {
             this.setState({ isRecord: false })
             const button = this.state.controlbar_button.map(button => {
