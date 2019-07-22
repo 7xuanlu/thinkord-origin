@@ -20,14 +20,14 @@ class Timeline extends Component {
 
     return (
       <div className="App" id="App">
-        
+
         <button onClick={this.returnToMain}>Return main</button>
-      
+
         <Sidebar />
         <Navigationbar />
         <div className="content" id="content">
           <Header />
-          <BlockContainer  />
+          <BlockContainer />
           <Progressbar />
         </div>
       </div>

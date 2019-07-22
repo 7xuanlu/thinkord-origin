@@ -122,16 +122,16 @@ ipcMain.on('file-open-click', (event, args) => {
     // main.maximize();
     // main.removeMenu();
 
-    if (controlbar === null) { 
+    if (controlbar === null) {
         controlbar = browserWindow.createControlBarWindow(controlbar);
         useCapture(controlbar);
     } else {
         controlbar.focus();
     }
 
-    ipcMain.once('initialize-note', () => {
+    ipcMain.once('cb-init-slu', () => {
         if (args) {
-            controlbar.webContents.send('initialize-note', args);
+            controlbar.webContents.send('cb-init-slu', args);
             console.log(args)
         }
         console.log('initializing slu');
@@ -140,16 +140,14 @@ ipcMain.on('file-open-click', (event, args) => {
     console.log('file-open-click');
 });
 
-ipcMain.on('init-timeline', () => {
-    controlbar.webContents.send('init-timeline');
+ipcMain.on('tl-init-slu', () => {
+    controlbar.webContents.send('tl-init-slu');
 });
 
-ipcMain.on('sync-with-note', (event, args) => {
+ipcMain.on('cb-sync-with-slu', (event, args) => {
     // Only sync when main windows and controlbar windows are open at once
     if (main !== null && controlbar !== null) {
-        main.webContents.send('sync-with-note', args);
-        // console.log(args)
-        // console.log('syncing controlbar with timeline');
+        main.webContents.send('cb-sync-with-slu', args);
     }
 });
 

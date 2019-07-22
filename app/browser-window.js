@@ -17,6 +17,10 @@ exports.createControlBarWindow = (controlbar) => {
         show: false
     })
 
+    controlbar.once('closed', () => {
+        controlbar = null;
+    });
+
     controlbar.once('ready-to-show', () => {
         controlbar.show()
     })
@@ -31,6 +35,8 @@ exports.createControlBarWindow = (controlbar) => {
         // Load index.html from the file system.
         controlbar.loadFile('dist/controlbar.html');
     }
+
+    controlbar.removeMenu();
 
     return controlbar;
 }
@@ -50,9 +56,13 @@ exports.createTextWindow = (text, controlbar) => {
         show: false
     })
 
+    text.once('closed', () => {
+        text = null;
+    });
+
     text.once('ready-to-show', () => {
         text.show()
-    })
+    });
 
     if (mode === "development") {
         // Load index.html via webpack dev server.
@@ -86,7 +96,7 @@ exports.createMainWindow = (main) => {
         main.show();
     });
 
-    main.on('closed', () => {
+    main.once('closed', () => {
         main = app.quit();
     });
 

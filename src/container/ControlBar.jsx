@@ -48,24 +48,23 @@ export default class ControlBar extends Component {
     }
 
     componentDidMount() {
-        ipcRenderer.send('initialize-note');
-
-        ipcRenderer.on('initialize-note', (event, args) => {
+        ipcRenderer.send('cb-init-slu');
+        ipcRenderer.on('cb-init-slu', (event, args) => {
             this.state.jsonManager.readJSON(args.path).then((json) => {
                 this.setState({
                     timeline: json,
                     sluPath: args.path
                 });
 
-                ipcRenderer.send('sync-with-note', {
+                ipcRenderer.send('cb-sync-with-slu', {
                     timeline: this.state.timeline,
                     sluPath: this.state.sluPath
                 });
             });
         });
 
-        ipcRenderer.on('init-timeline', () => {
-            ipcRenderer.send('sync-with-note', {
+        ipcRenderer.on('tl-init-slu', () => {
+            ipcRenderer.send('cb-sync-with-slu', {
                 timeline: this.state.timeline,
                 sluPath: this.state.sluPath
             });
@@ -74,7 +73,7 @@ export default class ControlBar extends Component {
 
     componentDidUpdate() {
         if (this.state.isRecord) {
-            ipcRenderer.send('sync-with-note', {
+            ipcRenderer.send('cb-sync-with-slu', {
                 timeline: this.state.timeline,
                 sluPath: this.state.sluPath
             });
