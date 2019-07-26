@@ -80,6 +80,8 @@ body {
 }
 
 .menu_items li {
+    padding-bottom: 10px;
+    padding-right: 30px;
     height: 60px;
     margin-bottom: 30px;
     transform: translateX(-300px);
@@ -120,7 +122,7 @@ body {
     height: 60px;
     margin-left: -33px;
     margin-top: -32px;
-    border-radius: 100%;
+    border-radius: 50%;
     border: 2px solid #f0f0f0;
     transition: border-color 0.2s;
 }
@@ -222,6 +224,9 @@ h2{
     margin: 20px;
     outline: none;
 }
+.btn:hover{
+    color: #f0f0f0;
+}
 
 .file_icon{
     width: 130px;
@@ -264,4 +269,22 @@ h2{
 .close_rotate{
     transform: rotate(0deg);
     transition-duration: 0.3s;
+}
+
+.pop_btn{
+    background-color: white;
+    border: none;
+    color: #143938;
+    font-size: 18px;
+}
+
+.pop_menu{
+    padding-left: 20px;
+    border-radius: 5px;
+}
+
+.pop_provider{
+    border: '1px solid';
+    border-color: #BDD4CB;
+    display: 'inline-block';
 }

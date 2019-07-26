@@ -4,6 +4,7 @@ import './css/ControlBar.css';
 
 import OKButton from '../asset/check.png';
 import CancelButton from '../asset/remove.png';
+import MarkButton from '../asset/star.png';
 
 const { ipcRenderer } = require('electron');
 
@@ -19,7 +20,8 @@ export class TextWindow extends Component {
         textwindow_value: "",
         textwindow_button: [
             { id: "ok", src: OKButton },
-            { id: "cancel", src: CancelButton }
+            { id: "cancel", src: CancelButton },
+            { id: "mark", src: MarkButton}
         ]
     }
 
