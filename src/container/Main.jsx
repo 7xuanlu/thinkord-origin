@@ -59,9 +59,10 @@ export default class Main extends Component {
     }
 
     OpenRecentToggle = () => {
+        console.log(document.getElementsByClassName("btn"));
         Array.from(document.getElementsByClassName("btn")).forEach(
             function(element) {
-                if(element.id > 4){
+                if(element.id >= 4){
                     element.className = "btn visible";
                 }
             }
@@ -73,9 +74,10 @@ export default class Main extends Component {
     }
 
     OpenRecentRemove = () => {
+        console.log(document.getElementsByClassName("btn"));
         Array.from(document.getElementsByClassName("btn")).forEach(
             function(element) {
-                if(element.id > 4){
+                if(element.id >= 4){
                     element.className = "btn hidden";
                 }
             }
@@ -110,9 +112,9 @@ export default class Main extends Component {
                                 <i className="open_recent_icon fas fa-plus-circle"></i>
                             </button>
                             <button
-                                className="open_recent_btn expand"
-                                hidden={this.state.slus.length > 5 ? "true" : "false"}
-                                onClick={this.state.expand ? () => this.OpenRecentRemove() : () => this.OpenRecentToggle()}
+                                className = "open_recent_btn expand"
+                                hidden = {this.state.slus.length > 4 ? false : true}
+                                onClick = {this.state.expand ? () => this.OpenRecentRemove() : () => this.OpenRecentToggle()}
                             >
                                 <i className="open_recent_icon fas fa-chevron-circle-down"></i>
                             </button>

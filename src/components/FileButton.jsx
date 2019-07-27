@@ -29,7 +29,8 @@ export default class FileButton extends Component{
             <div>
                 <ContextMenuTrigger id = {this.props.file.path}>
                     <button
-                        className = {this.props.file.index > 4 ? "btn hidden" : "btn"}
+                        id = {this.props.index}
+                        className = {this.props.index > 3 ? "btn hidden" : "btn"}
                         onDoubleClick = {() => this.EnterTimeLine(this.props.file.path)}
                     >
                         <img className="file_icon" src={FileIcon}/><br/>
