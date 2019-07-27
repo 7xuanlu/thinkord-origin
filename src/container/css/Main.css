@@ -271,20 +271,16 @@ h2{
     transition-duration: 0.3s;
 }
 
-.pop_btn{
+.pop_menu{
+    padding: 20px;
+    border-radius: 5px;
     background-color: white;
-    border: none;
     color: #143938;
     font-size: 18px;
+    text-align: left;
 }
 
-.pop_menu{
-    padding-left: 20px;
-    border-radius: 5px;
-}
-
-.pop_provider{
-    border: '1px solid';
-    border-color: #BDD4CB;
-    display: 'inline-block';
+.pop_trigger{
+    margin: 20px;
+    display: flex;
 }
