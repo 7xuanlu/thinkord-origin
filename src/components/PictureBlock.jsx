@@ -15,25 +15,31 @@ export default function PictureBlock(props) {
 
     return (
 
-        <div style={{ border: "dashed", padding: "20px" }} >
-            <BlockTitle time={props.block.timestamp} onChangeTitle={props.handleTitle}/>
-            <button onClick={handleScaling}>scaling</button>
+        <div className="picBlock blockContent">
+            <div className="borderLine"></div>
+            <BlockTitle className="blockTitle" time={props.block.timestamp} onChangeTitle={props.handleTitle}/>
+            <Button className="iconBtn removeBtn" onClick={props.delBlock.bind(this, props.block.timestamp)}><i className="far fa-trash-alt"></i></Button>
+
+            <div className="timeINFO date">{props.addDate}</div>
+            <div className="timeINFO time">{props.addTime}</div>
+            <div className="blockIcon"><i className="far fa-images"></i></div>
+            <button className="iconBtn scaleBtn"  onClick={handleScaling}><i className="fas fa-angle-up"></i></button>
             {scaling &&
+            <div className="blockMain">
                 <Card>
                     <Card.Img src={props.block.paths[0]} />
                     <Card.Body>
                         <Card.Text>{props.block.description}</Card.Text>
                     </Card.Body>
-                    <br /><br />
                     <BlockDescription
-                        addDescription={props.addDescription}
-                        time={props.block.timestamp} />
+                    addDescription={props.addDescription}
+                    time={props.block.timestamp} />
                 </Card>
+
+            </div>
             }
 
-            <div>
-                <Button onClick={props.delBlock.bind(this, props.block.timestamp)}>Remove</Button>
-            </div>
+
         </div>
 
     )

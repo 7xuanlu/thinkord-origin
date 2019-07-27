@@ -5,7 +5,7 @@ import Sidebar from "../components/layout/Sidebar";
 import Progressbar from "../components/layout/Progressbar";
 import Navigationbar from "../components/layout/Navigationbar";
 import { ipcRenderer } from "electron";
-// import './css/Timeline.css';
+import './css/Timeline.css';
 
 class Timeline extends Component {
   constructor() {
@@ -21,14 +21,14 @@ class Timeline extends Component {
     return (
       <div className="App" id="App">
 
-        <button onClick={this.returnToMain}>Return main</button>
+        {/* <button onClick={this.returnToMain}>Return main</button> */}
 
         <Sidebar />
-        <Navigationbar />
-        <div className="content" id="content">
+        <Navigationbar clickHome={this.returnToMain}/>
+        <div className="pageContent" id="content">
           <Header />
+          <div><Progressbar /></div>
           <BlockContainer />
-          <Progressbar />
         </div>
       </div>
     )

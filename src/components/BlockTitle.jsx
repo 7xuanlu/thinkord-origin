@@ -34,25 +34,26 @@ export default class BlockTitle extends Component {
     render() {
         let title;
         if (this.state.whileInput === false) {
-            title = <h1 onDoubleClick={this.handleDoubleClick}> {this.state.title} </h1>
+            title = <div onDoubleClick={this.handleDoubleClick}> {this.state.title} </div>
         } else {
             title =
-                <form onSubmit={this.handleSubmit} >
+                <div onSubmit={this.handleSubmit} >
                     <input
                         type="text"
                         name="title"
-                        className="description"
+                        // className="description"
                         required autoComplete="off"
                         value={this.state.title}
                         onChange={this.handleChange} />
                     <input
                         type="hidden"
                         value="comment"
-                        className="btn" />
-                </form>
+                        // className="btn" 
+                        />
+                </div>
         }
         return (
-            <div className="member-title">
+            <div className="blockTitle">
                 {title}
             </div>
         )

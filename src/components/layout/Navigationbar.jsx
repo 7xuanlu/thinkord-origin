@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { ipcRenderer } from "electron";
 
 export class Navigationbar extends Component {
     //sidebar animation
@@ -8,25 +9,18 @@ export class Navigationbar extends Component {
     }
 
     render() {
+        // console.log(this.props.clickHome);
 
         return (
             <div className="navigationBar">
                 <a className="nav_menu" onClick={this.sidebar_open} ><i className="fas fa-bars"></i></a>
-                <input type="text" className="search_bar" />
-                <a className="search" href="#"><i className="fas fa-search"></i></a>
-                <a className="up" href="#"><i className="fas fa-angle-up"></i></a>
+                <div className="search"><div><input type="text" placeholder="   Search . . ." required /></div></div>
                 <a className="edit" href="#"><i className="fas fa-pen"></i></a>
+                <div></div><div></div><div></div>
+                <a className="up" href="#"><i className="fas fa-arrow-up"></i></a>
+                <a className="return_main" href="#" onClick={this.props.clickHome}><i className="fas fa-home"></i></a>
                 <a className="nav_close" href="#"><i className="fas fa-times"></i></a>
             </div>
-
-            // <div className="navigationBar">
-            //     <a className="nav_menu" onClick={this.sidebar_open}><i className="fas fa-bars"></i></a>
-            //     <input type="text" className="search_bar" />
-            //     <a className="search" href="#"><i className="fas fa-search"></i></a>
-            //     <a className="up" href="#"><i className="fas fa-angle-up"></i></a>
-            //     <a className="edit" href="#"><i className="fas fa-pen"></i></a>
-            //     <a className="nav_close" href="#"><i className="fas fa-times"></i></a>
-            // </div>
         )
     }
 }

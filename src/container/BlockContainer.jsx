@@ -6,7 +6,7 @@ import VideoBlock from "../components/VideoBlock";
 import TextBlock from "../components/TextBlock";
 import AudioBlock from "../components/AudioBlock";
 
-
+let old_date = '';
 const jsonManager = new JSONManager(); 
 
 export class BlockContainer extends Component {
@@ -89,6 +89,41 @@ export class BlockContainer extends Component {
         })
     }
 
+    //Add timeline information
+    addDate = (block) => {
+        let new_date = block.timestamp.split(' ')
+        new_date = new_date[0]
+        new_date = new_date.split('/')
+        new_date = new_date[1] + ' / ' + new_date[2]
+
+
+        if (new_date === old_date) {
+            return (
+                <div></div>
+            )
+        } else {
+            old_date = new_date
+            return new_date;
+            
+        }
+    }
+    addTime = (block) => {
+        let time = block.timestamp.split(' ').pop();
+        time = time.split(':')
+        time = time[0] + ' : ' + time[1]
+
+        return time;
+        
+    }
+
+    // changeBtnIcon = () => {
+
+    //     return(
+    //         <i className="fas fa-angle-down"></i>
+    //     )
+    // }
+
+
     // Add file (frontend)
     addFile = (files, time) => {
         let note = this.state.timeline.blocks;
@@ -139,6 +174,8 @@ export class BlockContainer extends Component {
                         delBlock={this.delBlock}
                         handleTitle={this.handleTitle}
                         addDescription={this.addDescription}
+                        addDate={this.addDate(block)}
+                        addTime={this.addTime(block)}
                     />
                 )
             } else if (block.paths[0].split('.').pop() === 'mp3') {
@@ -148,6 +185,8 @@ export class BlockContainer extends Component {
                         delBlock={this.delBlock}
                         handleTitle={this.handleTitle}
                         addDescription={this.addDescription}
+                        addDate={this.addDate(block)}
+                        addTime={this.addTime(block)}
                     />
                 )
             } else if (block.paths[0].split('.').pop() === 'mp4') {
@@ -159,6 +198,8 @@ export class BlockContainer extends Component {
                         delBlock={this.delBlock}
                         handleTitle={this.handleTitle}
                         addDescription={this.addDescription}
+                        addDate={this.addDate(block)}
+                        addTime={this.addTime(block)}
                     />
                 )
             }
@@ -171,6 +212,8 @@ export class BlockContainer extends Component {
                     delFile={this.delFile}
                     delBlock={this.delBlock}
                     handleTitle={this.handleTitle}
+                    addDate={this.addDate(block)}
+                    addTime={this.addTime(block)}
                 />
             )
         }
@@ -183,13 +226,13 @@ export class BlockContainer extends Component {
 
 
         return (
-            <div>
-                {this.state.saveSign && <button onClick={this.saveChange}>save</button>}
+            <div  className="allBlocks">
                 {this.state.timeline.blocks.map((block, id) => (
                     <div key={id}>
                         {this.distBlock(block)}
                     </div>
                 ))}
+                {this.state.saveSign && <button onClick={this.saveChange}>save</button>}
             </div>
         )
     }

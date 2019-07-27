@@ -14,25 +14,32 @@ export default function TextBlock(props) {
     }
 
     return (
-        <div style={{ border: "dashed", padding: "20px" }} >
-            <BlockTitle time={props.block.timestamp} onChangeTitle={props.handleTitle}/>
-            <button onClick={handleScaling}>scaling</button>
+        <div className="textBlock blockContent">
+            <div className="borderLine"></div>
+            <BlockTitle className="blockTitle" time={props.block.timestamp} onChangeTitle={props.handleTitle}/>
+            <Button className="iconBtn removeBtn" onClick={props.delBlock.bind(this, props.block.timestamp)}><i className="far fa-trash-alt"></i></Button>
+
+            <div className="timeINFO date">{props.addDate}</div>
+            <div className="timeINFO time">{props.addTime}</div>
+            <div className="blockIcon"><i className="fas fa-quote-right"></i></div>
+            <button className="iconBtn scaleBtn" onClick={handleScaling}><i className="fas fa-angle-up"></i></button>
             {scaling &&
+            <div className="blockMain">
                 <Card>
                     <Card.Body>
                         <Card.Text>{props.text}</Card.Text>
                     </Card.Body>
-                    <br /> <br />
-                    <UploadFile
-                        time={props.block.timestamp}
-                        addFile={props.addFile}
-                        delFile={props.delFile} />
-                    <br /><br />
+                    {/* <br /> <br /> */}
                 </Card>
-            }
-            <div>
-                <Button onClick={props.delBlock.bind(this, props.block.timestamp)}>Remove</Button>
+                <UploadFile
+                    time={props.block.timestamp}
+                    addFile={props.addFile}
+                    delFile={props.delFile} />
+                {/* <br /><br /> */}
             </div>
+                
+            }
+
         </div>
     )
 }
