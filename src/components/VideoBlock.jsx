@@ -13,13 +13,15 @@ export default function VideoBlock(props) {
 
     const handleScaling = () => {
         setScaling(!scaling)
-        console.log(scaling)
+        // console.log(scaling)
     }
 
     return (
         <div className="videoBlock blockContent" >
             <div className="borderLine"></div>
-            <BlockTitle className="blockTitle" time={props.block.timestamp} onChangeTitle={props.handleTitle}/>
+            {(props.block.title !== "") ?
+                <h1>{props.block.title}</h1> :
+                <BlockTitle className="blockTitle" time={props.block.timestamp} onChangeTitle={props.handleTitle} />}
             <Button className="iconBtn removeBtn" onClick={props.delBlock.bind(this, props.block.timestamp)}><i className="far fa-trash-alt"></i></Button>
 
             <div className="timeINFO date">{props.addDate}</div>
@@ -38,16 +40,17 @@ export default function VideoBlock(props) {
                         </Card.Body>
                     </Card>
                     <BlockDescription
-                            addDescription={props.addDescription}
-                            time={props.block.timestamp} />
+                        addDescription={props.addDescription}
+                        time={props.block.timestamp} />
                     {/* <br /> <br /> */}
                     <UploadFile
+                        paths={props.block.paths.length}
                         time={props.block.timestamp}
                         addFile={props.addFile}
                         delFile={props.delFile} />
                     {/* <br /><br /> */}
                 </div>
-                
+
             }
 
         </div>

@@ -29,9 +29,11 @@ export default class Main extends Component {
             } else {
                 // Parse string to JS object
                 let json = JSON.parse(data);
+                console.log(json)
                 this.setState({
                     slus: json.slus.reverse()
                 });
+                console.log(this.state.slus)
             }
         });
     }

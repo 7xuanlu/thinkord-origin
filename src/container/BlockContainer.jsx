@@ -15,9 +15,9 @@ export class BlockContainer extends Component {
         super(props)
 
         this.state = {
-            timeline: {}, 
+            timeline: {},
             sluPath: "",
-            saveSign: false
+            saveSign: true
         }
     }
 
@@ -29,23 +29,31 @@ export class BlockContainer extends Component {
                 sluPath: args.sluPath,
                 timeline: args.timeline
             })
-            console.log(this.state.timeline)
+            // console.log(this.state.timeline)
         })
 
         // when you press stop recording, the save button will show up
         ipcRenderer.on('savebutton', () => {
-            console.log('I want to save the change I did');
+            // console.log('I want to save the change I did');
             this.setState({
-                saveSign: true
+                saveSign: !this.state.saveSign
             })
-            console.log(this.state.saveSign);
-            console.log(this.state.sluPath)
+
+        })
+
+        // when you press start recording, the save button will dimish
+        ipcRenderer.on('hidesavebutton', () => {
+            // console.log('I want to continue recording');
+            this.setState({
+                saveSign: !this.state.saveSign
+            })
+
         })
     }
 
     // Delete the block you choose (frontend)
     delBlock = (time) => {
-        console.log('Now you choose the block', time);
+        // console.log('Now you choose the block', time);
         this.setState({
             timeline: {
                 blocks: [...this.state.timeline.blocks.filter(block => block.timestamp !== time)]
@@ -162,7 +170,7 @@ export class BlockContainer extends Component {
     // Write the data model to the json file
     saveChange = () => {
         jsonManager.writeJSON(this.state.timeline, this.state.sluPath)
-    } 
+    }
 
 
     distBlock = (block) => {
@@ -223,13 +231,14 @@ export class BlockContainer extends Component {
     render() {
         // Yield undefined, because the first value it gets is undefined
         if (this.state.timeline.blocks === undefined) { return null }
-
+        // console.log(this.state.timeline.blocks)
 
         return (
             <div  className="allBlocks">
                 {this.state.timeline.blocks.map((block, id) => (
                     <div key={id}>
                         {this.distBlock(block)}
+                        {console.log(block)}
                     </div>
                 ))}
                 {this.state.saveSign && <button onClick={this.saveChange}>save</button>}

@@ -68,6 +68,12 @@ ipcMain.on('savebutton', () => {
     }
 })
 
+ipcMain.on('hidesavebutton', () => {
+    if (main !== null) {
+        main.webContents.send('hidesavebutton')
+    }
+})
+
 ipcMain.on('audio-click', () => {
     console.log('audio click');
 })

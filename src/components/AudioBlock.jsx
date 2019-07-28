@@ -16,7 +16,9 @@ export default function AudioBlock(props) {
     return (
         <div className="audioBlock blockContent" >
             <div className="borderLine"></div>
-            <BlockTitle className="blockTitle" time={props.block.timestamp} onChangeTitle={props.handleTitle}/>
+            {(props.block.title !== "") ?
+                <h1>{props.block.title}</h1> :
+                <BlockTitle className="blockTitle" time={props.block.timestamp} onChangeTitle={props.handleTitle} />}
             <Button className="iconBtn removeBtn" onClick={props.delBlock.bind(this, props.block.timestamp)}><i className="far fa-trash-alt"></i></Button>
             <div className="timeINFO date">{props.addDate}</div>
             <div className="timeINFO time">{props.addTime}</div>
@@ -37,7 +39,7 @@ export default function AudioBlock(props) {
                         time={props.block.timestamp} />
                     {/* <br /> <br /> */}
                 </div>
-                
+
             }
 
         </div>

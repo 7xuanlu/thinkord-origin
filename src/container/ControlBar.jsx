@@ -50,6 +50,7 @@ export default class ControlBar extends Component {
     componentDidMount() {
         ipcRenderer.send('cb-init-slu');
         ipcRenderer.on('cb-init-slu', (event, args) => {
+            
             this.state.jsonManager.readJSON(args.path).then((json) => {
                 this.setState({
                     timeline: json,
@@ -107,6 +108,7 @@ export default class ControlBar extends Component {
             });
 
             ipcRenderer.send('register-shortcuts');
+            ipcRenderer.send('hidesavebutton');
             this.ipcOnShortcut();
             this.setState({ controlbar_button: button })
         } else {

@@ -36,8 +36,7 @@ class Uploadfile extends Component {
 
   deleteButton(filepath, e) {
     this.setState({
-      files: [...this.state.files.filter((file) => file.path !== filepath)],
-
+      files: [...this.state.files.filter((file) => file.path !== filepath)]
     })
   }
 
@@ -53,30 +52,44 @@ class Uploadfile extends Component {
       )
     } else if (file.name.split('.').pop() === 'pdf') {
       return (
-        <i class="far fa-file-pdf fa-3x file_preview_icon"></i>
+        <i className="far fa-file-pdf fa-3x file_preview_icon"></i>
       )
     } else if (file.name.split('.').pop() === 'mp3') {
       return (
-        <i class="far fa-file-audio fa-3x file_preview_icon"></i>
+        <i className="far fa-file-audio fa-3x file_preview_icon"></i>
       )
     } else if (file.name.split('.').pop() === 'mp4') {
       return (
-        <i class="far fa-file-video fa-3x file_preview_icon"></i>
+        <i className="far fa-file-video fa-3x file_preview_icon"></i>
       )
     } else if (file.name.split('.').pop() === 'xls') {
       return (
-        <i class="far fa-file-excel fa-3x file_preview_icon"></i>
+        <i className="far fa-file-excel fa-3x file_preview_icon"></i>
       )
     } else if (file.name.split('.').pop() === 'zip') {
       return (
-        <i class="far fa-file-archive fa-3x file_preview_icon"></i>
+        <i className="far fa-file-archive fa-3x file_preview_icon"></i>
       )
     } else {
       return (
-        <i class="far fa-file-alt fa-3x file_preview_icon"></i>
+        <i className="far fa-file-alt fa-3x file_preview_icon"></i>
       )
     }
   }
+
+  distFile = (files) => {
+
+    
+    
+    return (
+      <aside className="file_upload">
+        {files}
+      </aside>
+    )
+
+  }
+
+
 
   render() {
 
@@ -164,9 +177,10 @@ class Uploadfile extends Component {
               {isDragActive ? 'Drop it!' : 'Drag and drop some files here, or click to select files'}
             </Container>
             <br />
-            <aside className="file_upload">
-              {files}
-            </aside>
+
+
+            {this.distFile(files)}
+
           </div>
         )}
       </Dropzone>
