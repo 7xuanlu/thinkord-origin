@@ -165,3 +165,11 @@ ipcMain.on('slu-return-to-main', () => {
         controlbar = null;
     }
 });
+
+ipcMain.on('file-rename', (event, args) => {
+    console.log(args);
+});
+
+ipcMain.on('file-delete', (event, args) => {
+    console.log(args);
+})

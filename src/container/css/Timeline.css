@@ -50,7 +50,7 @@
 
 }
 .blockContent:hover{
-  margin:-10px 4% 0 0;
+  /* margin:-10px 4% 0 0; */
   transition: 0.7s;
 }
 .blockContent:hover .borderLine{

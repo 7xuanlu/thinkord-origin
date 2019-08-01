@@ -286,3 +286,24 @@ h2{
     display: flex;
     flex-wrap: wrap;
 }
+
+.modal_header{
+    padding: 10px;
+    background-color: #143938;
+    color: #35C189;
+}
+
+.modal_footer{
+    border: none;
+}
+
+.modal_input{
+    border-radius: 5px;
+    padding: 5px;
+    border: 1px solid #BDD4CB;
+}
+
+.modal_icon{
+    font-size: 25px;
+    color: #143938;
+}
