@@ -1,9 +1,14 @@
 const { app, ipcMain, globalShortcut } = require('electron');
+const fs = require('fs');
+const path = require('path');
 
 const noteTray = require('./app/note-tray');
 const browserWindow = require('./app/browser-window');
 const { useCapture } = require('./src/renderer/dragsnip/capture-main');
 const { initUserEnv } = require('./app/init-user-env');
+
+const appSettingPath = path.join(app.getPath('userData'), 'app.json');
+const sluDirPath = path.join(app.getPath('userData'), 'Slu');
 
 // // Make Win10 notification available
 // app.setAppUserModelId(process.execPath);
@@ -166,10 +171,76 @@ ipcMain.on('slu-return-to-main', () => {
     }
 });
 
-ipcMain.on('file-rename', (event, args) => {
-    console.log(args);
+ipcMain.on('main-sync', (event)=>{
+    fs.readFile(appSettingPath, (err, data) => {
+        if (err) {
+            throw err;
+        } else {
+            // Parse string to JS object
+            let json = JSON.parse(data);
+ 
+            event.reply('main-reply-sync', json);
+        }
+    });
 });
 
-ipcMain.on('file-delete', (event, args) => {
-    console.log(args);
-})
+ipcMain.on('main-rename-file', (event, args) => {
+    const newSluPath = path.join(sluDirPath, args.new_filename + '.json');
+
+    fs.readFile(appSettingPath, (err, data) => {
+        if (err) {
+            throw err;
+        } else {
+            // Parse string to JS object
+            let json = JSON.parse(data);
+
+            json["slus"].map((item, index) => {
+                if (item["path"] === args.path) {
+                    json["slus"][index].path = newSluPath;
+                }
+            });
+
+            let jsonString = JSON.stringify(json);
+
+            fs.writeFile(appSettingPath, jsonString, (err) => {
+                if (err) { throw err }
+            })
+        }
+    });
+
+    fs.rename(args.path, newSluPath, (err) => {
+        if (err) throw err;
+        let msg = `${args.path} has been renamed`;
+        console.log(msg);
+        event.reply('main-reply-rename', { msg: msg });
+    });
+});
+
+ipcMain.on('main-delete-file', async (event, args) => {
+    await fs.readFile(appSettingPath, (err, data) => {
+        if (err) {
+            throw err;
+        } else {
+            // Parse string to JS object
+            let json = JSON.parse(data);
+
+            json["slus"].map((item, index) => {
+                if (item["path"] === args.path) { json["slus"].splice(index, 1); }
+                // console.log(index, item)
+            });
+
+            let jsonString = JSON.stringify(json);
+
+            fs.writeFile(appSettingPath, jsonString, (err) => {
+                if (err) { throw err }
+            })
+        }
+    });
+
+    fs.unlink(args.path, (err) => {
+        if (err) throw err;
+        let msg = `${args.path} has been deleted`;
+        console.log(msg);
+        event.reply('main-reply-del', { msg: msg });
+    });
+});

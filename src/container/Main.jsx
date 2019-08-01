@@ -4,6 +4,7 @@ import Style from '../container/css/Main.css';
 
 const remote = require('electron').remote;
 const app = remote.app;
+
 const { ipcRenderer } = require('electron');
 const fs = require('fs');
 const path = require('path');
@@ -22,20 +23,27 @@ export default class Main extends Component {
     }
 
     componentDidMount() {
-        //read slu path
-        fs.readFile(appSettingPath, (err, data) => {
-            if (err) {
-                throw err;
-            } else {
-                // Parse string to JS object
-                let json = JSON.parse(data);
-                console.log(json)
-                this.setState({
-                    slus: json.slus.reverse()
-                });
-                console.log(this.state.slus)
-            }
+        // Initialize main
+        ipcRenderer.send('main-sync');
+
+        ipcRenderer.on('main-reply-sync', (event, args) => {
+            console.log(args)
+            this.setState({
+                slus: args.slus.reverse()
+            });
         });
+
+        ipcRenderer.on('main-reply-rename', (event, args) => {
+            console.log(args);
+        })
+
+        ipcRenderer.on('main-reply-del', (event, args) => {
+            console.log(args);
+        });
+    }
+
+    componentDidUpdate() {
+        ipcRenderer.send('main-sync');
     }
 
     handleMenuOpen = () => {
@@ -63,13 +71,13 @@ export default class Main extends Component {
     OpenRecentToggle = () => {
         console.log(document.getElementsByClassName("btn"));
         Array.from(document.getElementsByClassName("btn")).forEach(
-            function(element) {
-                if(element.id >= 4){
+            function (element) {
+                if (element.id >= 4) {
                     element.className = "btn visible";
                 }
             }
         );
-        document.getElementsByClassName("fa-chevron-circle-down")[0].className ="open_recent_icon fa fa-chevron-circle-down open_rotate";
+        document.getElementsByClassName("fa-chevron-circle-down")[0].className = "open_recent_icon fa fa-chevron-circle-down open_rotate";
         this.setState({
             expand: true
         });
@@ -78,13 +86,13 @@ export default class Main extends Component {
     OpenRecentRemove = () => {
         console.log(document.getElementsByClassName("btn"));
         Array.from(document.getElementsByClassName("btn")).forEach(
-            function(element) {
-                if(element.id >= 4){
+            function (element) {
+                if (element.id >= 4) {
                     element.className = "btn hidden";
                 }
             }
         );
-        document.getElementsByClassName("fa-chevron-circle-down")[0].className ="open_recent_icon fa fa-chevron-circle-down close_rotate";
+        document.getElementsByClassName("fa-chevron-circle-down")[0].className = "open_recent_icon fa fa-chevron-circle-down close_rotate";
         this.setState({
             expand: false
         });
@@ -114,13 +122,13 @@ export default class Main extends Component {
                                 <i className="open_recent_icon fas fa-plus-circle"></i>
                             </button>
                             <button
-                                className = "open_recent_btn expand"
-                                hidden = {this.state.slus.length > 4 ? false : true}
-                                onClick = {this.state.expand ? () => this.OpenRecentRemove() : () => this.OpenRecentToggle()}
+                                className="open_recent_btn expand"
+                                hidden={this.state.slus.length > 4 ? false : true}
+                                onClick={this.state.expand ? () => this.OpenRecentRemove() : () => this.OpenRecentToggle()}
                             >
                                 <i className="open_recent_icon fas fa-chevron-circle-down"></i>
                             </button>
-                        </h2><br/>
+                        </h2><br />
                         <div className="pop_trigger">
                             {this.state.slus.map((file) =>
                                 <FileButton
