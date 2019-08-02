@@ -25,6 +25,8 @@ export default class ControlBarButton extends Component {
                 return this.props.onOK;
             case 'cancel':
                 return this.props.onCancel;
+            case 'mark':
+                return this.props.onMark;
         }
     }
 

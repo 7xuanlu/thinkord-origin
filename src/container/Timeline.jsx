@@ -8,8 +8,8 @@ import { ipcRenderer } from "electron";
 import './css/Timeline.css';
 
 class Timeline extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
   }
 
   returnToMain = () => {
@@ -17,14 +17,10 @@ class Timeline extends Component {
   }
 
   render() {
-
     return (
       <div className="App" id="App">
-
-        {/* <button onClick={this.returnToMain}>Return main</button> */}
-
         <Sidebar />
-        <Navigationbar clickHome={this.returnToMain}/>
+        <Navigationbar clickHome={this.returnToMain} />
         <div className="pageContent" id="content">
           <Header />
           <div><Progressbar /></div>

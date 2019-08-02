@@ -41,6 +41,7 @@ export class NoteManager {
 
             // Update text for newly created block
             note["blocks"][blockArrLength - 1]["text"] = args.text;
+            note["blocks"][blockArrLength - 1]["mark"] = args.isMark;
             if (note["blocks"][blockArrLength - 1]["paths"].length === 0) {
                 console.log('yo man')
                 note["blocks"][blockArrLength - 1]["paths"].push("")

@@ -203,11 +203,11 @@ export default class ControlBar extends Component {
 
     handleText = () => {
         ipcRenderer.send('text-click');
-        ipcRenderer.once('save-textarea-value', (event, value) => {
+        ipcRenderer.once('save-textarea-value', (event, args) => {
             const noteManager = new NoteManager();
 
             // Add new text block to the note object
-            let note = noteManager.addBlock(this.state.timeline, value)
+            let note = noteManager.addBlock(this.state.timeline, args)
             this.setState({ timeline: note })
         })
     }

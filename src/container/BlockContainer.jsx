@@ -7,10 +7,9 @@ import TextBlock from "../components/TextBlock";
 import AudioBlock from "../components/AudioBlock";
 
 let old_date = '';
-const jsonManager = new JSONManager(); 
+const jsonManager = new JSONManager();
 
 export class BlockContainer extends Component {
-
     constructor(props) {
         super(props)
 
@@ -28,27 +27,22 @@ export class BlockContainer extends Component {
             this.setState({
                 sluPath: args.sluPath,
                 timeline: args.timeline
-            })
-            // console.log(this.state.timeline)
-        })
+            });
+        });
 
         // when you press stop recording, the save button will show up
         ipcRenderer.on('savebutton', () => {
-            // console.log('I want to save the change I did');
             this.setState({
                 saveSign: !this.state.saveSign
             })
-
         })
 
         // when you press start recording, the save button will dimish
         ipcRenderer.on('hidesavebutton', () => {
-            // console.log('I want to continue recording');
             this.setState({
                 saveSign: !this.state.saveSign
-            })
-
-        })
+            });
+        });
     }
 
     // Delete the block you choose (frontend)
@@ -58,7 +52,7 @@ export class BlockContainer extends Component {
             timeline: {
                 blocks: [...this.state.timeline.blocks.filter(block => block.timestamp !== time)]
             }
-        })
+        });
     }
 
     // Add description (frontend)
@@ -70,13 +64,13 @@ export class BlockContainer extends Component {
             if (block.timestamp === time) {
                 block.description = des
             }
-        })
+        });
 
         this.setState({
             timeline: {
                 blocks: note
             }
-        })
+        });
     }
 
     // Change the title (frontend)
@@ -94,7 +88,7 @@ export class BlockContainer extends Component {
             timeline: {
                 blocks: note
             }
-        })
+        });
     }
 
     //Add timeline information
@@ -112,7 +106,7 @@ export class BlockContainer extends Component {
         } else {
             old_date = new_date
             return new_date;
-            
+
         }
     }
     addTime = (block) => {
@@ -121,7 +115,7 @@ export class BlockContainer extends Component {
         time = time[0] + ' : ' + time[1]
 
         return time;
-        
+
     }
 
     // changeBtnIcon = () => {
@@ -231,10 +225,10 @@ export class BlockContainer extends Component {
     render() {
         // Yield undefined, because the first value it gets is undefined
         if (this.state.timeline.blocks === undefined) { return null }
-        // console.log(this.state.timeline.blocks)
+        console.log(this.state.timeline.blocks)
 
         return (
-            <div  className="allBlocks">
+            <div className="allBlocks">
                 {this.state.timeline.blocks.map((block, id) => (
                     <div key={id}>
                         {this.distBlock(block)}

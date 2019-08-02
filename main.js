@@ -96,15 +96,15 @@ ipcMain.on('text-click', () => {
     console.log('text click');
 })
 
-ipcMain.on('cancel-click-on-text-window', () => {
+ipcMain.on('twin-cancel', () => {
     text.close();
     text = null;
     console.log('cancel-click');
 })
 
-ipcMain.on('ok-click-on-text-window', (event, textObject) => {
+ipcMain.on('twin-ok', (event, args) => {
     console.log('ok-click');
-    controlbar.webContents.send('save-textarea-value', textObject);
+    controlbar.webContents.send('save-textarea-value', args);
     text.close();
     text = null;
 })

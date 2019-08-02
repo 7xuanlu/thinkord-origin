@@ -13,29 +13,36 @@ export class TextWindow extends Component {
         super(props);
 
         this.myRef = React.createRef();
-        this.handleOK = this.handleOK.bind(this);
-    }
-
-    state = {
-        textwindow_value: "",
-        textwindow_button: [
-            { id: "ok", src: OKButton },
-            { id: "cancel", src: CancelButton },
-            { id: "mark", src: MarkButton}
-        ]
+        this.state = {
+            textwindow_value: "",
+            textwindow_button: [
+                { id: "ok", src: OKButton },
+                { id: "cancel", src: CancelButton },
+                { id: "mark", src: MarkButton }
+            ],
+            isMark: false
+        }
     }
 
     handleOK = () => {
         const textarea = this.myRef.current;
 
-        ipcRenderer.send('ok-click-on-text-window', {"text": textarea.value});
+        ipcRenderer.send('twin-ok', {
+            "text": textarea.value,
+            "isMark": this.state.isMark
+        });
     }
 
     handleCancel = () => {
-        ipcRenderer.send('cancel-click-on-text-window');
-    } 
+        ipcRenderer.send('twin-cancel');
+    }
+
+    handleMark = () => {
+        this.setState({ isMark: !this.state.isMark });
+    }
 
     render() {
+        console.log(this.state.isMark);
         return (
             <div className="textdiv">
                 <label>Annotate here:</label>
@@ -59,6 +66,7 @@ export class TextWindow extends Component {
                             button={button}
                             onOK={this.handleOK}
                             onCancel={this.handleCancel}
+                            onMark={this.handleMark}
                         />)}
                 </div>
             </div>
