@@ -204,7 +204,7 @@ ipcMain.on('main-rename-file', (event, args) => {
 
             fs.writeFile(appSettingPath, jsonString, (err) => {
                 if (err) { throw err }
-            })
+            });
         }
     });
 

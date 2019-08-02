@@ -34,10 +34,12 @@ export default class Main extends Component {
         });
 
         ipcRenderer.on('main-reply-rename', (event, args) => {
+            window.location.reload();
             console.log(args);
         })
 
         ipcRenderer.on('main-reply-del', (event, args) => {
+            window.location.reload();
             console.log(args);
         });
     }
