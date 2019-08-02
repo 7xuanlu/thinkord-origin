@@ -18,6 +18,9 @@ export default class Main extends Component {
         super(props);
         this.state = {
             slus: [],
+            home_page: false,
+            help_page: true,
+            about_us_page: true,
             expand: false
         }
     }
@@ -100,6 +103,33 @@ export default class Main extends Component {
         });
     }
 
+    handleHomeClick = () => {
+        this.handleMenuClose();
+        this.setState({
+            home_page: false,
+            help_page: true,
+            about_us_page: true
+        });
+    }
+
+    handleHelpClick = () => {
+        this.handleMenuClose();
+        this.setState({
+            home_page: true,
+            help_page: false,
+            about_us_page: true
+        });
+    }
+
+    handleAboutUsClick = () => {
+        this.handleMenuClose();
+        this.setState({
+            home_page: true,
+            help_page: true,
+            about_us_page: false
+        });
+    }
+
     render() {
         return (
             <div>
@@ -108,12 +138,12 @@ export default class Main extends Component {
                     <i className="menu_close fas fa-times fa-lg"></i>
                 </span>
                 <ul className="menu_items">
-                    <li><a href="#"><i className="icon fas fa-tools fa-2x"></i> Settings</a></li>
-                    <li><a href="#"><i className="icon fas fa-question fa-2x"></i> Help</a></li>
-                    <li><a href="#"><i className="icon fas fa-users fa-2x"></i> About us</a></li>
+                    <li><a href="#"><i class="icon fas fa-home fa-2x" onClick={this.handleHomeClick}></i> Home</a></li>
+                    <li><a href="#"><i className="icon fas fa-question fa-2x" onClick={this.handleHelpClick}></i> Help</a></li>
+                    <li><a href="#"><i className="icon fas fa-users fa-2x" onClick={this.handleAboutUsClick}></i> About us</a></li>
                 </ul>
                 <main className="content" onClick={this.handleMenuClose}>
-                    <div className="content_inner">
+                    <div className="content_inner" hidden={this.state.home_page}>
                         <h1>SLUNOTE</h1><br />
                         <div className="content_search">
                             <input className="search_bar" type="text" /><i className="search_icon fas fa-search"></i>
@@ -141,6 +171,12 @@ export default class Main extends Component {
                                 </FileButton>
                             )}
                         </div>
+                    </div>
+                    <div className="content_inner" hidden={this.state.help_page}>
+                        <h1>Help</h1>
+                    </div>
+                    <div className="content_inner" hidden={this.state.about_us_page}>
+                        <h1>About Us</h1>
                     </div>
                 </main>
             </div>
