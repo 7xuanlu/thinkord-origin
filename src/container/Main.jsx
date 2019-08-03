@@ -1,17 +1,8 @@
 import React, { Component } from 'react';
-import { ContextMenu, MenuItem } from "react-contextmenu";
-import Style from '../container/css/Main.css';
-
-const remote = require('electron').remote;
-const app = remote.app;
 
 const { ipcRenderer } = require('electron');
-const fs = require('fs');
-const path = require('path');
 import { JSONManager } from '../renderer/json-manager';
 import FileButton from '../components/FileButton';
-
-const appSettingPath = path.join(app.getPath('userData'), 'app.json');
 
 export default class Main extends Component {
     constructor(props) {
