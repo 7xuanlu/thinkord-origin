@@ -45,15 +45,12 @@
 .borderLine{
   grid-column:4 /-1;
   grid-row:  1 / -1;
-  border-radius: 10px;
+}
 
-}
-.blockContent:hover{
-  transition: 0.7s;
-}
 .blockContent:hover .borderLine{
-  border: 2px solid #2b7a4f;
+  border: 1.8px solid #2b7a4f;
   box-shadow:0 3px 4px 3px rgba(0,0,0,0.25);
+  transition: 0.3s;
 }
 
 
