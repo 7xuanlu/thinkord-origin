@@ -1,40 +1,49 @@
 import React, { Component } from 'react'
 
 export class BlockDescription extends Component {
+    constructor(props) {
+        super(props);
 
-    state = {
-        description: ''
+        this.state = {
+            description: props.description,
+            formDes: ''
+        }
     }
 
     onSubmit = (e) => {
         e.preventDefault();
-        this.props.addDescription(this.state.description, this.props.time);
         this.setState({
-            description: ''
-        })
+            description: this.state.formDes,
+        });
+        this.props.addDescription(this.state.formDes, this.props.time);
+        this.setState({ formDes: '' });
     }
 
     onChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
-        })
+        });
     }
+
     render() {
         return (
-            <form className="inputContainer descriptionContainer" onSubmit={this.onSubmit} >
-                <label className="inputLabel">
-                    <input 
-                            name="description"
+            <div>
+                <div>{this.props.handleLinker(this.state.description)}</div>
+                <form className="inputContainer descriptionContainer" onSubmit={this.onSubmit} >
+                    <label className="inputLabel">
+                        <input
+                            name="formDes"
                             className="inputField descriptionInput"
                             type="text"
-                            placeholder="Describe something ..."
                             autoComplete="off"
-                            value={this.state.description}
+                            placeholder="Describe something ..."
+                            value={this.state.formDes}
                             onChange={this.onChange}
                         />
-                    <span className="inputSpan"><span className="inputSpan"></span></span>
+                        <span className="inputSpan"><span className="inputSpan"></span></span>
                     </label>
-            </form>
+                </form>
+            </div>
         )
     }
 }

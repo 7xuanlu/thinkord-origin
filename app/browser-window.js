@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, shell } = require('electron');
 
 // if environment mode is not set, it will default to be in development
 const mode = require('../webpack.config').mode;
@@ -98,6 +98,11 @@ exports.createMainWindow = (main) => {
 
     main.once('closed', () => {
         main = app.quit();
+    });
+
+    main.webContents.on('new-window', (event, url) => {
+        event.preventDefault();
+        shell.openExternal(url);
     });
 
     if (mode === "development") {

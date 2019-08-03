@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import { ipcRenderer } from "electron";
+import Autolinker from 'autolinker';
+import parse from 'html-react-parser';
+
 import { JSONManager } from "../renderer/json-manager";
 import PictureBlock from '../components/PictureBlock';
 import VideoBlock from "../components/VideoBlock";
@@ -110,6 +113,7 @@ export class BlockContainer extends Component {
 
         }
     }
+
     addTime = (block) => {
         let time = block.timestamp.split(' ').pop();
         time = time.split(':')
@@ -172,6 +176,12 @@ export class BlockContainer extends Component {
         jsonManager.writeJSON(this.state.timeline, this.state.sluPath)
     }
 
+    handleLinker(text) {
+        let linkedtext = Autolinker.link(text).trim();
+        let element = parse(linkedtext);
+        return element;
+        // Change this to div.childNodes to support multiple top-level nodes
+    }
 
     distBlock = (block) => {
         if (block.paths[0] !== "") {
@@ -184,6 +194,7 @@ export class BlockContainer extends Component {
                         addDescription={this.addDescription}
                         addDate={this.addDate(block)}
                         addTime={this.addTime(block)}
+                        handleLinker={this.handleLinker}
                     />
                 )
             } else if (block.paths[0].split('.').pop() === 'mp3') {
@@ -195,6 +206,7 @@ export class BlockContainer extends Component {
                         addDescription={this.addDescription}
                         addDate={this.addDate(block)}
                         addTime={this.addTime(block)}
+                        handleLinker={this.handleLinker}
                     />
                 )
             } else if (block.paths[0].split('.').pop() === 'mp4') {
@@ -208,6 +220,7 @@ export class BlockContainer extends Component {
                         addDescription={this.addDescription}
                         addDate={this.addDate(block)}
                         addTime={this.addTime(block)}
+                        handleLinker={this.handleLinker}
                     />
                 )
             }
@@ -216,6 +229,7 @@ export class BlockContainer extends Component {
                 <TextBlock
                     block={block}
                     text={block.text}
+                    handleLinker={this.handleLinker}
                     addFile={this.addFile}
                     delFile={this.delFile}
                     delBlock={this.delBlock}
@@ -231,14 +245,12 @@ export class BlockContainer extends Component {
     render() {
         // Yield undefined, because the first value it gets is undefined
         if (this.state.timeline.blocks === undefined) { return null }
-        console.log(this.state.timeline.blocks)
-
+        // console.log(this.state.timeline.blocks)
         return (
             <div className="allBlocks">
                 {this.state.timeline.blocks.map((block, id) => (
                     <div key={id}>
                         {this.distBlock(block)}
-                        {console.log(block)}
                     </div>
                 ))}
                 <Navigationbar 

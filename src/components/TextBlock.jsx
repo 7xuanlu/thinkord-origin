@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import UploadFile from "../components/UploadFile"
 import BlockTitle from "../components/BlockTitle"
@@ -26,21 +25,13 @@ export default function TextBlock(props) {
             <button className="iconBtn scaleBtn" onClick={handleScaling}><i className="fas fa-angle-up"></i></button>
             {scaling &&
                 <div className="blockMain">
-                    <Card>
-                        <Card.Body>
-                            <Card.Text>{props.text}</Card.Text>
-                        </Card.Body>
-                        {/* <br /> <br /> */}
-                    </Card>
+                    <div>{props.handleLinker(props.text)}</div>
                     <UploadFile
                         time={props.block.timestamp}
                         addFile={props.addFile}
                         delFile={props.delFile} />
-                    {/* <br /><br /> */}
                 </div>
-
             }
-
         </div>
     )
 }

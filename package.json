@@ -38,8 +38,11 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
+    "autolinker": "^3.11.0",
     "bootstrap": "^4.3.1",
     "electron": "^5.0.1",
+    "html-react-parser": "^0.9.1",
+    "jquery": "^1.9.1",
     "mic-recorder-to-mp3": "^2.2.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
@@ -48,6 +51,7 @@
     "react-dom": "^16.8.6",
     "react-dropzone": "^10.1.5",
     "styled-components": "^4.3.2",
-    "video-react": "^0.13.7"
+    "video-react": "^0.13.7",
+    "webrtc-adapter": "^4.1.1"
   }
 }

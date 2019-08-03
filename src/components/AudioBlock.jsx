@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import BlockTitle from "../components/BlockTitle"
 import BlockDescription from "../components/BlockDescription"
@@ -25,22 +24,17 @@ export default function AudioBlock(props) {
             <button className="iconBtn scaleBtn" onClick={handleScaling}><i className="fas fa-angle-up"></i></button>
             {scaling &&
                 <div className="blockMain">
-                    <Card>
-                        <Card.Body>
-                            <audio controls="controls">
-                                <source src={props.block.paths[0]} />
-                            </audio>
-                            <Card.Text>{props.block.description}</Card.Text>
-                        </Card.Body>
-                    </Card>
+                    <audio controls="controls">
+                        <source src={props.block.paths[0]} />
+                    </audio>
                     <BlockDescription
+                        description={props.block.description}
                         addDescription={props.addDescription}
-                        time={props.block.timestamp} />
-                    {/* <br /> <br /> */}
+                        time={props.block.timestamp}
+                        handleLinker={props.handleLinker}
+                    />
                 </div>
-
             }
-
         </div>
     )
 }

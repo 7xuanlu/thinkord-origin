@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import { Player, BigPlayButton } from 'video-react'
 import '../../node_modules/video-react/dist/video-react.css'
@@ -29,29 +28,23 @@ export default function VideoBlock(props) {
             <button className="iconBtn scaleBtn" onClick={handleScaling}><i className="fas fa-angle-up"></i></button>
             {scaling &&
                 <div className="blockMain">
-                    <Card>
-                        <Card.Body>
-                            <Player>
-                                <BigPlayButton position="center" />
-                                <source src={props.block.paths[0]} />
-                            </Player>
-                            <Card.Text>{props.block.description}</Card.Text>
-                        </Card.Body>
-                    </Card>
+                    <Player>
+                        <BigPlayButton position="center" />
+                        <source src={props.block.paths[0]} />
+                    </Player>
                     <BlockDescription
+                        description={props.block.description}
                         addDescription={props.addDescription}
-                        time={props.block.timestamp} />
-                    {/* <br /> <br /> */}
+                        time={props.block.timestamp}
+                        handleLinker={props.handleLinker}
+                    />
                     <UploadFile
                         paths={props.block.paths.length}
                         time={props.block.timestamp}
                         addFile={props.addFile}
                         delFile={props.delFile} />
-                    {/* <br /><br /> */}
                 </div>
-
             }
-
         </div>
     )
 }

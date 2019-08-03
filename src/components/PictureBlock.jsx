@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import BlockTitle from "../components/BlockTitle"
 import BlockDescription from "../components/BlockDescription"
@@ -13,7 +12,6 @@ export default function PictureBlock(props) {
     }
 
     return (
-
         <div className="picBlock blockContent">
             <div className="borderLine"></div>
             {/* {(props.block.title !== "") ?
@@ -27,23 +25,15 @@ export default function PictureBlock(props) {
             <button className="iconBtn scaleBtn" onClick={handleScaling}><i className="fas fa-angle-up"></i></button>
             {scaling &&
                 <div className="blockMain">
-                    <Card>
-                        <Card.Img src={props.block.paths[0]} />
-                        <Card.Body>
-                            <Card.Text>{props.block.description}</Card.Text>
-                        </Card.Body>
-                        <BlockDescription
-                            addDescription={props.addDescription}
-                            time={props.block.timestamp} />
-                    </Card>
-
+                    <img src={props.block.paths[0]} />
+                    <BlockDescription
+                        description={props.block.description}
+                        addDescription={props.addDescription}
+                        time={props.block.timestamp}
+                        handleLinker={props.handleLinker}
+                    />
                 </div>
             }
-
-
         </div>
-
     )
-
-
 }

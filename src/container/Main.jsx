@@ -20,20 +20,17 @@ export default class Main extends Component {
         // Initialize main
         ipcRenderer.send('main-sync');
 
-        ipcRenderer.on('main-reply-sync', (event, args) => {
-            console.log(args)
+        ipcRenderer.once('main-reply-sync', (event, args) => {
             this.setState({
                 slus: args.slus.reverse()
             });
         });
 
         ipcRenderer.on('main-reply-rename', (event, args) => {
-            // window.location.reload();
             console.log(args);
-        })
+        });
 
         ipcRenderer.on('main-reply-del', (event, args) => {
-            // window.location.reload();
             console.log(args);
         });
     }
@@ -129,7 +126,7 @@ export default class Main extends Component {
                     <i className="menu_close fas fa-times fa-lg"></i>
                 </span>
                 <ul className="menu_items">
-                    <li><a href="#"><i class="icon fas fa-home fa-2x" onClick={this.handleHomeClick}></i> Home</a></li>
+                    <li><a href="#"><i className="icon fas fa-home fa-2x" onClick={this.handleHomeClick}></i> Home</a></li>
                     <li><a href="#"><i className="icon fas fa-question fa-2x" onClick={this.handleHelpClick}></i> Help</a></li>
                     <li><a href="#"><i className="icon fas fa-users fa-2x" onClick={this.handleAboutUsClick}></i> About us</a></li>
                 </ul>
