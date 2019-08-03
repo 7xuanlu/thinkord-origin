@@ -5,6 +5,7 @@ import PictureBlock from '../components/PictureBlock';
 import VideoBlock from "../components/VideoBlock";
 import TextBlock from "../components/TextBlock";
 import AudioBlock from "../components/AudioBlock";
+import Navigationbar from "../components/layout/Navigationbar";
 
 let old_date = '';
 const jsonManager = new JSONManager();
@@ -161,6 +162,11 @@ export class BlockContainer extends Component {
         // console.log(note);
     }
 
+    // go to Mainwindow
+    returnToMain = () => {
+        ipcRenderer.send('slu-return-to-main');
+    }
+
     // Write the data model to the json file
     saveChange = () => {
         jsonManager.writeJSON(this.state.timeline, this.state.sluPath)
@@ -235,7 +241,10 @@ export class BlockContainer extends Component {
                         {console.log(block)}
                     </div>
                 ))}
-                {this.state.saveSign && <button onClick={this.saveChange}>save</button>}
+                <Navigationbar 
+                    clickHome={this.returnToMain}
+                    clickSave={this.state.saveSign && this.saveChange}
+                />
             </div>
         )
     }

@@ -37,20 +37,19 @@ export default class BlockTitle extends Component {
             title = <div onDoubleClick={this.handleDoubleClick}> {this.state.title} </div>
         } else {
             title =
-                <div onSubmit={this.handleSubmit} >
+                <form onSubmit={this.handleSubmit} >
                     <input
                         type="text"
                         name="title"
-                        // className="description"
-                        required autoComplete="off"
+                        className="inputField titleInput"
+                        autoComplete="off"
                         value={this.state.title}
                         onChange={this.handleChange} />
-                    <input
+                    {/* <input
                         type="hidden"
                         value="comment"
-                        // className="btn" 
-                        />
-                </div>
+                        /> */}
+                </form>
         }
         return (
             <div className="blockTitle">

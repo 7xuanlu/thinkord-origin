@@ -102,7 +102,7 @@ class Uploadfile extends Component {
       flex-direction: column;
       align-items: center;
       padding: 20px;
-      border-width: 2px;
+      border-width: 1.5px;
       border-radius: 2px;
       border-color: ${props => getColor(props)};
       border-style: dashed;

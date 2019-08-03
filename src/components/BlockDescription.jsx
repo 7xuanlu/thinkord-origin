@@ -22,37 +22,19 @@ export class BlockDescription extends Component {
     render() {
         return (
             <form className="inputContainer descriptionContainer" onSubmit={this.onSubmit} >
+                <label className="inputLabel">
                     <input 
-                        name="description"
-                        className="inputField descriptionInput"
-                        type="text"
-                        autoComplete="off"
-                        value={this.state.description}
-                        onChange={this.onChange}
-                    />
-                    <label for="Description"><span>Descript something ...</span></label>
-                    <input
-                        type="hidden"
-                        value="comment"/>
+                            name="description"
+                            className="inputField descriptionInput"
+                            type="text"
+                            placeholder="Describe something ..."
+                            autoComplete="off"
+                            value={this.state.description}
+                            onChange={this.onChange}
+                        />
+                    <span className="inputSpan"><span className="inputSpan"></span></span>
+                    </label>
             </form>
-
-            // <form onSubmit={this.onSubmit} >
-            //     <input
-            //         type="text"
-            //         name="description"
-            //         className="description"
-            //         required autoComplete="off"
-            //         value={this.state.description}
-            //         onChange={this.onChange} />
-
-            //     <label className="dcp">
-            //         <span>Descript something ...</span>
-            //     </label>
-
-            //     <input
-            //         type="hidden"
-            //         value="comment"/>
-            // </form>
         )
     }
 }
