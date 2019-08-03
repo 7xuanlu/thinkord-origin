@@ -198,6 +198,8 @@ h2{
     height: 35px;
     border: 0px;
     border-radius: 5px;
+    padding-left: 5px;
+    color: #BDD4CB;
 }
 
 .search_icon{
@@ -236,17 +238,18 @@ h2{
     border-radius: 10px;
 }
 
-.open_recent_icon{
-    font-size: 30px;
-    color: #143938;
-    margin-left: 10px;
+.open_recent_btn:disabled{
+    color: #14393888;
 }
 
 .open_recent_btn{
     background-color: #f0f0f0;
     border: none;
+    font-size: 30px;
+    color: #143938;
+    padding-right: 10px;
     position: relative;
-    right: -75%;
+    right: -70%;
     outline: none;
 }
 
@@ -272,18 +275,49 @@ h2{
     transition-duration: 0.3s;
 }
 
-.pop_menu{
-    padding: 20px;
-    border-radius: 5px;
-    background-color: white;
+.react-contextmenu {
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: .25rem;
     color: #143938;
-    font-size: 18px;
+    font-size: 16px;
+    margin: 2px 0 0;
+    min-width: 160px;
+    outline: none;
+    opacity: 0;
+    padding: 5px 0;
+    pointer-events: none;
     text-align: left;
+    transition: opacity 250ms ease !important;
+}
+
+.react-contextmenu.react-contextmenu--visible {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 9999;
+}
+
+.react-contextmenu-item {
+    background: 0 0;
+    border: 0;
+    color: #143938;
+	cursor: pointer;
+    font-weight: 400;
+    line-height: 1.5;
+    padding: 3px 20px;
+    text-align: inherit;
+    white-space: nowrap;
+}
+
+.react-contextmenu-item:hover{
+    background-color: #143938;
+    color: #fff;
 }
 
 .pop_trigger{
     margin: 20px;
-    width: 80%;
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
 }

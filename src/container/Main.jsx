@@ -37,12 +37,12 @@ export default class Main extends Component {
         });
 
         ipcRenderer.on('main-reply-rename', (event, args) => {
-            window.location.reload();
+            // window.location.reload();
             console.log(args);
         })
 
         ipcRenderer.on('main-reply-del', (event, args) => {
-            window.location.reload();
+            // window.location.reload();
             console.log(args);
         });
     }
@@ -74,10 +74,10 @@ export default class Main extends Component {
     }
 
     OpenRecentToggle = () => {
-        console.log(document.getElementsByClassName("btn"));
+        // console.log(document.getElementsByClassName("btn"));
         Array.from(document.getElementsByClassName("btn")).forEach(
             function (element) {
-                if (element.id >= 4) {
+                if (element.id >= 5) {
                     element.className = "btn visible";
                 }
             }
@@ -89,10 +89,10 @@ export default class Main extends Component {
     }
 
     OpenRecentRemove = () => {
-        console.log(document.getElementsByClassName("btn"));
+        // console.log(document.getElementsByClassName("btn"));
         Array.from(document.getElementsByClassName("btn")).forEach(
             function (element) {
-                if (element.id >= 4) {
+                if (element.id >= 5) {
                     element.className = "btn hidden";
                 }
             }
@@ -146,19 +146,19 @@ export default class Main extends Component {
                     <div className="content_inner" hidden={this.state.home_page}>
                         <h1>SLUNOTE</h1><br />
                         <div className="content_search">
-                            <input className="search_bar" type="text" /><i className="search_icon fas fa-search"></i>
+                            <input className="search_bar" type="text" defaultValue="Search..." /><i className="search_icon fas fa-search"></i>
                         </div><br />
                         <h2>
                             OPEN RECENT
                             <button className="open_recent_btn add" onClick={this.handleAddClick}>
-                                <i className="open_recent_icon fas fa-plus-circle"></i>
+                                <i className="fas fa-plus-circle"></i>
                             </button>
                             <button
                                 className="open_recent_btn expand"
-                                hidden={this.state.slus.length > 4 ? false : true}
+                                disabled={this.state.slus.length > 5 ? false : true}
                                 onClick={this.state.expand ? () => this.OpenRecentRemove() : () => this.OpenRecentToggle()}
                             >
-                                <i className="open_recent_icon fas fa-chevron-circle-down"></i>
+                                <i className="fas fa-chevron-circle-down"></i>
                             </button>
                         </h2><br />
                         <div className="pop_trigger">
@@ -167,6 +167,7 @@ export default class Main extends Component {
                                     key={file.path}
                                     index={this.state.slus.indexOf(file)}
                                     file={file}
+                                    expand={this.state.expand}
                                 >
                                 </FileButton>
                             )}
