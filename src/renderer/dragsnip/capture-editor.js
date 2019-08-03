@@ -268,7 +268,7 @@ class CaptureEditor extends Event {
             this.ctx.putImageData(imageData, margin * scaleFactor, margin * scaleFactor)
         }
         this.ctx.fillStyle = '#ffffff'
-        this.ctx.strokeStyle = '#67bade'
+        this.ctx.strokeStyle = '#35C189'
         this.ctx.lineWidth = 2 * this.scaleFactor
 
         this.ctx.strokeRect(margin * scaleFactor, margin * scaleFactor, w * scaleFactor, h * scaleFactor)
