@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import '../container/css/Main.css';
 const { ipcRenderer } = require('electron');
 import { JSONManager } from '../renderer/json-manager';
 import FileButton from '../components/FileButton';

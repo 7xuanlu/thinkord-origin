@@ -10,14 +10,9 @@ class Timeline extends Component {
     super(props);
   }
 
-  // returnToMain = () => {
-  //   ipcRenderer.send('slu-return-to-main');
-  // }
-
   render() {
     return (
       <div className="App" id="App">
-        <Sidebar />
         <div className="pageContent" id="content">
           <Header />
           <div><Progressbar /></div>
