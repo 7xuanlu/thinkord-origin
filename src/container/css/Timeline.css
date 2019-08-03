@@ -14,9 +14,7 @@
   display:flex;
   flex-flow: column wrap;
 }
-/* .pageContent{
-  border: 2px solid green;
-} */
+
 /* blocks */
 .allBlocks{
   font-size: 16px;
@@ -49,6 +47,7 @@
 
 .blockContent:hover .borderLine{
   border: 1.8px solid #2b7a4f;
+  border-radius: 5px;
   box-shadow:0 3px 4px 3px rgba(0,0,0,0.25);
   transition: 0.3s;
 }
@@ -69,6 +68,7 @@
 
 .scaleBtn{
   grid-area: scale;
+  padding-left: 20px;
 }
 .removeBtn{
   grid-area: remove;
@@ -266,25 +266,21 @@
 .search > div > input {
   font-size: 16px;
   font-weight: 100;
-  background: white;
-  width: 7px;
-  height: 7px;
+  background: rgb(255, 255, 255);
+  width: 6px;
+  height: 6px;
   padding: 7px;
   border: solid 2px white;
   outline: none;
-  border-radius: 9px;
+  border-radius: 10px;
   box-shadow: 0 1px #272a2b;
   transition: width 0.5s;
 }
 
 .search > div > input::placeholder {
-  color: #14393867;
+  color: #1e525054;
   opacity: 1;
 }
-.search > div > input::-ms-placeholder {
-  color: #efefef;
-}
-
 .search > div > input:focus,
 .search > div > input:valid {
   width: 180px;
