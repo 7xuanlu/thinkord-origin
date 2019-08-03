@@ -16,9 +16,9 @@ export default function PictureBlock(props) {
 
         <div className="picBlock blockContent">
             <div className="borderLine"></div>
-            {(props.block.title !== "") ?
-                <h1>{props.block.title}</h1> :
-                <BlockTitle className="blockTitle" time={props.block.timestamp} onChangeTitle={props.handleTitle} />}
+            {/* {(props.block.title !== "") ?
+                <h1>{props.block.title}</h1> : */}
+            <BlockTitle className="blockTitle" time={props.block.timestamp} onChangeTitle={props.handleTitle} title={props.block.title} />
             <Button className="iconBtn removeBtn" onClick={props.delBlock.bind(this, props.block.timestamp)}><i className="far fa-trash-alt"></i></Button>
 
             <div className="timeINFO date">{props.addDate}</div>

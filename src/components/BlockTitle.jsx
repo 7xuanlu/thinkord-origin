@@ -11,6 +11,15 @@ export default class BlockTitle extends Component {
         }
     }
 
+    componentDidMount() {
+        if (this.props.title !== "") {
+            this.setState({
+                title: this.props.title
+            })
+        }
+
+    }
+
     handleDoubleClick = () => {
         this.setState({
             whileInput: true
