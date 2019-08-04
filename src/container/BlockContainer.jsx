@@ -1,25 +1,25 @@
 import React, { Component } from 'react'
-import { ipcRenderer } from "electron";
-import Autolinker from 'autolinker';
-import parse from 'html-react-parser';
 
-import { JSONManager } from "../renderer/json-manager";
 import PictureBlock from '../components/PictureBlock';
 import VideoBlock from "../components/VideoBlock";
 import TextBlock from "../components/TextBlock";
 import AudioBlock from "../components/AudioBlock";
-import Navigationbar from "../components/layout/Navigationbar";
+
+import Autolinker from 'autolinker';
+import parse from 'html-react-parser';
+import { ipcRenderer } from "electron";
+import { JSONManager } from "../renderer/json-manager";
 
 const jsonManager = new JSONManager();
+let old_date = '';
 
 export class BlockContainer extends Component {
     constructor(props) {
-        super(props)
+        super(props);
 
         this.state = {
             timeline: {},
             sluPath: "",
-            saveSign: true
         }
     }
 
@@ -33,19 +33,16 @@ export class BlockContainer extends Component {
             });
         });
 
-        // when you press stop recording, the save button will show up
-        ipcRenderer.on('savebutton', () => {
-            this.setState({
-                saveSign: !this.state.saveSign
-            })
+        ipcRenderer.on('Navbar-save-slu', () => {
+            jsonManager.writeJSON(this.state.timeline, this.state.sluPath);
         })
+    }
 
-        // when you press start recording, the save button will dimish
-        ipcRenderer.on('hidesavebutton', () => {
-            this.setState({
-                saveSign: !this.state.saveSign
-            });
-        });
+    componentDidUpdate(prevProps, prevState) {
+        if (typeof prevState.timeline.blocks === "undefined") { }
+        else {
+            this.state.timeline.blocks.length > prevState.timeline.blocks.length ? this.props.onNewBlock() : {}
+        }
     }
 
     // Delete the block you choose (frontend)
@@ -82,15 +79,15 @@ export class BlockContainer extends Component {
     handleMark = (time) => {
         let note = this.state.timeline.blocks;
         note.map((block) => {
-            if(block.timestamp === time){
-                if(block.mark === true){
+            if (block.timestamp === time) {
+                if (block.mark === true) {
                     block.mark = false
-                }else{
+                } else {
                     block.mark = true
                 }
             }
         });
-        
+
         this.setState({
             timeline: {
                 blocks: note
@@ -125,12 +122,12 @@ export class BlockContainer extends Component {
         let old_date;
         let isDateEqual;
 
-        for(var i = 0; i < blocks.indexOf(block); i++){
+        for (var i = 0; i < blocks.indexOf(block); i++) {
             old_date = blocks[i].timestamp.split(' ')[0].split('/');
             old_date = old_date[1] + ' / ' + old_date[2];
-            if(new_date === old_date){
+            if (new_date === old_date) {
                 isDateEqual = true;
-            }else{
+            } else {
                 isDateEqual = false;
             }
         }
@@ -151,16 +148,7 @@ export class BlockContainer extends Component {
         time = time[0] + ' : ' + time[1]
 
         return time;
-
     }
-
-    // changeBtnIcon = () => {
-
-    //     return(
-    //         <i className="fas fa-angle-down"></i>
-    //     )
-    // }
-
 
     // Add file (frontend)
     addFile = (files, time) => {
@@ -194,24 +182,12 @@ export class BlockContainer extends Component {
                 })
             }
         })
-        // console.log(note);
-    }
-
-    // go to Mainwindow
-    returnToMain = () => {
-        ipcRenderer.send('slu-return-to-main');
-    }
-
-    // Write the data model to the json file
-    saveChange = () => {
-        jsonManager.writeJSON(this.state.timeline, this.state.sluPath)
     }
 
     handleLinker(text) {
         let linkedtext = Autolinker.link(text).trim();
         let element = parse(linkedtext);
         return element;
-        // Change this to div.childNodes to support multiple top-level nodes
     }
 
     distBlock = (block) => {
@@ -278,6 +254,7 @@ export class BlockContainer extends Component {
         // Yield undefined, because the first value it gets is undefined
         if (this.state.timeline.blocks === undefined) { return null }
         // console.log(this.state.timeline.blocks)
+
         return (
             <div className="allBlocks">
                 {this.state.timeline.blocks.map((block, id) => (
@@ -285,10 +262,6 @@ export class BlockContainer extends Component {
                         {this.distBlock(block)}
                     </div>
                 ))}
-                <Navigationbar 
-                    clickHome={this.returnToMain}
-                    clickSave={this.state.saveSign && this.saveChange}
-                />
             </div>
         )
     }

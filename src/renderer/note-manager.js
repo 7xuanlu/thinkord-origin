@@ -43,10 +43,8 @@ export class NoteManager {
             note["blocks"][blockArrLength - 1]["text"] = args.text;
             note["blocks"][blockArrLength - 1]["mark"] = args.isMark;
             if (note["blocks"][blockArrLength - 1]["paths"].length === 0) {
-                console.log('yo man')
                 note["blocks"][blockArrLength - 1]["paths"].push("")
             }
-            console.log(note["blocks"][blockArrLength - 1]["paths"])
 
             return note;
         } else {
@@ -66,9 +64,9 @@ export class NoteManager {
 
         // Changedblocks: blocks after deleted
         let changedblocks = note.blocks.filter((block) => {
-            return block.timestamp !== timeid
+            return block.timestamp !== timeid;
         })
-        note["blocks"] = changedblocks
+        note["blocks"] = changedblocks;
 
         return note;
     }

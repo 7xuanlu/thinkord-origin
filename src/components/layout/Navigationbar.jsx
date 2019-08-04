@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import { ipcRenderer } from "electron";
-
 
 export class Navigationbar extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
     }
 
@@ -15,11 +13,11 @@ export class Navigationbar extends Component {
         if (document.getElementsByClassName("viewMode")[0].style.display === "flex") {
             document.getElementsByClassName("viewMode")[0].style.display = "none";         //show editMode
             document.getElementsByClassName("editMode")[0].style.display = "flex";
-            for(i = 0; i < selectBox.length; i++) {selectBox[i].style.display = "block";}
-        }else{
+            for (i = 0; i < selectBox.length; i++) { selectBox[i].style.display = "block"; }
+        } else {
             document.getElementsByClassName("editMode")[0].style.display = "none";        //show ViewMode
             document.getElementsByClassName("viewMode")[0].style.display = "flex";
-            for(i = 0; i < selectBox.length; i++) { selectBox[i].style.display = "none";}
+            for (i = 0; i < selectBox.length; i++) { selectBox[i].style.display = "none"; }
         }
     }
 
@@ -28,16 +26,16 @@ export class Navigationbar extends Component {
         const selectAll = document.getElementsByClassName("check");
         let i = 0;
         let alreadySelectAll = true;
-        for(i = 0; i < selectAll.length; i++){
-            if(selectAll[i].checked != true) { alreadySelectAll = false}
+        for (i = 0; i < selectAll.length; i++) {
+            if (selectAll[i].checked != true) { alreadySelectAll = false }
         }
 
         if (alreadySelectAll) {
-            for(i = 0; i < selectAll.length; i++) {
+            for (i = 0; i < selectAll.length; i++) {
                 selectAll[i].checked = false;
             }
         } else {
-            for(i = 0; i < selectAll.length; i++) {
+            for (i = 0; i < selectAll.length; i++) {
                 selectAll[i].checked = true;
             }
         }
@@ -62,7 +60,7 @@ export class Navigationbar extends Component {
                     <i className="far fa-check-square" onClick={this.selectAllBoxes}></i>
                     <i className="far fa-save" onClick={this.props.clickSave}></i>
                     <i className="fas fa-arrow-up"></i>
-                </div >
+                </div>
             </div>
         )
     }

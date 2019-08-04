@@ -7,6 +7,7 @@ import FileButton from '../components/FileButton';
 export default class Main extends Component {
     constructor(props) {
         super(props);
+        
         this.state = {
             slus: [],
             home_page: false,

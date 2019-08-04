@@ -120,6 +120,7 @@ exports.createMainWindow = (main) => {
 }
 
 exports.changeMainToTimeline = (main) => {
+    main.minimize();
     if (mode === "development") {
         // Load index.html via webpack dev server.
         main.loadURL('http://localhost:3071/home.html');
@@ -129,7 +130,7 @@ exports.changeMainToTimeline = (main) => {
         // Load index.html from the file system.
         main.loadFile('dist/home.html');
     }
-    // main.minimize();
+
     return main;
 }
 

@@ -71,6 +71,10 @@ ipcMain.on('savebutton', () => {
     if (main !== null) {
         main.webContents.send('savebutton')
     }
+});
+
+ipcMain.on('Navbar-save-slu', (event) => {
+    event.reply('Navbar-save-slu');
 })
 
 ipcMain.on('hidesavebutton', () => {
