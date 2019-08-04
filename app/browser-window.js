@@ -129,7 +129,7 @@ exports.changeMainToTimeline = (main) => {
         // Load index.html from the file system.
         main.loadFile('dist/home.html');
     }
-
+    // main.minimize();
     return main;
 }
 

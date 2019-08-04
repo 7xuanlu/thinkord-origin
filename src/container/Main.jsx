@@ -20,18 +20,25 @@ export default class Main extends Component {
         // Initialize main
         ipcRenderer.send('main-sync');
 
-        ipcRenderer.once('main-reply-sync', (event, args) => {
-            this.setState({
-                slus: args.slus.reverse()
-            });
+        ipcRenderer.on('main-reply-sync', (event, args) => {
+            let stateSlu = JSON.stringify(this.state.slus)
+            let nextStateSlu = JSON.stringify(args.slus)
+            // Update state only when there exists some changes to slu
+            if (stateSlu !== nextStateSlu) {
+                this.setState({
+                    slus: args.slus
+                })
+            };
         });
 
         ipcRenderer.on('main-reply-rename', (event, args) => {
-            console.log(args);
+            this.forceUpdate();
+            console.log(args.msg);
         });
 
         ipcRenderer.on('main-reply-del', (event, args) => {
-            console.log(args);
+            this.forceUpdate();
+            console.log(args.msg);
         });
     }
 

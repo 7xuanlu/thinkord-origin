@@ -171,14 +171,14 @@ ipcMain.on('slu-return-to-main', () => {
     }
 });
 
-ipcMain.on('main-sync', (event)=>{
+ipcMain.on('main-sync', (event) => {
     fs.readFile(appSettingPath, (err, data) => {
         if (err) {
             throw err;
         } else {
             // Parse string to JS object
             let json = JSON.parse(data);
- 
+
             event.reply('main-reply-sync', json);
         }
     });
