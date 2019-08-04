@@ -325,3 +325,41 @@ header {
 .container{
   margin-top: 20px;
 }
+
+/*folding block animation*/
+.rotate-close{
+  transform: rotate(180deg);
+  transition-duration: 0.3s;
+}
+
+.rotate-open{
+  transform: rotate(0deg);
+  transition-duration: 0.3s;
+}
+
+/*delete block animation*/
+.removed-item {
+  animation: removed-item-animation .8s cubic-bezier(.65,-0.02,.72,.29);
+}
+
+@keyframes removed-item-animation {
+  0% {
+      opacity: 1;
+      transform: translateX(0);
+  }
+
+  30% {
+      opacity: 1;
+      transform: translateX(-50px);
+  }
+
+  80% {
+      opacity: 1;
+      transform: translateX(120%);
+  }
+
+  100% {
+      opacity: 0;
+      transform: translateX(120%);
+  }
+}

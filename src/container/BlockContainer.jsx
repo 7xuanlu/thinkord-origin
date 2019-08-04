@@ -9,6 +9,7 @@ import VideoBlock from "../components/VideoBlock";
 import TextBlock from "../components/TextBlock";
 import AudioBlock from "../components/AudioBlock";
 import Navigationbar from "../components/layout/Navigationbar";
+import { equal } from 'assert';
 
 let old_date = '';
 const jsonManager = new JSONManager();
@@ -52,11 +53,14 @@ export class BlockContainer extends Component {
     // Delete the block you choose (frontend)
     delBlock = (time) => {
         // console.log('Now you choose the block', time);
-        this.setState({
-            timeline: {
-                blocks: [...this.state.timeline.blocks.filter(block => block.timestamp !== time)]
-            }
-        });
+        document.getElementById(time).classList.toggle("removed-item");
+        setTimeout(() => {
+            this.setState({
+                timeline: {
+                    blocks: [...this.state.timeline.blocks.filter(block => block.timestamp !== time)]
+                }
+            });
+        }, 700);
     }
 
     // Add description (frontend)
@@ -75,6 +79,25 @@ export class BlockContainer extends Component {
                 blocks: note
             }
         });
+    }
+
+    handleMark = (time) => {
+        let note = this.state.timeline.blocks;
+        note.map((block) => {
+            if(block.timestamp === time){
+                if(block.mark === true){
+                    block.mark = false
+                }else{
+                    block.mark = true
+                }
+            }
+        });
+        
+        this.setState({
+            timeline: {
+                blocks: note
+            }
+        })
     }
 
     // Change the title (frontend)
@@ -233,6 +256,7 @@ export class BlockContainer extends Component {
                     addFile={this.addFile}
                     delFile={this.delFile}
                     delBlock={this.delBlock}
+                    handleMark={this.handleMark}
                     handleTitle={this.handleTitle}
                     addDate={this.addDate(block)}
                     addTime={this.addTime(block)}
