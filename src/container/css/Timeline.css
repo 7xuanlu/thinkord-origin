@@ -33,12 +33,12 @@
 
   display: grid;
   grid-template-rows: 50px 30px auto auto;
-  grid-template-columns:50px 5% 80px 50px auto 120px;
+  grid-template-columns:50px 5% 80px 50px auto 80px 80px 80px;
   grid-template-areas:
-    "date . icon scale title remove"
-    ". . time content content content"
-    ". . . content content content"
-    ". . . content content content";
+    "date . icon  scale   title   remove  mark   checkbox"
+    ".    . time content content content content checkbox"
+    ".    .  .   content content content content checkbox"
+    ".    .  .   content content content content checkbox";
 }
 .borderLine{
   grid-column:4 /-1;
@@ -75,6 +75,16 @@
 }
 
 /*button end */
+.mark{
+  grid-area: mark;
+  align-self: center;
+  justify-self: center;
+}
+.checkContainer{
+  grid-area: checkbox;
+  align-self: center;
+  justify-self: center;
+}
 
 /* input */
 .inputContainer{
