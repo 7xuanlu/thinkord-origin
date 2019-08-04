@@ -19,6 +19,10 @@ export default function PictureBlock(props) {
         setScaling(!scaling)
     }
 
+    let showImageWindow = () => {
+        window.open(props.block.paths[0]);
+    }
+
     return (
         <div id={props.block.timestamp} className="picBlock blockContent">
             <div className="borderLine"></div>
@@ -33,7 +37,7 @@ export default function PictureBlock(props) {
             <button className="iconBtn scaleBtn" onClick={handleScaling}><i id={scaleid} className="fas fa-angle-up"></i></button>
             {scaling &&
                 <div className="blockMain">
-                    <img src={props.block.paths[0]} />
+                    <img src={props.block.paths[0]} onDoubleClick={showImageWindow}/>
                     <BlockDescription
                         description={props.block.description}
                         addDescription={props.addDescription}
