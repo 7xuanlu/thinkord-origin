@@ -9,9 +9,7 @@ import VideoBlock from "../components/VideoBlock";
 import TextBlock from "../components/TextBlock";
 import AudioBlock from "../components/AudioBlock";
 import Navigationbar from "../components/layout/Navigationbar";
-import { equal } from 'assert';
 
-let old_date = '';
 const jsonManager = new JSONManager();
 
 export class BlockContainer extends Component {
@@ -120,20 +118,30 @@ export class BlockContainer extends Component {
 
     //Add timeline information
     addDate = (block) => {
-        let new_date = block.timestamp.split(' ')
-        new_date = new_date[0]
-        new_date = new_date.split('/')
+        let new_date = block.timestamp.split(' ')[0].split('/')
         new_date = new_date[1] + ' / ' + new_date[2]
 
+        let blocks = this.state.timeline.blocks;
+        let old_date;
+        let isDateEqual;
 
-        if (new_date === old_date) {
+        for(var i = 0; i < blocks.indexOf(block); i++){
+            old_date = blocks[i].timestamp.split(' ')[0].split('/');
+            old_date = old_date[1] + ' / ' + old_date[2];
+            if(new_date === old_date){
+                isDateEqual = true;
+            }else{
+                isDateEqual = false;
+            }
+        }
+
+        if (isDateEqual) {
             return (
                 <div></div>
             )
         } else {
             old_date = new_date
             return new_date;
-
         }
     }
 
