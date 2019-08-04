@@ -43,6 +43,7 @@ export class BlockDescription extends Component {
                         <span className="inputSpan"><span className="inputSpan"></span></span>
                     </label>
                 </form>
+                <br></br>
             </div>
         )
     }

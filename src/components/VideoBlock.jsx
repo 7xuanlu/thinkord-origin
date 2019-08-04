@@ -21,7 +21,9 @@ export default function VideoBlock(props) {
             <BlockTitle className="blockTitle" time={props.block.timestamp} onChangeTitle={props.handleTitle} title={props.block.title} />
               
             <Button className="iconBtn removeBtn" onClick={props.delBlock.bind(this, props.block.timestamp)}><i className="far fa-trash-alt"></i></Button>
-
+            <form className="checkContainer">
+                <input className="check" type="checkbox" />
+            </form>
             <div className="timeINFO date">{props.addDate}</div>
             <div className="timeINFO time">{props.addTime}</div>
             <div className="blockIcon"><i className="fab fa-youtube"></i></div>

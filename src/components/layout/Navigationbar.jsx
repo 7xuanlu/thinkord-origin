@@ -9,18 +9,42 @@ export class Navigationbar extends Component {
 
     //changeMode 
     changeMode = () => {
+        const selectBox = document.getElementsByClassName("checkContainer");
+        let i = 0;
+
         if (document.getElementsByClassName("viewMode")[0].style.display === "flex") {
-            document.getElementsByClassName("viewMode")[0].style.display = "none";
+            document.getElementsByClassName("viewMode")[0].style.display = "none";         //show editMode
             document.getElementsByClassName("editMode")[0].style.display = "flex";
+            for(i = 0; i < selectBox.length; i++) {selectBox[i].style.display = "block";}
         }else{
-            document.getElementsByClassName("editMode")[0].style.display = "none";
+            document.getElementsByClassName("editMode")[0].style.display = "none";        //show ViewMode
             document.getElementsByClassName("viewMode")[0].style.display = "flex";
+            for(i = 0; i < selectBox.length; i++) { selectBox[i].style.display = "none";}
         }
     }
 
-    render() {
-        // console.log(this.props.clickHome);
+    //select all checkboxes
+    selectAllBoxes = () => {
+        const selectAll = document.getElementsByClassName("check");
+        let i = 0;
+        let alreadySelectAll = true;
+        for(i = 0; i < selectAll.length; i++){
+            if(selectAll[i].checked != true) { alreadySelectAll = false}
+        }
 
+        if (alreadySelectAll) {
+            for(i = 0; i < selectAll.length; i++) {
+                selectAll[i].checked = false;
+            }
+        } else {
+            for(i = 0; i < selectAll.length; i++) {
+                selectAll[i].checked = true;
+            }
+        }
+    }
+
+
+    render() {
         return (
             <div className="navigatorContainer" >
                 <div className="navigationBar viewMode">
@@ -35,6 +59,7 @@ export class Navigationbar extends Component {
                     <i className="far fas fa-columns" onClick={this.changeMode}></i>
                     <i className="fas fa-undo"></i>
                     <i className="fas fa-redo"></i>
+                    <i className="far fa-check-square" onClick={this.selectAllBoxes}></i>
                     <i className="far fa-save" onClick={this.props.clickSave}></i>
                     <i className="fas fa-arrow-up"></i>
                 </div >

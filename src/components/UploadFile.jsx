@@ -101,7 +101,7 @@ class Uploadfile extends Component {
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 20px;
+      padding:20px;
       border-width: 1.5px;
       border-radius: 2px;
       border-color: ${props => getColor(props)};
@@ -133,7 +133,6 @@ class Uploadfile extends Component {
               className="fas fa-trash-alt file_edit_icon"
             >
             </i>
-            <br />
             <div className="file_img">
               <Image
                 src={file.path}
@@ -176,11 +175,7 @@ class Uploadfile extends Component {
               <input {...getInputProps()} />
               {isDragActive ? 'Drop it!' : 'Drag and drop some files here, or click to select files'}
             </Container>
-            <br />
-
-
             {this.distFile(files)}
-
           </div>
         )}
       </Dropzone>
