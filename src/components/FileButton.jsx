@@ -49,6 +49,7 @@ export default class FileButton extends Component {
         this.setState({
             rename_show: false
         });
+        document.getElementById("label_" + this.props.index).innerText = new_filename + ".json";
     }
 
     handleDeleteDialog = (path) => {
@@ -74,9 +75,12 @@ export default class FileButton extends Component {
         this.setState({
             delete_show: false
         });
+        document.getElementById(this.props.index).remove();
     }
 
     render() {
+        const labelid = "label_" + this.props.index;
+
         return (
             <div>
                 <ContextMenuTrigger id={this.props.file.path}>
@@ -86,7 +90,7 @@ export default class FileButton extends Component {
                         onDoubleClick={() => this.EnterTimeLine(this.props.file.path)}
                     >
                         <img className="file_icon" src={FileIcon} /><br />
-                        {this.props.file.path.split('\\').pop()}
+                        <div id={labelid}>{this.props.file.path.split('\\').pop()}</div>
                     </button>
                 </ContextMenuTrigger>
                 <ContextMenu id={this.props.file.path} className="pop_menu">

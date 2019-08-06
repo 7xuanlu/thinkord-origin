@@ -126,6 +126,38 @@ export default class Main extends Component {
         });
     }
 
+    handleSearchBarFocusOrNot = () => {
+        var search_content = document.getElementById("main_search").value;
+        if(search_content === 'Search...'){
+            document.getElementById("main_search").value = "";
+        }else if(search_content === ""){
+            document.getElementById("main_search").value = "Search...";
+        }
+    }
+
+    handleSearchClick = () => {
+        var search_file = document.getElementById("main_search").value.toLowerCase();
+        var new_slus = [];
+        for(var i = 0; i < this.state.slus.length; i++){
+            if(this.state.slus[i].path.split("\\").pop().toLowerCase().includes(search_file)){
+                new_slus.push(this.state.slus[i]);
+            }
+        }
+        this.setState({
+            slus: new_slus
+        });
+    }
+
+    handleViewAllClick = () => {
+        ipcRenderer.send('main-sync');
+
+        ipcRenderer.once('main-reply-sync', (event, args) => {
+            this.setState({
+                slus: args.slus.reverse()
+            });
+        });
+    }
+
     render() {
         return (
             <div>
@@ -140,9 +172,12 @@ export default class Main extends Component {
                 </ul>
                 <main className="content" onClick={this.handleMenuClose}>
                     <div className="content_inner" hidden={this.state.home_page}>
-                        <h1>SLUNOTE</h1><br />
+                        <h1>Thinkord</h1><br />
                         <div className="content_search">
-                            <input className="search_bar" type="text" defaultValue="Search..." /><i className="search_icon fas fa-search"></i>
+                            <input id="main_search" className="search_bar" type="text" defaultValue="Search..."
+                                onFocus={this.handleSearchBarFocusOrNot} onBlur={this.handleSearchBarFocusOrNot}/>
+                            <i className="search_icon fas fa-search" onClick={this.handleSearchClick}></i>
+                            <i className="search_icon fas fa-globe" onClick={this.handleViewAllClick}></i>
                         </div><br />
                         <h2>
                             OPEN RECENT
