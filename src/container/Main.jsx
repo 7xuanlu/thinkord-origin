@@ -21,7 +21,7 @@ export default class Main extends Component {
         // Initialize main
         ipcRenderer.send('main-sync');
 
-        ipcRenderer.on('main-reply-sync', (event, args) => {
+        ipcRenderer.once('main-reply-sync', (event, args) => {
             let stateSlu = JSON.stringify(this.state.slus)
             let nextStateSlu = JSON.stringify(args.slus)
             // Update state only when there exists some changes to slu
@@ -146,6 +146,7 @@ export default class Main extends Component {
         this.setState({
             slus: new_slus
         });
+        document.getElementById("main_search").value = "Search...";
     }
 
     handleViewAllClick = () => {
@@ -193,7 +194,7 @@ export default class Main extends Component {
                             </button>
                         </h2><br />
                         <div className="pop_trigger">
-                            {this.state.slus.map((file) =>
+                            {this.state.slus.reverse().map((file) =>
                                 <FileButton
                                     key={file.path}
                                     index={this.state.slus.indexOf(file)}

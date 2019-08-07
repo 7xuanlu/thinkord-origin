@@ -14,7 +14,8 @@ class Timeline extends Component {
     super(props);
 
     this.state = {
-      saveSign: true
+      saveSign: true,
+      note_title: ''
     }
   }
 
@@ -57,7 +58,7 @@ class Timeline extends Component {
       <BlockUi tag="div" blocking={!this.state.saveSign}>
         <div className="App" id="App">
           <div className="pageContent" id="content">
-            <Header />
+            <Header title={this.state.note_title} />
             <div><Progressbar /></div>
             <BlockContainer
               onNewBlock={this.scrollToBottom}
