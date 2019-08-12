@@ -11,10 +11,12 @@ export class NoteManager {
         this.mediaFormat = {
             "blocks": [
                 {
-                    "title": "",
+                    "type": "media",
                     "timestamp": getCurrentTime(),
-                    "paths": [],
-                    "description": ""
+                    "title": "",
+                    "mark": false,
+                    "description": "",
+                    "paths": []   
                 }
             ]
         };
@@ -22,10 +24,11 @@ export class NoteManager {
         this.textFormat = {
             "blocks": [
                 {
-                    "title": "",
+                    "type": "text",
                     "timestamp": getCurrentTime(),
-                    "text": "",
+                    "title": "",
                     "mark": false,
+                    "description": "",
                     "paths": []
                 }
             ]
@@ -33,14 +36,14 @@ export class NoteManager {
     }
 
     addBlock(note, args) {
-        if (args.hasOwnProperty("text")) {
+        if (args.type === "text") {
             // Insert a new template block to json
             note["blocks"].push(this.textFormat['blocks'][0]);
 
             let blockArrLength = note["blocks"].length;
 
             // Update text for newly created block
-            note["blocks"][blockArrLength - 1]["text"] = args.text;
+            note["blocks"][blockArrLength - 1]["description"] = args.text;
             note["blocks"][blockArrLength - 1]["mark"] = args.isMark;
             if (note["blocks"][blockArrLength - 1]["paths"].length === 0) {
                 note["blocks"][blockArrLength - 1]["paths"].push("")

@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
-import Button from 'react-bootstrap/Button'
-import UploadFile from "../components/UploadFile"
-import BlockTitle from "../components/BlockTitle"
+import React, { useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import UploadFile from '../components/UploadFile';
+import BlockTitle from '../components/BlockTitle';
+import BlockDescription from "../components/BlockDescription"
 
 export default function TextBlock(props) {
     const scaleid = "scale_" + props.block.timestamp;
@@ -9,10 +10,10 @@ export default function TextBlock(props) {
     const [scaling, setScaling] = useState(true);
 
     const handleScaling = () => {
-        if(scaling){
+        if (scaling) {
             document.getElementById(scaleid).classList.remove("rotate-open");
             document.getElementById(scaleid).classList.toggle("rotate-close");
-        }else{
+        } else {
             document.getElementById(scaleid).classList.remove("rotate-close");
             document.getElementById(scaleid).classList.toggle("rotate-open");
         }
@@ -34,11 +35,17 @@ export default function TextBlock(props) {
             <button className="iconBtn scaleBtn" onClick={handleScaling}><i id={scaleid} className="fas fa-angle-up"></i></button>
             {scaling &&
                 <div className="blockMain">
-                    <div>{props.handleLinker(props.text)}</div>
+                    <BlockDescription
+                        description={props.block.description}
+                        addDescription={props.addDescription}
+                        time={props.block.timestamp}
+                        handleLinker={props.handleLinker}
+                    />
                     <UploadFile
                         time={props.block.timestamp}
                         addFile={props.addFile}
-                        delFile={props.delFile} />
+                        delFile={props.delFile}
+                    />
                 </div>
             }
         </div>

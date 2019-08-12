@@ -9,10 +9,10 @@ export default function AudioBlock(props) {
     const [scaling, setScaling] = useState(true);
 
     const handleScaling = () => {
-        if(scaling){
+        if (scaling) {
             document.getElementById(scaleid).classList.remove("rotate-open");
             document.getElementById(scaleid).classList.toggle("rotate-close");
-        }else{
+        } else {
             document.getElementById(scaleid).classList.remove("rotate-close");
             document.getElementById(scaleid).classList.toggle("rotate-open");
         }
@@ -31,7 +31,7 @@ export default function AudioBlock(props) {
             <div className="timeINFO date">{props.addDate}</div>
             <div className="timeINFO time">{props.addTime}</div>
             <div className="blockIcon"><i className="fas fa-microphone"></i></div>
-            <button className="iconBtn scaleBtn" onClick={handleScaling}><i id = {scaleid} className="fas fa-angle-up"></i></button>
+            <button className="iconBtn scaleBtn" onClick={handleScaling}><i id={scaleid} className="fas fa-angle-up"></i></button>
             {scaling &&
                 <div className="blockMain">
                     <audio controls="controls">

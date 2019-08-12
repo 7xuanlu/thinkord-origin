@@ -5,47 +5,62 @@ export class BlockDescription extends Component {
         super(props);
 
         this.state = {
-            description: props.description,
-            formDes: ''
+            description: '',
+            whileInput: false
         }
     }
 
-    onSubmit = (e) => {
-        e.preventDefault();
-        this.setState({
-            description: this.state.formDes,
-        });
-        this.props.addDescription(this.state.formDes, this.props.time);
-        this.setState({ formDes: '' });
+    componentDidMount() {
+        if (this.props.description !== "") {
+            this.setState({
+                description: this.props.description
+            });
+        }
     }
 
-    onChange = (e) => {
+    handleDoubleClick = () => {
+        this.setState({
+            whileInput: true
+        });
+    }
+
+    handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         });
     }
 
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.props.addDescription(this.state.description, this.props.time);
+        this.setState({
+            whileInput: false
+        });
+    }
+
     render() {
-        return (
-            <div>
-                <div>{this.props.handleLinker(this.state.description)}</div>
-                <form className="inputContainer descriptionContainer" onSubmit={this.onSubmit} >
-                    <label className="inputLabel">
-                        <input
-                            name="formDes"
-                            className="inputField descriptionInput"
-                            type="text"
-                            autoComplete="off"
-                            placeholder="Describe something ..."
-                            value={this.state.formDes}
-                            onChange={this.onChange}
-                        />
-                        <span className="inputSpan"><span className="inputSpan"></span></span>
-                    </label>
+        let des;
+        if (this.state.whileInput === false) {
+            des = <div onDoubleClick={this.handleDoubleClick}> {this.props.handleLinker(this.state.description)} </div>
+        } else {
+            des =
+                <form onSubmit={this.handleSubmit} >
+                    <input
+                        type="text"
+                        name="description"
+                        className="inputField"
+                        autoComplete="off"
+                        value={this.state.description}
+                        onChange={this.handleChange}
+                    />
                 </form>
-                <br></br>
+        }
+
+        return (
+            <div className="inputContainer descriptionContainer">
+                {des}
             </div>
         )
     }
 }
-export default BlockDescription
+export default BlockDescription;

@@ -29,7 +29,8 @@ export class TextWindow extends Component {
 
         ipcRenderer.send('twin-ok', {
             "text": textarea.value,
-            "isMark": this.state.isMark
+            "isMark": this.state.isMark,
+            "type": "text"
         });
     }
 

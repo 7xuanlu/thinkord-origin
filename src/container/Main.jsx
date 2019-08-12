@@ -43,9 +43,9 @@ export default class Main extends Component {
         });
     }
 
-    componentDidUpdate() {
-        ipcRenderer.send('main-sync');
-    }
+    // componentDidUpdate() {
+    //     ipcRenderer.send('main-sync');
+    // }
 
     handleMenuOpen = () => {
         const page = document.getElementById('page');

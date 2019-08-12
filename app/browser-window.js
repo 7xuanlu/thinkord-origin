@@ -2,7 +2,7 @@ const { app, BrowserWindow, shell } = require('electron');
 
 // if environment mode is not set, it will default to be in development
 const mode = require('../webpack.config').mode;
-
+const fs = require('fs');
 exports.createControlBarWindow = (controlbar) => {
     controlbar = new BrowserWindow({
         width: 292,

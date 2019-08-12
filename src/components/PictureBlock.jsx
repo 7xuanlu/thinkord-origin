@@ -9,10 +9,10 @@ export default function PictureBlock(props) {
     const [scaling, setScaling] = useState(true);
 
     const handleScaling = () => {
-        if(scaling){
+        if (scaling) {
             document.getElementById(scaleid).classList.remove("rotate-open");
             document.getElementById(scaleid).classList.toggle("rotate-close");
-        }else{
+        } else {
             document.getElementById(scaleid).classList.remove("rotate-close");
             document.getElementById(scaleid).classList.toggle("rotate-open");
         }

@@ -235,8 +235,8 @@ export class BlockContainer extends Component {
             return (
                 <TextBlock
                     block={block}
-                    text={block.text}
                     handleLinker={this.handleLinker}
+                    addDescription={this.addDescription}
                     addFile={this.addFile}
                     delFile={this.delFile}
                     delBlock={this.delBlock}

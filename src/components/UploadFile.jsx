@@ -79,8 +79,8 @@ class Uploadfile extends Component {
 
   distFile = (files) => {
 
-    
-    
+
+
     return (
       <aside className="file_upload">
         {files}

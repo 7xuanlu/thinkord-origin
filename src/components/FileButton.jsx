@@ -37,7 +37,7 @@ export default class FileButton extends Component {
     handleRenameDialogClose = () => {
         this.setState({
             rename_show: false
-        })
+        });
     }
 
     handleRename = (path) => {
