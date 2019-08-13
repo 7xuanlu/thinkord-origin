@@ -116,6 +116,10 @@ ipcMain.on('twin-ok', (event, args) => {
 ipcMain.on('quit-click', () => {
     controlbar.close();
     controlbar = null;
+    if(text !== null){
+        text.close();
+        text = null;
+    }
     console.log('Closing controlbar window');
 });
 
@@ -143,6 +147,13 @@ ipcMain.on('file-open-click', (event, args) => {
     } else {
         controlbar.focus();
     }
+
+    controlbar.on('move', () => {
+        if(text !== null){
+            text.close();
+            text = null;
+        }
+    })
 
     ipcMain.once('cb-init-slu', () => {
         if (args) {
