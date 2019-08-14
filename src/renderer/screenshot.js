@@ -13,17 +13,16 @@ export async function getScreenshot() {
   const thumbSize = determineScreenShotSize();
   let options = { types: ['screen'], thumbnailSize: thumbSize };
 
-  desktopCapturer.getSources(options, (error, sources) => {
+  await desktopCapturer.getSources(options, (error, sources) => {
     if (error) return console.log(error);
 
     sources.forEach((source) => {
       if (source.name === 'Entire screen' || source.name === 'Screen 1') {
-
         fs.writeFile(screenshotPath, source.thumbnail.toPNG(), (err) => {
           if (err) {
             throw err;
           } else {
-            console.log('screenshot have been saved!')
+            console.log('Screenshot has been saved successfully');
           }
         });
       }

@@ -36,7 +36,7 @@ exports.createControlBarWindow = (controlbar) => {
         controlbar.loadFile('dist/controlbar.html');
     }
 
-    controlbar.removeMenu();
+    // controlbar.removeMenu();
 
     return controlbar;
 }

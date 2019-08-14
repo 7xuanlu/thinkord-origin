@@ -11,11 +11,9 @@ export class BlockDescription extends Component {
     }
 
     componentDidMount() {
-        if (this.props.description !== "") {
-            this.setState({
-                description: this.props.description
-            });
-        }
+        this.setState({
+            description: this.props.description
+        });
     }
 
     handleDoubleClick = () => {

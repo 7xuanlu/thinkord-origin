@@ -53,10 +53,6 @@ export default class BlockTitle extends Component {
                         value={this.state.title}
                         onChange={this.handleChange} 
                     />
-                    {/* <input
-                        type="hidden"
-                        value="comment"
-                        /> */}
                 </form>
         }
         return (
