@@ -39,7 +39,11 @@ export class BlockDescription extends Component {
     render() {
         let des;
         if (this.state.whileInput === false) {
-            des = <div onDoubleClick={this.handleDoubleClick}> {this.props.handleLinker(this.state.description)} </div>
+            if(this.state.description === ''){
+                des = <div>Describe something...</div>
+            }else{
+                des = <div>{this.props.handleLinker(this.state.description)}</div>
+            }
         } else {
             des =
                 <form onSubmit={this.handleSubmit} >
@@ -55,7 +59,7 @@ export class BlockDescription extends Component {
         }
 
         return (
-            <div className="inputContainer descriptionContainer">
+            <div className="inputContainer" onDoubleClick={this.handleDoubleClick}>
                 {des}
             </div>
         )
