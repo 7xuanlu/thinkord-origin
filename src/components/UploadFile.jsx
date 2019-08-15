@@ -138,11 +138,6 @@ class Uploadfile extends Component {
               src={file.path}
               className="file_img"
             />
-            {/* <Image
-              
-              width={300}
-              height={200}
-            /> */}
           </li>
         )
       } else {

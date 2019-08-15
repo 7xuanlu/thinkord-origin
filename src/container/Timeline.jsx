@@ -62,8 +62,6 @@ class Timeline extends Component {
             <div><Progressbar /></div>
             <BlockContainer
               onNewBlock={this.scrollToBottom}
-            />
-            <Navigationbar
               clickHome={this.returnToMain}
               clickSave={this.state.saveSign && this.saveChange}
             />

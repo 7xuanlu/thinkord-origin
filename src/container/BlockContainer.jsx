@@ -9,9 +9,11 @@ import Autolinker from 'autolinker';
 import parse from 'html-react-parser';
 import { ipcRenderer } from "electron";
 import { JSONManager } from "../renderer/json-manager";
+import Navigationbar from '../components/layout/Navigationbar';
 
 const jsonManager = new JSONManager();
-let old_date = '';
+let pre_step = [];
+let next_step = [];
 
 export class BlockContainer extends Component {
     constructor(props) {
@@ -41,13 +43,18 @@ export class BlockContainer extends Component {
     componentDidUpdate(prevProps, prevState) {
         if (typeof prevState.timeline.blocks === "undefined") { }
         else {
-            this.state.timeline.blocks.length > prevState.timeline.blocks.length ? this.props.onNewBlock() : {}
+            if(pre_step.includes(prevState.timeline) || next_step.includes(prevState.timeline)){
+                //do nothing
+            }else{
+                this.state.timeline.blocks.length > prevState.timeline.blocks.length ? this.props.onNewBlock() : {}
+            }
         }
     }
 
     // Delete the block you choose (frontend)
     delBlock = (time) => {
         // console.log('Now you choose the block', time);
+        pre_step.push(this.state.timeline);
         document.getElementById(time).classList.toggle("removed-item");
         setTimeout(() => {
             this.setState({
@@ -60,8 +67,7 @@ export class BlockContainer extends Component {
 
     // Add description (frontend)
     addDescription = (des, time) => {
-        let note = this.state.timeline.blocks;
-
+        var note = this.state.timeline.blocks;
         note.map((block) => {
             // assign the description to the block you want
             if (block.timestamp === time) {
@@ -69,15 +75,16 @@ export class BlockContainer extends Component {
             }
         });
 
-        this.setState({
-            timeline: {
-                blocks: note
-            }
-        });
+        
+        // this.setState({
+        //     timeline: {
+        //         blocks: note
+        //     }
+        // });
     }
 
     handleMark = (time) => {
-        let note = this.state.timeline.blocks;
+        var note = this.state.timeline.blocks;
         note.map((block) => {
             if (block.timestamp === time) {
                 if (block.mark === true) {
@@ -88,6 +95,7 @@ export class BlockContainer extends Component {
             }
         });
 
+        
         this.setState({
             timeline: {
                 blocks: note
@@ -97,7 +105,7 @@ export class BlockContainer extends Component {
 
     // Change the title (frontend)
     handleTitle = (title, time) => {
-        let note = this.state.timeline.blocks
+        var note = this.state.timeline.blocks
 
         note.map((block) => {
             // assign the title to the block you want
@@ -106,6 +114,7 @@ export class BlockContainer extends Component {
             }
         })
 
+        
         this.setState({
             timeline: {
                 blocks: note
@@ -152,7 +161,7 @@ export class BlockContainer extends Component {
 
     // Add file (frontend)
     addFile = (files, time) => {
-        let note = this.state.timeline.blocks;
+        var note = this.state.timeline.blocks;
         note.map((block) => {
             if (block.timestamp === time) {
                 files.map((file) => {
@@ -162,7 +171,9 @@ export class BlockContainer extends Component {
                     block.paths.push(file.path);
                 })
             }
-        })
+        });
+
+        
         this.setState({
             timeline: {
                 blocks: note
@@ -172,7 +183,7 @@ export class BlockContainer extends Component {
 
     // Delete file (frontend)
     delFile = (files, time) => {
-        let note = this.state.timeline.blocks;
+        var note = this.state.timeline.blocks;
         note.map((block) => {
             if (block.timestamp === time) {
 
@@ -181,13 +192,39 @@ export class BlockContainer extends Component {
                     block.paths.push(file.path)
                 })
             }
-        })
+        });
+
+        
     }
 
     handleLinker(text) {
         let linkedtext = Autolinker.link(text).trim();
         let element = parse(linkedtext);
         return element;
+    }
+
+    handlePreviousStep = () => {
+        var pre = pre_step.pop();
+        if(typeof(pre) !== "undefined"){
+            next_step.push(this.state.timeline);
+            this.setState({
+                timeline: pre
+            });
+        }else{
+            alert("Can't undo anymore");
+        }
+    }
+
+    handleNextStep = () => {
+        var next = next_step.pop();
+        if(typeof(next) !== "undefined"){
+            pre_step.push(this.state.timeline);
+            this.setState({
+                timeline: next
+            });
+        }else{
+            alert("Can't redo anymore");
+        }
     }
 
     distBlock = (block) => {
@@ -262,6 +299,12 @@ export class BlockContainer extends Component {
                         {this.distBlock(block)}
                     </div>
                 ))}
+                <Navigationbar
+                    clickPreviousStep={this.handlePreviousStep}
+                    clickNextStep={this.handleNextStep}
+                    clickSave={this.props.clickSave}
+                    clickHome={this.props.clickHome}
+                />
             </div>
         )
     }

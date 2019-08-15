@@ -84,7 +84,7 @@
   grid-area: checkbox;
   align-self: center;
   justify-self: center;
-  display: none;
+  display: block;
 }
 
 /* input */
