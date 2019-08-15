@@ -68,14 +68,13 @@ export class BlockContainer extends Component {
     // Add description (frontend)
     addDescription = (des, time) => {
         var note = this.state.timeline.blocks;
-        note.map((block) => {
+        note = note.map((block) => {
             // assign the description to the block you want
             if (block.timestamp === time) {
                 block.description = des
             }
         });
 
-        
         // this.setState({
         //     timeline: {
         //         blocks: note
@@ -304,6 +303,8 @@ export class BlockContainer extends Component {
                     clickNextStep={this.handleNextStep}
                     clickSave={this.props.clickSave}
                     clickHome={this.props.clickHome}
+                    clickTop={this.props.ReturnToTop}
+                    clickBottom={this.props.onNewBlock}
                 />
             </div>
         )

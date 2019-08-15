@@ -35,7 +35,8 @@ export class Navigationbar extends Component {
                     <i className="fas fa-redo" onClick={this.props.clickNextStep}></i>
                     <i className="far fa-check-square" onClick={this.selectAllBoxes}></i>
                     <i className="far fa-save" onClick={this.props.clickSave}></i>
-                    <i className="fas fa-arrow-up"></i>
+                    <i className="fas fa-angle-up" onClick={this.props.clickTop}></i>
+                    <i className="fas fa-angle-down" onClick={this.props.clickBottom}></i>
                     <i className="fas fa-home" onClick={this.props.clickHome}></i>
                 </div>
             </div>
