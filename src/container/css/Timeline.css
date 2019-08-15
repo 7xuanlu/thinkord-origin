@@ -173,6 +173,24 @@
 }
 /* input end */
 
+/*upload file*/
+.file_li{
+  list-style: none;
+}
+
+.file_img{
+  width: 20%;
+  height: 20%;
+}
+
+.file_preview_icon{
+  margin-right: 10px;
+}
+
+.file_edit_icon{
+  margin-left: 10px;
+}
+
 .blockIcon{
   grid-area: icon;
   padding-top: 10px;

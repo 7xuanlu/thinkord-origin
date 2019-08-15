@@ -118,7 +118,7 @@ class Uploadfile extends Component {
       let imageTypes = ['image/gif', 'image/jpeg', 'image/png'];
       if (imageTypes.includes(fileType)) {
         return (
-          <li key={file.name}>
+          <li key={file.name} className="file_li">
             {file.name}
             <i
               id="fileBtn"
@@ -133,18 +133,21 @@ class Uploadfile extends Component {
               className="fas fa-trash-alt file_edit_icon"
             >
             </i>
-            <div className="file_img">
-              <Image
-                src={file.path}
-                width={300}
-                height={200}
-              />
-            </div>
+            <br/>
+            <img
+              src={file.path}
+              className="file_img"
+            />
+            {/* <Image
+              
+              width={300}
+              height={200}
+            /> */}
           </li>
         )
       } else {
         return (
-          <li key={file.name}>
+          <li key={file.name} className="file_li">
             {file.name && (
               this.ChooseFileIcon(file)
             )}
