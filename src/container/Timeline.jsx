@@ -85,8 +85,8 @@ class Timeline extends Component {
             <Navigationbar
               clickPreviousStep={this.handleClickPreviousStep}
               clickNextStep={this.handleClickNextStep}
-              clickSave={this.props.clickSave}
-              clickHome={this.props.clickHome}
+              clickSave={this.saveChange}
+              clickHome={this.returnToMain}
               clickTop={this.scrollToTop}
               clickBottom={this.scrollToBottom}
             />
