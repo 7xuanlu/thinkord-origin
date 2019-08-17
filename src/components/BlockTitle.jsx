@@ -48,7 +48,7 @@ export default class BlockTitle extends Component {
     render() {
         let title;
         if (this.state.whileInput === false) {
-            title = <div onClick={this.handleClick}> {this.state.title} </div>
+            title = <div onClick={this.handleClick}> {this.props.title === '' ? "Title" : this.props.title} </div>
         } else {
             title =
                 <form onSubmit={this.handleSubmit} >

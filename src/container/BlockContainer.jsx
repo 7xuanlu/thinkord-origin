@@ -90,13 +90,14 @@ export class BlockContainer extends Component {
 
     // Add description (frontend)
     addDescription = (des, time) => {
-        var note = this.state.timeline.blocks;
-        note.map((block) => {
+        const note = this.state.timeline.blocks.map(block => {
             // assign the description to the block you want
             if (block.timestamp === time) {
-                block.description = des
+                block = {...block, description: des};
             }
+            return block;
         });
+        pre_step.push(this.state.timeline);
 
         this.setState({
             timeline: {
@@ -106,17 +107,18 @@ export class BlockContainer extends Component {
     }
 
     handleMark = (time) => {
-        var note = this.state.timeline.blocks;
-        note.map((block) => {
+        const note = this.state.timeline.blocks.map(block => {
+            // assign the description to the block you want
             if (block.timestamp === time) {
                 if (block.mark === true) {
-                    block.mark = false
+                    block = {...block, mark: false}
                 } else {
-                    block.mark = true
+                    block = {...block, mark: true}
                 }
             }
+            return block;
         });
-
+        pre_step.push(this.state.timeline);
         
         this.setState({
             timeline: {
@@ -127,15 +129,14 @@ export class BlockContainer extends Component {
 
     // Change the title (frontend)
     handleTitle = (title, time) => {
-        var note = this.state.timeline.blocks
-
-        note.map((block) => {
-            // assign the title to the block you want
+        const note = this.state.timeline.blocks.map(block => {
+            // assign the description to the block you want
             if (block.timestamp === time) {
-                block.title = title;
+                block = {...block, title: title}
             }
-        })
-
+            return block;
+        });
+        pre_step.push(this.state.timeline);
         
         this.setState({
             timeline: {
@@ -194,7 +195,6 @@ export class BlockContainer extends Component {
                 })
             }
         });
-
         
         this.setState({
             timeline: {
@@ -237,7 +237,6 @@ export class BlockContainer extends Component {
                         addDate={this.addDate(block)}
                         addTime={this.addTime(block)}
                         handleLinker={this.handleLinker}
-                        RecordMove={() => {pre_step.push(this.state.timeline);}}
                     />
                 )
             } else if (block.paths[0].split('.').pop() === 'mp3') {

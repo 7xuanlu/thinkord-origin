@@ -51,7 +51,7 @@ export class BlockDescription extends Component {
             if(this.state.description === ''){
                 des = <div>Describe something...</div>
             }else{
-                des = <div>{this.props.handleLinker(this.state.description)}</div>
+                des = <div>{this.props.handleLinker(this.props.description)}</div>
             }
         } else {
             des =
