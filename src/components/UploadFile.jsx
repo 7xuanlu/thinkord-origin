@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
-import { Button } from 'react-bootstrap';
-import styled from 'styled-components';
-import Image from 'react-image-resizer';
+import FileIcon from '../components/FileIcon';
 import { shell } from 'electron';
 
 class Uploadfile extends Component {
@@ -45,73 +43,15 @@ class Uploadfile extends Component {
     this.props.delFile(this.state.files, this.props.time);
   }
 
-  ChooseFileIcon = (file) => {
-    if (file.name.split('.').pop() === 'docx') {
-      return (
-        <i className="far fa-file-word fa-3x file_preview_icon"></i>
-      )
-    } else if (file.name.split('.').pop() === 'pdf') {
-      return (
-        <i className="far fa-file-pdf fa-3x file_preview_icon"></i>
-      )
-    } else if (file.name.split('.').pop() === 'mp3') {
-      return (
-        <i className="far fa-file-audio fa-3x file_preview_icon"></i>
-      )
-    } else if (file.name.split('.').pop() === 'mp4') {
-      return (
-        <i className="far fa-file-video fa-3x file_preview_icon"></i>
-      )
-    } else if (file.name.split('.').pop() === 'xls') {
-      return (
-        <i className="far fa-file-excel fa-3x file_preview_icon"></i>
-      )
-    } else if (file.name.split('.').pop() === 'zip') {
-      return (
-        <i className="far fa-file-archive fa-3x file_preview_icon"></i>
-      )
-    } else {
-      return (
-        <i className="far fa-file-alt fa-3x file_preview_icon"></i>
-      )
-    }
-  }
-
   distFile = (files) => {
-
-
-
     return (
       <aside className="file_upload">
         {files}
       </aside>
     )
-
   }
 
-
-
   render() {
-
-    const getColor = (props) => {
-      return '#69CB43';
-    }
-    const Container = styled.div`
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding:20px;
-      border-width: 1.5px;
-      border-radius: 2px;
-      border-color: ${props => getColor(props)};
-      border-style: dashed;
-      background-color: #fafafa;
-      color: #69CB43;
-      outline: none;
-      transition: border .24s ease-in-out;
-    `;
-
     // const imagePreviewUrl = this.state;
     const files = this.state.files.map(file => {
       const fileType = file['type'];
@@ -143,9 +83,7 @@ class Uploadfile extends Component {
       } else {
         return (
           <li key={file.name} className="file_li">
-            {file.name && (
-              this.ChooseFileIcon(file)
-            )}
+            <FileIcon file={file}/>
             {file.name}
             <i
               id="fileBtn"
@@ -169,10 +107,10 @@ class Uploadfile extends Component {
       <Dropzone onDrop={this.onDrop.bind(this)}>
         {({ getRootProps, getInputProps, isDragActive }) => (
           <div className="container">
-            <Container {...getRootProps({ className: 'dropzone' })}>
+            <div {...getRootProps({ className: 'dropzone upload_file_zone' })}>
               <input {...getInputProps()} />
               {isDragActive ? 'Drop it!' : 'Drag and drop some files here, or click to select files'}
-            </Container>
+            </div>
             {this.distFile(files)}
           </div>
         )}

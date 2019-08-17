@@ -191,6 +191,30 @@
   margin-left: 10px;
 }
 
+.file-icon-container{
+  margin-top: 10px;
+  display: inline-block;
+}
+
+.container{
+  width: 95%;
+}
+.upload_file_zone{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding:20px;
+  border-width: 1.5px;
+  border-radius: 2px;
+  border-color: #69cb43;
+  border-style: dashed;
+  background-color: #fafafa;
+  color: #69CB43;
+  outline: none;
+  transition: border .24s ease-in-out;
+}
+
 .blockIcon{
   grid-area: icon;
   padding-top: 10px;
