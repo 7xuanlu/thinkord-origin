@@ -33,12 +33,12 @@
 
   display: grid;
   grid-template-rows: 50px 30px auto auto;
-  grid-template-columns:50px 5% 80px 50px auto 50px 50px 30px;
+  grid-template-columns:50px 5% 80px 50px auto 50px 50px;
   grid-template-areas:
-    "date . icon  scale   title   remove  mark   checkbox"
-    ".    . time content content content content checkbox"
-    ".    .  .   content content content content checkbox"
-    ".    .  .   content content content content checkbox";
+    "date . icon       scale   title   remove  mark   "
+    ".    . time       content content content content "
+    ".    . checkbox   content content content content "
+    ".    .  .         content content content content ";
 }
 .borderLine{
   grid-column:4 /-2;
@@ -84,7 +84,7 @@
   grid-area: checkbox;
   align-self: center;
   justify-self: center;
-  display: block;
+  display: none;
 }
 
 /* input */
@@ -213,8 +213,8 @@
 }
 .date{
   grid-area: date;
-  font-size: 18px;
-  padding-left: 10px;
+  font-size: 16px;
+  /* padding-left: 10px; */
   text-align: right;
 
 }
@@ -267,7 +267,7 @@
   display: flex;
   justify-content:space-between;
 }
-.editMode{
+.selectMode{
   display: none;
   justify-content:space-between;
 }
@@ -279,7 +279,7 @@
 }
 
 .search{
-  padding-top: 5px;
+  padding-top: 2px;
   padding-left: 5%;
 }
 .search > div {
@@ -294,18 +294,18 @@
   height: 6px;
   position: absolute;
   top: 15px;
-  right: -2px;
+  right: -1px;
   transform: rotate(135deg);
   box-shadow: 1px 0 #272a2b;
 }
 
 .search > div > input {
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 100;
   background: rgb(255, 255, 255);
-  width: 6px;
-  height: 6px;
-  padding: 7px;
+  width: 5px;
+  height: 5px;
+  padding: 6px;
   border: solid 2px white;
   outline: none;
   border-radius: 10px;
