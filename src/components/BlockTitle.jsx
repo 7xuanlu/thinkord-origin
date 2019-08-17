@@ -18,9 +18,16 @@ export default class BlockTitle extends Component {
         }
     }
 
-    handleDoubleClick = () => {
+    handleClick = () => {
         this.setState({
             whileInput: true
+        });
+    }
+
+    handleBlur = (e) => {
+        e.preventDefault();
+        this.setState({
+            whileInput: false
         });
     }
 
@@ -41,7 +48,7 @@ export default class BlockTitle extends Component {
     render() {
         let title;
         if (this.state.whileInput === false) {
-            title = <div onDoubleClick={this.handleDoubleClick}> {this.state.title} </div>
+            title = <div onClick={this.handleClick}> {this.state.title} </div>
         } else {
             title =
                 <form onSubmit={this.handleSubmit} >
@@ -51,12 +58,13 @@ export default class BlockTitle extends Component {
                         className="inputField titleInput"
                         autoComplete="off"
                         value={this.state.title}
-                        onChange={this.handleChange} 
+                        onChange={this.handleChange}
+                        autoFocus
                     />
                 </form>
         }
         return (
-            <div className="blockTitle">
+            <div className="blockTitle" onBlur={this.handleBlur}>
                 {title}
             </div>
         )

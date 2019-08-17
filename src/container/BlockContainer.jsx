@@ -48,7 +48,6 @@ export class BlockContainer extends Component {
             }else{
                 alert("Can't undo anymore");
             }
-            // console.log('pre-step-click');
         });
 
         ipcRenderer.on('next-step-click', () => {
@@ -61,7 +60,6 @@ export class BlockContainer extends Component {
             }else{
                 alert("Can't redo anymore");
             }
-            // console.log('next-step-click');
         });
     }
 
@@ -100,11 +98,11 @@ export class BlockContainer extends Component {
             }
         });
 
-        // this.setState({
-        //     timeline: {
-        //         blocks: note
-        //     }
-        // });
+        this.setState({
+            timeline: {
+                blocks: note
+            }
+        });
     }
 
     handleMark = (time) => {

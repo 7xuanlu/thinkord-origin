@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { ipcRenderer } from 'electron';
 
 export class BlockDescription extends Component {
     constructor(props) {
@@ -16,9 +17,16 @@ export class BlockDescription extends Component {
         });
     }
 
-    handleDoubleClick = () => {
+    handleClick = () => {
         this.setState({
             whileInput: true
+        });
+    }
+
+    handleBlur = (e) => {
+        e.preventDefault();
+        this.setState({
+            whileInput: false
         });
     }
 
@@ -38,6 +46,7 @@ export class BlockDescription extends Component {
 
     render() {
         let des;
+
         if (this.state.whileInput === false) {
             if(this.state.description === ''){
                 des = <div>Describe something...</div>
@@ -54,12 +63,13 @@ export class BlockDescription extends Component {
                         autoComplete="off"
                         value={this.state.description}
                         onChange={this.handleChange}
+                        autoFocus
                     />
                 </form>
         }
 
         return (
-            <div className="inputContainer" onDoubleClick={this.handleDoubleClick}>
+            <div className="inputContainer" onClick={this.handleClick} onBlur={this.handleBlur}>
                 {des}
             </div>
         )
