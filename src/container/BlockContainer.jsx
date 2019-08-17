@@ -9,7 +9,6 @@ import Autolinker from 'autolinker';
 import parse from 'html-react-parser';
 import { ipcRenderer } from "electron";
 import { JSONManager } from "../renderer/json-manager";
-import Navigationbar from '../components/layout/Navigationbar';
 
 const jsonManager = new JSONManager();
 let pre_step = [];
@@ -37,7 +36,33 @@ export class BlockContainer extends Component {
 
         ipcRenderer.on('Navbar-save-slu', () => {
             jsonManager.writeJSON(this.state.timeline, this.state.sluPath);
-        })
+        });
+
+        ipcRenderer.on('pre-step-click', () => {
+            var pre = pre_step.pop();
+            if(typeof(pre) !== "undefined"){
+                next_step.push(this.state.timeline);
+                this.setState({
+                    timeline: pre
+                });
+            }else{
+                alert("Can't undo anymore");
+            }
+            // console.log('pre-step-click');
+        });
+
+        ipcRenderer.on('next-step-click', () => {
+            var next = next_step.pop();
+            if(typeof(next) !== "undefined"){
+                pre_step.push(this.state.timeline);
+                this.setState({
+                    timeline: next
+                });
+            }else{
+                alert("Can't redo anymore");
+            }
+            // console.log('next-step-click');
+        });
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -202,30 +227,6 @@ export class BlockContainer extends Component {
         return element;
     }
 
-    handlePreviousStep = () => {
-        var pre = pre_step.pop();
-        if(typeof(pre) !== "undefined"){
-            next_step.push(this.state.timeline);
-            this.setState({
-                timeline: pre
-            });
-        }else{
-            alert("Can't undo anymore");
-        }
-    }
-
-    handleNextStep = () => {
-        var next = next_step.pop();
-        if(typeof(next) !== "undefined"){
-            pre_step.push(this.state.timeline);
-            this.setState({
-                timeline: next
-            });
-        }else{
-            alert("Can't redo anymore");
-        }
-    }
-
     distBlock = (block) => {
         if (block.paths[0] !== "") {
             if (block.paths[0].split('.').pop() === 'png') {
@@ -299,14 +300,6 @@ export class BlockContainer extends Component {
                         {this.distBlock(block)}
                     </div>
                 ))}
-                <Navigationbar
-                    clickPreviousStep={this.handlePreviousStep}
-                    clickNextStep={this.handleNextStep}
-                    clickSave={this.props.clickSave}
-                    clickHome={this.props.clickHome}
-                    clickTop={this.props.ReturnToTop}
-                    clickBottom={this.props.onNewBlock}
-                />
             </div>
         )
     }

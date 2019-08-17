@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import BlockContainer from "./BlockContainer";
 import Header from "../components/layout/Header";
 import Progressbar from "../components/layout/Progressbar";
+import Navigationbar from '../components/layout/Navigationbar';
 import './css/Timeline.css';
 
 import BlockUi from 'react-block-ui';
@@ -60,6 +61,14 @@ class Timeline extends Component {
     });
   }
 
+  handleClickPreviousStep = () => {
+    ipcRenderer.send('pre-step-click');
+  }
+
+  handleClickNextStep = () => {
+    ipcRenderer.send('next-step-click');
+  }
+
   render() {
     return (
       <BlockUi tag="div" blocking={!this.state.saveSign}>
@@ -72,6 +81,14 @@ class Timeline extends Component {
               ReturnToTop={this.scrollToTop}
               clickHome={this.returnToMain}
               clickSave={this.state.saveSign && this.saveChange}
+            />
+            <Navigationbar
+              clickPreviousStep={this.handleClickPreviousStep}
+              clickNextStep={this.handleClickNextStep}
+              clickSave={this.props.clickSave}
+              clickHome={this.props.clickHome}
+              clickTop={this.scrollToTop}
+              clickBottom={this.scrollToBottom}
             />
           </div>
         </div>

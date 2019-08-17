@@ -259,3 +259,13 @@ ipcMain.on('main-delete-file', async (event, args) => {
         event.reply('main-reply-del', { msg: msg });
     });
 });
+
+ipcMain.on('pre-step-click', () => {
+    main.webContents.send('pre-step-click');
+    // console.log('pre-step-click');
+});
+
+ipcMain.on('next-step-click', () => {
+    main.webContents.send('next-step-click');
+    // console.log('next-step-click');
+});
