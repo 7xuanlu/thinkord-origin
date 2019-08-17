@@ -68,7 +68,7 @@ export class BlockContainer extends Component {
     // Add description (frontend)
     addDescription = (des, time) => {
         var note = this.state.timeline.blocks;
-        note = note.map((block) => {
+        note.map((block) => {
             // assign the description to the block you want
             if (block.timestamp === time) {
                 block.description = des
@@ -238,6 +238,7 @@ export class BlockContainer extends Component {
                         addDate={this.addDate(block)}
                         addTime={this.addTime(block)}
                         handleLinker={this.handleLinker}
+                        RecordMove={() => {pre_step.push(this.state.timeline);}}
                     />
                 )
             } else if (block.paths[0].split('.').pop() === 'mp3') {
