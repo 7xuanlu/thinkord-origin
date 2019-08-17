@@ -84,15 +84,16 @@
   grid-area: checkbox;
   align-self: center;
   justify-self: center;
-  display: none;
+  display: block;
 }
 
 /* input */
 .inputContainer{
   width: 100%;
   margin: 20px 0;
-  text-align: center;
+  text-align: left;
   box-sizing: border-box;
+  word-wrap: break-word;
 }
 .inputLabel{
   float: left;
@@ -143,6 +144,7 @@
   float: left;
   width:100%;
   height: 30px;
+  margin: 20px 0;
   border: 0;
   border-radius: 4px;
   background-color: #35c18927;
@@ -150,6 +152,7 @@
   font-size: 20px;
   position: relative;
   z-index: 99;
+  word-wrap: break-word;
 }
 .inputField:focus{
   outline: 0;
@@ -169,6 +172,24 @@
   color:#1e525054;
 }
 /* input end */
+
+/*upload file*/
+.file_li{
+  list-style: none;
+}
+
+.file_img{
+  width: 20%;
+  height: 20%;
+}
+
+.file_preview_icon{
+  margin-right: 10px;
+}
+
+.file_edit_icon{
+  margin-left: 10px;
+}
 
 .blockIcon{
   grid-area: icon;

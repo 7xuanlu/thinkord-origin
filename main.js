@@ -98,24 +98,28 @@ ipcMain.on('text-click', () => {
         text.focus();
     }
     console.log('text click');
-})
+});
 
 ipcMain.on('twin-cancel', () => {
     text.close();
     text = null;
     console.log('cancel-click');
-})
+});
 
 ipcMain.on('twin-ok', (event, args) => {
     console.log('ok-click');
     controlbar.webContents.send('save-textarea-value', args);
     text.close();
     text = null;
-})
+});
 
 ipcMain.on('quit-click', () => {
     controlbar.close();
     controlbar = null;
+    if(text !== null){
+        text.close();
+        text = null;
+    }
     console.log('Closing controlbar window');
 });
 
@@ -143,6 +147,13 @@ ipcMain.on('file-open-click', (event, args) => {
     } else {
         controlbar.focus();
     }
+
+    controlbar.on('move', () => {
+        if(text !== null){
+            text.close();
+            text = null;
+        }
+    })
 
     ipcMain.once('cb-init-slu', () => {
         if (args) {

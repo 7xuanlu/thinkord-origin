@@ -43,9 +43,9 @@ export default class Main extends Component {
         });
     }
 
-    componentDidUpdate() {
-        ipcRenderer.send('main-sync');
-    }
+    // componentDidUpdate() {
+    //     ipcRenderer.send('main-sync');
+    // }
 
     handleMenuOpen = () => {
         const page = document.getElementById('page');
@@ -167,9 +167,9 @@ export default class Main extends Component {
                     <i className="menu_close fas fa-times fa-lg"></i>
                 </span>
                 <ul className="menu_items">
-                    <li><a href="#"><i className="icon fas fa-home fa-2x" onClick={this.handleHomeClick}></i> Home</a></li>
-                    <li><a href="#"><i className="icon fas fa-question fa-2x" onClick={this.handleHelpClick}></i> Help</a></li>
-                    <li><a href="#"><i className="icon fas fa-users fa-2x" onClick={this.handleAboutUsClick}></i> About us</a></li>
+                    <li><a href="#"><i className="icon fas fa-home" onClick={this.handleHomeClick}></i> Home</a></li>
+                    <li><a href="#"><i className="icon fas fa-question" onClick={this.handleHelpClick}></i> Help</a></li>
+                    <li><a href="#"><i className="icon fas fa-users" onClick={this.handleAboutUsClick}></i> About us</a></li>
                 </ul>
                 <main className="content" onClick={this.handleMenuClose}>
                     <div className="content_inner" hidden={this.state.home_page}>

@@ -4,10 +4,9 @@ export default class BlockTitle extends Component {
     constructor(props) {
         super(props);
 
-        // state that detect if user is inputting right now
         this.state = {
             title: "Title",
-            whileInput: false
+            whileInput: false  // state that detect if user is inputting right now
         }
     }
 
@@ -17,7 +16,6 @@ export default class BlockTitle extends Component {
                 title: this.props.title
             })
         }
-
     }
 
     handleDoubleClick = () => {
@@ -53,11 +51,8 @@ export default class BlockTitle extends Component {
                         className="inputField titleInput"
                         autoComplete="off"
                         value={this.state.title}
-                        onChange={this.handleChange} />
-                    {/* <input
-                        type="hidden"
-                        value="comment"
-                        /> */}
+                        onChange={this.handleChange} 
+                    />
                 </form>
         }
         return (

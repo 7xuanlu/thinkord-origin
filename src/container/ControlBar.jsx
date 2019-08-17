@@ -50,7 +50,7 @@ export default class ControlBar extends Component {
     componentDidMount() {
         ipcRenderer.send('cb-init-slu');
         ipcRenderer.on('cb-init-slu', (event, args) => {
-            
+
             this.state.jsonManager.readJSON(args.path).then((json) => {
                 this.setState({
                     timeline: json,
@@ -207,8 +207,8 @@ export default class ControlBar extends Component {
             const noteManager = new NoteManager();
 
             // Add new text block to the note object
-            let note = noteManager.addBlock(this.state.timeline, args)
-            this.setState({ timeline: note })
+            let note = noteManager.addBlock(this.state.timeline, args);
+            this.setState({ timeline: note });
         })
     }
 

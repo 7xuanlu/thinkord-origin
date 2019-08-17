@@ -5,6 +5,7 @@ import './css/ControlBar.css';
 import OKButton from '../asset/check.png';
 import CancelButton from '../asset/remove.png';
 import MarkButton from '../asset/star.png';
+import MarkFillButton from '../asset/star-fill.png';
 
 const { ipcRenderer } = require('electron');
 
@@ -29,7 +30,8 @@ export class TextWindow extends Component {
 
         ipcRenderer.send('twin-ok', {
             "text": textarea.value,
-            "isMark": this.state.isMark
+            "isMark": this.state.isMark,
+            "type": "text"
         });
     }
 
@@ -38,6 +40,23 @@ export class TextWindow extends Component {
     }
 
     handleMark = () => {
+        if(this.state.isMark === true){
+            const btn = this.state.textwindow_button.map(button => {
+                if(button.id === 'mark'){
+                    button.src = MarkButton
+                }
+                return button
+            });
+            this.setState({textwindow_button: btn});
+        }else{
+            const btn = this.state.textwindow_button.map(button => {
+                if(button.id === 'mark'){
+                    button.src = MarkFillButton
+                }
+                return button
+            });
+            this.setState({textwindow_button: btn});
+        }
         this.setState({ isMark: !this.state.isMark });
     }
 

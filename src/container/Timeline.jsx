@@ -53,6 +53,14 @@ class Timeline extends Component {
     });
   }
 
+  scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }
+
   render() {
     return (
       <BlockUi tag="div" blocking={!this.state.saveSign}>
@@ -62,8 +70,7 @@ class Timeline extends Component {
             <div><Progressbar /></div>
             <BlockContainer
               onNewBlock={this.scrollToBottom}
-            />
-            <Navigationbar
+              ReturnToTop={this.scrollToTop}
               clickHome={this.returnToMain}
               clickSave={this.state.saveSign && this.saveChange}
             />

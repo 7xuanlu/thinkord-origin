@@ -12,10 +12,10 @@ export default function VideoBlock(props) {
     const [scaling, setScaling] = useState(true);
 
     const handleScaling = () => {
-        if(scaling){
+        if (scaling) {
             document.getElementById(scaleid).classList.remove("rotate-open");
             document.getElementById(scaleid).classList.toggle("rotate-close");
-        }else{
+        } else {
             document.getElementById(scaleid).classList.remove("rotate-close");
             document.getElementById(scaleid).classList.toggle("rotate-open");
         }
@@ -27,7 +27,7 @@ export default function VideoBlock(props) {
         <div id={props.block.timestamp} className="videoBlock blockContent" >
             <div className="borderLine"></div>
             <BlockTitle className="blockTitle" time={props.block.timestamp} onChangeTitle={props.handleTitle} title={props.block.title} />
-              
+
             <Button className="iconBtn removeBtn" onClick={props.delBlock.bind(this, props.block.timestamp)}><i className="far fa-trash-alt"></i></Button>
             <form className="checkContainer">
                 <input className="check" type="checkbox" />

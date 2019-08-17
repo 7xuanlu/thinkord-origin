@@ -5,22 +5,6 @@ export class Navigationbar extends Component {
         super(props);
     }
 
-    //changeMode 
-    changeMode = () => {
-        const selectBox = document.getElementsByClassName("checkContainer");
-        let i = 0;
-
-        if (document.getElementsByClassName("viewMode")[0].style.display === "flex") {
-            document.getElementsByClassName("viewMode")[0].style.display = "none";         //show editMode
-            document.getElementsByClassName("editMode")[0].style.display = "flex";
-            for (i = 0; i < selectBox.length; i++) { selectBox[i].style.display = "block"; }
-        } else {
-            document.getElementsByClassName("editMode")[0].style.display = "none";        //show ViewMode
-            document.getElementsByClassName("viewMode")[0].style.display = "flex";
-            for (i = 0; i < selectBox.length; i++) { selectBox[i].style.display = "none"; }
-        }
-    }
-
     //select all checkboxes
     selectAllBoxes = () => {
         const selectAll = document.getElementsByClassName("check");
@@ -47,19 +31,13 @@ export class Navigationbar extends Component {
             <div className="navigatorContainer" >
                 <div className="navigationBar viewMode">
                     <div className="search"><div><input type="text" placeholder=" Search . . ." required /></div></div>
-                    <i className="fas fa-pen" onClick={this.changeMode}></i>
-                    <i className="fas fa-arrow-up"></i>
-                    <i className="fas fa-home" onClick={this.props.clickHome}></i>
-                    <i className="fas fa-times"></i>
-                </div>
-                <div className="navigationBar editMode">
-                    <div className="search"><div><input type="text" placeholder="   Search . . ." required /></div></div>
-                    <i className="far fas fa-columns" onClick={this.changeMode}></i>
-                    <i className="fas fa-undo"></i>
-                    <i className="fas fa-redo"></i>
+                    <i className="fas fa-undo" onClick={this.props.clickPreviousStep}></i>
+                    <i className="fas fa-redo" onClick={this.props.clickNextStep}></i>
                     <i className="far fa-check-square" onClick={this.selectAllBoxes}></i>
                     <i className="far fa-save" onClick={this.props.clickSave}></i>
-                    <i className="fas fa-arrow-up"></i>
+                    <i className="fas fa-angle-up" onClick={this.props.clickTop}></i>
+                    <i className="fas fa-angle-down" onClick={this.props.clickBottom}></i>
+                    <i className="fas fa-home" onClick={this.props.clickHome}></i>
                 </div>
             </div>
         )

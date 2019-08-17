@@ -110,10 +110,11 @@ body {
     display: inline-block;
     margin-right: 25px;
     color: #f0f0f0;
+    font-size: 30px;
 }
 
 .menu_items a .icon:after {
-    position: absolute;
+    position: relative;
     top: 50%;
     left: 50%;
     content: '';
@@ -121,8 +122,8 @@ body {
     display: block;
     width: 60px;
     height: 60px;
-    margin-left: -33px;
-    margin-top: -32px;
+    margin-left: -32px;
+    margin-top: -45px;
     border-radius: 50%;
     border: 2px solid #f0f0f0;
     transition: border-color 0.2s;
