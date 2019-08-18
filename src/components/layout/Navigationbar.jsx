@@ -20,23 +20,23 @@ export class Navigationbar extends Component {
         }
     }
 
-    // //select all checkboxes
-    // selectAllBoxes = () => {
-    //     const selectAll = document.getElementsByClassName("check");
-    //     let i = 0;
-    //     let alreadySelectAll = true;
-    //     for (i = 0; i < selectAll.length; i++) {
-    //         if (selectAll[i].checked != true) { alreadySelectAll = false }
-    //     }
+    //select all checkboxes
+    selectAllBoxes = () => {
+        const selectAll = document.getElementsByClassName("check");
+        let i = 0;
+        let alreadySelectAll = true;
+        for (i = 0; i < selectAll.length; i++) {
+            if (selectAll[i].checked != true) { alreadySelectAll = false }
+        }
 
-    //     if (alreadySelectAll) {
-    //         for (i = 0; i < selectAll.length; i++) 
-    //             selectAll[i].checked = false;
-    //     } else {
-    //         for (i = 0; i < selectAll.length; i++) 
-    //             selectAll[i].checked = true;
-    //     }
-    // }
+        if (alreadySelectAll) {
+            for (i = 0; i < selectAll.length; i++) 
+                selectAll[i].checked = false;
+        } else {
+            for (i = 0; i < selectAll.length; i++) 
+                selectAll[i].checked = true;
+        }
+    }
 
 
     render() {
@@ -44,10 +44,10 @@ export class Navigationbar extends Component {
             <div className="navigatorContainer" >
                 <div className="navigationBar viewMode">
                     <div className="search"><div><input type="text" placeholder=" Search . . ." required /></div></div>
+                    <i className="fas fa-list" onClick={this.changeMode}></i>
                     <i className="fas fa-undo-alt" onClick={this.props.clickPreviousStep}></i>
                     <i className="fas fa-redo-alt" onClick={this.props.clickNextStep}></i>
-                    <i className="far fa-save" onClick={this.props.clickSave}></i>
-                    <i className="far fa-check-square" onClick={this.changeMode}></i>
+                    <i className="fas fa-download" onClick={this.props.clickSave}></i>
                     <i className="fas fa-angle-double-up"></i>
                     <i className="fas fa-angle-up" onClick={this.props.clickTop}></i>
                     <i className="fas fa-angle-down" onClick={this.props.clickBottom}></i>
@@ -56,7 +56,7 @@ export class Navigationbar extends Component {
                 <div className="navigationBar selectMode">
                     <div className="search"><div><input type="text" placeholder=" Search . . ." required /></div></div>
                     <i className="fas fa-arrow-left" onClick={this.changeMode}></i>
-                    <i className="far fa-check-double" ></i>
+                    <i className="far fa-check-square" onClick={this.selectAllBoxes}></i>
                     <i className="fas fa-trash"></i>
                     <i className="fas fa-bookmark"></i>
                     <i className="fas fa-angle-double-up"></i>
