@@ -27,21 +27,21 @@
 
 
 .allBlocks .blockContent{
-  font-size: 16px;
+  font-size: 14px;
   color: #143938;
-  margin:0px 5% 10px 0;
+  margin:0 2% 10px 1%;
 
   display: grid;
   grid-template-rows: 50px 30px auto auto;
-  grid-template-columns:50px 5% 80px 50px auto 50px 50px;
+  grid-template-columns:50px 2% 80px 40px auto 50px 50px;
   grid-template-areas:
-    "date . icon       scale   title   remove  mark   "
+    "date . icon       scale   title   mark     remove "
     ".    . time       content content content content "
     ".    . checkbox   content content content content "
     ".    .  .         content content content content ";
 }
 .borderLine{
-  grid-column:4 /-2;
+  grid-column:4 /-1;
   grid-row:  1 / -1;
 }
 
