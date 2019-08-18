@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import Dropzone from 'react-dropzone';
-import { Button } from 'react-bootstrap';
 import styled from 'styled-components';
-import Image from 'react-image-resizer';
 import { shell } from 'electron';
-import { toLinuxArchString } from 'builder-util';
+import FileIcon from '../components/FileIcon';
 
 
 export class Upload extends Component {
@@ -68,10 +66,12 @@ export class Upload extends Component {
             })
             let names = upnames.map((upname, index) => {
                 return (
-                    <li key={index}>
+                    <li key={index} className="file_li">
+                        <FileIcon file={uppaths[index]}/>
+                        {/* {console.log(uppaths[index])} */}
                         {upname}
-                        <i style={{ color: "#28ff28" }} onClick={(e) => this.openFileButton(upname, e)}>click</i>
-                        <i style={{ color: "red" }} onClick={(e) => this.deleteButton(upname, e)}>delete</i>
+                        <i className="far fa-file file_edit_icon" onClick={(e) => this.openFileButton(upname, e)}></i>
+                        <i className="fas fa-trash-alt file_edit_icon" onClick={(e) => this.deleteButton(upname, e)}></i>
                     </li>
                 )
             })
