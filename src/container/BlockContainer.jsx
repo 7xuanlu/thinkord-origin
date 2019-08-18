@@ -40,24 +40,24 @@ export class BlockContainer extends Component {
 
         ipcRenderer.on('pre-step-click', () => {
             var pre = pre_step.pop();
-            if(typeof(pre) !== "undefined"){
+            if (typeof (pre) !== "undefined") {
                 next_step.push(this.state.timeline);
                 this.setState({
                     timeline: pre
                 });
-            }else{
+            } else {
                 alert("Can't undo anymore");
             }
         });
 
         ipcRenderer.on('next-step-click', () => {
             var next = next_step.pop();
-            if(typeof(next) !== "undefined"){
+            if (typeof (next) !== "undefined") {
                 pre_step.push(this.state.timeline);
                 this.setState({
                     timeline: next
                 });
-            }else{
+            } else {
                 alert("Can't redo anymore");
             }
         });
@@ -66,9 +66,9 @@ export class BlockContainer extends Component {
     componentDidUpdate(prevProps, prevState) {
         if (typeof prevState.timeline.blocks === "undefined") { }
         else {
-            if(pre_step.includes(prevState.timeline) || next_step.includes(prevState.timeline)){
+            if (pre_step.includes(prevState.timeline) || next_step.includes(prevState.timeline)) {
                 //do nothing
-            }else{
+            } else {
                 this.state.timeline.blocks.length > prevState.timeline.blocks.length ? this.props.onNewBlock() : {}
             }
         }
@@ -93,7 +93,7 @@ export class BlockContainer extends Component {
         const note = this.state.timeline.blocks.map(block => {
             // assign the description to the block you want
             if (block.timestamp === time) {
-                block = {...block, description: des};
+                block = { ...block, description: des };
             }
             return block;
         });
@@ -111,15 +111,15 @@ export class BlockContainer extends Component {
             // assign the description to the block you want
             if (block.timestamp === time) {
                 if (block.mark === true) {
-                    block = {...block, mark: false}
+                    block = { ...block, mark: false }
                 } else {
-                    block = {...block, mark: true}
+                    block = { ...block, mark: true }
                 }
             }
             return block;
         });
         pre_step.push(this.state.timeline);
-        
+
         this.setState({
             timeline: {
                 blocks: note
@@ -132,12 +132,12 @@ export class BlockContainer extends Component {
         const note = this.state.timeline.blocks.map(block => {
             // assign the description to the block you want
             if (block.timestamp === time) {
-                block = {...block, title: title}
+                block = { ...block, title: title }
             }
             return block;
         });
         pre_step.push(this.state.timeline);
-        
+
         this.setState({
             timeline: {
                 blocks: note
@@ -195,7 +195,7 @@ export class BlockContainer extends Component {
                 })
             }
         });
-        
+
         this.setState({
             timeline: {
                 blocks: note
@@ -216,7 +216,13 @@ export class BlockContainer extends Component {
             }
         });
 
-        
+        this.setState({
+            timeline: {
+                blocks: note
+            }
+        })
+
+
     }
 
     handleLinker(text) {

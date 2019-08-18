@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import UploadFile from '../components/UploadFile';
+import Upload from '../components/Upload';
 import BlockTitle from '../components/BlockTitle';
 import BlockDescription from "../components/BlockDescription"
 
@@ -41,7 +41,8 @@ export default function TextBlock(props) {
                         time={props.block.timestamp}
                         handleLinker={props.handleLinker}
                     />
-                    <UploadFile
+                    <Upload
+                        paths={props.block.paths}
                         time={props.block.timestamp}
                         addFile={props.addFile}
                         delFile={props.delFile}
