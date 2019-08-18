@@ -72,6 +72,7 @@ export class BlockContainer extends Component {
                 this.state.timeline.blocks.length > prevState.timeline.blocks.length ? this.props.onNewBlock() : {}
             }
         }
+
     }
 
     // Delete the block you choose (frontend)
@@ -187,15 +188,18 @@ export class BlockContainer extends Component {
         var note = this.state.timeline.blocks;
         note.map((block) => {
             if (block.timestamp === time) {
+
                 files.map((file) => {
+                    // console.log(block.paths)
                     if (block.paths.includes(file.path)) {
                         return;
                     }
                     block.paths.push(file.path);
                 })
-            }
-        });
 
+            }
+        })
+        // console.log('note', note)
         this.setState({
             timeline: {
                 blocks: note
