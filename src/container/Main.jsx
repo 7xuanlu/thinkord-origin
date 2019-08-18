@@ -27,7 +27,7 @@ export default class Main extends Component {
             // Update state only when there exists some changes to slu
             if (stateSlu !== nextStateSlu) {
                 this.setState({
-                    slus: args.slus
+                    slus: args.slus.reverse()
                 })
             };
         });
@@ -192,15 +192,11 @@ export default class Main extends Component {
                             </button>
                         </h2><br />
                         <div className="pop_trigger">
-                            {this.state.slus.reverse().map((file) =>
-                                <FileButton
-                                    key={file.path}
-                                    index={this.state.slus.indexOf(file)}
-                                    file={file}
-                                    expand={this.state.expand}
-                                >
-                                </FileButton>
-                            )}
+                            {this.state.slus.map((file) => {
+                                if(this.state.slus.indexOf(file) < 10){
+                                    return <FileButton key={file.path} index={this.state.slus.indexOf(file)} file={file} expand={this.state.expand}></FileButton>
+                                }
+                            })}
                         </div>
                     </div>
                     <div className="content_inner" hidden={this.state.help_page}>

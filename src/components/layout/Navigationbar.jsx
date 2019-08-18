@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { ipcRenderer } from 'electron';
 
 export class Navigationbar extends Component {
     constructor(props) {
@@ -37,7 +38,6 @@ export class Navigationbar extends Component {
                 selectAll[i].checked = true;
         }
     }
-
 
     render() {
         return (

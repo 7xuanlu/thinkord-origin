@@ -55,7 +55,8 @@
 
 /*Button */
 .iconBtn{
-  outline: 0;
+  outline: none !important;
+  outline-offset: none !important;
   align-self: center;
   justify-self: center;
   text-align: center;
@@ -63,7 +64,6 @@
   color: #35c189;
   background:none;
   border: none;
-
 }
 
 .scaleBtn{
@@ -79,6 +79,7 @@
   grid-area: mark;
   align-self: center;
   justify-self: center;
+  background-color: #fff;
 }
 .checkContainer{
   grid-area: checkbox;
@@ -145,7 +146,7 @@
 }
 
 .container{
-  width: 95%;
+  width: 100%;
 }
 .upload_file_zone{
   flex: 1;
@@ -343,6 +344,28 @@ header {
 /*delete block animation*/
 .removed-item {
   animation: removed-item-animation .8s cubic-bezier(.65,-0.02,.72,.29);
+}
+
+/* modal css*/
+.modal_header{
+  padding: 10px;
+  background-color: #143938;
+  color: #35C189;
+}
+
+.modal_footer{
+  border: none;
+}
+
+.modal_input{
+  border-radius: 5px;
+  padding: 5px;
+  border: 1px solid #BDD4CB;
+}
+
+.modal_icon{
+  font-size: 25px;
+  color: #143938;
 }
 
 @keyframes removed-item-animation {
