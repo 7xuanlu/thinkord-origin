@@ -198,8 +198,8 @@ export class BlockContainer extends Component {
                 })
 
             }
-        })
-        // console.log('note', note)
+        });
+
         this.setState({
             timeline: {
                 blocks: note
@@ -212,12 +212,10 @@ export class BlockContainer extends Component {
         var note = this.state.timeline.blocks;
         note.map((block) => {
             if (block.timestamp === time) {
-
                 block.paths.splice(1)
-                console.log('files: ', files)
                 files.map((file) => {
                     block.paths.push(file.path)
-                })
+                });
             }
         });
 
@@ -225,9 +223,7 @@ export class BlockContainer extends Component {
             timeline: {
                 blocks: note
             }
-        })
-
-
+        });
     }
 
     handleLinker(text) {

@@ -8,6 +8,7 @@ import './css/Timeline.css';
 import BlockUi from 'react-block-ui';
 import 'react-block-ui/style.css';
 import { ipcRenderer } from "electron";
+const Mousetrap = require('mousetrap');
 
 class Timeline extends Component {
   constructor(props) {
@@ -24,8 +25,8 @@ class Timeline extends Component {
     ipcRenderer.on('savebutton', () => {
       this.setState({
         saveSign: !this.state.saveSign
-      })
-    })
+      });
+    });
 
     // When you press start recording, the you could not save slu
     ipcRenderer.on('hidesavebutton', () => {
@@ -33,16 +34,29 @@ class Timeline extends Component {
         saveSign: !this.state.saveSign
       });
     });
+
+    // With Mousetrap package, you should specify "Ctrl" as "ctrl"
+    Mousetrap.bind(['ctrl+s', 'ctrl+S'], () => {
+      this.saveChange();
+    });
+
+    Mousetrap.bind(['ctrl+z', 'ctrl+Z'], () => {
+      ipcRenderer.send('pre-step-click');
+    });
+
+    Mousetrap.bind(['ctrl+y', 'ctrl+Y'], () => {
+      ipcRenderer.send('next-step-click');
+    });
   }
 
-  // go to Mainwindow
+  // Return to Mainwindow
   returnToMain = () => {
     ipcRenderer.send('slu-return-to-main');
   }
 
   // Write the data model to the json file
   saveChange = () => {
-    ipcRenderer.send('Navbar-save-slu')
+    ipcRenderer.send('Navbar-save-slu');
   }
 
   scrollToBottom = () => {
@@ -71,7 +85,8 @@ class Timeline extends Component {
 
   render() {
     return (
-      <BlockUi tag="div" blocking={!this.state.saveSign}>
+      <BlockUi tag="div" blocking={!this.state.saveSign
+      } >
         <div className="App" id="App">
           <div className="pageContent" id="content">
             <Header title={this.state.note_title} />
@@ -92,7 +107,7 @@ class Timeline extends Component {
             />
           </div>
         </div>
-      </BlockUi>
+      </BlockUi >
     )
   }
 }

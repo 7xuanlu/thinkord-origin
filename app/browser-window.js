@@ -1,8 +1,8 @@
-const { app, BrowserWindow, shell } = require('electron');
+const { app, BrowserWindow, shell, globalShortcut } = require('electron');
 
 // if environment mode is not set, it will default to be in development
 const mode = require('../webpack.config').mode;
-const fs = require('fs');
+
 exports.createControlBarWindow = (controlbar) => {
     controlbar = new BrowserWindow({
         width: 292,
@@ -19,11 +19,16 @@ exports.createControlBarWindow = (controlbar) => {
 
     controlbar.once('closed', () => {
         controlbar = null;
+        globalShortcut.unregister('Shift+s');
     });
 
     controlbar.once('ready-to-show', () => {
         controlbar.show()
-    })
+    });
+
+    globalShortcut.register('Shift+s', () => {
+        controlbar.webContents.send('Shift+s');
+    });
 
     if (mode === "development") {
         // Load index.html via webpack dev server.

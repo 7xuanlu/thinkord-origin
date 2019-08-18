@@ -38,33 +38,32 @@ app.on('activate', () => {
 ipcMain.on('register-shortcuts', () => {
     globalShortcut.register('Shift+F1', () => {
         controlbar.webContents.send('Shift+F1');
-        console.log('Shift+F1 pressed');
     });
 
     globalShortcut.register('Shift+F2', () => {
         controlbar.webContents.send('Shift+F2');
-        console.log('Shift+F2 pressed');
     });
 
     globalShortcut.register('Shift+F3', () => {
         controlbar.webContents.send('Shift+F3');
-        console.log('Shift+F3 pressed');
     });
 
     globalShortcut.register('Shift+F4', () => {
         controlbar.webContents.send('Shift+F4');
-        console.log('Shift+F4 pressed');
     });
 
     globalShortcut.register('Shift+F5', () => {
         controlbar.webContents.send('Shift+F5');
-        console.log('Shift+F5 pressed');
     });
 });
 
 ipcMain.on('unregister-shortcuts', () => {
     globalShortcut.unregisterAll();
-    console.log('Unregistered all global shortcuts');
+
+    // Let user always toggle recording state 
+    globalShortcut.register('Shift+s', () => {
+        controlbar.webContents.send('Shift+s');
+    });
 });
 
 ipcMain.on('savebutton', () => {
@@ -83,27 +82,17 @@ ipcMain.on('hidesavebutton', () => {
     }
 })
 
-ipcMain.on('audio-click', () => {
-    console.log('audio click');
-})
-
-ipcMain.on('video-click', () => {
-    console.log('video click');
-})
-
 ipcMain.on('text-click', () => {
     if (text === null) {
         text = browserWindow.createTextWindow(text, controlbar);
     } else {
         text.focus();
     }
-    console.log('text click');
 });
 
 ipcMain.on('twin-cancel', () => {
     text.close();
     text = null;
-    console.log('cancel-click');
 });
 
 ipcMain.on('twin-ok', (event, args) => {
@@ -116,11 +105,10 @@ ipcMain.on('twin-ok', (event, args) => {
 ipcMain.on('quit-click', () => {
     controlbar.close();
     controlbar = null;
-    if(text !== null){
+    if (text !== null) {
         text.close();
         text = null;
     }
-    console.log('Closing controlbar window');
 });
 
 ipcMain.on('main-click', () => {
@@ -149,21 +137,17 @@ ipcMain.on('file-open-click', (event, args) => {
     }
 
     controlbar.on('move', () => {
-        if(text !== null){
+        if (text !== null) {
             text.close();
             text = null;
         }
-    })
+    });
 
     ipcMain.once('cb-init-slu', () => {
         if (args) {
             controlbar.webContents.send('cb-init-slu', args);
-            console.log(args)
         }
-        console.log('initializing slu');
     });
-
-    console.log('file-open-click');
 });
 
 ipcMain.on('tl-init-slu', () => {

@@ -50,13 +50,11 @@ export default class Main extends Component {
     handleMenuOpen = () => {
         const page = document.getElementById('page');
         page.classList.toggle('shazam');
-        // console.log(menu open);
     }
 
     handleMenuClose = () => {
         const page = document.getElementById('page');
         page.classList.remove('shazam');
-        // console.log('menu close');
     }
 
     handleAddClick = () => {

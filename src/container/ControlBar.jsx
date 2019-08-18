@@ -70,6 +70,10 @@ export default class ControlBar extends Component {
                 sluPath: this.state.sluPath
             });
         });
+
+        ipcRenderer.on('Shift+s', () => {
+            this.handleStart();
+        });
     }
 
     componentDidUpdate() {
