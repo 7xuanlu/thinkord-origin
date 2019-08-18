@@ -82,8 +82,6 @@ export class Upload extends Component {
     }
 
 
-
-
     render() {
         return (
             <Dropzone onDrop={this.onDrop.bind(this)}>

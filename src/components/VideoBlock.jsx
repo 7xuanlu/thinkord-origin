@@ -20,7 +20,6 @@ export default function VideoBlock(props) {
             document.getElementById(scaleid).classList.toggle("rotate-open");
         }
         setScaling(!scaling)
-        // console.log(scaling)
     }
 
     return (

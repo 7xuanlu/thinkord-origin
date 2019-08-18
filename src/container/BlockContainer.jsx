@@ -214,6 +214,7 @@ export class BlockContainer extends Component {
             if (block.timestamp === time) {
 
                 block.paths.splice(1)
+                console.log('files: ', files)
                 files.map((file) => {
                     block.paths.push(file.path)
                 })
