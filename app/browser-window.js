@@ -49,7 +49,7 @@ exports.createControlBarWindow = (controlbar) => {
 exports.createTextWindow = (text, controlbar) => {
     text = new BrowserWindow({
         width: 270,
-        height: 150,
+        height: 140,
         x: controlbar.getPosition()[0] + 21,
         y: controlbar.getPosition()[1] - 160,
         frame: false,

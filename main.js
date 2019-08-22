@@ -161,6 +161,12 @@ ipcMain.on('cb-sync-with-slu', (event, args) => {
     }
 });
 
+ipcMain.on('init-note-title', (event, args) => {
+    if(main !== null){
+        main.webContents.send('init-note-title', args);
+    }
+})
+
 ipcMain.on('slu-return-to-main', () => {
     main = browserWindow.changeTimelineToMain(main);
 

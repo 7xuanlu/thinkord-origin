@@ -64,7 +64,7 @@ export class TextWindow extends Component {
         console.log(this.state.isMark);
         return (
             <div className="textdiv">
-                <label>Annotate here:</label>
+                <input type="text" placeholder="Enter your title here..."></input>
                 <br />
                 <textarea
                     rows="2"

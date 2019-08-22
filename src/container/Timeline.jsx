@@ -21,6 +21,14 @@ class Timeline extends Component {
   }
 
   componentDidMount() {
+    ipcRenderer.on('init-note-title', (event, args) => {
+      let title = args.split('\\').pop()
+      title = title.split('.')[0]
+      this.setState({
+        note_title: title
+      });
+    });
+
     // When you press stop recording, then you could save slu
     ipcRenderer.on('savebutton', () => {
       this.setState({
@@ -83,13 +91,19 @@ class Timeline extends Component {
     ipcRenderer.send('next-step-click');
   }
 
+  handleTitleChanged = (title) => {
+    this.setState({
+      note_title: title
+    });
+  }
+
   render() {
     return (
       <BlockUi tag="div" blocking={!this.state.saveSign
       } >
         <div className="App" id="App">
           <div className="pageContent" id="content">
-            <Header title={this.state.note_title} />
+            <Header title={this.state.note_title} handleTitleChanged={this.handleTitleChanged} />
             <div><Progressbar /></div>
             <BlockContainer
               onNewBlock={this.scrollToBottom}

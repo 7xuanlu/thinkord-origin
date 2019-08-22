@@ -31,6 +31,7 @@ export class BlockContainer extends Component {
         ipcRenderer.send('tl-init-slu');
 
         ipcRenderer.on('cb-sync-with-slu', (event, args) => {
+            ipcRenderer.send('init-note-title', args.sluPath);
             this.setState({
                 sluPath: args.sluPath,
                 timeline: args.timeline

@@ -114,6 +114,20 @@
 .titleInput{
   font-size: 22px;
 }
+.inputField_title{
+  width:80%;
+  height: 60%;
+  border: 0;
+  border-radius: 4px;
+  background-color: rgba(189, 212, 203, 0.61);
+  color: #143938;
+  font-size: 22px;
+  word-wrap: break-word;
+  text-align: center;
+}
+.inputField_title:focus{
+  outline: none;
+}
 
 
 

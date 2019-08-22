@@ -194,7 +194,12 @@ export default class Main extends Component {
                         <div className="pop_trigger">
                             {this.state.slus.map((file) => {
                                 if(this.state.slus.indexOf(file) < 10){
-                                    return <FileButton key={file.path} index={this.state.slus.indexOf(file)} file={file} expand={this.state.expand}></FileButton>
+                                    return <FileButton
+                                            key={file.path}
+                                            index={this.state.slus.indexOf(file)}
+                                            file={file}
+                                            expand={this.state.expand}
+                                           ></FileButton>
                                 }
                             })}
                         </div>
