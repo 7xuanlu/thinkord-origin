@@ -46,6 +46,10 @@ textarea {
     padding-top: 0px;
     padding-bottom: 0px;
 }
+.btn:focus{
+    outline: none !important;
+    box-shadow: none;
+}
 
 .icon {
     background-color: rgb(68, 68, 68);

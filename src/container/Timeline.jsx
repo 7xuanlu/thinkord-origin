@@ -92,9 +92,13 @@ class Timeline extends Component {
   }
 
   handleTitleChanged = (title) => {
-    this.setState({
-      note_title: title
-    });
+    if(title === ''){
+      return;
+    }else{
+      this.setState({
+        note_title: title
+      });
+    }
   }
 
   render() {

@@ -236,6 +236,10 @@ h2{
 .btn:hover{
     color: #f0f0f0;
 }
+.btn:focus{
+    outline: none !important;
+    box-shadow: none;
+}
 
 .file_icon{
     width: 130px;
