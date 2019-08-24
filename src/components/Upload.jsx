@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Dropzone from 'react-dropzone';
-import styled from 'styled-components';
 import { shell } from 'electron';
 import FileIcon from '../components/FileIcon';
 
@@ -87,10 +86,10 @@ export class Upload extends Component {
             <Dropzone onDrop={this.onDrop.bind(this)}>
                 {({ getRootProps, getInputProps, isDragActive }) => (
                     <div className="container">
-                        <Container {...getRootProps({ className: 'dropzone' })}>
+                        <div {...getRootProps({ className: 'dropzone upload_file_zone' })}>
                             <input {...getInputProps()} />
                             {isDragActive ? 'Drop it!' : 'Drag and drop some files here, or click to select files'}
-                        </Container>
+                        </div>
 
                         {/* always pass this.props.paths, not only for the dropping new files, 
                             but also for reloading the saved file from json */}
@@ -103,24 +102,3 @@ export class Upload extends Component {
 }
 
 export default Upload
-
-
-// should be the component
-const getColor = (props) => {
-    return '#69CB43';
-}
-const Container = styled.div`
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding:20px;
-            border-width: 1.5px;
-            border-radius: 2px;
-            border-color: ${props => getColor(props)};
-            border-style: dashed;
-            background-color: #fafafa;
-            color: #69CB43;
-            outline: none;
-            transition: border .24s ease-in-out;
-          `;
