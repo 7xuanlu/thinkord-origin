@@ -9,8 +9,8 @@ exports.createControlBarWindow = (controlbar) => {
         height: 41,
         frame: false,
         resizable: true,
-        x: 800,
-        y: 600,
+        x: 900,
+        y: 700,
         webPreferences: {
             nodeIntegration: true
         },

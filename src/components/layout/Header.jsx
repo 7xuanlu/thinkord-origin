@@ -55,7 +55,7 @@ export default class Header extends Component{
                         name="title"
                         className="inputField_title"
                         autoComplete="off"
-                        value={this.props.title}
+                        defaultValue={this.props.title}
                         onChange={this.handleChange}
                         autoFocus
                     />

@@ -36,6 +36,7 @@ export default class ControlBarButton extends Component {
                 className="btn"
                 ref={button => this.button = button}
                 id={this.props.button.id}
+                title={this.props.button.tip}
                 disabled={this.props.button.disable}
                 onClick={this.EvenetChoose()}>
                 <img className="icon" src={this.props.button.src}></img>

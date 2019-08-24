@@ -31,14 +31,14 @@ export default class ControlBar extends Component {
         const jsonManager = new JSONManager();
         this.state = {
             controlbar_button: [
-                { id: 'start', src: StartButton, disable: false },
-                { id: 'audio', src: AudioButton, disable: true },
-                { id: 'video', src: VideoButton, disable: true },
-                { id: 'js-capture', src: ScreenShotButton, disable: true },
-                { id: 'text', src: TextButton, disable: true },
-                { id: 'substract', src: Substract, disable: false },
-                { id: 'home', src: HomeButton, disable: false },
-                { id: 'quit', src: QuitButton, disable: false }
+                { id: 'start', src: StartButton, disable: false , tip: 'Start record'},
+                { id: 'audio', src: AudioButton, disable: true , tip: 'Audio (Shift+F4)'},
+                { id: 'video', src: VideoButton, disable: true , tip: 'Video (Shift+F5)'},
+                { id: 'js-capture', src: ScreenShotButton, disable: true , tip: 'Screenshot (Shift+F2)'},
+                { id: 'text', src: TextButton, disable: true , tip: 'Text (Shift+F3)'},
+                { id: 'substract', src: Substract, disable: false , tip: ''},
+                { id: 'home', src: HomeButton, disable: false , tip: 'Home'},
+                { id: 'quit', src: QuitButton, disable: false , tip: 'Quit'}
             ],
             timeline: {},
             sluPath: "",

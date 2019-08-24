@@ -120,7 +120,8 @@ ipcMain.on('main-click', () => {
         });
         // main.removeMenu();
     } else {
-        main.show();
+        main.maximize();
+        main.focus();
     }
 });
 
