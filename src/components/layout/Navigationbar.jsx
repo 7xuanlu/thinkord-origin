@@ -8,16 +8,19 @@ export class Navigationbar extends Component {
 
     changeMode = () => {
         const selectBox = document.getElementsByClassName("checkContainer");
-        let i = 0;
 
         if (document.getElementsByClassName("viewMode")[0].style.display === "flex") {
             document.getElementsByClassName("viewMode")[0].style.display = "none";         //show selectMode
             document.getElementsByClassName("selectMode")[0].style.display = "flex";
-            for (i = 0; i < selectBox.length; i++) { selectBox[i].style.display = "block"; }
+            Array.from(selectBox).forEach(block => {
+                block.style.display = "block"
+            });
         } else {
             document.getElementsByClassName("selectMode")[0].style.display = "none";        //show ViewMode
             document.getElementsByClassName("viewMode")[0].style.display = "flex";
-            for (i = 0; i < selectBox.length; i++) { selectBox[i].style.display = "none"; }
+            Array.from(selectBox).forEach(block => {
+                block.style.display = "none"
+            });
         }
     }
 
@@ -39,11 +42,22 @@ export class Navigationbar extends Component {
         }
     }
 
+    deleteSelected = () => {
+        ipcRenderer.send('delete-selected-click');
+    }
+
+    markSelected = () => {
+        ipcRenderer.send('mark-selected-click');
+    }
+
     render() {
+        const viewMode = {
+            display: "flex"
+        }
         return (
             <div className="navigatorContainer" >
                     <div className="search" title="Search for something"><div><input type="text" placeholder=" Search . . ." required /></div></div>
-                <div className="navigationBar viewMode">
+                <div className="navigationBar viewMode" style={viewMode}>
 
                     <i className="fas fa-list" title="Selection Mode" onClick={this.changeMode}></i>
                     <i className="fas fa-undo-alt" title="Undo" onClick={this.props.clickPreviousStep}></i>
@@ -58,8 +72,8 @@ export class Navigationbar extends Component {
 
                     <i className="fas fa-arrow-left" title="View Mode" onClick={this.changeMode}></i>
                     <i className="far fa-check-square" title="Select All" onClick={this.selectAllBoxes}></i>
-                    <i className="fas fa-trash" title="Delete" ></i>
-                    <i className="fas fa-bookmark" title="Mark" ></i>
+                    <i className="fas fa-trash" title="Delete" onClick={this.deleteSelected}></i>
+                    <i className="fas fa-bookmark" title="Mark" onClick={this.markSelected}></i>
                 </div>
             </div>
         )

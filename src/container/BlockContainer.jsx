@@ -69,6 +69,51 @@ export class BlockContainer extends Component {
                 })
             }
         });
+
+        ipcRenderer.on('delete-selected-click', () => {
+            let selected = document.getElementsByClassName("check");
+            pre_step.push(this.state.timeline);
+            Array.from(selected).forEach(block => {
+                if(block.checked === true){
+                    let time = block.id.split('_').pop();
+                    document.getElementById(time).classList.toggle("removed-item");
+                    setTimeout(() => {
+                        this.setState({
+                            timeline: {
+                                blocks: [...this.state.timeline.blocks.filter(block => block.timestamp !== time)]
+                            }
+                        });
+                    }, 700);
+                }
+            });
+        });
+
+        ipcRenderer.on('mark-selected-click', () => {
+            let selected = document.getElementsByClassName("check");
+            pre_step.push(this.state.timeline);
+            Array.from(selected).forEach(block => {
+                if(block.checked === true){
+                    let time = block.id.split('_').pop();
+                    const note = this.state.timeline.blocks.map(block => {
+                        // assign the description to the block you want
+                        if (block.timestamp === time) {
+                            if (block.mark === true) {
+                                block = { ...block, mark: false }
+                            } else {
+                                block = { ...block, mark: true }
+                            }
+                        }
+                        return block;
+                    });
+            
+                    this.setState({
+                        timeline: {
+                            blocks: note
+                        }
+                    });
+                }
+            });
+        })
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -133,7 +178,7 @@ export class BlockContainer extends Component {
             timeline: {
                 blocks: note
             }
-        })
+        });
     }
 
     // Change the title (frontend)

@@ -258,3 +258,11 @@ ipcMain.on('pre-step-click', () => {
 ipcMain.on('next-step-click', () => {
     main.webContents.send('next-step-click');
 });
+
+ipcMain.on('delete-selected-click', () => {
+    main.webContents.send('delete-selected-click');
+});
+
+ipcMain.on('mark-selected-click', () => {
+    main.webContents.send('mark-selected-click');
+})
