@@ -42,24 +42,24 @@ export class Navigationbar extends Component {
     render() {
         return (
             <div className="navigatorContainer" >
-                    <div className="search"><div><input type="text" placeholder=" Search . . ." required /></div></div>
+                    <div className="search" title="Search for something"><div><input type="text" placeholder=" Search . . ." required /></div></div>
                 <div className="navigationBar viewMode">
 
-                    <i className="fas fa-list" onClick={this.changeMode}></i>
-                    <i className="fas fa-undo-alt" onClick={this.props.clickPreviousStep}></i>
-                    <i className="fas fa-redo-alt" onClick={this.props.clickNextStep}></i>
-                    <i className="fas fa-download" onClick={this.props.clickSave}></i>
-                    <i className="fas fa-angle-double-up"></i>
-                    <i className="fas fa-angle-up" onClick={this.props.clickTop}></i>
-                    <i className="fas fa-angle-down" onClick={this.props.clickBottom}></i>
-                    <i className="fas fa-home" onClick={this.props.clickHome}></i>
+                    <i className="fas fa-list" title="Selection Mode" onClick={this.changeMode}></i>
+                    <i className="fas fa-undo-alt" title="Undo" onClick={this.props.clickPreviousStep}></i>
+                    <i className="fas fa-redo-alt" title="Redo" onClick={this.props.clickNextStep}></i>
+                    <i className="fas fa-download" title="Save" onClick={this.props.clickSave}></i>
+                    <i className="fas fa-angle-double-up" title="Fold all blocks" ></i>
+                    <i className="fas fa-angle-up" title="Scroll to top" onClick={this.props.clickTop}></i>
+                    <i className="fas fa-angle-down" title="Scroll to bottom" onClick={this.props.clickBottom}></i>
+                    <i className="fas fa-home" title="Home" onClick={this.props.clickHome}></i>
                 </div>
                 <div className="navigationBar selectMode">
 
-                    <i className="fas fa-arrow-left" onClick={this.changeMode}></i>
-                    <i className="far fa-check-square" onClick={this.selectAllBoxes}></i>
-                    <i className="fas fa-trash"></i>
-                    <i className="fas fa-bookmark"></i>
+                    <i className="fas fa-arrow-left" title="View Mode" onClick={this.changeMode}></i>
+                    <i className="far fa-check-square" title="Select All" onClick={this.selectAllBoxes}></i>
+                    <i className="fas fa-trash" title="Delete" ></i>
+                    <i className="fas fa-bookmark" title="Mark" ></i>
                 </div>
             </div>
         )

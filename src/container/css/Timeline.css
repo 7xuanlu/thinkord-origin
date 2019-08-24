@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Ubuntu', 'Noto Serif TC', 'Noto Serif SC', serif;
+  font-family: 'Ubuntu', 'Noto Sans TC', 'Noto Sans SC', serif;
   /*Latin font:ubuntu, Chinese font: Noto, others: sans-serif */
 }
 ::-webkit-scrollbar {
@@ -29,7 +29,7 @@
 .allBlocks .blockContent{
   font-size: 16px;
   color: #143938;
-  margin:0 2% 10px 1%;
+  margin:0 5% 10px 2%;
 
   display: grid;
   grid-template-rows: 50px 30px auto auto;
@@ -230,6 +230,7 @@
   align-self: center;
   padding-left: 40px;
   font-size: 22px;
+  font-weight: 500;
   color: #2b7a4f;
 
 }
@@ -241,8 +242,10 @@
 .date{
   grid-area: date;
   font-size: 16px;
-  /* padding-left: 10px; */
+  font-weight: 800;
+  padding-top: 15px;
   text-align: right;
+  
 
 }
 .time{
