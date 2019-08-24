@@ -64,6 +64,7 @@
   color: #35c189;
   background:none;
   border: none;
+  cursor: pointer;  
 }
 
 .scaleBtn{
@@ -86,6 +87,45 @@
   align-self: center;
   justify-self: center;
   display: none;
+}
+.check{
+  opacity: 0;
+}
+
+.checkmark{
+  position: relative;
+  left: -15px;
+}
+
+.checkmark::before{
+  content: "";
+  display: inline-block;
+  height: 15px;
+  width: 15px;
+  border-radius: 100%;
+  border: 1.5px solid #35c189;
+  cursor: pointer;  
+}
+.checkmark::after {
+  color: #35c189;
+  content: "";
+  display: inline-block;
+  height: 6px;
+  width: 9px;
+  left: 3px;
+  top: 4px;
+  border-left: 2px solid;
+  border-bottom: 2px solid;
+  transform: rotate(-45deg);
+}
+.checkmark::before, .checkmark::after{
+  position: absolute;
+}
+.check +label::after{
+  content: none;
+}
+.check:checked + label::after{
+  content:"";
 }
 
 /* input */
@@ -244,6 +284,8 @@
 
 .navigatorContainer{
   width: 100%;
+  display: flex;
+  justify-content: space-between;
   background-color: #143938;
   height: 30px;
   bottom: 0;
@@ -252,17 +294,18 @@
 }
 .viewMode{
   display: flex;
-  justify-content:space-between;
+  justify-content:flex-end;
 }
 .selectMode{
   display: none;
-  justify-content:space-between;
+  justify-content:flex-end;
 }
 
 .navigationBar i {
   font-size: 16px;
   color: #fff;
   padding: 7px 20px 0;
+  cursor: pointer;  
 }
 
 .search{

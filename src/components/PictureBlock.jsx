@@ -5,6 +5,7 @@ import BlockDescription from "../components/BlockDescription"
 
 export default function PictureBlock(props) {
     const scaleid = "scale_" + props.block.timestamp;
+    const checkid = "check_" + props.block.timestamp;
 
     const [scaling, setScaling] = useState(true);
 
@@ -29,7 +30,7 @@ export default function PictureBlock(props) {
             <BlockTitle className="blockTitle" time={props.block.timestamp} onChangeTitle={props.handleTitle} title={props.block.title} />
             <button className="iconBtn removeBtn" onClick={props.delBlock.bind(this, props.block.timestamp)}><i className="far fa-trash-alt"></i></button>
             <form className="checkContainer">
-                <input className="check" type="checkbox" />
+                <input className="check" id={checkid} type="checkbox"  /><label className="checkmark" for={checkid}></label>
             </form>
             <div className="mark">
                 <i className={props.block.mark ? "fas fa-bookmark" : "far fa-bookmark"}

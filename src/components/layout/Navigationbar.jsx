@@ -42,8 +42,9 @@ export class Navigationbar extends Component {
     render() {
         return (
             <div className="navigatorContainer" >
-                <div className="navigationBar viewMode">
                     <div className="search"><div><input type="text" placeholder=" Search . . ." required /></div></div>
+                <div className="navigationBar viewMode">
+
                     <i className="fas fa-list" onClick={this.changeMode}></i>
                     <i className="fas fa-undo-alt" onClick={this.props.clickPreviousStep}></i>
                     <i className="fas fa-redo-alt" onClick={this.props.clickNextStep}></i>
@@ -54,12 +55,11 @@ export class Navigationbar extends Component {
                     <i className="fas fa-home" onClick={this.props.clickHome}></i>
                 </div>
                 <div className="navigationBar selectMode">
-                    <div className="search"><div><input type="text" placeholder=" Search . . ." required /></div></div>
+
                     <i className="fas fa-arrow-left" onClick={this.changeMode}></i>
                     <i className="far fa-check-square" onClick={this.selectAllBoxes}></i>
                     <i className="fas fa-trash"></i>
                     <i className="fas fa-bookmark"></i>
-                    <i className="fas fa-angle-double-up"></i>
                 </div>
             </div>
         )
