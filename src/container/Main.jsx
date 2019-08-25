@@ -4,10 +4,17 @@ const { ipcRenderer } = require('electron');
 import { JSONManager } from '../renderer/json-manager';
 import FileButton from '../components/FileButton';
 
+// Third-party packages
+// Notification
+import Noty from 'noty';
+import 'noty/lib/noty.css';
+import 'noty/lib/themes/mint.css';
+import 'noty/lib/themes/relax.css';
+
 export default class Main extends Component {
     constructor(props) {
         super(props);
-        
+
         this.state = {
             slus: [],
             home_page: false,
@@ -18,6 +25,9 @@ export default class Main extends Component {
     }
 
     componentDidMount() {
+        let noti_rename = null;  // Show notification after renaming the slu
+        let noti_delete = null;  // Show notification after deleting the slu
+
         // Initialize main
         ipcRenderer.send('main-sync');
 
@@ -26,26 +36,71 @@ export default class Main extends Component {
             let nextStateSlu = JSON.stringify(args.slus)
             // Update state only when there exists some changes to slu
             if (stateSlu !== nextStateSlu) {
-                this.setState({
-                    slus: args.slus.reverse()
-                })
+                this.setState({ slus: args.slus.reverse() });
             };
         });
 
         ipcRenderer.on('main-reply-rename', (event, args) => {
-            this.forceUpdate();
-            console.log(args.msg);
+            if (!args.err) {
+                let nextSlus = this.state.slus;
+                nextSlus[args.sluIdx].path = args.newSluPath;
+                nextSlus[args.sluIdx].name = args.newSluName;
+                this.setState({ slus: nextSlus });
+                noti_rename = this.handleNoti(noti_rename, args.msg);
+            } else {
+                document.getElementById("label_" + args.sluIdx).innerText = args.oldSluName;
+                noti_rename = new Noty({
+                    type: 'error',
+                    theme: 'relax',
+                    layout: 'topRight',
+                    text: args.msg
+                }).show();
+            }
         });
 
-        ipcRenderer.on('main-reply-del', (event, args) => {
-            this.forceUpdate();
-            console.log(args.msg);
+        ipcRenderer.on('main-reply-delete', (event, args) => {
+            if (!args.err) {
+                this.state.slus.map((slu) => {
+                    if (slu.path === args.sluPath) {
+                        let nextSlus = this.state.slus;
+                        nextSlus.splice(args.sluIdx, 1);  // Delete slu from array slus
+                        this.setState({ slus: nextSlus });
+                    }
+                });
+                noti_delete = this.handleNoti(noti_delete, args.msg);
+            } else {
+                noti_rename = new Noty({
+                    type: 'error',
+                    theme: 'relax',
+                    layout: 'topRight',
+                    text: args.msg
+                }).show();
+            }
         });
     }
 
-    // componentDidUpdate() {
-    //     ipcRenderer.send('main-sync');
-    // }
+    // Handle notification
+    handleNoti = (noti, msg) => {
+        if (noti === null || noti === undefined) {
+            noti = new Noty({
+                type: 'success',
+                theme: 'relax',
+                layout: 'topRight',
+                text: msg
+            }).show();
+            return noti;
+        } else {
+            noti.close();
+            noti = new Noty({
+                type: 'success',
+                theme: 'relax',
+                layout: 'topRight',
+                text: msg
+            });
+            setTimeout(() => { noti.show(); }, 500);  // Show notification after previous notification is closed.
+            return noti;
+        }
+    }
 
     handleMenuOpen = () => {
         const page = document.getElementById('page');
@@ -77,9 +132,7 @@ export default class Main extends Component {
             }
         );
         document.getElementsByClassName("fa-chevron-circle-down")[0].className = "open_recent_icon fa fa-chevron-circle-down open_rotate";
-        this.setState({
-            expand: true
-        });
+        this.setState({ expand: true });
     }
 
     OpenRecentRemove = () => {
@@ -126,9 +179,9 @@ export default class Main extends Component {
 
     handleSearchBarFocusOrNot = () => {
         var search_content = document.getElementById("main_search").value;
-        if(search_content === 'Search...'){
+        if (search_content === 'Search...') {
             document.getElementById("main_search").value = "";
-        }else if(search_content === ""){
+        } else if (search_content === "") {
             document.getElementById("main_search").value = "Search...";
         }
     }
@@ -136,8 +189,8 @@ export default class Main extends Component {
     handleSearchClick = () => {
         var search_file = document.getElementById("main_search").value.toLowerCase();
         var new_slus = [];
-        for(var i = 0; i < this.state.slus.length; i++){
-            if(this.state.slus[i].path.split("\\").pop().toLowerCase().includes(search_file)){
+        for (var i = 0; i < this.state.slus.length; i++) {
+            if (this.state.slus[i].path.split("\\").pop().toLowerCase().includes(search_file)) {
                 new_slus.push(this.state.slus[i]);
             }
         }
@@ -151,9 +204,7 @@ export default class Main extends Component {
         ipcRenderer.send('main-sync');
 
         ipcRenderer.once('main-reply-sync', (event, args) => {
-            this.setState({
-                slus: args.slus.reverse()
-            });
+            this.setState({ slus: args.slus.reverse() });
         });
     }
 
@@ -174,7 +225,7 @@ export default class Main extends Component {
                         <h1>Thinkord</h1><br />
                         <div className="content_search">
                             <input id="main_search" className="search_bar" type="text" defaultValue="Search..."
-                                onFocus={this.handleSearchBarFocusOrNot} onBlur={this.handleSearchBarFocusOrNot}/>
+                                onFocus={this.handleSearchBarFocusOrNot} onBlur={this.handleSearchBarFocusOrNot} />
                             <i className="search_icon fas fa-search" onClick={this.handleSearchClick}></i>
                             <i className="search_icon fas fa-globe" onClick={this.handleViewAllClick}></i>
                         </div><br />
@@ -193,13 +244,13 @@ export default class Main extends Component {
                         </h2><br />
                         <div className="pop_trigger">
                             {this.state.slus.map((file) => {
-                                if(this.state.slus.indexOf(file) < 10){
+                                if (this.state.slus.indexOf(file) < 10) {
                                     return <FileButton
-                                            key={file.path}
-                                            index={this.state.slus.indexOf(file)}
-                                            file={file}
-                                            expand={this.state.expand}
-                                           ></FileButton>
+                                        key={file.path}
+                                        index={this.state.slus.indexOf(file)}
+                                        file={file}
+                                        expand={this.state.expand}
+                                    ></FileButton>
                                 }
                             })}
                         </div>

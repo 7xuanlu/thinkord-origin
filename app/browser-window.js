@@ -19,15 +19,15 @@ exports.createControlBarWindow = (controlbar) => {
 
     controlbar.once('closed', () => {
         controlbar = null;
-        globalShortcut.unregister('Shift+s');
+        globalShortcut.unregister('Ctrl+Shift+s');
     });
 
     controlbar.once('ready-to-show', () => {
         controlbar.show()
     });
 
-    globalShortcut.register('Shift+s', () => {
-        controlbar.webContents.send('Shift+s');
+    globalShortcut.register('Ctrl+Shift+s', () => {
+        controlbar.webContents.send('Ctrl+Shift+s');
     });
 
     if (mode === "development") {

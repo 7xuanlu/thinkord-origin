@@ -1,15 +1,23 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
 import PictureBlock from '../components/PictureBlock';
 import VideoBlock from "../components/VideoBlock";
 import TextBlock from "../components/TextBlock";
 import AudioBlock from "../components/AudioBlock";
 
-import Modal from 'react-bootstrap/Modal';
-import Autolinker from 'autolinker';
-import parse from 'html-react-parser';
 import { ipcRenderer } from "electron";
 import { JSONManager } from "../renderer/json-manager";
+
+// Third-party packages
+// Notification
+import Noty from 'noty';
+import 'noty/lib/noty.css';
+import 'noty/lib/themes/mint.css';
+import 'noty/lib/themes/relax.css';
+
+// Parse text to link
+import Autolinker from 'autolinker';
+import parse from 'html-react-parser';
 
 const jsonManager = new JSONManager();
 let pre_step = [];
@@ -22,12 +30,14 @@ export class BlockContainer extends Component {
         this.state = {
             timeline: {},
             sluPath: "",
-            redo_alert: false,
-            undo_alert: false
         }
     }
 
     componentDidMount() {
+        let noti_save = null;
+        let noti_redo = null;
+        let noti_undo = null;
+
         ipcRenderer.send('tl-init-slu');
 
         ipcRenderer.on('cb-sync-with-slu', (event, args) => {
@@ -40,19 +50,20 @@ export class BlockContainer extends Component {
 
         ipcRenderer.on('Navbar-save-slu', () => {
             jsonManager.writeJSON(this.state.timeline, this.state.sluPath);
+            let msg = 'Changes have been saved successfully!';
+            let type = 'success';
+            noti_save = this.handleNoti(noti_save, type, msg);
         });
 
         ipcRenderer.on('pre-step-click', () => {
             var pre = pre_step.pop();
             if (typeof (pre) !== "undefined") {
                 next_step.push(this.state.timeline);
-                this.setState({
-                    timeline: pre
-                });
+                this.setState({ timeline: pre });
             } else {
-                this.setState({
-                    undo_alert: true
-                })
+                let msg = 'Cannot undo anymore!';
+                let type = 'warning';
+                noti_undo = this.handleNoti(noti_undo, type, msg);
             }
         });
 
@@ -64,9 +75,9 @@ export class BlockContainer extends Component {
                     timeline: next
                 });
             } else {
-                this.setState({
-                    redo_alert: true
-                })
+                let msg = 'Cannot redo anymore!';
+                let type = 'warning';
+                noti_redo = this.handleNoti(noti_redo, type, msg);
             }
         });
 
@@ -125,7 +136,28 @@ export class BlockContainer extends Component {
                 this.state.timeline.blocks.length > prevState.timeline.blocks.length ? this.props.onNewBlock() : {}
             }
         }
+    }
 
+    handleNoti = (noti, type, msg) => {
+        if (noti === null || noti === undefined) {
+            noti = new Noty({
+                type: type,
+                theme: 'relax',
+                layout: 'topRight',
+                text: msg
+            }).show();
+            return noti;
+        } else {
+            noti.close();
+            noti = new Noty({
+                type: type,
+                theme: 'relax',
+                layout: 'topRight',
+                text: msg
+            });
+            setTimeout(() => { noti.show(); }, 500);  // Show notification after previous notification is closed.
+            return noti;
+        }
     }
 
     // Delete the block you choose (frontend)
@@ -245,7 +277,7 @@ export class BlockContainer extends Component {
                     if (block.paths.includes(file.path)) {
                         return;
                     }
-                    block = {...block, paths: [...block.paths, file.path]}
+                    block = { ...block, paths: [...block.paths, file.path] }
                     // block.paths.push(file.path);
                 })
             }
@@ -265,15 +297,15 @@ export class BlockContainer extends Component {
         const note = this.state.timeline.blocks.map(block => {
             // assign the description to the block you want
             if (block.timestamp === time) {
-                block = {...block, paths: [block.paths[0]]}
+                block = { ...block, paths: [block.paths[0]] }
                 files.map((file) => {
-                    block = {...block, paths: [...block.paths, file.path]}
+                    block = { ...block, paths: [...block.paths, file.path] }
                 });
             }
             return block;
         });
         pre_step.push(this.state.timeline);
-        
+
         this.setState({
             timeline: {
                 blocks: note
@@ -362,29 +394,9 @@ export class BlockContainer extends Component {
                         {this.distBlock(block)}
                     </div>
                 ))}
-
-                <Modal show={this.state.undo_alert} centered>
-                    <Modal.Header className="modal_header">
-                        <Modal.Title>Undo Denied</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>Can't undo anymore!</Modal.Body>
-                    <Modal.Footer className="modal_footer">
-                        <i className="modal_icon fas fa-check-circle" onClick={() => {this.setState({undo_alert: false})}}></i>
-                    </Modal.Footer>
-                </Modal>
-
-                <Modal show={this.state.redo_alert} centered>
-                    <Modal.Header className="modal_header">
-                        <Modal.Title>Redo Denied</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>Can't redo anymore!</Modal.Body>
-                    <Modal.Footer className="modal_footer">
-                        <i className="modal_icon fas fa-check-circle" onClick={() => {this.setState({redo_alert: false})}}></i>
-                    </Modal.Footer>
-                </Modal>
             </div>
         )
     }
 }
 
-export default BlockContainer
+export default BlockContainer;

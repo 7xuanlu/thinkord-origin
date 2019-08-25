@@ -5,9 +5,14 @@ import Progressbar from "../components/layout/Progressbar";
 import Navigationbar from '../components/layout/Navigationbar';
 import './css/Timeline.css';
 
+import { ipcRenderer } from "electron";
+
+// Third-party packages
+// This is to block UI interaction while user adding blocks to timeline
 import BlockUi from 'react-block-ui';
 import 'react-block-ui/style.css';
-import { ipcRenderer } from "electron";
+
+// Renderer shortcut
 const Mousetrap = require('mousetrap');
 
 class Timeline extends Component {
@@ -62,7 +67,7 @@ class Timeline extends Component {
     ipcRenderer.send('slu-return-to-main');
   }
 
-  // Write the data model to the json file
+  // Write data to the json file
   saveChange = () => {
     ipcRenderer.send('Navbar-save-slu');
   }

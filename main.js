@@ -61,8 +61,8 @@ ipcMain.on('unregister-shortcuts', () => {
     globalShortcut.unregisterAll();
 
     // Let user always toggle recording state 
-    globalShortcut.register('Shift+s', () => {
-        controlbar.webContents.send('Shift+s');
+    globalShortcut.register('Ctrl+Shift+s', () => {
+        controlbar.webContents.send('Ctrl+Shift+s');
     });
 });
 
@@ -96,7 +96,6 @@ ipcMain.on('twin-cancel', () => {
 });
 
 ipcMain.on('twin-ok', (event, args) => {
-    console.log('ok-click');
     controlbar.webContents.send('save-textarea-value', args);
     text.close();
     text = null;
@@ -190,9 +189,12 @@ ipcMain.on('main-sync', (event) => {
     });
 });
 
-ipcMain.on('main-rename-file', (event, args) => {
-    const newSluPath = path.join(sluDirPath, args.new_filename + '.json');
+ipcMain.on('main-rename-slu', (event, args) => {
+    const newSluPath = path.join(sluDirPath, args.newSluName + '.json');
+    const newSluName = args.newSluName;
+    let oldSluName = null;
 
+    // Rename slu in app.json
     fs.readFile(appSettingPath, (err, data) => {
         if (err) {
             throw err;
@@ -201,8 +203,10 @@ ipcMain.on('main-rename-file', (event, args) => {
             let json = JSON.parse(data);
 
             json["slus"].map((item, index) => {
-                if (item["path"] === args.path) {
+                if (item["path"] === args.sluPath) {
+                    oldSluName = json["slus"][index].name;
                     json["slus"][index].path = newSluPath;
+                    json["slus"][index].name = newSluName;
                 }
             });
 
@@ -214,16 +218,33 @@ ipcMain.on('main-rename-file', (event, args) => {
         }
     });
 
-    fs.rename(args.path, newSluPath, (err) => {
-        if (err) throw err;
-        let msg = `${args.path} has been renamed`;
-        console.log(msg);
-        event.reply('main-reply-rename', { msg: msg });
+    // Rename slu's json name in slu directory
+    fs.rename(args.sluPath, newSluPath, (err) => {
+        let msg = "";
+        if (err) {
+            msg = `There's something wrong with renaming file`;
+            event.reply('main-reply-rename', {
+                err: err,
+                msg: msg,
+                oldSluName: oldSluName,
+                sluIdx: args.sluIdx
+            });
+        } else {
+            msg = `${oldSluName} has been renamed to ${newSluName}`;
+            event.reply('main-reply-rename', {
+                err: err,
+                msg: msg,
+                sluIdx: args.sluIdx,
+                sluPath: args.sluPath,
+                newSluPath: newSluPath,
+                newSluName: newSluName
+            });
+        }
     });
 });
 
 ipcMain.on('main-delete-file', async (event, args) => {
-    await fs.readFile(appSettingPath, (err, data) => {
+    fs.readFile(appSettingPath, (err, data) => {
         if (err) {
             throw err;
         } else {
@@ -231,8 +252,10 @@ ipcMain.on('main-delete-file', async (event, args) => {
             let json = JSON.parse(data);
 
             json["slus"].map((item, index) => {
-                if (item["path"] === args.path) { json["slus"].splice(index, 1); }
-                // console.log(index, item)
+                if (item["path"] === args.sluPath) {
+                    oldSluName = json["slus"][index].name;
+                    json["slus"].splice(index, 1);  // Delete slu from array slus
+                }
             });
 
             let jsonString = JSON.stringify(json);
@@ -243,11 +266,24 @@ ipcMain.on('main-delete-file', async (event, args) => {
         }
     });
 
-    fs.unlink(args.path, (err) => {
-        if (err) throw err;
-        let msg = `${args.path} has been deleted`;
-        console.log(msg);
-        event.reply('main-reply-del', { msg: msg });
+    fs.unlink(args.sluPath, (err) => {
+        let msg = "";
+        if (err) {
+            msg = `There's something wrong with deleting file`;
+            event.reply('main-reply-delete', {
+                err: err,
+                msg: msg,
+                sluIdx: args.sluIdx
+            });
+        } else {
+            msg = `File has been deleted`;
+            event.reply('main-reply-delete', {
+                err: err,
+                msg: msg,
+                sluPath: args.sluPath,
+                sluIdx: args.sluIdx
+            });
+        }
     });
 });
 

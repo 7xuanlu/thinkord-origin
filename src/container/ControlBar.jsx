@@ -5,14 +5,14 @@ import './css/ControlBar.css';
 
 const { ipcRenderer } = require('electron');
 
-// import API modules
+// Import media API modules
 import { getScreenshot } from '../renderer/screenshot';
 import { audioRecordStart, audioRecordStop } from '../renderer/audio-recorder';
 import { videoRecordStart, videoRecordStop } from '../renderer/video-recorder';
 import { JSONManager } from '../renderer/json-manager';
 import { NoteManager } from "../renderer/note-manager";
 
-// import icon from assets folder
+// Import icon from assets folder
 import StartButton from '../asset/play-button.png';
 import StopButton from '../asset/stop.png';
 import AudioButton from '../asset/microphone.png';
@@ -31,14 +31,14 @@ export default class ControlBar extends Component {
         const jsonManager = new JSONManager();
         this.state = {
             controlbar_button: [
-                { id: 'start', src: StartButton, disable: false , tip: 'Start record'},
-                { id: 'audio', src: AudioButton, disable: true , tip: 'Audio (Shift+F4)'},
-                { id: 'video', src: VideoButton, disable: true , tip: 'Video (Shift+F5)'},
-                { id: 'js-capture', src: ScreenShotButton, disable: true , tip: 'Screenshot (Shift+F2)'},
-                { id: 'text', src: TextButton, disable: true , tip: 'Text (Shift+F3)'},
-                { id: 'substract', src: Substract, disable: false , tip: ''},
-                { id: 'home', src: HomeButton, disable: false , tip: 'Home'},
-                { id: 'quit', src: QuitButton, disable: false , tip: 'Quit'}
+                { id: 'start', src: StartButton, disable: false, tip: 'Start record (Ctrl+Shift+s)' },
+                { id: 'text', src: TextButton, disable: true, tip: 'Text (Shift+F2)' },
+                { id: 'js-capture', src: ScreenShotButton, disable: true, tip: 'Screenshot (Shift+F3)' },
+                { id: 'audio', src: AudioButton, disable: true, tip: 'Audio (Shift+F4)' },
+                { id: 'video', src: VideoButton, disable: true, tip: 'Video (Shift+F5)' },       
+                { id: 'substract', src: Substract, disable: false, tip: '' },
+                { id: 'home', src: HomeButton, disable: false, tip: 'Home' },
+                { id: 'quit', src: QuitButton, disable: false, tip: 'Quit' }
             ],
             timeline: {},
             sluPath: "",
@@ -71,7 +71,7 @@ export default class ControlBar extends Component {
             });
         });
 
-        ipcRenderer.on('Shift+s', () => {
+        ipcRenderer.on('Ctrl+Shift+s', () => {
             this.handleStart();
         });
     }
@@ -140,11 +140,7 @@ export default class ControlBar extends Component {
             });
 
             this.state.jsonManager.writeJSON(this.state.timeline, this.state.sluPath).then(() => {
-                this.setState({
-                    controlbar_button: button,
-                    // timeline: {},
-                    // sluPath: ""
-                });
+                this.setState({ controlbar_button: button, });
                 ipcRenderer.removeAllListeners("Shift+F1");
                 ipcRenderer.removeAllListeners("Shift+F2");
                 ipcRenderer.removeAllListeners("Shift+F3");

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { ContextMenuTrigger, ContextMenu, MenuItem } from "react-contextmenu";
-
 import FileIcon from '../asset/SLUNOTE-LOGO2.png';
 
 const { ipcRenderer } = require('electron');
@@ -19,63 +18,50 @@ export default class FileButton extends Component {
     }
 
     EnterTimeLine = (sluPath) => {
-        ipcRenderer.send('file-open-click', {
-            path: sluPath
-        });
+        ipcRenderer.send('file-open-click', { path: sluPath });
     }
 
     handleRenameDialog = (path) => {
-        var filename = path.split('\\').pop();
+        let filename = path.split('\\').pop();
         filename = filename.split('.')[0];
         this.setState({
             rename_file: filename,
             rename_show: true
         });
-        console.log(path);
     }
 
     handleRenameDialogClose = () => {
-        this.setState({
-            rename_show: false
-        });
+        this.setState({ rename_show: false });
     }
 
-    handleRename = (path) => {
-        var new_filename = document.getElementById('new_filename').value;
-        ipcRenderer.send('main-rename-file', {
-            path: path,
-            new_filename: new_filename
+    handleRename = (sluPath, index) => {
+        let newSluName = document.getElementById('new_filename').value;
+        document.getElementById("label_" + index).innerText = newSluName;
+        ipcRenderer.send('main-rename-slu', {
+            sluPath: sluPath,
+            newSluName: newSluName,
+            sluIdx: index
         });
-        this.setState({
-            rename_show: false
-        });
-        document.getElementById("label_" + this.props.index).innerText = new_filename + ".json";
+        this.setState({ rename_show: false });
     }
 
     handleDeleteDialog = (path) => {
-        var filename = path.split('\\').pop();
+        let filename = path.split('\\').pop();
         filename = filename.split('.')[0];
         this.setState({
             delete_file: filename,
             delete_show: true
-        })
-        console.log(path);
+        });
     }
 
-    handleDeleteDialogClose = () => {
-        this.setState({
-            delete_show: false
-        })
-    }
+    handleDeleteDialogClose = () => { this.setState({ delete_show: false }); }
 
-    handleDelete = (path) => {
+    handleDelete = (sluPath, index) => {
         ipcRenderer.send('main-delete-file', {
-            path: path
+            sluPath: sluPath,
+            sluIdx: index
         });
-        this.setState({
-            delete_show: false
-        });
-        document.getElementById(this.props.index).remove();
+        this.setState({ delete_show: false });
     }
 
     render() {
@@ -90,7 +76,7 @@ export default class FileButton extends Component {
                         onDoubleClick={() => this.EnterTimeLine(this.props.file.path)}
                     >
                         <img className="file_icon" src={FileIcon} /><br />
-                        <div id={labelid}>{this.props.file.path.split('\\').pop()}</div>
+                        <div id={labelid}>{this.props.file.name}</div>
                     </button>
                 </ContextMenuTrigger>
                 <ContextMenu id={this.props.file.path} className="pop_menu">
@@ -110,7 +96,9 @@ export default class FileButton extends Component {
                         <input id="new_filename" type="text" defaultValue={this.state.rename_file} className="modal_input"></input>
                     </Modal.Body>
                     <Modal.Footer className="modal_footer">
-                        <i className="modal_icon fas fa-check-circle" onClick={() => this.handleRename(this.props.file.path)}></i>
+                        <i className="modal_icon fas fa-check-circle" onClick={() => {
+                            this.handleRename(this.props.file.path, this.props.index);
+                        }}></i>
                         <i className="modal_icon fas fa-times-circle" onClick={this.handleRenameDialogClose}></i>
                     </Modal.Footer>
                 </Modal>
@@ -121,7 +109,9 @@ export default class FileButton extends Component {
                     </Modal.Header>
                     <Modal.Body>Do you really want to delete file "{this.state.delete_file}" ?</Modal.Body>
                     <Modal.Footer className="modal_footer">
-                        <i className="modal_icon fas fa-check-circle" onClick={() => this.handleDelete(this.props.file.path)}></i>
+                        <i className="modal_icon fas fa-check-circle" onClick={() => {
+                            this.handleDelete(this.props.file.path, this.props.index);
+                        }}></i>
                         <i className="modal_icon fas fa-times-circle" onClick={this.handleDeleteDialogClose}></i>
                     </Modal.Footer>
                 </Modal>

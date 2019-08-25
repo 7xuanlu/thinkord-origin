@@ -26,7 +26,7 @@ module.exports = {
     },
     module: {
         rules: [
-            // first loader: compile jsx
+            // Loader: compile jsx
             {
                 test: /.jsx$/,
                 exclude: /node_modules/,
@@ -39,7 +39,7 @@ module.exports = {
                     }
                 }
             },
-            // second loader: compile ES6
+            // Loader: compile ES6
             {
                 test: /.js$/,
                 exclude: /node_modules/,
@@ -52,12 +52,12 @@ module.exports = {
                     }
                 }
             },
-            // loader: compile html
+            // Loader: compile html
             {
                 test: /\.html$/,
                 use: "html-loader"
             },
-            // loader: compile css
+            // Loader: compile css
             {
                 test: /.css$/,
                 use: [
@@ -65,7 +65,7 @@ module.exports = {
                     'css-loader'
                 ]
             },
-            // loader: compile image
+            // Loader: compile image
             {
                 test: /\.(jpe?g|png)$/,
                 use: 'file-loader?name=asset/[name].[ext]'

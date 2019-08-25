@@ -9,11 +9,14 @@ export class JSONManager {
     constructor() {
         const sluId = uuidv1();
 
+        // app.json's data format
         this.initSluPathObj = {
             "id": sluId,
-            "path": ""
+            "path": "",
+            "name": ""
         }
 
+        // slu's data format
         this.initSluObj = {
             "id": sluId,
             "name": "",
@@ -54,6 +57,7 @@ export class JSONManager {
 
                 // Record the path of user's newly created slu 
                 this.initSluPathObj.path = sluPath;
+                this.initSluPathObj.name = sluName;
                 json['slus'].push(this.initSluPathObj);
 
                 let jsonString = JSON.stringify(json);
@@ -64,7 +68,7 @@ export class JSONManager {
             }
         });
 
-        return sluPath; 
+        return sluPath;
     }
 
     // Define a function getting our user's Slu file
@@ -94,11 +98,7 @@ export class JSONManager {
 
         // Write to the original json file
         fs.writeFile(sluPath, jsonString, 'utf8', (err) => {
-            if (err) {
-                throw err;
-            } else {
-                console.log("JSON has been saved successfully");
-            }
+            if (err) { throw err; }
         });
     }
 }
