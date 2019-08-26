@@ -21,6 +21,10 @@ app.on('ready', () => {
     initUserEnv();
     main = browserWindow.createMainWindow(main);
     // tray = noteTray.enable(controlbar);
+
+    const { screen } = require('electron');
+    const size = screen.getPrimaryDisplay().workAreaSize;
+    browserWindow.setControlBarPosition(size);
 });
 
 app.on('window-all-closed', () => {
