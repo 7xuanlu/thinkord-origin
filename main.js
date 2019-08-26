@@ -72,8 +72,8 @@ ipcMain.on('savebutton', () => {
     }
 });
 
-ipcMain.on('Navbar-save-slu', (event) => {
-    event.reply('Navbar-save-slu');
+ipcMain.on('navbar-save-slu', (event) => {
+    event.reply('navbar-save-slu');
 })
 
 ipcMain.on('hidesavebutton', () => {
@@ -96,7 +96,7 @@ ipcMain.on('twin-cancel', () => {
 });
 
 ipcMain.on('twin-ok', (event, args) => {
-    controlbar.webContents.send('save-textarea-value', args);
+    controlbar.webContents.send('main-save-twin-value', args);
     text.close();
     text = null;
 });
@@ -153,6 +153,8 @@ ipcMain.on('file-open-click', (event, args) => {
 ipcMain.on('tl-init-slu', () => {
     controlbar.webContents.send('tl-init-slu');
 });
+
+ipcMain.on('tl-sync-cb', (event, args) => { controlbar.webContents.send('cb-init-slu', args); });
 
 ipcMain.on('cb-sync-with-slu', (event, args) => {
     // Only sync when main windows and controlbar windows are open at once

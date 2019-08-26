@@ -13,7 +13,8 @@ export class TextWindow extends Component {
     constructor(props) {
         super(props);
 
-        this.myRef = React.createRef();
+        this.titleRef = React.createRef();
+        this.textRef = React.createRef();
         this.state = {
             textwindow_value: "",
             textwindow_button: [
@@ -26,9 +27,11 @@ export class TextWindow extends Component {
     }
 
     handleOK = () => {
-        const textarea = this.myRef.current;
+        const title = this.titleRef.current;
+        const textarea = this.textRef.current;
 
         ipcRenderer.send('twin-ok', {
+            "title": title.value,
             "text": textarea.value,
             "isMark": this.state.isMark,
             "type": "text"
@@ -61,16 +64,15 @@ export class TextWindow extends Component {
     }
 
     render() {
-        console.log(this.state.isMark);
         return (
             <div className="textdiv">
-                <input type="text" placeholder="Enter your title here..."></input>
+                <input type="text" ref={this.titleRef} placeholder="Enter your title here ..."></input>
                 <br />
                 <textarea
                     rows="2"
                     cols="30"
                     value={this.state.textwindow_value}
-                    ref={this.myRef}
+                    ref={this.textRef}
                     placeholder="Enter some thoughts here ..."
                     onChange={(event) => {
                         this.setState({

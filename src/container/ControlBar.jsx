@@ -40,7 +40,7 @@ export default class ControlBar extends Component {
                 { id: 'home', src: HomeButton, disable: false, tip: 'Home' },
                 { id: 'quit', src: QuitButton, disable: false, tip: 'Quit' }
             ],
-            timeline: {},
+            slu: {},
             sluPath: "",
             isRecord: false,
             jsonManager: jsonManager
@@ -50,15 +50,14 @@ export default class ControlBar extends Component {
     componentDidMount() {
         ipcRenderer.send('cb-init-slu');
         ipcRenderer.on('cb-init-slu', (event, args) => {
-
-            this.state.jsonManager.readJSON(args.path).then((json) => {
+            this.state.jsonManager.readJSON(args.path).then((slu) => {
                 this.setState({
-                    timeline: json,
+                    slu: slu,
                     sluPath: args.path
                 });
 
                 ipcRenderer.send('cb-sync-with-slu', {
-                    timeline: this.state.timeline,
+                    slu: this.state.slu,
                     sluPath: this.state.sluPath
                 });
             });
@@ -66,7 +65,7 @@ export default class ControlBar extends Component {
 
         ipcRenderer.on('tl-init-slu', () => {
             ipcRenderer.send('cb-sync-with-slu', {
-                timeline: this.state.timeline,
+                slu: this.state.slu,
                 sluPath: this.state.sluPath
             });
         });
@@ -79,7 +78,7 @@ export default class ControlBar extends Component {
     componentDidUpdate() {
         if (this.state.isRecord) {
             ipcRenderer.send('cb-sync-with-slu', {
-                timeline: this.state.timeline,
+                slu: this.state.slu,
                 sluPath: this.state.sluPath
             });
         }
@@ -139,7 +138,7 @@ export default class ControlBar extends Component {
                 return button;
             });
 
-            this.state.jsonManager.writeJSON(this.state.timeline, this.state.sluPath).then(() => {
+            this.state.jsonManager.writeJSON(this.state.slu, this.state.sluPath).then(() => {
                 this.setState({ controlbar_button: button, });
                 ipcRenderer.removeAllListeners("Shift+F1");
                 ipcRenderer.removeAllListeners("Shift+F2");
@@ -164,9 +163,9 @@ export default class ControlBar extends Component {
                         const noteManager = new NoteManager();
 
                         // Add new block to the note object
-                        let note = noteManager.addBlock(this.state.timeline, { "filePath": recPath });
+                        let note = noteManager.addBlock(this.state.slu, { "filePath": recPath });
 
-                        this.setState({ timeline: note });
+                        this.setState({ slu: note });
                     });
                 }
             }
@@ -189,9 +188,9 @@ export default class ControlBar extends Component {
                         const noteManager = new NoteManager();
 
                         // Add new block to the note object
-                        let note = noteManager.addBlock(this.state.timeline, { "filePath": recPath });
+                        let note = noteManager.addBlock(this.state.slu, { "filePath": recPath });
 
-                        this.setState({ timeline: note });
+                        this.setState({ slu: note });
                     });
                 }
             }
@@ -203,12 +202,12 @@ export default class ControlBar extends Component {
 
     handleText = () => {
         ipcRenderer.send('text-click');
-        ipcRenderer.once('save-textarea-value', (event, args) => {
+        ipcRenderer.once('main-save-twin-value', (event, args) => {
             const noteManager = new NoteManager();
 
             // Add new text block to the note object
-            let note = noteManager.addBlock(this.state.timeline, args);
-            this.setState({ timeline: note });
+            let note = noteManager.addBlock(this.state.slu, args);
+            this.setState({ slu: note });
         })
     }
 
@@ -219,8 +218,8 @@ export default class ControlBar extends Component {
             const noteManager = new NoteManager();
 
             // Add new block to the note object
-            let note = noteManager.addBlock(this.state.timeline, { "filePath": dragsnipPath });
-            this.setState({ timeline: note });
+            let note = noteManager.addBlock(this.state.slu, { "filePath": dragsnipPath });
+            this.setState({ slu: note });
         });
     }
 
@@ -238,9 +237,9 @@ export default class ControlBar extends Component {
                 const noteManager = new NoteManager();
 
                 // Add new block to the note object
-                let note = noteManager.addBlock(this.state.timeline, { "filePath": screenshotPath });
+                let note = noteManager.addBlock(this.state.slu, { "filePath": screenshotPath });
 
-                this.setState({ timeline: note });
+                this.setState({ slu: note });
             });
         });
 

@@ -69,7 +69,7 @@ class Timeline extends Component {
 
   // Write data to the json file
   saveChange = () => {
-    ipcRenderer.send('Navbar-save-slu');
+    ipcRenderer.send('navbar-save-slu');
   }
 
   scrollToBottom = () => {

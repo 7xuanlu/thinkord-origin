@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import PictureBlock from '../components/PictureBlock';
+import ImageBlock from '../components/ImageBlock';
 import VideoBlock from "../components/VideoBlock";
 import TextBlock from "../components/TextBlock";
 import AudioBlock from "../components/AudioBlock";
@@ -28,7 +28,7 @@ export class BlockContainer extends Component {
         super(props);
 
         this.state = {
-            timeline: {},
+            slu: {},
             sluPath: "",
         }
     }
@@ -44,12 +44,13 @@ export class BlockContainer extends Component {
             ipcRenderer.send('init-note-title', args.sluPath);
             this.setState({
                 sluPath: args.sluPath,
-                timeline: args.timeline
+                slu: args.slu
             });
         });
 
-        ipcRenderer.on('Navbar-save-slu', () => {
-            jsonManager.writeJSON(this.state.timeline, this.state.sluPath);
+        ipcRenderer.on('navbar-save-slu', () => {
+            jsonManager.writeJSON(this.state.slu, this.state.sluPath);
+            ipcRenderer.send('tl-sync-cb', {path: this.state.sluPath});
             let msg = 'Changes have been saved successfully!';
             let type = 'success';
             noti_save = this.handleNoti(noti_save, type, msg);
@@ -58,8 +59,8 @@ export class BlockContainer extends Component {
         ipcRenderer.on('pre-step-click', () => {
             var pre = pre_step.pop();
             if (typeof (pre) !== "undefined") {
-                next_step.push(this.state.timeline);
-                this.setState({ timeline: pre });
+                next_step.push(this.state.slu);
+                this.setState({ slu: pre });
             } else {
                 let msg = 'Cannot undo anymore!';
                 let type = 'warning';
@@ -70,9 +71,9 @@ export class BlockContainer extends Component {
         ipcRenderer.on('next-step-click', () => {
             var next = next_step.pop();
             if (typeof (next) !== "undefined") {
-                pre_step.push(this.state.timeline);
+                pre_step.push(this.state.slu);
                 this.setState({
-                    timeline: next
+                    slu: next
                 });
             } else {
                 let msg = 'Cannot redo anymore!';
@@ -83,15 +84,15 @@ export class BlockContainer extends Component {
 
         ipcRenderer.on('delete-selected-click', () => {
             let selected = document.getElementsByClassName("check");
-            pre_step.push(this.state.timeline);
+            pre_step.push(this.state.slu);
             Array.from(selected).forEach(block => {
                 if(block.checked === true){
                     let time = block.id.split('_').pop();
                     document.getElementById(time).classList.toggle("removed-item");
                     setTimeout(() => {
                         this.setState({
-                            timeline: {
-                                blocks: [...this.state.timeline.blocks.filter(block => block.timestamp !== time)]
+                            slu: {
+                                blocks: [...this.state.slu.blocks.filter(block => block.timestamp !== time)]
                             }
                         });
                     }, 700);
@@ -101,11 +102,11 @@ export class BlockContainer extends Component {
 
         ipcRenderer.on('mark-selected-click', () => {
             let selected = document.getElementsByClassName("check");
-            pre_step.push(this.state.timeline);
+            pre_step.push(this.state.slu);
             Array.from(selected).forEach(block => {
                 if(block.checked === true){
                     let time = block.id.split('_').pop();
-                    const note = this.state.timeline.blocks.map(block => {
+                    const note = this.state.slu.blocks.map(block => {
                         // assign the description to the block you want
                         if (block.timestamp === time) {
                             if (block.mark === true) {
@@ -118,7 +119,7 @@ export class BlockContainer extends Component {
                     });
             
                     this.setState({
-                        timeline: {
+                        slu: {
                             blocks: note
                         }
                     });
@@ -128,12 +129,12 @@ export class BlockContainer extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (typeof prevState.timeline.blocks === "undefined") { }
+        if (typeof prevState.slu.blocks === "undefined") { }
         else {
-            if (pre_step.includes(prevState.timeline) || next_step.includes(prevState.timeline)) {
+            if (pre_step.includes(prevState.slu) || next_step.includes(prevState.slu)) {
                 //do nothing
             } else {
-                this.state.timeline.blocks.length > prevState.timeline.blocks.length ? this.props.onNewBlock() : {}
+                this.state.slu.blocks.length > prevState.slu.blocks.length ? this.props.onNewBlock() : {}
             }
         }
     }
@@ -163,12 +164,12 @@ export class BlockContainer extends Component {
     // Delete the block you choose (frontend)
     delBlock = (time) => {
         // console.log('Now you choose the block', time);
-        pre_step.push(this.state.timeline);
+        pre_step.push(this.state.slu);
         document.getElementById(time).classList.toggle("removed-item");
         setTimeout(() => {
             this.setState({
-                timeline: {
-                    blocks: [...this.state.timeline.blocks.filter(block => block.timestamp !== time)]
+                slu: {
+                    blocks: [...this.state.slu.blocks.filter(block => block.timestamp !== time)]
                 }
             });
         }, 700);
@@ -176,24 +177,24 @@ export class BlockContainer extends Component {
 
     // Add description (frontend)
     addDescription = (des, time) => {
-        const note = this.state.timeline.blocks.map(block => {
+        const note = this.state.slu.blocks.map(block => {
             // assign the description to the block you want
             if (block.timestamp === time) {
                 block = { ...block, description: des };
             }
             return block;
         });
-        pre_step.push(this.state.timeline);
+        pre_step.push(this.state.slu);
 
         this.setState({
-            timeline: {
+            slu: {
                 blocks: note
             }
         });
     }
 
     handleMark = (time) => {
-        const note = this.state.timeline.blocks.map(block => {
+        const note = this.state.slu.blocks.map(block => {
             // assign the description to the block you want
             if (block.timestamp === time) {
                 if (block.mark === true) {
@@ -204,10 +205,10 @@ export class BlockContainer extends Component {
             }
             return block;
         });
-        pre_step.push(this.state.timeline);
+        pre_step.push(this.state.slu);
 
         this.setState({
-            timeline: {
+            slu: {
                 blocks: note
             }
         });
@@ -215,28 +216,28 @@ export class BlockContainer extends Component {
 
     // Change the title (frontend)
     handleTitle = (title, time) => {
-        const note = this.state.timeline.blocks.map(block => {
+        const note = this.state.slu.blocks.map(block => {
             // assign the description to the block you want
             if (block.timestamp === time) {
                 block = { ...block, title: title }
             }
             return block;
         });
-        pre_step.push(this.state.timeline);
+        pre_step.push(this.state.slu);
 
         this.setState({
-            timeline: {
+            slu: {
                 blocks: note
             }
         });
     }
 
-    //Add timeline information
+    //Add slu information
     addDate = (block) => {
         let new_date = block.timestamp.split(' ')[0].split('/')
         new_date = new_date[1] + ' / ' + new_date[2]
 
-        let blocks = this.state.timeline.blocks;
+        let blocks = this.state.slu.blocks;
         let old_date;
         let isDateEqual;
 
@@ -270,7 +271,7 @@ export class BlockContainer extends Component {
 
     // Add file (frontend)
     addFile = (files, time) => {
-        const note = this.state.timeline.blocks.map(block => {
+        const note = this.state.slu.blocks.map(block => {
             // assign the description to the block you want
             if (block.timestamp === time) {
                 files.map((file) => {
@@ -283,10 +284,10 @@ export class BlockContainer extends Component {
             }
             return block;
         });
-        pre_step.push(this.state.timeline);
+        pre_step.push(this.state.slu);
 
         this.setState({
-            timeline: {
+            slu: {
                 blocks: note
             }
         });
@@ -294,7 +295,7 @@ export class BlockContainer extends Component {
 
     // Delete file (frontend)
     delFile = (files, time) => {
-        const note = this.state.timeline.blocks.map(block => {
+        const note = this.state.slu.blocks.map(block => {
             // assign the description to the block you want
             if (block.timestamp === time) {
                 block = { ...block, paths: [block.paths[0]] }
@@ -304,10 +305,10 @@ export class BlockContainer extends Component {
             }
             return block;
         });
-        pre_step.push(this.state.timeline);
+        pre_step.push(this.state.slu);
 
         this.setState({
-            timeline: {
+            slu: {
                 blocks: note
             }
         });
@@ -323,7 +324,7 @@ export class BlockContainer extends Component {
         if (block.paths[0] !== "") {
             if (block.paths[0].split('.').pop() === 'png') {
                 return (
-                    <PictureBlock
+                    <ImageBlock
                         block={block}
                         delBlock={this.delBlock}
                         handleMark={this.handleMark}
@@ -384,12 +385,12 @@ export class BlockContainer extends Component {
 
     render() {
         // Yield undefined, because the first value it gets is undefined
-        if (this.state.timeline.blocks === undefined) { return null }
-        // console.log(this.state.timeline.blocks)
+        if (this.state.slu.blocks === undefined) { return null }
+        // console.log(this.state.slu.blocks)
 
         return (
             <div className="allBlocks">
-                {this.state.timeline.blocks.map((block, id) => (
+                {this.state.slu.blocks.map((block, id) => (
                     <div key={id}>
                         {this.distBlock(block)}
                     </div>

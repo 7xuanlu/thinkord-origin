@@ -43,6 +43,7 @@ export class NoteManager {
             let blockArrLength = note["blocks"].length;
 
             // Update text for newly created block
+            note["blocks"][blockArrLength - 1]["title"] = args.title;
             note["blocks"][blockArrLength - 1]["description"] = args.text;
             note["blocks"][blockArrLength - 1]["mark"] = args.isMark;
             if (note["blocks"][blockArrLength - 1]["paths"].length === 0) {
