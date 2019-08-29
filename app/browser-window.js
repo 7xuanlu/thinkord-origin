@@ -1,7 +1,12 @@
 const { app, BrowserWindow, shell, globalShortcut } = require('electron');
 
 // if environment mode is not set, it will default to be in development
-const mode = require('../webpack.config').mode;
+// for development: 
+const mode = require('../env.json').env_dev;
+// for production: 
+// const mode = require('../env.json').env_pro;
+
+
 let controlbar_x = null;
 let controlbar_y = null;
 
@@ -9,7 +14,6 @@ exports.setControlBarPosition = (size) => {
     controlbar_x = size.width - 350;
     controlbar_y = size.height - 60;
 }
-
 exports.createControlBarWindow = (controlbar) => {
     controlbar = new BrowserWindow({
         width: 292,
