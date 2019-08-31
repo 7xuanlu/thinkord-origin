@@ -29,11 +29,11 @@
 .allBlocks .blockContent{
   font-size: 16px;
   color: #143938;
-  margin:0 5% 10px 2%;
+  margin:0 10% 10px 10%;
 
   display: grid;
   grid-template-rows: 50px 30px auto auto;
-  grid-template-columns:50px 2% 80px 40px auto 50px 50px;
+  grid-template-columns:50px 40px 80px 40px auto 50px 50px;
   grid-template-areas:
     "date . icon       scale   title   mark     remove "
     ".    . time       content content content content "
@@ -132,13 +132,14 @@
 .inputContainer{
   width: 100%;
   margin: 20px 0;
+  border-radius: 4px;
   text-align: left;
   box-sizing: border-box;
   word-wrap: break-word;
 }
 
 .inputField{
-  width:100%;
+  width:50%;
   height: 24px;
   border: 0;
   border-radius: 4px;
@@ -155,7 +156,7 @@
   font-size: 22px;
 }
 .inputField_title{
-  width:80%;
+  width:30%;
   height: 60%;
   border: 0;
   border-radius: 4px;
@@ -261,7 +262,7 @@
 
 
 .picBlock img{
-  max-width: 70%;
+  max-width: 90%;
   max-height: auto;
 }
 
@@ -269,15 +270,15 @@
 
 /* progressBar  */
 .progressContainer {
-  width: 7px;
+  width: 8px;
   height: 100%;
-  margin: 20px 0 0 calc(60px + 2%);
+  margin: 20px 0 0 calc(110px + 7%);
   background-color: #bdd4cb;
   position: fixed;
 }
 
 .progressBar {
-  width: 7px;
+  width: 8px;
   background: linear-gradient(135deg, #69cb43, #35c189 60%, #35c189);
 }
 
