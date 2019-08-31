@@ -21,31 +21,23 @@ class Timeline extends Component {
 
     this.state = {
       saveSign: true,
-      note_title: ''
+      sluTitle: ''
     }
   }
 
   componentDidMount() {
-    ipcRenderer.on('init-note-title', (event, args) => {
-      let title = args.split('\\').pop()
-      title = title.split('.')[0]
-      this.setState({
-        note_title: title
-      });
+    ipcRenderer.once('init-slu-title', (event, title) => {
+      this.setState({ sluTitle: title });
     });
 
     // When you press stop recording, then you could save slu
     ipcRenderer.on('savebutton', () => {
-      this.setState({
-        saveSign: !this.state.saveSign
-      });
+      this.setState({ saveSign: !this.state.saveSign });
     });
 
     // When you press start recording, the you could not save slu
     ipcRenderer.on('hidesavebutton', () => {
-      this.setState({
-        saveSign: !this.state.saveSign
-      });
+      this.setState({ saveSign: !this.state.saveSign });
     });
 
     // With Mousetrap package, you should specify "Ctrl" as "ctrl"
@@ -96,13 +88,11 @@ class Timeline extends Component {
     ipcRenderer.send('next-step-click');
   }
 
-  handleTitleChanged = (title) => {
-    if(title === ''){
+  handleTitle = (title) => {
+    if (title === '') {
       return;
-    }else{
-      this.setState({
-        note_title: title
-      });
+    } else {
+      this.setState({ sluTitle: title });
     }
   }
 
@@ -112,13 +102,14 @@ class Timeline extends Component {
       } >
         <div className="App" id="App">
           <div className="pageContent" id="content">
-            <Header title={this.state.note_title} handleTitleChanged={this.handleTitleChanged} />
+            <Header title={this.state.sluTitle} handleTitle={this.handleTitle} />
             <div><Progressbar /></div>
             <BlockContainer
               onNewBlock={this.scrollToBottom}
               ReturnToTop={this.scrollToTop}
               clickHome={this.returnToMain}
               clickSave={this.state.saveSign && this.saveChange}
+              title={this.state.sluTitle}
             />
             <Navigationbar
               clickPreviousStep={this.handleClickPreviousStep}

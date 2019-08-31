@@ -5,6 +5,9 @@ const path = require('path');
 const fs = require('fs');
 const uuidv1 = require('uuid/v1');
 
+const appSettingPath = path.join(app.getPath('userData'), 'app.json');
+const sluDirPath = path.join(app.getPath('userData'), 'Slu');
+
 export class JSONManager {
     constructor() {
         const sluId = uuidv1();
@@ -78,14 +81,14 @@ export class JSONManager {
                 if (err) {
                     throw err;
                 } else {
-                    console.log('File existed, trying to read Note json file')
+                    console.log('File existed, trying to read slu json file')
                     fs.readFile(sluPath, (err, data) => {
                         if (err) {
                             throw err;
                         }
                         // Parse json to JS object
                         let json = JSON.parse(data);
-
+                        console.log(json);
                         resolve(json);
                     });
                 }
@@ -99,6 +102,48 @@ export class JSONManager {
         // Write to the original json file
         fs.writeFile(sluPath, jsonString, 'utf8', (err) => {
             if (err) { throw err; }
+        });
+    }
+
+    // Rename slu in app.json
+    renameSluAppJSON(sluId, newSluName) {
+        const newSluPath = path.join(sluDirPath, newSluName + '.json');
+        // const newSluName = args.newSluName;
+        let oldSluName = null;
+
+        fs.readFile(appSettingPath, (err, data) => {
+            if (err) {
+                throw err;
+            } else {
+                // Parse string to JS object
+                let json = JSON.parse(data);
+
+                json["slus"].map((item, index) => {
+                    if (item["id"] === sluId) {
+                        oldSluName = json["slus"][index].name;
+                        json["slus"][index].path = newSluPath;
+                        json["slus"][index].name = newSluName;
+                    }
+                });
+
+                let jsonString = JSON.stringify(json);
+
+                fs.writeFile(appSettingPath, jsonString, (err) => {
+                    if (err) { throw err }
+                });
+            }
+        });
+    }
+
+    renameSluFile(sluPath, newSluName) {
+        const newSluPath = path.join(sluDirPath, newSluName + '.json');
+        
+        fs.rename(sluPath, newSluPath, (err) => {
+            if (err) {
+                throw err
+            } else {
+                
+            }
         });
     }
 }

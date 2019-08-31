@@ -167,9 +167,9 @@ ipcMain.on('cb-sync-with-slu', (event, args) => {
     }
 });
 
-ipcMain.on('init-note-title', (event, args) => {
-    if(main !== null){
-        main.webContents.send('init-note-title', args);
+ipcMain.on('init-slu-title', (event, args) => {
+    if (main !== null) {
+        main.webContents.send('init-slu-title', args);
     }
 })
 

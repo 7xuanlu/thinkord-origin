@@ -35,7 +35,7 @@ export default class ControlBar extends Component {
                 { id: 'text', src: TextButton, disable: true, tip: 'Text (Shift+F2)' },
                 { id: 'js-capture', src: ScreenShotButton, disable: true, tip: 'Screenshot (Shift+F3)' },
                 { id: 'audio', src: AudioButton, disable: true, tip: 'Audio (Shift+F4)' },
-                { id: 'video', src: VideoButton, disable: true, tip: 'Video (Shift+F5)' },       
+                { id: 'video', src: VideoButton, disable: true, tip: 'Video (Shift+F5)' },
                 { id: 'substract', src: Substract, disable: false, tip: '' },
                 { id: 'home', src: HomeButton, disable: false, tip: 'Home' },
                 { id: 'quit', src: QuitButton, disable: false, tip: 'Quit' }
@@ -138,16 +138,14 @@ export default class ControlBar extends Component {
                 return button;
             });
 
-            this.state.jsonManager.writeJSON(this.state.slu, this.state.sluPath).then(() => {
-                this.setState({ controlbar_button: button, });
-                ipcRenderer.removeAllListeners("Shift+F1");
-                ipcRenderer.removeAllListeners("Shift+F2");
-                ipcRenderer.removeAllListeners("Shift+F3");
-                ipcRenderer.removeAllListeners("Shift+F4");
-                ipcRenderer.removeAllListeners("Shift+F5");
-                ipcRenderer.send('unregister-shortcuts');
-                ipcRenderer.send('savebutton');
-            })
+            this.setState({ controlbar_button: button });
+            ipcRenderer.removeAllListeners("Shift+F1");
+            ipcRenderer.removeAllListeners("Shift+F2");
+            ipcRenderer.removeAllListeners("Shift+F3");
+            ipcRenderer.removeAllListeners("Shift+F4");
+            ipcRenderer.removeAllListeners("Shift+F5");
+            ipcRenderer.send('unregister-shortcuts');
+            ipcRenderer.send('savebutton');
         }
     }
 

@@ -41,7 +41,7 @@ export class BlockContainer extends Component {
         ipcRenderer.send('tl-init-slu');
 
         ipcRenderer.on('cb-sync-with-slu', (event, args) => {
-            ipcRenderer.send('init-note-title', args.sluPath);
+            ipcRenderer.send('init-slu-title', args.slu.name);
             this.setState({
                 sluPath: args.sluPath,
                 slu: args.slu
@@ -49,10 +49,18 @@ export class BlockContainer extends Component {
         });
 
         ipcRenderer.on('navbar-save-slu', () => {
-            jsonManager.writeJSON(this.state.slu, this.state.sluPath);
-            ipcRenderer.send('tl-sync-cb', {path: this.state.sluPath});
             let msg = 'Changes have been saved successfully!';
             let type = 'success';
+            let slu = this.state.slu;
+            let sluPath = this.state.sluPath;
+
+            slu.name = this.props.title;
+            this.setState({ slu: slu });
+            jsonManager.writeJSON(slu, sluPath);
+            jsonManager.renameSluAppJSON(slu.id, slu.name);
+            jsonManager.renameSluFile(sluPath, slu.name);
+            ipcRenderer.send('tl-sync-cb', { path: sluPath });
+
             noti_save = this.handleNoti(noti_save, type, msg);
         });
 
@@ -86,7 +94,7 @@ export class BlockContainer extends Component {
             let selected = document.getElementsByClassName("check");
             pre_step.push(this.state.slu);
             Array.from(selected).forEach(block => {
-                if(block.checked === true){
+                if (block.checked === true) {
                     let time = block.id.split('_').pop();
                     document.getElementById(time).classList.toggle("removed-item");
                     setTimeout(() => {
@@ -104,7 +112,7 @@ export class BlockContainer extends Component {
             let selected = document.getElementsByClassName("check");
             pre_step.push(this.state.slu);
             Array.from(selected).forEach(block => {
-                if(block.checked === true){
+                if (block.checked === true) {
                     let time = block.id.split('_').pop();
                     const note = this.state.slu.blocks.map(block => {
                         // assign the description to the block you want
@@ -117,7 +125,7 @@ export class BlockContainer extends Component {
                         }
                         return block;
                     });
-            
+
                     this.setState({
                         slu: {
                             blocks: note

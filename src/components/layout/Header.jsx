@@ -37,7 +37,7 @@ export default class Header extends Component{
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.handleTitleChanged(this.state.title);
+        this.props.handleTitle(this.state.title);
         this.setState({
             whileInput: false
         });
