@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../container/css/Main.css';
+import '../container/css/Home.css';
 const { ipcRenderer } = require('electron');
 import { JSONManager } from '../renderer/json-manager';
 import FileButton from '../components/FileButton';
@@ -11,7 +11,7 @@ import 'noty/lib/noty.css';
 import 'noty/lib/themes/mint.css';
 import 'noty/lib/themes/relax.css';
 
-export default class Main extends Component {
+export default class Home extends Component {
     constructor(props) {
         super(props);
 
@@ -28,7 +28,7 @@ export default class Main extends Component {
         let noti_rename = null;  // Show notification after renaming the slu
         let noti_delete = null;  // Show notification after deleting the slu
 
-        // Initialize main
+        // Initialize home
         ipcRenderer.send('main-sync');
 
         ipcRenderer.once('main-reply-sync', (event, args) => {

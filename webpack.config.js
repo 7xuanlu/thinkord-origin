@@ -11,15 +11,15 @@ module.exports = {
     entry: {
         polyfill: '@babel/polyfill',
         controlbar: './src/indexCB.jsx',
-        textwindow: './src/indexTXT.jsx',
-        main: './src/indexMain.jsx',
-        home: './src/indexH.jsx',
+        textwindow: './src/indexTW.jsx',
+        home: './src/indexHome.jsx',
+        timeline: './src/indexTL.jsx',
         dragsnip: './src/renderer/dragsnip/capture-renderer.js'
     },
     target: 'electron-renderer',
     output: {
         filename: '[name].bundle.js',
-        path: path.resolve('./dist')
+        path: path.resolve('./build')
     },
     resolve: {
         extensions: [".jsx", ".js"]
@@ -83,18 +83,18 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             filename: 'textwindow.html',
-            template: './src/indexTXT.html',
+            template: './src/indexTW.html',
             chunks: ['textwindow']
         }),
         new HtmlWebpackPlugin({
-            filename: 'main.html',
-            template: './src/indexMain.html',
-            chunks: ['main']
+            filename: 'home.html',
+            template: './src/indexHome.html',
+            chunks: ['home']
         }), 
         new HtmlWebpackPlugin({
-            filename: 'home.html',
-            template: './src/indexH.html',
-            chunks: ['home']
+            filename: 'timeline.html',
+            template: './src/indexTL.html',
+            chunks: ['timeline']
         }),
         new HtmlWebpackPlugin({
             filename: 'dragsnip.html',
@@ -104,7 +104,7 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin()
     ],
     devServer: {
-        contentBase: path.resolve(__dirname, 'dist'),
+        contentBase: path.resolve(__dirname, 'build'),
         port: 3071,
         before() {
             spawn(

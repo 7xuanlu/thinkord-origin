@@ -250,11 +250,11 @@ export default class ControlBar extends Component {
         });
 
         ipcRenderer.on('Shift+F4', () => {
-            this.handleVideo();
+            this.handleAudio();
         });
 
         ipcRenderer.on('Shift+F5', () => {
-            this.handleAudio();
+            this.handleVideo();
         });
     }
 

@@ -12,15 +12,15 @@ const sluDirPath = path.join(app.getPath('userData'), 'Slu');
 
 // // Make Win10 notification available
 // app.setAppUserModelId(process.execPath);
-let controlbar = null;
-let text = null;
-let main = null;
+let controlbarWin = null;
+let textWin = null;
+let homeWin = null;
 let tray = null;
 
 app.on('ready', () => {
     initUserEnv();
-    main = browserWindow.createMainWindow(main);
-    // tray = noteTray.enable(controlbar);
+    homeWin = browserWindow.createHomeWindow(homeWin);
+    // tray = noteTray.enable(controlbarWin);
 
     const { screen } = require('electron');
     const size = screen.getPrimaryDisplay().workAreaSize;
@@ -34,30 +34,30 @@ app.on('window-all-closed', () => {
 });
 
 app.on('activate', () => {
-    if (main === null) {
-        main = browserWindow.createControlBarWindow();
+    if (homeWin === null) {
+        homeWin = browserWindow.createControlBarWindow();
     }
 });
 
 ipcMain.on('register-shortcuts', () => {
     globalShortcut.register('Shift+F1', () => {
-        controlbar.webContents.send('Shift+F1');
+        controlbarWin.webContents.send('Shift+F1');
     });
 
     globalShortcut.register('Shift+F2', () => {
-        controlbar.webContents.send('Shift+F2');
+        controlbarWin.webContents.send('Shift+F2');
     });
 
     globalShortcut.register('Shift+F3', () => {
-        controlbar.webContents.send('Shift+F3');
+        controlbarWin.webContents.send('Shift+F3');
     });
 
     globalShortcut.register('Shift+F4', () => {
-        controlbar.webContents.send('Shift+F4');
+        controlbarWin.webContents.send('Shift+F4');
     });
 
     globalShortcut.register('Shift+F5', () => {
-        controlbar.webContents.send('Shift+F5');
+        controlbarWin.webContents.send('Shift+F5');
     });
 });
 
@@ -66,119 +66,119 @@ ipcMain.on('unregister-shortcuts', () => {
 
     // Let user always toggle recording state 
     globalShortcut.register('Ctrl+Shift+s', () => {
-        controlbar.webContents.send('Ctrl+Shift+s');
+        controlbarWin.webContents.send('Ctrl+Shift+s');
     });
 });
 
 ipcMain.on('savebutton', () => {
-    if (main !== null) {
-        main.webContents.send('savebutton')
+    if (homeWin !== null) {
+        homeWin.webContents.send('savebutton')
     }
 });
 
 ipcMain.on('navbar-save-slu', (event) => {
     event.reply('navbar-save-slu');
-})
+});
 
 ipcMain.on('hidesavebutton', () => {
-    if (main !== null) {
-        main.webContents.send('hidesavebutton')
+    if (homeWin !== null) {
+        homeWin.webContents.send('hidesavebutton')
     }
-})
+});
 
 ipcMain.on('text-click', () => {
-    if (text === null) {
-        text = browserWindow.createTextWindow(text, controlbar);
+    if (textWin === null) {
+        textWin = browserWindow.createTextWindow(textWin, controlbarWin);
     } else {
-        text.focus();
+        textWin.focus();
     }
 });
 
 ipcMain.on('twin-cancel', () => {
-    text.close();
-    text = null;
+    textWin.close();
+    textWin = null;
 });
 
 ipcMain.on('twin-ok', (event, args) => {
-    controlbar.webContents.send('main-save-twin-value', args);
-    text.close();
-    text = null;
+    controlbarWin.webContents.send('main-save-twin-value', args);
+    textWin.close();
+    textWin = null;
 });
 
 ipcMain.on('quit-click', () => {
-    controlbar.close();
-    controlbar = null;
-    if (text !== null) {
-        text.close();
-        text = null;
+    controlbarWin.close();
+    controlbarWin = null;
+    if (textWin !== null) {
+        textWin.close();
+        textWin = null;
     }
 });
 
 ipcMain.on('main-click', () => {
-    if (main === null) {
-        main = browserWindow.createMainWindow();
-        main.maximize();
-        main.on('closed', () => {
-            main = null;
+    if (homeWin === null) {
+        homeWin = browserWindow.createHomeWindow();
+        homeWin.maximize();
+        homeWin.on('closed', () => {
+            homeWin = null;
         });
         // main.removeMenu();
     } else {
-        main.maximize();
-        main.focus();
+        homeWin.maximize();
+        homeWin.focus();
     }
 });
 
 ipcMain.on('file-open-click', (event, args) => {
-    main = browserWindow.changeMainToTimeline(main);
+    homeWin = browserWindow.changeHomeToTimeline(homeWin);
     // main.maximize();
     // main.removeMenu();
 
-    if (controlbar === null) {
-        controlbar = browserWindow.createControlBarWindow(controlbar);
-        useCapture(controlbar);
+    if (controlbarWin === null) {
+        controlbarWin = browserWindow.createControlBarWindow(controlbarWin);
+        useCapture(controlbarWin);
     } else {
-        controlbar.focus();
+        controlbarWin.focus();
     }
 
-    controlbar.on('move', () => {
-        if (text !== null) {
-            text.close();
-            text = null;
+    controlbarWin.on('move', () => {
+        if (textWin !== null) {
+            textWin.close();
+            textWin = null;
         }
     });
 
     ipcMain.once('cb-init-slu', () => {
         if (args) {
-            controlbar.webContents.send('cb-init-slu', args);
+            controlbarWin.webContents.send('cb-init-slu', args);
         }
     });
 });
 
 ipcMain.on('tl-init-slu', () => {
-    controlbar.webContents.send('tl-init-slu');
+    controlbarWin.webContents.send('tl-init-slu');
 });
 
-ipcMain.on('tl-sync-cb', (event, args) => { controlbar.webContents.send('cb-init-slu', args); });
+ipcMain.on('tl-sync-cb', (event, args) => { controlbarWin.webContents.send('cb-init-slu', args); });
 
 ipcMain.on('cb-sync-with-slu', (event, args) => {
-    // Only sync when main windows and controlbar windows are open at once
-    if (main !== null && controlbar !== null) {
-        main.webContents.send('cb-sync-with-slu', args);
+    // Only sync when main windows and controlbarWin windows are open at once
+    if (homeWin !== null && controlbarWin !== null) {
+        homeWin.webContents.send('cb-sync-with-slu', args);
     }
 });
 
 ipcMain.on('init-slu-title', (event, args) => {
-    if (main !== null) {
-        main.webContents.send('init-slu-title', args);
+    if (homeWin !== null) {
+        homeWin.webContents.send('init-slu-title', args);
     }
 })
 
 ipcMain.on('slu-return-to-main', () => {
-    main = browserWindow.changeTimelineToMain(main);
+    homeWin = browserWindow.changeTimelineToHome(homeWin);
 
-    if (controlbar !== null) {
-        controlbar.close();
-        controlbar = null;
+    if (controlbarWin !== null) {
+        controlbarWin.close();
+        controlbarWin = null;
     }
 });
 
@@ -294,17 +294,17 @@ ipcMain.on('main-delete-file', async (event, args) => {
 });
 
 ipcMain.on('pre-step-click', () => {
-    main.webContents.send('pre-step-click');
+    homeWin.webContents.send('pre-step-click');
 });
 
 ipcMain.on('next-step-click', () => {
-    main.webContents.send('next-step-click');
+    homeWin.webContents.send('next-step-click');
 });
 
 ipcMain.on('delete-selected-click', () => {
-    main.webContents.send('delete-selected-click');
+    homeWin.webContents.send('delete-selected-click');
 });
 
 ipcMain.on('mark-selected-click', () => {
-    main.webContents.send('mark-selected-click');
+    homeWin.webContents.send('mark-selected-click');
 })

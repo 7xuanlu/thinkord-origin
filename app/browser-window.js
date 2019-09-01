@@ -14,8 +14,8 @@ exports.setControlBarPosition = (size) => {
     controlbar_x = size.width - 350;
     controlbar_y = size.height - 60;
 }
-exports.createControlBarWindow = (controlbar) => {
-    controlbar = new BrowserWindow({
+exports.createControlBarWindow = (controlbarWin) => {
+    controlbarWin = new BrowserWindow({
         width: 292,
         height: 41,
         frame: false,
@@ -28,41 +28,41 @@ exports.createControlBarWindow = (controlbar) => {
         show: false
     })
 
-    controlbar.once('closed', () => {
-        controlbar = null;
+    controlbarWin.once('closed', () => {
+        controlbarWin = null;
         globalShortcut.unregister('Ctrl+Shift+s');
     });
 
-    controlbar.once('ready-to-show', () => {
-        controlbar.show()
+    controlbarWin.once('ready-to-show', () => {
+        controlbarWin.show()
     });
 
     globalShortcut.register('Ctrl+Shift+s', () => {
-        controlbar.webContents.send('Ctrl+Shift+s');
+        controlbarWin.webContents.send('Ctrl+Shift+s');
     });
 
     if (mode === "development") {
         // Load index.html via webpack dev server.
-        controlbar.loadURL('http://localhost:3071/controlbar.html');
+        controlbarWin.loadURL('http://localhost:3071/controlbar.html');
 
         // Open the DevTools.
-        // controlbar.webContents.openDevTools();
+        // controlbarWin.webContents.openDevTools();
     } else {
         // Load index.html from the file system.
-        controlbar.loadFile('dist/controlbar.html');
+        controlbarWin.loadFile('build/controlbar.html');
     }
 
-    // controlbar.removeMenu();
+    // controlbarWin.removeMenu();
 
-    return controlbar;
+    return controlbarWin;
 }
 
-exports.createTextWindow = (text, controlbar) => {
-    text = new BrowserWindow({
+exports.createTextWindow = (textWin, controlbarWin) => {
+    textWin = new BrowserWindow({
         width: 270,
         height: 140,
-        x: controlbar.getPosition()[0] + 21,
-        y: controlbar.getPosition()[1] - 160,
+        x: controlbarWin.getPosition()[0] + 21,
+        y: controlbarWin.getPosition()[1] - 160,
         frame: false,
         resizable: true,
         webPreferences: {
@@ -72,31 +72,31 @@ exports.createTextWindow = (text, controlbar) => {
         show: false
     })
 
-    text.once('closed', () => {
-        text = null;
+    textWin.once('closed', () => {
+        textWin = null;
     });
 
-    text.once('ready-to-show', () => {
-        text.show()
+    textWin.once('ready-to-show', () => {
+        textWin.show()
     });
 
     if (mode === "development") {
         // Load index.html via webpack dev server.
-        text.loadURL('http://localhost:3071/textwindow.html');
+        textWin.loadURL('http://localhost:3071/textwindow.html');
 
         // Open the DevTools.
         // home.webContents.openDevTools();
     }
     else {
         // Load index.html from the file system.
-        text.loadFile('dist/textwindow.html');
+        textWin.loadFile('build/textwindow.html');
     }
 
-    return text;
+    return textWin;
 }
 
-exports.createMainWindow = (main) => {
-    main = new BrowserWindow({
+exports.createHomeWindow = (homeWin) => {
+    homeWin = new BrowserWindow({
         width: 800,
         height: 600,
         resizable: true,
@@ -107,59 +107,59 @@ exports.createMainWindow = (main) => {
         }
     });
 
-    main.once('ready-to-show', () => {
-        main.maximize();
-        main.show();
+    homeWin.once('ready-to-show', () => {
+        homeWin.maximize();
+        homeWin.show();
     });
 
-    main.once('closed', () => {
-        main = app.quit();
+    homeWin.once('closed', () => {
+        homeWin = app.quit();
     });
 
-    main.webContents.on('new-window', (event, url) => {
+    homeWin.webContents.on('new-window', (event, url) => {
         event.preventDefault();
         shell.openExternal(url);
     });
 
     if (mode === "development") {
         // Load index.html via webpack dev server.
-        main.loadURL('http://localhost:3071/main.html');
+        homeWin.loadURL('http://localhost:3071/home.html');
 
         // Open the DevTools.
         // home.webContents.openDevTools();
     } else {
         // Load index.html from the file system.
-        main.loadFile('dist/main.html');
+        homeWin.loadFile('build/home.html');
     }
 
-    return main;
+    return homeWin;
 }
 
-exports.changeMainToTimeline = (main) => {
-    main.minimize();
+exports.changeHomeToTimeline = (homeWin) => {
+    homeWin.minimize();
     if (mode === "development") {
         // Load index.html via webpack dev server.
-        main.loadURL('http://localhost:3071/home.html');
+        homeWin.loadURL('http://localhost:3071/timeline.html');
         // Open the DevTools.
         // home.webContents.openDevTools();
     } else {
         // Load index.html from the file system.
-        main.loadFile('dist/home.html');
+        homeWin.loadFile('build/timeline.html');
     }
 
-    return main;
+    return homeWin;
 }
 
-exports.changeTimelineToMain = (main) => {
+exports.changeTimelineToHome = (homeWin) => {
     if (mode === "development") {
         // Load index.html via webpack dev server.
-        main.loadURL('http://localhost:3071/main.html');
+        homeWin.loadURL('http://localhost:3071/home.html');
         // Open the DevTools.
-        // home.webContents.openDevTools();
+        // homeWin.webContents.openDevTools();
     } else {
         // Load index.html from the file system.
-        main.loadFile('dist/main.html');
+        homeWin.loadFile('build/home.html');
     }
 
-    return main;
+    return homeWin;
 }

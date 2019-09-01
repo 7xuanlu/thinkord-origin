@@ -58,7 +58,7 @@ const captureScreen = (e, args) => {
         }
         else {
             // Load dragsnip.html from the file system.
-            captureWin.loadFile('dist/dragsnip.html');
+            captureWin.loadFile('build/dragsnip.html');
         }
 
         let { x, y } = screen.getCursorScreenPoint();
