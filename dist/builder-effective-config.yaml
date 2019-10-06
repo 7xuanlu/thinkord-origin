@@ -1,0 +1,12 @@
+directories:
+  output: dist
+  buildResources: build
+appId: com.3071.thinkord
+files:
+  - filter:
+      - app/
+      - build/
+      - src/
+      - main.js
+      - env.json
+electronVersion: 5.0.1

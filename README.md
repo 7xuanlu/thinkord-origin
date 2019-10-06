@@ -54,7 +54,7 @@ After packaging the application, folder dist would be created and you could clic
  
 
 # Resources
-<a href="https://www.thinkord.com">Thinkord official website</a>
+<a href="https://h164654156465.wixsite.com/thinkord">Thinkord official website</a>
 
 # License
 <a href="https://github.com/h164654156465/thinkord/blob/master/LICENSE">GNU GPLv3 License</a>
