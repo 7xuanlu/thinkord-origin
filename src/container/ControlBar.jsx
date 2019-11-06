@@ -7,7 +7,7 @@ const { ipcRenderer } = require('electron');
 
 // Import media API modules
 import { getScreenshot } from '../renderer/screenshot';
-import { audioRecordStart, audioRecordStop } from '../renderer/audio-recorder';
+import { AudioRecorder } from '../renderer/audio-recorder';
 import { videoRecordStart, videoRecordStop } from '../renderer/video-recorder';
 import { JSONManager } from '../renderer/json-manager';
 import { NoteManager } from "../renderer/note-manager";
@@ -43,7 +43,8 @@ export default class ControlBar extends Component {
             slu: {},
             sluPath: "",
             isRecord: false,
-            jsonManager: jsonManager
+            jsonManager: jsonManager,
+            audioRecorder: undefined
         };
     }
 
@@ -154,16 +155,26 @@ export default class ControlBar extends Component {
             if (button.id == 'audio') {
                 if (button.src == AudioButton) {
                     button.src = AudioStartButton;
-                    audioRecordStart();
+
+                    if (!this.state.audioRecorder) {
+                        this.setState({ audioRecorder: new AudioRecorder() }, () => {
+                            this.state.audioRecorder.init().then(() => {
+                                this.state.audioRecorder.startRecording();
+                            });
+                        });
+                    }
                 } else {
                     button.src = AudioButton;
-                    audioRecordStop().then((recPath) => {
-                        const noteManager = new NoteManager();
+                    this.state.audioRecorder.stopRecording();
 
-                        // Add new block to the note object
-                        let note = noteManager.addBlock(this.state.slu, { "filePath": recPath });
+                    const noteManager = new NoteManager();
 
-                        this.setState({ slu: note });
+                    // Add new block to the note object
+                    let note = noteManager.addBlock(this.state.slu, { "filePath": this.state.audioRecorder.recPath });
+
+                    this.setState({
+                        slu: note,
+                        audioRecorder: undefined
                     });
                 }
             }

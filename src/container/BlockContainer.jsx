@@ -343,7 +343,7 @@ export class BlockContainer extends Component {
                         handleLinker={this.handleLinker}
                     />
                 )
-            } else if (block.paths[0].split('.').pop() === 'mp3') {
+            } else if (block.paths[0].split('.').pop() === 'wav') {
                 return (
                     <AudioBlock
                         block={block}

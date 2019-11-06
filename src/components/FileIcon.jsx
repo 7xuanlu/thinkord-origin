@@ -14,7 +14,7 @@ export default class FileIcon extends Component{
             return (
                 <i className="far fa-file-pdf fa-3x file_preview_icon"></i>
             )
-        } else if (file.split('.').pop() === 'mp3') {
+        } else if (file.split('.').pop() === 'wav') {
             return (
                 <i className="far fa-file-audio fa-3x file_preview_icon"></i>
             )
