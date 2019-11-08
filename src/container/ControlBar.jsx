@@ -10,7 +10,7 @@ import { getScreenshot } from '../renderer/screenshot';
 import { AudioRecorder } from '../renderer/audio-recorder';
 import { videoRecordStart, videoRecordStop } from '../renderer/video-recorder';
 import { JSONManager } from '../renderer/json-manager';
-import { NoteManager } from "../renderer/note-manager";
+import { NoteManager } from '../renderer/note-manager';
 
 // Import icon from assets folder
 import StartButton from '../asset/play-button.png';
@@ -170,7 +170,13 @@ export default class ControlBar extends Component {
                     const noteManager = new NoteManager();
 
                     // Add new block to the note object
-                    let note = noteManager.addBlock(this.state.slu, { "filePath": this.state.audioRecorder.recPath });
+                    let note = noteManager.addBlock(
+                        this.state.slu,
+                        {
+                            "filePath": this.state.audioRecorder.recPath,
+                            'type': 'audio'
+                        }
+                    );
 
                     this.setState({
                         slu: note,
@@ -197,7 +203,10 @@ export default class ControlBar extends Component {
                         const noteManager = new NoteManager();
 
                         // Add new block to the note object
-                        let note = noteManager.addBlock(this.state.slu, { "filePath": recPath });
+                        let note = noteManager.addBlock(
+                            this.state.slu,
+                            { "filePath": recPath, 'type': 'video' }
+                        );
 
                         this.setState({ slu: note });
                     });
@@ -217,7 +226,7 @@ export default class ControlBar extends Component {
             // Add new text block to the note object
             let note = noteManager.addBlock(this.state.slu, args);
             this.setState({ slu: note });
-        })
+        });
     }
 
     handleDragsnip = () => {

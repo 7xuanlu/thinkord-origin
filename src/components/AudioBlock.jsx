@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
-import Button from 'react-bootstrap/Button'
-import BlockTitle from "../components/BlockTitle"
-import BlockDescription from "../components/BlockDescription"
+import React, { useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import BlockTitle from '../components/BlockTitle';
+import BlockDescription from '../components/BlockDescription';
+
+import { speech2text } from '../renderer/speech2text';
 
 export default function AudioBlock(props) {
     const scaleid = "scale_" + props.block.timestamp;
@@ -20,6 +22,15 @@ export default function AudioBlock(props) {
         setScaling(!scaling);
     }
 
+    const handleSpeech2Text = () => {
+        if (process.env.SPEECH_SERVICE_SUBSCRIPTION_KEY) {
+            let path = props.block.paths[0];
+            speech2text(path, props.block.timestamp, props.handleSpeechText);
+        } else {
+            alert('Please provide your Azure speech service key');
+        }
+    }
+
     return (
         <div id={props.block.timestamp} className="audioBlock blockContent" >
             <div className="borderLine"></div>
@@ -27,7 +38,7 @@ export default function AudioBlock(props) {
 
             <button className="iconBtn removeBtn" onClick={props.delBlock.bind(this, props.block.timestamp)}><i className="far fa-trash-alt"></i></button>
             <form className="checkContainer">
-                <input className="check" id={checkid} type="checkbox"  /><label className="checkmark" for={checkid}></label>
+                <input className="check" id={checkid} type="checkbox" /><label className="checkmark" htmlFor={checkid}></label>
             </form>
             <div className="mark">
                 <i className={props.block.mark ? "fas fa-bookmark" : "far fa-bookmark"}
@@ -43,6 +54,13 @@ export default function AudioBlock(props) {
                     <audio controls="controls">
                         <source src={props.block.paths[0]} />
                     </audio>
+                    <div className="card">
+                        <div className="card-body">
+                            <h5 className="card-title">Text in the audio</h5>
+                            <div className="card-text">{props.block.speechText}</div>
+                            <button onClick={handleSpeech2Text} type="button" className="btn btn-outline-success">Speech2text</button>
+                        </div>
+                    </div>
                     <BlockDescription
                         description={props.block.description}
                         addDescription={props.addDescription}
@@ -54,3 +72,4 @@ export default function AudioBlock(props) {
         </div>
     )
 }
+

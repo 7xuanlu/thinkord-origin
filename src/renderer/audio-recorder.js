@@ -132,14 +132,13 @@ export class AudioRecorder {
     startRecording() {
         if (this.audioRecorder) {
             this.audioRecorder.start();
-            console.log(this.audioRecorder.state);
         }
     }
 
     stopRecording() {
         if (this.audioRecorder) {
             this.audioRecorder.stop();
-            console.log(this.audioRecorder.state);
+            this.audioRecorder = undefined;
         }
     }
 }

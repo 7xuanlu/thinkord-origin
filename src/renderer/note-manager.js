@@ -16,7 +16,21 @@ export class NoteManager {
                     "title": "",
                     "mark": false,
                     "description": "",
-                    "paths": []   
+                    "paths": []
+                }
+            ]
+        };
+
+        this.audioFormat = {
+            "blocks": [
+                {
+                    "type": "audio",
+                    "timestamp": getCurrentTime(),
+                    "title": "",
+                    "mark": false,
+                    'speechText': '',
+                    "description": "",
+                    "paths": []
                 }
             ]
         };
@@ -49,6 +63,16 @@ export class NoteManager {
             if (note["blocks"][blockArrLength - 1]["paths"].length === 0) {
                 note["blocks"][blockArrLength - 1]["paths"].push("")
             }
+
+            return note;
+        } else if (args.type === 'audio') {
+            // Insert a new template block to json
+            note["blocks"].push(this.audioFormat['blocks'][0]);
+
+            let blockArrLength = note["blocks"].length;
+
+            // Update file path for newly created block
+            note["blocks"][blockArrLength - 1]["paths"].push(args.filePath);
 
             return note;
         } else {

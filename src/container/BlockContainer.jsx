@@ -201,6 +201,21 @@ export class BlockContainer extends Component {
         });
     }
 
+    handleSpeechText = (text, time) => {
+        const note = this.state.slu.blocks.map(block => {
+            if (block.timestamp === time) {
+                block = { ...block, speechText: text }
+            }
+            return block;
+        });
+
+        pre_step.push(this.state.slu);
+
+        this.setState({
+            slu: { blocks: note }
+        });
+    }
+
     handleMark = (time) => {
         const note = this.state.slu.blocks.map(block => {
             // assign the description to the block you want
@@ -350,6 +365,7 @@ export class BlockContainer extends Component {
                         delBlock={this.delBlock}
                         handleMark={this.handleMark}
                         handleTitle={this.handleTitle}
+                        handleSpeechText={this.handleSpeechText}
                         addDescription={this.addDescription}
                         addDate={this.addDate(block)}
                         addTime={this.addTime(block)}

@@ -1,6 +1,7 @@
 const { app, ipcMain, globalShortcut } = require('electron');
 const fs = require('fs');
 const path = require('path');
+require('dotenv').config();
 
 const noteTray = require('./app/note-tray');
 const browserWindow = require('./app/browser-window');
