@@ -1,4 +1,4 @@
-const { app, ipcMain, globalShortcut } = require('electron');
+const { app, ipcMain, globalShortcut, dialog } = require('electron');
 const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
@@ -79,6 +79,25 @@ ipcMain.on('savebutton', () => {
 
 ipcMain.on('navbar-save-slu', (event) => {
     event.reply('navbar-save-slu');
+});
+
+ipcMain.on('navbar-download-html', () => {
+    let result = dialog.showSaveDialog(homeWin, {
+        filters: [{ name: 'webpage(.html)', extensions: ['.html'] }]
+    });
+    if (!result) {
+        return
+    } else {
+        if (homeWin !== null) {
+            homeWin.webContents.savePage(result, 'HTMLComplete', (err) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log('Page was saved successfully.')
+                }
+            });
+        }
+    }
 });
 
 ipcMain.on('hidesavebutton', () => {

@@ -50,6 +50,10 @@ export class Navigationbar extends Component {
         ipcRenderer.send('mark-selected-click');
     }
 
+    downloadHTML = () => {
+        ipcRenderer.send('navbar-download-html');
+    }
+
     render() {
         const viewMode = {
             display: "flex"
@@ -60,10 +64,11 @@ export class Navigationbar extends Component {
                 <div className="navigationBar viewMode" style={viewMode}>
 
                     <i className="fas fa-list" title="Selection Mode" onClick={this.changeMode}></i>
+                    <i className="fas fa-file-export" title="Export" onClick={this.downloadHTML}></i>
                     <i className="fas fa-undo-alt" title="Undo" onClick={this.props.clickPreviousStep}></i>
                     <i className="fas fa-redo-alt" title="Redo" onClick={this.props.clickNextStep}></i>
                     <i className="fas fa-download" title="Save" onClick={this.props.clickSave}></i>
-                    <i className="fas fa-angle-double-up" title="Fold all blocks" ></i>
+                    {/* <i className="fas fa-angle-double-up" title="Fold all blocks"></i> */}
                     <i className="fas fa-angle-up" title="Scroll to top" onClick={this.props.clickTop}></i>
                     <i className="fas fa-angle-down" title="Scroll to bottom" onClick={this.props.clickBottom}></i>
                     <i className="fas fa-home" title="Home" onClick={this.props.clickHome}></i>
