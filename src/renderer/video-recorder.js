@@ -33,7 +33,7 @@ export function videoRecordStart() {
     });
 }
 
-export async function videoRecordStop() {
+export function videoRecordStop(addVideoBlock) {
     let recPath = path.join(userPath, 'MediaResource', `${uuidv1()}.mp4`);
     reader = new FileReader();
     recorder.stop();
@@ -46,6 +46,7 @@ export async function videoRecordStop() {
                     if (err) {
                         console.log(err);
                     } else {
+                        addVideoBlock(recPath)
                         console.log('Your .mp4 file has been saved');
                     }
                 });
@@ -54,6 +55,4 @@ export async function videoRecordStop() {
         videoBlob = new Blob(videoChunks, { type: 'video/mp4' })
         reader.readAsArrayBuffer(videoBlob);
     };
-
-    return recPath;
 }

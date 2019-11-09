@@ -14,7 +14,7 @@ export class AudioRecorder {
         this.recPath = path.join(userPath, 'MediaResource', `${uuidv1()}.wav`);
     }
 
-    async init() {
+    async init(addAudioBlock) {
         if (navigator.mediaDevices) {
             await navigator.mediaDevices.getUserMedia({
                 audio: true
@@ -59,6 +59,8 @@ export class AudioRecorder {
                                             console.log(err);
                                         } else {
                                             console.log('Your .wav file has been saved');
+                                            addAudioBlock();
+                                            soundSource.disconnect();
                                         }
                                     });
                                 });

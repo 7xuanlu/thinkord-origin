@@ -57,7 +57,7 @@ export default function AudioBlock(props) {
                     <div className="card">
                         <div className="card-body">
                             <h5 className="card-title">Text in the audio</h5>
-                            <div className="card-text">{props.block.speechText}</div>
+                            <p className="card-text">{props.block.speechText}</p>
                             <button onClick={handleSpeech2Text} type="button" className="btn btn-outline-success">Speech2text</button>
                         </div>
                     </div>

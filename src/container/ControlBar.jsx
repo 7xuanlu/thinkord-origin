@@ -150,7 +150,36 @@ export default class ControlBar extends Component {
         }
     }
 
+    handleFullsnip = () => {
+        const addSnipBlock = (path) => {
+            const noteManager = new NoteManager();
+            // Add new block to the note object
+            let note = noteManager.addBlock(this.state.slu, { "filePath": path });
+            this.setState({ slu: note });
+        }
+
+        getScreenshot(addSnipBlock);
+    }
+
     handleAudio = () => {
+        const addAudioBlock = () => {
+            const noteManager = new NoteManager();
+
+            // Add new block to the note object
+            let note = noteManager.addBlock(
+                this.state.slu,
+                {
+                    "filePath": this.state.audioRecorder.recPath,
+                    'type': 'audio'
+                }
+            );
+
+            this.setState({
+                slu: note,
+                audioRecorder: undefined
+            });
+        }
+
         const button = this.state.controlbar_button.map(button => {
             if (button.id == 'audio') {
                 if (button.src == AudioButton) {
@@ -158,7 +187,7 @@ export default class ControlBar extends Component {
 
                     if (!this.state.audioRecorder) {
                         this.setState({ audioRecorder: new AudioRecorder() }, () => {
-                            this.state.audioRecorder.init().then(() => {
+                            this.state.audioRecorder.init(addAudioBlock).then(() => {
                                 this.state.audioRecorder.startRecording();
                             });
                         });
@@ -166,22 +195,6 @@ export default class ControlBar extends Component {
                 } else {
                     button.src = AudioButton;
                     this.state.audioRecorder.stopRecording();
-
-                    const noteManager = new NoteManager();
-
-                    // Add new block to the note object
-                    let note = noteManager.addBlock(
-                        this.state.slu,
-                        {
-                            "filePath": this.state.audioRecorder.recPath,
-                            'type': 'audio'
-                        }
-                    );
-
-                    this.setState({
-                        slu: note,
-                        audioRecorder: undefined
-                    });
                 }
             }
             return button;
@@ -192,6 +205,18 @@ export default class ControlBar extends Component {
     }
 
     handleVideo = () => {
+        const addVideoBlock = (path) => {
+            const noteManager = new NoteManager();
+
+            // Add new block to the note object
+            let note = noteManager.addBlock(
+                this.state.slu,
+                { "filePath": path, 'type': 'video' }
+            );
+
+            this.setState({ slu: note });
+        }
+
         const button = this.state.controlbar_button.map(button => {
             if (button.id == 'video') {
                 if (button.src == VideoButton) {
@@ -199,17 +224,7 @@ export default class ControlBar extends Component {
                     videoRecordStart();
                 } else {
                     button.src = VideoButton;
-                    videoRecordStop().then((recPath) => {
-                        const noteManager = new NoteManager();
-
-                        // Add new block to the note object
-                        let note = noteManager.addBlock(
-                            this.state.slu,
-                            { "filePath": recPath, 'type': 'video' }
-                        );
-
-                        this.setState({ slu: note });
-                    });
+                    videoRecordStop(addVideoBlock);
                 }
             }
             return button;
@@ -251,14 +266,7 @@ export default class ControlBar extends Component {
 
     ipcOnShortcut = () => {
         ipcRenderer.on('Shift+F1', () => {
-            getScreenshot().then((screenshotPath) => {
-                const noteManager = new NoteManager();
-
-                // Add new block to the note object
-                let note = noteManager.addBlock(this.state.slu, { "filePath": screenshotPath });
-
-                this.setState({ slu: note });
-            });
+            this.handleFullsnip();
         });
 
         ipcRenderer.on('Shift+F2', () => {
