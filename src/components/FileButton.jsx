@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { ContextMenuTrigger, ContextMenu, MenuItem } from "react-contextmenu";
-import FileIcon from '../asset/SLUNOTE-LOGO2.png';
+import FileIcon from '../asset/Thinkord-LOGO.png';
 
 const { ipcRenderer } = require('electron');
 

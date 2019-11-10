@@ -1,4 +1,12 @@
 import React, { Component } from 'react';
+// import icon
+import CommonIcon from"../asset/uploadfile/file-alt.svg"
+import ZipIcon from"../asset/uploadfile/file-archive.svg"
+import AudioIcon from"../asset/uploadfile/file-audio.svg"
+import ExcelIcon from"../asset/uploadfile/file-excel.svg"
+import PdfIcon from"../asset/uploadfile/file-pdf.svg"
+import VideoIcon from"../asset/uploadfile/file-video.svg"
+import WordIcon from"../asset/uploadfile/file-word.svg"
 
 export default class FileIcon extends Component{
     constructor(props){
@@ -8,31 +16,31 @@ export default class FileIcon extends Component{
     ChooseFileIcon = (file) => {
         if (file.split('.').pop() === 'docx') {
             return (
-                <i className="far fa-file-word fa-3x file_preview_icon"></i>
+                <img src={WordIcon}></img>
             )
         } else if (file.split('.').pop() === 'pdf') {
             return (
-                <i className="far fa-file-pdf fa-3x file_preview_icon"></i>
+                <img src={PdfIcon}></img>
             )
         } else if (file.split('.').pop() === 'wav') {
             return (
-                <i className="far fa-file-audio fa-3x file_preview_icon"></i>
+                <img src={AudioIcon}></img>
             )
         } else if (file.split('.').pop() === 'mp4') {
             return (
-                <i className="far fa-file-video fa-3x file_preview_icon"></i>
+                <img src={VideoIcon}></img>
             )
         } else if (file.split('.').pop() === 'xls') {
             return (
-                <i className="far fa-file-excel fa-3x file_preview_icon"></i>
+                <img src={ExcelIcon}></img>
             )
         } else if (file.split('.').pop() === 'zip') {
             return (
-                <i className="far fa-file-archive fa-3x file_preview_icon"></i>
+                <img src={ZipIcon}></img>
             )
         } else {
             return (
-                <i className="far fa-file-alt fa-3x file_preview_icon"></i>
+                <img src={CommonIcon}></img>
             )
         }
     }

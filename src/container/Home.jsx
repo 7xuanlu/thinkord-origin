@@ -11,6 +11,9 @@ import 'noty/lib/noty.css';
 import 'noty/lib/themes/mint.css';
 import 'noty/lib/themes/relax.css';
 
+//import icon
+import UserLoginIcon from"../asset/user.svg"
+
 export default class Home extends Component {
     constructor(props) {
         super(props);
@@ -221,8 +224,12 @@ export default class Home extends Component {
                     <li><a href="#"><i className="icon fas fa-users" onClick={this.handleAboutUsClick}></i> About us</a></li>
                 </ul>
                 <main className="content" onClick={this.handleMenuClose}>
+                    
                     <div className="content_inner" hidden={this.state.home_page}>
-                        <h1>Thinkord</h1><br />
+                        <h1>Thinkord</h1><br /> 
+    
+                        <div className="user_login"><button><img src={UserLoginIcon}></img></button>Login</div>
+
                         <div className="content_search">
                             <input id="main_search" className="search_bar" type="text" defaultValue="Search..."
                                 onFocus={this.handleSearchBarFocusOrNot} onBlur={this.handleSearchBarFocusOrNot} />

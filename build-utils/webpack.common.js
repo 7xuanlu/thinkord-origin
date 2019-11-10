@@ -63,7 +63,7 @@ module.exports = {
             },
             // loader: compile image
             {
-                test: /\.(jpe?g|png)$/,
+                test: /\.(jpe?g|png|svg)$/,
                 use: 'file-loader?name=asset/[name].[ext]'
             }
         ]

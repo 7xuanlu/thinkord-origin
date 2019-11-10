@@ -3,6 +3,10 @@ import Dropzone from 'react-dropzone';
 import { shell } from 'electron';
 import FileIcon from '../components/FileIcon';
 
+//icon
+import CommonIcon from"../asset/uploadfile/file-alt.svg"
+import TrashIcon from"../asset/uploadfile/upload-trash-alt.svg"
+
 
 export class Upload extends Component {
     constructor(props) {
@@ -67,10 +71,9 @@ export class Upload extends Component {
                 return (
                     <li key={index} className="file_li">
                         <FileIcon file={uppaths[index]}/>
-                        {/* {console.log(uppaths[index])} */}
                         {upname}
-                        <i className="far fa-file file_edit_icon" onClick={(e) => this.openFileButton(upname, e)}></i>
-                        <i className="fas fa-trash-alt file_edit_icon" onClick={(e) => this.deleteButton(upname, e)}></i>
+                        <img className="file_option" src={CommonIcon} onClick={(e) => this.openFileButton(upname, e)}></img>
+                        <img className="file_option" src={TrashIcon} onClick={(e) => this.openFileButton(upname, e)}></img>
                     </li>
                 )
             })

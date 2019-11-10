@@ -57,31 +57,29 @@
 .iconBtn{
   outline: none !important;
   outline-offset: none !important;
-  align-self: center;
-  justify-self: center;
-  text-align: center;
-  font-size: 26px;
-  color: #35c189;
   background:none;
   border: none;
+  align-self: center;
+}
+.iconBtn img{
+  width: 20px;
   cursor: pointer;  
 }
-
-.scaleBtn{
-  grid-area: scale;
-  padding-left: 20px;
+.markBtn{
+  grid-area: mark;
+  text-align: center;
 }
 .removeBtn{
   grid-area: remove;
 }
+.scaleBtn{
+  grid-area: scale;
+  padding-left: 20px;
+}
+
 
 /*button end */
-.mark{
-  grid-area: mark;
-  align-self: center;
-  justify-self: center;
-  background-color: #fff;
-}
+
 .checkContainer{
   grid-area: checkbox;
   align-self: center;
@@ -180,24 +178,22 @@
 /*upload file*/
 .file_li{
   list-style: none;
+  display: flex;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  align-self: flex-end;
 }
 
-.file_img{
-  width: 20%;
-  height: 20%;
-}
 
-.file_preview_icon{
+.file-icon-container img{
+  height: 25px;
+  display: inline-block;
   margin-right: 10px;
 }
-
-.file_edit_icon{
-  margin-left: 10px;
-}
-
-.file-icon-container{
-  margin-top: 10px;
-  display: inline-block;
+.file_option{
+  margin-left: 5px;
+  margin-top: 5px;
+  height: 20px;
 }
 
 .container{
@@ -221,11 +217,14 @@
 
 .blockIcon{
   grid-area: icon;
-  padding-top: 10px;
-  font-size: 30px;
+  /* border: black solid 1px; */
   text-align: center;
-  color: #35c189;
+  align-self: center;
 }
+.blockIcon img{
+  height: 30px;
+}
+
 .blockTitle{
   grid-area: title;
   align-self: center;
@@ -297,20 +296,21 @@
   z-index: 300;
 }
 .viewMode{
+  width: 70%;
   display: flex;
-  justify-content:flex-end;
+  justify-content:space-around;
 }
 .selectMode{
   display: none;
-  justify-content:flex-end;
+  width: 70%;
+  justify-content:space-around;
 }
 
-.navigationBar i {
-  font-size: 16px;
-  color: #fff;
-  padding: 7px 20px 0;
-  margin: 0 10px;
+.navigationBar img {
+  width: 16px;
+
   cursor: pointer;  
+  color:#fafafa;
 }
 
 .search{

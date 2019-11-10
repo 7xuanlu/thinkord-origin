@@ -5,6 +5,13 @@ import BlockDescription from '../components/BlockDescription';
 
 import { speech2text } from '../renderer/speech2text';
 
+// import icon
+import BlockIcon from"../asset/timeline/microphone.svg"
+import TrashIcon from"../asset/timeline/trash-alt.svg"
+import AngleIcon from"../asset/timeline/angle-up.svg"
+import MarkIcon from"../asset/timeline/bookmark.svg"
+import MarkFullIcon from"../asset/timeline/bookmark-full.svg"
+
 export default function AudioBlock(props) {
     const scaleid = "scale_" + props.block.timestamp;
     const checkid = "check_" + props.block.timestamp;
@@ -36,19 +43,17 @@ export default function AudioBlock(props) {
             <div className="borderLine"></div>
             <BlockTitle className="blockTitle" time={props.block.timestamp} onChangeTitle={props.handleTitle} title={props.block.title} />
 
-            <button className="iconBtn removeBtn" onClick={props.delBlock.bind(this, props.block.timestamp)}><i className="far fa-trash-alt"></i></button>
+            <button className="iconBtn removeBtn" onClick={props.delBlock.bind(this, props.block.timestamp)}><img src={TrashIcon}></img></button>
             <form className="checkContainer">
                 <input className="check" id={checkid} type="checkbox" /><label className="checkmark" htmlFor={checkid}></label>
             </form>
-            <div className="mark">
-                <i className={props.block.mark ? "fas fa-bookmark" : "far fa-bookmark"}
-                    onClick={props.handleMark.bind(this, props.block.timestamp)}
-                ></i>
+            <div className="iconBtn markBtn">
+                <img src={props.block.mark ? MarkFullIcon : MarkIcon} onClick={props.handleMark.bind(this, props.block.timestamp)}></img>
             </div>
             <div className="timeINFO date">{props.addDate}</div>
             <div className="timeINFO time">{props.addTime}</div>
-            <div className="blockIcon"><i className="fas fa-microphone"></i></div>
-            <button className="iconBtn scaleBtn" onClick={handleScaling}><i id={scaleid} className="fas fa-angle-up"></i></button>
+            <div className="blockIcon"><img src={BlockIcon}></img></div>
+            <button className="iconBtn scaleBtn" onClick={handleScaling}><img src={AngleIcon} id={scaleid}></img></button>
             {scaling &&
                 <div className="blockMain">
                     <audio controls="controls">
