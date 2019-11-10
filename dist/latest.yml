@@ -1,8 +1,8 @@
 version: 1.0.0
 files:
   - url: thinkord-setup-1.0.0.exe
-    sha512: yMqhTxtXfqSb3Kaop00mN57+IdZxFSEXhxpJGUPpi5IhRdUJPrFyBZt5fBdoFLOlriwvCgoBTKRwWvgpBV7KWw==
-    size: 67909450
+    sha512: Cc510KRYjIbUGT3lFdWfhHcdIiK64qWwbIdJ4vhsMXfYkXTfWqfWqj/c6JdJM5m47TWO2Zvr10H/3uidUH60bw==
+    size: 62857924
 path: thinkord-setup-1.0.0.exe
-sha512: yMqhTxtXfqSb3Kaop00mN57+IdZxFSEXhxpJGUPpi5IhRdUJPrFyBZt5fBdoFLOlriwvCgoBTKRwWvgpBV7KWw==
-releaseDate: '2019-09-15T01:17:41.760Z'
+sha512: Cc510KRYjIbUGT3lFdWfhHcdIiK64qWwbIdJ4vhsMXfYkXTfWqfWqj/c6JdJM5m47TWO2Zvr10H/3uidUH60bw==
+releaseDate: '2019-11-09T06:57:16.874Z'
