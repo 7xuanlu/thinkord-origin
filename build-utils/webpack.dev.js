@@ -10,9 +10,13 @@ module.exports = {
         })
     ],
     devServer: {
+        host: '0.0.0.0',
         contentBase: path.resolve(__dirname, 'build'),
         port: 3071,
-        before() {
+        before: (app) => {
+            app.post('/syncImage', (req, res) => {
+                res.send("POST res sent from webpack dev server");
+            });
             spawn(
                 'electron',
                 ['.'],
