@@ -4,7 +4,7 @@ const { spawn } = require('child_process');
 
 module.exports = {
     mode: "development",
-    plugins:[
+    plugins: [
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('development')
         })
@@ -13,10 +13,7 @@ module.exports = {
         host: '0.0.0.0',
         contentBase: path.resolve(__dirname, 'build'),
         port: 3071,
-        before: (app) => {
-            app.post('/syncImage', (req, res) => {
-                res.send("POST res sent from webpack dev server");
-            });
+        before: () => {
             spawn(
                 'electron',
                 ['.'],

@@ -7,6 +7,7 @@ import AudioBlock from "../components/AudioBlock";
 
 import { ipcRenderer } from "electron";
 import { JSONManager } from "../renderer/json-manager";
+import { NoteManager } from '../renderer/note-manager';
 
 // Third-party packages
 // Notification
@@ -62,6 +63,14 @@ export class BlockContainer extends Component {
             ipcRenderer.send('tl-sync-cb', { path: sluPath });
 
             noti_save = this.handleNoti(noti_save, type, msg);
+        });
+
+        ipcRenderer.on('main-add-image', (event, path) => {
+            const noteManager = new NoteManager();
+            
+            // Add new block to the note object
+            let note = noteManager.addBlock(this.state.slu, { "filePath": path });
+            this.setState({ slu: note });
         });
 
         ipcRenderer.on('pre-step-click', () => {

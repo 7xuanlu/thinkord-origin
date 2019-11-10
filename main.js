@@ -1,8 +1,12 @@
 const { app, ipcMain, globalShortcut, dialog } = require('electron');
 const fs = require('fs');
 const path = require('path');
+const uuidv1 = require('uuid/v1');
+const express = require('express');
 require('dotenv').config();
+const bodyParser = require('body-parser');
 
+const server = express()
 const noteTray = require('./app/note-tray');
 const browserWindow = require('./app/browser-window');
 const { useCapture } = require('./src/renderer/dragsnip/capture-main');
@@ -26,6 +30,27 @@ app.on('ready', () => {
     const { screen } = require('electron');
     const size = screen.getPrimaryDisplay().workAreaSize;
     browserWindow.setControlBarPosition(size);
+
+    server.use(bodyParser.json({ limit: '10mb' }));
+    server.post('/syncImage', (req, res) => {
+        let base64 = req.body.content;
+        let imagePath = path.join('C:\\Users\\h1646\\AppData\\Roaming\\thinkord', 'MediaResource', `${uuidv1()}.png`);
+        fs.writeFile(imagePath, base64, 'base64', (err) => {
+            if (err) {
+                throw err;
+            } else {
+                if (homeWin) {
+                    homeWin.webContents.send('main-add-image', imagePath);
+                }
+            }
+
+        });
+
+        res.send("POST res sent from webpack dev server");
+    });
+    server.listen(3072, () => {
+        console.log('Server is listening on 3072');
+    });
 });
 
 app.on('window-all-closed', () => {
