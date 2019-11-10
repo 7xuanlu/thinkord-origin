@@ -76,11 +76,6 @@ export class Navigationbar extends Component {
             <div className="navigatorContainer" >
                     <div className="search" title="Search for something"><div><input type="text" placeholder=" Search . . ." required /></div></div>
                 <div className="navigationBar viewMode" style={viewMode}>
-<<<<<<< HEAD
-
-                    <i className="fas fa-list" title="Selection Mode" onClick={this.changeMode}></i>
-                    <i className="fas fa-file-export" title="Export" onClick={this.downloadHTML}></i>
-=======
                     <img src={ListIcon}  title="Selection Mode" onClick={this.changeMode}></img>
                     <img src={UndoIcon} title="Undo" onClick={this.props.clickPreviousStep}></img>
                     <img src={RedoIcon} title="Redo" onClick={this.props.clickNextStep}></img>
@@ -89,25 +84,12 @@ export class Navigationbar extends Component {
                     <img src={AngelUpIcon} title="Scroll to top" onClick={this.props.clickTop}></img>
                     <img src={AngelDownIcon} title="Scroll to bottom" onClick={this.props.clickBottom}></img>
                     <img src={HomeIcon} title="Home" onClick={this.props.clickHome}></img>
-                    {/* <i className="fas fa-list" title="Selection Mode" onClick={this.changeMode}></i>
->>>>>>> exchange i tag elements with local svg img elements, delete useless png files,  update LOGO png
-                    <i className="fas fa-undo-alt" title="Undo" onClick={this.props.clickPreviousStep}></i>
-                    <i className="fas fa-redo-alt" title="Redo" onClick={this.props.clickNextStep}></i>
-                    <i className="fas fa-download" title="Save" onClick={this.props.clickSave}></i>
-                    {/* <i className="fas fa-angle-double-up" title="Fold all blocks"></i> */}
-                    <i className="fas fa-angle-up" title="Scroll to top" onClick={this.props.clickTop}></i>
-                    <i className="fas fa-angle-down" title="Scroll to bottom" onClick={this.props.clickBottom}></i>
-                    <i className="fas fa-home" title="Home" onClick={this.props.clickHome}></i> */}
                 </div>
                 <div className="navigationBar selectMode">
                     <img src={ArrowLeftIcon} title="View Mode" onClick={this.changeMode}></img>
                     <img src={CheckSquareIcon} title="Select All" onClick={this.selectAllBoxes}></img>
                     <img src={TrashIcon} title="Delete" onClick={this.deleteSelected}></img>
                     <img src={NavMarkIcon} title="Mark" onClick={this.markSelected}></img>
-                    {/* <i className="fas fa-arrow-left" title="View Mode" onClick={this.changeMode}></i>
-                    <i className="far fa-check-square" title="Select All" onClick={this.selectAllBoxes}></i>
-                    <i className="fas fa-trash" title="Delete" onClick={this.deleteSelected}></i>
-                    <i className="fas fa-bookmark" title="Mark" onClick={this.markSelected}></i> */}
                 </div>
             </div>
         )
