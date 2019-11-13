@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Button from 'react-bootstrap/Button'
 import BlockTitle from "../components/BlockTitle"
 import BlockDescription from "../components/BlockDescription"
 
@@ -38,7 +37,7 @@ export default function ImageBlock(props) {
             <BlockTitle className="blockTitle" time={props.block.timestamp} onChangeTitle={props.handleTitle} title={props.block.title} />
             <button className="iconBtn removeBtn" onClick={props.delBlock.bind(this, props.block.timestamp)}><img src={TrashIcon}></img></button>
             <form className="checkContainer">
-                <input className="check" id={checkid} type="checkbox"  /><label className="checkmark" for={checkid}></label>
+                <input className="check" id={checkid} type="checkbox"  /><label className="checkmark" htmlFor={checkid}></label>
             </form>
             <div className="iconBtn markBtn">
                 <img src={props.block.mark ? MarkFullIcon : MarkIcon} onClick={props.handleMark.bind(this, props.block.timestamp)}></img>

@@ -81,7 +81,7 @@ ipcMain.on('navbar-save-slu', (event) => {
     event.reply('navbar-save-slu');
 });
 
-ipcMain.on('navbar-download-html', () => {
+ipcMain.on('modal-download-html', (event) => {
     let result = dialog.showSaveDialog(homeWin, {
         filters: [{ name: 'webpage(.html)', extensions: ['.html'] }]
     });
@@ -93,7 +93,8 @@ ipcMain.on('navbar-download-html', () => {
                 if (err) {
                     console.log(err);
                 } else {
-                    console.log('Page was saved successfully.')
+                    console.log('Page was saved successfully.');
+                    event.reply('main-reply-html-download');
                 }
             });
         }

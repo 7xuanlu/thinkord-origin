@@ -3,6 +3,7 @@ import BlockContainer from "./BlockContainer";
 import Header from "../components/layout/Header";
 import Progressbar from "../components/layout/Progressbar";
 import Navigationbar from '../components/layout/Navigationbar';
+import ExportModal from '../components/ExportModal';
 import './css/Timeline.css';
 
 import { ipcRenderer } from "electron";
@@ -21,7 +22,8 @@ class Timeline extends Component {
 
     this.state = {
       saveSign: true,
-      sluTitle: ''
+      sluTitle: '',
+      modalShow: false
     }
   }
 
@@ -62,6 +64,13 @@ class Timeline extends Component {
   // Write data to the json file
   saveChange = () => {
     ipcRenderer.send('navbar-save-slu');
+  }
+
+  handleExport = () => {
+    ipcRenderer.send('modal-download-html');
+    ipcRenderer.once('main-reply-html-download', () => {
+      this.setState({ modalShow: false });
+    });
   }
 
   scrollToBottom = () => {
@@ -111,13 +120,21 @@ class Timeline extends Component {
               clickSave={this.state.saveSign && this.saveChange}
               title={this.state.sluTitle}
             />
-            <Navigationbar
-              clickPreviousStep={this.handleClickPreviousStep}
-              clickNextStep={this.handleClickNextStep}
-              clickSave={this.saveChange}
-              clickHome={this.returnToMain}
-              clickTop={this.scrollToTop}
-              clickBottom={this.scrollToBottom}
+            {!this.state.modalShow &&
+              <Navigationbar
+                clickPreviousStep={this.handleClickPreviousStep}
+                clickNextStep={this.handleClickNextStep}
+                clickSave={this.saveChange}
+                clickHome={this.returnToMain}
+                clickExport={() => { this.setState({ modalShow: true }) }}
+                clickTop={this.scrollToTop}
+                clickBottom={this.scrollToBottom}
+              />}
+            <ExportModal
+              show={this.state.modalShow}
+              title={this.state.sluTitle}
+              onExport={this.handleExport}
+              onHide={() => this.setState({ modalShow: false })}
             />
           </div>
         </div>
