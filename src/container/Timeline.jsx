@@ -23,7 +23,8 @@ class Timeline extends Component {
     this.state = {
       saveSign: true,
       sluTitle: '',
-      modalShow: false
+      modalShow: false,
+      navbarShow: true
     }
   }
 
@@ -67,9 +68,13 @@ class Timeline extends Component {
   }
 
   handleExport = () => {
+    this.setState({ 
+      modalShow: false, 
+      navbarShow: false
+    });
     ipcRenderer.send('modal-download-html');
     ipcRenderer.once('main-reply-html-download', () => {
-      this.setState({ modalShow: false });
+      this.setState({ navbarShow: true });
     });
   }
 
@@ -120,7 +125,7 @@ class Timeline extends Component {
               clickSave={this.state.saveSign && this.saveChange}
               title={this.state.sluTitle}
             />
-            {!this.state.modalShow &&
+            {this.state.navbarShow &&
               <Navigationbar
                 clickPreviousStep={this.handleClickPreviousStep}
                 clickNextStep={this.handleClickNextStep}
