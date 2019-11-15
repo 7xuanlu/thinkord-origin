@@ -43,7 +43,6 @@ app.on('ready', () => {
                     homeWin.webContents.send('main-add-image', imagePath);
                 }
             }
-
         });
 
         res.send("POST res sent from webpack dev server");

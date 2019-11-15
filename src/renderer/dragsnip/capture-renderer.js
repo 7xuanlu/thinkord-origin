@@ -81,10 +81,10 @@ getScreenSources({}, (imgSrc) => {
             if (err) {
                 reject(err);
             } else {
-                console.log("Dragsnip has been saved!")
+                console.log("Dragsnip has been saved!");
                 ipcRenderer.send('dragsnip-saved', dragsnipPath);
             }
-        })
+        });
     });
 });
 

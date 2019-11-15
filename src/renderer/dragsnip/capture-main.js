@@ -40,7 +40,7 @@ const captureScreen = (e, args) => {
                 nodeIntegration: true
             },
             show: false
-        })
+        });
 
         captureWin.once('ready-to-show', () => {
             captureWin.show()
@@ -101,7 +101,7 @@ const useCapture = (controlbar) => {
 
     ipcMain.on('dragsnip-saved', (event, dragsnipPath) => {
         if (captureWins) {
-            captureWins.forEach(win => win.minimize());
+            captureWins.map(win => win.close());
         }
         controlbar.webContents.send('dragsnip-saved', dragsnipPath);
     });
