@@ -110,6 +110,7 @@ ipcMain.on('modal-download-html', (event) => {
         filters: [{ name: 'webpage(.html)', extensions: ['.html'] }]
     });
     if (!result) {
+        event.reply('main-reply-html-download');
         return
     } else {
         if (homeWin !== null) {
