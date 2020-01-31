@@ -13,6 +13,7 @@ export default class FileIcon extends Component{
         super(props);
     }
 
+    //choose different icon according to the type of file
     ChooseFileIcon = (file) => {
         if (file.split('.').pop() === 'docx') {
             return (

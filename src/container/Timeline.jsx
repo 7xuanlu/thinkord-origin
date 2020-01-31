@@ -73,6 +73,7 @@ class Timeline extends Component {
     });
   }
 
+  //When you click the button, the screen would scroll to the bottom of timeline
   scrollToBottom = () => {
     window.scrollTo({
       top: document.body.scrollHeight,
@@ -81,6 +82,7 @@ class Timeline extends Component {
     });
   }
 
+  //When you click the button, the screen would scroll to the top of timeline
   scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -89,14 +91,17 @@ class Timeline extends Component {
     });
   }
 
+  //When you click the button, timeline would change its state to the previous one
   handleClickPreviousStep = () => {
     ipcRenderer.send('pre-step-click');
   }
 
+  //When you click the button, timeline would change its state to the next one
   handleClickNextStep = () => {
     ipcRenderer.send('next-step-click');
   }
 
+  //Change the content of title
   handleTitle = (title) => {
     if (title === '') {
       return;
@@ -107,8 +112,7 @@ class Timeline extends Component {
 
   render() {
     return (
-      <BlockUi tag="div" blocking={!this.state.saveSign
-      } >
+      <BlockUi tag="div" blocking={!this.state.saveSign} >
         <div className="App" id="App">
           <div className="pageContent" id="content">
             <Header title={this.state.sluTitle} handleTitle={this.handleTitle} />

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 export default class ControlBarButton extends Component {
+    //decide which method that the button should have
     EvenetChoose() {
         switch (this.props.button.id) {
             case 'start':

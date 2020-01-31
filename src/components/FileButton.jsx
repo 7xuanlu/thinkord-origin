@@ -17,10 +17,12 @@ export default class FileButton extends Component {
         }
     }
 
+    //when you click the file button, the timeline will show
     EnterTimeLine = (sluPath) => {
         ipcRenderer.send('file-open-click', { path: sluPath });
     }
 
+    //show the rename dialog
     handleRenameDialog = (path) => {
         let filename = path.split('\\').pop();
         filename = filename.split('.')[0];
@@ -30,10 +32,12 @@ export default class FileButton extends Component {
         });
     }
 
+    //close the rename dialog
     handleRenameDialogClose = () => {
         this.setState({ rename_show: false });
     }
 
+    //change the file name
     handleRename = (sluPath, index) => {
         let newSluName = document.getElementById('new_filename').value;
         document.getElementById("label_" + index).innerText = newSluName;
@@ -45,6 +49,7 @@ export default class FileButton extends Component {
         this.setState({ rename_show: false });
     }
 
+    //show the delete dialog
     handleDeleteDialog = (path) => {
         let filename = path.split('\\').pop();
         filename = filename.split('.')[0];
@@ -54,8 +59,10 @@ export default class FileButton extends Component {
         });
     }
 
+    //close the delete dialog
     handleDeleteDialogClose = () => { this.setState({ delete_show: false }); }
 
+    //delete file
     handleDelete = (sluPath, index) => {
         ipcRenderer.send('main-delete-file', {
             sluPath: sluPath,

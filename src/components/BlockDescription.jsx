@@ -7,7 +7,7 @@ export class BlockDescription extends Component {
 
         this.state = {
             description: '',
-            whileInput: false
+            whileInput: false // state that detect if user is inputting right now
         }
     }
 
@@ -17,12 +17,14 @@ export class BlockDescription extends Component {
         });
     }
 
+    //when user click the description, it would allow user to modify the content 
     handleClick = () => {
         this.setState({
             whileInput: true
         });
     }
 
+    //when the description lose its focus, user is not allowed to modify
     handleBlur = (e) => {
         e.preventDefault();
         this.setState({
@@ -30,12 +32,14 @@ export class BlockDescription extends Component {
         });
     }
 
+    //save the content of description(frontend)
     handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         });
     }
 
+    //sync the modified content to timeline
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.addDescription(this.state.description, this.props.time);

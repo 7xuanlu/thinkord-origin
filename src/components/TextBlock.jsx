@@ -18,6 +18,7 @@ export default function TextBlock(props) {
 
     const [scaling, setScaling] = useState(true);
 
+    //fold or open the content of block
     const handleScaling = () => {
         if (scaling) {
             document.getElementById(scaleid).classList.remove("rotate-open");

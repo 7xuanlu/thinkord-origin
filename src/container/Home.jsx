@@ -105,6 +105,7 @@ export default class Home extends Component {
         }
     }
 
+    //modify the css content while clicking the button of menu
     handleMenuOpen = () => {
         const page = document.getElementById('page');
         page.classList.toggle('shazam');
@@ -115,6 +116,7 @@ export default class Home extends Component {
         page.classList.remove('shazam');
     }
 
+    //add a new file
     handleAddClick = () => {
         const jsonManager = new JSONManager();
 
@@ -125,6 +127,7 @@ export default class Home extends Component {
         });
     }
 
+    //open or close folded recent file
     OpenRecentToggle = () => {
         // console.log(document.getElementsByClassName("btn"));
         Array.from(document.getElementsByClassName("btn")).forEach(
@@ -153,6 +156,7 @@ export default class Home extends Component {
         });
     }
 
+    //change the content of main page
     handleHomeClick = () => {
         this.handleMenuClose();
         this.setState({
@@ -180,6 +184,7 @@ export default class Home extends Component {
         });
     }
 
+    //change the content in search bar according to whether user focus on search bar or not
     handleSearchBarFocusOrNot = () => {
         var search_content = document.getElementById("main_search").value;
         if (search_content === 'Search...') {
@@ -189,6 +194,7 @@ export default class Home extends Component {
         }
     }
 
+    //search the file in local file system according to the text that user enter
     handleSearchClick = () => {
         var search_file = document.getElementById("main_search").value.toLowerCase();
         var new_slus = [];
@@ -203,6 +209,7 @@ export default class Home extends Component {
         document.getElementById("main_search").value = "Search...";
     }
 
+    //view all the file in local file system
     handleViewAllClick = () => {
         ipcRenderer.send('main-sync');
 

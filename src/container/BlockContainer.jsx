@@ -64,6 +64,7 @@ export class BlockContainer extends Component {
             noti_save = this.handleNoti(noti_save, type, msg);
         });
 
+        //change the content of timeline and show the notification (frontend)
         ipcRenderer.on('pre-step-click', () => {
             var pre = pre_step.pop();
             if (typeof (pre) !== "undefined") {
@@ -90,6 +91,7 @@ export class BlockContainer extends Component {
             }
         });
 
+        //delete the blocks that user selected
         ipcRenderer.on('delete-selected-click', () => {
             let selected = document.getElementsByClassName("check");
             pre_step.push(this.state.slu);
@@ -108,6 +110,7 @@ export class BlockContainer extends Component {
             });
         });
 
+        //mark the blocks that user selected
         ipcRenderer.on('mark-selected-click', () => {
             let selected = document.getElementsByClassName("check");
             pre_step.push(this.state.slu);
@@ -216,6 +219,7 @@ export class BlockContainer extends Component {
         });
     }
 
+    //change the state of mark icon of each block(frontend)
     handleMark = (time) => {
         const note = this.state.slu.blocks.map(block => {
             // assign the description to the block you want
@@ -343,6 +347,7 @@ export class BlockContainer extends Component {
         return element;
     }
 
+    //decide the type of each block
     distBlock = (block) => {
         if (block.paths[0] !== "") {
             if (block.paths[0].split('.').pop() === 'png') {

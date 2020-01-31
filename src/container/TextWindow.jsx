@@ -26,6 +26,7 @@ export class TextWindow extends Component {
         }
     }
 
+    //When you click on this button, it would modify the content of timeline.
     handleOK = () => {
         const title = this.titleRef.current;
         const textarea = this.textRef.current;
@@ -38,10 +39,12 @@ export class TextWindow extends Component {
         });
     }
 
+    //When you click on this button, it would close the text window without saving anything
     handleCancel = () => {
         ipcRenderer.send('twin-cancel');
     }
 
+    //When you click on this button, it will change the state of icon and the value of parameter.
     handleMark = () => {
         if(this.state.isMark === true){
             const btn = this.state.textwindow_button.map(button => {

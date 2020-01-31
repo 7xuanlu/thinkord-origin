@@ -85,6 +85,7 @@ export default class ControlBar extends Component {
         }
     }
 
+    //start to record the note
     handleStart = () => {
         if (this.state.isRecord === false) {
             this.setState({ isRecord: true });
@@ -256,10 +257,12 @@ export default class ControlBar extends Component {
         });
     }
 
+    //close the program
     handleQuit = () => {
         ipcRenderer.send('quit-click');
     }
 
+    //get to the main page
     EnterHome = () => {
         ipcRenderer.send('main-click');
     }
