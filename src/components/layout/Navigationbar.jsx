@@ -19,7 +19,7 @@ export class Navigationbar extends Component {
     constructor(props) {
         super(props);
     }
-
+    // editMode or browseMode 
     changeMode = () => {
         const selectBox = document.getElementsByClassName("checkContainer");
 

@@ -11,6 +11,8 @@ let recorder;
 let videoChunks, videoBlob;
 let reader;
 
+// Electron provides screen recording functions
+// see https://www.electronjs.org/docs/api/desktop-capturer#desktopcapturergetsourcesoptions-callback
 export function videoRecordStart() {
     desktopCapturer.getSources({ types: ['window', 'screen'] }, () => {
         navigator.mediaDevices.getUserMedia({
