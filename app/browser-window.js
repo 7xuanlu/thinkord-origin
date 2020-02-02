@@ -10,10 +10,12 @@ const mode = require('../env.json').env_dev;
 let controlbar_x = null;
 let controlbar_y = null;
 
+// Set position for control bar window
 exports.setControlBarPosition = (size) => {
     controlbar_x = size.width - 350;
     controlbar_y = size.height - 60;
 }
+
 exports.createControlBarWindow = (controlbarWin) => {
     controlbarWin = new BrowserWindow({
         width: 292,
