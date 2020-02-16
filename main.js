@@ -203,11 +203,11 @@ ipcMain.on('file-open-click', (event, args) => {
         }
     });
 
-    // Keep listening on channel 'cb-init-slu'.
-    ipcMain.once('cb-init-slu', () => {
+    // Keep listening on channel 'init-tl'.
+    ipcMain.once('init-tl', () => {
         // If it receive message from that channel, it would send message to 
-        // control bar window with channel 'cb-init-slu'.
-        if (args) controlbarWin.webContents.send('cb-init-slu', args);
+        // control bar window with channel 'init-tl'.
+        homeWin.webContents.send('init-tl', args);
     });
 });
 
@@ -235,11 +235,11 @@ ipcMain.on('cb-sync-with-slu', (event, args) => {
     }
 });
 
-// Keep listening on channel 'init-slu-title'.
+// Keep listening on channel 'init-tl-title'.
 // If it receive message from that channel, it would send message to home window
-// with channel 'init-slu-title'.
-ipcMain.on('init-slu-title', (event, args) => {
-    if (homeWin !== null) homeWin.webContents.send('init-slu-title', args);
+// with channel 'init-tl-title'.
+ipcMain.on('init-tl-title', (event, args) => {
+    if (homeWin !== null) homeWin.webContents.send('init-tl-title', args);
 });
 
 // Keep listening on channel 'slu-return-to-main'.

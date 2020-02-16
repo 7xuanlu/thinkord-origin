@@ -49,27 +49,27 @@ export default class ControlBar extends Component {
     }
 
     componentDidMount() {
-        ipcRenderer.send('cb-init-slu');
-        ipcRenderer.on('cb-init-slu', (event, args) => {
-            this.state.jsonManager.readJSON(args.path).then((slu) => {
-                this.setState({
-                    slu: slu,
-                    sluPath: args.path
-                });
+        // ipcRenderer.send('cb-init-slu');
+        // ipcRenderer.on('cb-init-slu', (event, args) => {
+        //     this.state.jsonManager.readJSON(args.path).then((slu) => {
+        //         this.setState({
+        //             slu: slu,
+        //             sluPath: args.path
+        //         });
 
-                ipcRenderer.send('cb-sync-with-slu', {
-                    slu: this.state.slu,
-                    sluPath: this.state.sluPath
-                });
-            });
-        });
+        //         ipcRenderer.send('cb-sync-with-slu', {
+        //             slu: this.state.slu,
+        //             sluPath: this.state.sluPath
+        //         });
+        //     });
+        // });
 
-        ipcRenderer.on('tl-init-slu', () => {
-            ipcRenderer.send('cb-sync-with-slu', {
-                slu: this.state.slu,
-                sluPath: this.state.sluPath
-            });
-        });
+        // ipcRenderer.on('tl-init-slu', () => {
+        //     ipcRenderer.send('cb-sync-with-slu', {
+        //         slu: this.state.slu,
+        //         sluPath: this.state.sluPath
+        //     });
+        // });
 
         ipcRenderer.on('Ctrl+Shift+s', () => {
             this.handleStart();

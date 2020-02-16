@@ -38,13 +38,15 @@ export class BlockContainer extends Component {
         let noti_redo = null;
         let noti_undo = null;
 
-        ipcRenderer.send('tl-init-slu');
+        ipcRenderer.send('init-tl');
 
-        ipcRenderer.on('cb-sync-with-slu', (event, args) => {
-            ipcRenderer.send('init-slu-title', args.slu.name);
-            this.setState({
-                sluPath: args.sluPath,
-                slu: args.slu
+        ipcRenderer.once('init-tl', (event, args) => {
+            jsonManager.readJSON(args.path).then((slu) => {
+                ipcRenderer.send('init-tl-title', slu.name);
+                this.setState({
+                    slu: slu,
+                    sluPath: args.path
+                });
             });
         });
 
