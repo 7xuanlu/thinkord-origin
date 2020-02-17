@@ -5,8 +5,6 @@ import './css/ControlBar.css';
 
 const { ipcRenderer } = require('electron');
 
-// Import media API modules
-import { getScreenshot } from '../renderer/screenshot';
 import { AudioRecorder } from '../renderer/audio-recorder';
 import { videoRecordStart, videoRecordStop } from '../renderer/video-recorder';
 import { JSONManager } from '../renderer/json-manager';
@@ -49,40 +47,19 @@ export default class ControlBar extends Component {
     }
 
     componentDidMount() {
-        // ipcRenderer.send('cb-init-slu');
-        // ipcRenderer.on('cb-init-slu', (event, args) => {
-        //     this.state.jsonManager.readJSON(args.path).then((slu) => {
-        //         this.setState({
-        //             slu: slu,
-        //             sluPath: args.path
-        //         });
-
-        //         ipcRenderer.send('cb-sync-with-slu', {
-        //             slu: this.state.slu,
-        //             sluPath: this.state.sluPath
-        //         });
-        //     });
-        // });
-
-        // ipcRenderer.on('tl-init-slu', () => {
-        //     ipcRenderer.send('cb-sync-with-slu', {
-        //         slu: this.state.slu,
-        //         sluPath: this.state.sluPath
-        //     });
-        // });
-
         ipcRenderer.on('Ctrl+Shift+s', () => {
             this.handleStart();
         });
     }
 
-    componentDidUpdate() {
-        if (this.state.isRecord) {
-            ipcRenderer.send('cb-sync-with-slu', {
-                slu: this.state.slu,
-                sluPath: this.state.sluPath
-            });
-        }
+    ipcOnShortcut = () => {
+        ipcRenderer.on('Shift+F4', () => {
+            this.handleAudio();
+        });
+
+        ipcRenderer.on('Shift+F5', () => {
+            this.handleVideo();
+        });
     }
 
     //start to record the note
@@ -149,17 +126,6 @@ export default class ControlBar extends Component {
             ipcRenderer.send('unregister-shortcuts');
             ipcRenderer.send('savebutton');
         }
-    }
-
-    handleFullsnip = () => {
-        const addSnipBlock = (path) => {
-            const noteManager = new NoteManager();
-            // Add new block to the note object
-            let note = noteManager.addBlock(this.state.slu, { "filePath": path });
-            this.setState({ slu: note });
-        }
-
-        getScreenshot(addSnipBlock);
     }
 
     handleAudio = () => {
@@ -233,30 +199,7 @@ export default class ControlBar extends Component {
         this.setState({ button });
         ipcRenderer.send('video-click');
     }
-
-    handleText = () => {
-        ipcRenderer.send('text-click');
-        ipcRenderer.once('main-save-twin-value', (event, args) => {
-            const noteManager = new NoteManager();
-
-            // Add new text block to the note object
-            let note = noteManager.addBlock(this.state.slu, args);
-            this.setState({ slu: note });
-        });
-    }
-
-    handleDragsnip = () => {
-        ipcRenderer.send('capture-screen');
-        ipcRenderer.removeAllListeners('dragsnip-saved');
-        ipcRenderer.once('dragsnip-saved', (event, dragsnipPath) => {
-            const noteManager = new NoteManager();
-
-            // Add new block to the note object
-            let note = noteManager.addBlock(this.state.slu, { "filePath": dragsnipPath });
-            this.setState({ slu: note });
-        });
-    }
-
+    
     //close the program
     handleQuit = () => {
         ipcRenderer.send('quit-click');
@@ -265,28 +208,6 @@ export default class ControlBar extends Component {
     //get to the main page
     EnterHome = () => {
         ipcRenderer.send('main-click');
-    }
-
-    ipcOnShortcut = () => {
-        ipcRenderer.on('Shift+F1', () => {
-            this.handleFullsnip();
-        });
-
-        ipcRenderer.on('Shift+F2', () => {
-            this.handleText();
-        });
-
-        ipcRenderer.on('Shift+F3', () => {
-            this.handleDragsnip();
-        });
-
-        ipcRenderer.on('Shift+F4', () => {
-            this.handleAudio();
-        });
-
-        ipcRenderer.on('Shift+F5', () => {
-            this.handleVideo();
-        });
     }
 
     render() {

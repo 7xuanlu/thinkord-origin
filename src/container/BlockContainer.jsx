@@ -7,6 +7,10 @@ import AudioBlock from "../components/AudioBlock";
 
 import { ipcRenderer } from "electron";
 import { JSONManager } from "../renderer/json-manager";
+import { NoteManager } from "../renderer/note-manager";
+
+// Import media API modules
+import { getScreenshot } from '../renderer/screenshot';
 
 // Third-party packages
 // Notification
@@ -138,7 +142,27 @@ export class BlockContainer extends Component {
                     });
                 }
             });
-        })
+        });
+
+        ipcRenderer.on('full-snip', () => {
+            this.handleFullsnip();
+        });
+
+        ipcRenderer.on('open-text-win', () => {
+            this.handleText();
+        });
+
+        ipcRenderer.on('drag-snip', () => {
+            this.handleDragsnip();
+        });
+
+        ipcRenderer.on('Shift+F4', () => {
+            this.handleAudio();
+        });
+
+        ipcRenderer.on('Shift+F5', () => {
+            this.handleVideo();
+        });
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -347,6 +371,40 @@ export class BlockContainer extends Component {
         let linkedtext = Autolinker.link(text).trim();
         let element = parse(linkedtext);
         return element;
+    }
+
+    handleText = () => {
+        ipcRenderer.send('text-click');
+        ipcRenderer.once('main-save-twin-value', (event, args) => {
+            const noteManager = new NoteManager();
+
+            // Add new text block to the note object
+            let note = noteManager.addBlock(this.state.slu, args);
+            this.setState({ slu: note });
+        });
+    }
+
+    handleFullsnip = () => {
+        const addSnipBlock = (path) => {
+            const noteManager = new NoteManager();
+            // Add new block to the note object
+            let note = noteManager.addBlock(this.state.slu, { "filePath": path });
+            this.setState({ slu: note });
+        }
+
+        getScreenshot(addSnipBlock);
+    }
+
+    handleDragsnip = () => {
+        ipcRenderer.send('capture-screen');
+        ipcRenderer.removeAllListeners('dragsnip-saved');
+        ipcRenderer.once('dragsnip-saved', (event, dragsnipPath) => {
+            const noteManager = new NoteManager();
+
+            // Add new block to the note object
+            let note = noteManager.addBlock(this.state.slu, { "filePath": dragsnipPath });
+            this.setState({ slu: note });
+        });
     }
 
     //decide the type of each block

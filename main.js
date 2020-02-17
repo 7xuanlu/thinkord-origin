@@ -55,18 +55,18 @@ app.on('activate', () => {
 // When pressed Shift+F1, it will send message with channel 'Shift+F1'.
 ipcMain.on('register-shortcuts', () => {
     globalShortcut.register('Shift+F1', () => {
-        // Send message to control bar window with channel 'Shift+F1'
-        controlbarWin.webContents.send('Shift+F1');
+        // Send message to home window with channel 'Shift+F1'
+        homeWin.webContents.send('full-snip');
     });
 
     globalShortcut.register('Shift+F2', () => {
-        // Send message to control bar window with channel 'Shift+F2'
-        controlbarWin.webContents.send('Shift+F2');
+        // Send message to home window with channel 'Shift+F2'
+        homeWin.webContents.send('open-text-win');
     });
 
     globalShortcut.register('Shift+F3', () => {
-        // Send message to control bar window with channel 'Shift+F3'
-        controlbarWin.webContents.send('Shift+F3');
+        // Send message to home window with channel 'Shift+F3'
+        homeWin.webContents.send('drag-snip');
     });
 
     globalShortcut.register('Shift+F4', () => {
