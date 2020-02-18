@@ -154,6 +154,14 @@ ipcMain.on('twin-ok', (event, args) => {
     textWin = null;
 });
 
+ipcMain.on('click-text-btn', () => homeWin.webContents.send('open-text-win'));
+
+ipcMain.on('click-dragsnip-btn', () => homeWin.webContents.send('drag-snip'));
+
+ipcMain.on('click-audio-btn', () => homeWin.webContents.send('record-audio'));
+
+ipcMain.on('click-video-btn', () => homeWin.webContents.send('record-video'));
+
 // Keep listening on channel 'quit-click'.
 // If it receive message from that channel, it would close control bar window
 // and close text window if existed.

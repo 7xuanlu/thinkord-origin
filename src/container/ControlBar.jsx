@@ -110,30 +110,51 @@ export default class ControlBar extends Component {
         }
     }
 
+    /**
+     * Send message to ipcMain with channel 'click-text-btn'
+     * @method
+     */
+    handleText = () => ipcRenderer.send('click-text-btn');
+
+    /**
+     * Send message to ipcMain with channel 'click-dragsnip-btn'
+     * @method
+     */
+    handleDragsnip = () => ipcRenderer.send('click-dragsnip-btn');
+
+    /**
+     * Send message to ipcMain with channel 'click-audio-btn'
+     * Toggle state for audio icon to inform user if it's recording. 
+     * @method
+     */
     handleAudio = () => {
         const button = this.state.controlbar_button.map(button => {
             if (button.id == 'audio') {
                 if (button.src == AudioButton) button.src = AudioStartButton;
-
-                button.src = AudioButton;
+                else button.src = AudioButton;
             }
             return button;
         });
         this.setState({ button });
 
-        ipcRenderer.send('audio-click');
+        ipcRenderer.send('click-audio-btn');
     }
 
+    /**
+     * Send message to ipcMain with channel 'click-video-btn'
+     * Toggle state for video icon to inform user if it's recording.
+     * @method
+     */
     handleVideo = () => {
         const button = this.state.controlbar_button.map(button => {
             if (button.id == 'video') {
                 if (button.src == VideoButton) button.src = VideoStartButton;
-                button.src = VideoButton;
+                else button.src = VideoButton;
             }
             return button;
         });
         this.setState({ button });
-        ipcRenderer.send('video-click');
+        ipcRenderer.send('click-video-btn');
     }
 
     //close the program
