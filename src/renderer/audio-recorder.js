@@ -7,6 +7,10 @@ const uuidv1 = require('uuid/v1');
 
 const userPath = app.getPath('userData').replace(/\\/g, '\\\\');
 
+/**
+ * Audio recorder
+ * @class
+ */
 export class AudioRecorder {
     constructor() {
         this.audioRecorder = undefined;
@@ -17,7 +21,10 @@ export class AudioRecorder {
         this.initUserMedia();
     }
 
-    // getUserMedia 版本兼容
+    /**
+     * Incorporate different versions of getUserMedia
+     * @method
+     */
     initUserMedia() {
         if (navigator.mediaDevices === undefined) {
             navigator.mediaDevices = {};
@@ -38,6 +45,12 @@ export class AudioRecorder {
         }
     }
 
+    /**
+     * Initialize user media and contruct audio recorder
+     * @method
+     * 
+     * @returns {AudioRecorder} Audio recorder
+     */
     async initRecording() {
         if (navigator.mediaDevices) {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -47,6 +60,10 @@ export class AudioRecorder {
         }
     }
 
+    /**
+     * Start recording audio
+     * @method
+     */
     startRecording() {
         this.initRecording().then((recorder) => {
             if (recorder) {
@@ -61,6 +78,11 @@ export class AudioRecorder {
         });
     }
 
+    /**
+     * Stop recording audio and save audio file to file system.
+     * @method
+     * @param {function} addAudioBlock 
+     */
     stopRecording(addAudioBlock) {
         if (this.audioRecorder) {
             this.audioRecorder.onstop = () => {
