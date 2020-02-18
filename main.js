@@ -7,7 +7,7 @@ const noteTray = require('./app/note-tray');
 const browserWindow = require('./app/browser-window');  // All functions related to browser window are defined here
 const { useCapture } = require('./src/renderer/dragsnip/capture-main');
 const { initUserEnv } = require('./app/init-user-env');
-
+const db = require('./app/config/database')
 // Path to app.json, which stores every timeline's location
 const appSettingPath = path.join(app.getPath('userData'), 'app.json');
 
@@ -25,8 +25,15 @@ let homeWin = null;  // Home window
 // This is the entry point to the application
 app.on('ready', () => {
     initUserEnv();  // Create required directory and files
+
     homeWin = browserWindow.createHomeWindow(homeWin);
     // tray = noteTray.enable(controlbarWin);  // Show Win10's tray at bottom right of your screen
+
+    // Set up the database connection
+    db
+        .authenticate()
+        .then(() => console.log('connect successfully'))
+        .catch((err) => console.log(err))
 
     const { screen } = require('electron');
     const size = screen.getPrimaryDisplay().workAreaSize;

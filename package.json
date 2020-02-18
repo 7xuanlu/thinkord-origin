@@ -69,6 +69,8 @@
     "react-contextmenu": "^2.13.0",
     "react-dom": "^16.11.0",
     "react-dropzone": "^10.1.10",
+    "sequelize": "^5.21.4",
+    "sqlite3": "^4.1.1",
     "styled-components": "^4.4.1",
     "video-react": "^0.13.9",
     "webrtc-adapter": "^4.2.2"
