@@ -6,6 +6,7 @@ import TextBlock from "../components/TextBlock";
 import AudioBlock from "../components/AudioBlock";
 
 import { ipcRenderer } from "electron";
+import { AudioRecorder } from '../renderer/audio-recorder';
 import { JSONManager } from "../renderer/json-manager";
 import { NoteManager } from "../renderer/note-manager";
 
@@ -38,9 +39,10 @@ export class BlockContainer extends Component {
     }
 
     componentDidMount() {
-        let noti_save = null;
-        let noti_redo = null;
-        let noti_undo = null;
+        let notiSave = null;
+        let notiRedo = null;
+        let notiUndo = null;
+        let audioRecorder = null;
 
         ipcRenderer.send('init-tl');
 
@@ -67,7 +69,7 @@ export class BlockContainer extends Component {
             jsonManager.renameSluFile(sluPath, slu.name);
             ipcRenderer.send('tl-sync-cb', { path: sluPath });
 
-            noti_save = this.handleNoti(noti_save, type, msg);
+            notiSave = this.handleNoti(notiSave, type, msg);
         });
 
         //change the content of timeline and show the notification (frontend)
@@ -79,7 +81,7 @@ export class BlockContainer extends Component {
             } else {
                 let msg = 'Cannot undo anymore!';
                 let type = 'warning';
-                noti_undo = this.handleNoti(noti_undo, type, msg);
+                notiUndo = this.handleNoti(notiUndo, type, msg);
             }
         });
 
@@ -93,7 +95,7 @@ export class BlockContainer extends Component {
             } else {
                 let msg = 'Cannot redo anymore!';
                 let type = 'warning';
-                noti_redo = this.handleNoti(noti_redo, type, msg);
+                notiRedo = this.handleNoti(notiRedo, type, msg);
             }
         });
 
@@ -156,11 +158,11 @@ export class BlockContainer extends Component {
             this.handleDragsnip();
         });
 
-        ipcRenderer.on('Shift+F4', () => {
-            this.handleAudio();
+        ipcRenderer.on('record-audio', () => {
+            audioRecorder = this.handleAudio(audioRecorder);
         });
 
-        ipcRenderer.on('Shift+F5', () => {
+        ipcRenderer.on('record-video', () => {
             this.handleVideo();
         });
     }
@@ -405,6 +407,36 @@ export class BlockContainer extends Component {
             let note = noteManager.addBlock(this.state.slu, { "filePath": dragsnipPath });
             this.setState({ slu: note });
         });
+    }
+
+    handleAudio = (audioRecorder) => {
+        const addAudioBlock = (path) => {
+            const noteManager = new NoteManager();
+
+            // Add new block to the note object
+            let note = noteManager.addBlock(
+                this.state.slu,
+                {
+                    "filePath": path,
+                    'type': 'audio'
+                }
+            );
+
+            this.setState({ slu: note, });
+        }
+
+        if (!audioRecorder) {
+            audioRecorder = new AudioRecorder();
+
+            audioRecorder.startRecording();
+
+            return audioRecorder;
+        }
+
+        audioRecorder.stopRecording(addAudioBlock);
+        audioRecorder = null;
+
+        return audioRecorder;
     }
 
     //decide the type of each block

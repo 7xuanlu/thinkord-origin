@@ -5,7 +5,6 @@ import './css/ControlBar.css';
 
 const { ipcRenderer } = require('electron');
 
-import { AudioRecorder } from '../renderer/audio-recorder';
 import { videoRecordStart, videoRecordStop } from '../renderer/video-recorder';
 import { JSONManager } from '../renderer/json-manager';
 import { NoteManager } from '../renderer/note-manager';
@@ -52,16 +51,6 @@ export default class ControlBar extends Component {
         });
     }
 
-    ipcOnShortcut = () => {
-        ipcRenderer.on('Shift+F4', () => {
-            this.handleAudio();
-        });
-
-        ipcRenderer.on('Shift+F5', () => {
-            this.handleVideo();
-        });
-    }
-
     //start to record the note
     handleStart = () => {
         if (this.state.isRecord === false) {
@@ -91,7 +80,6 @@ export default class ControlBar extends Component {
 
             ipcRenderer.send('register-shortcuts');
             ipcRenderer.send('hidesavebutton');
-            this.ipcOnShortcut();
             this.setState({ controlbar_button: button })
         } else {
             this.setState({ isRecord: false })
@@ -118,51 +106,17 @@ export default class ControlBar extends Component {
             });
 
             this.setState({ controlbar_button: button });
-            ipcRenderer.removeAllListeners("Shift+F1");
-            ipcRenderer.removeAllListeners("Shift+F2");
-            ipcRenderer.removeAllListeners("Shift+F3");
-            ipcRenderer.removeAllListeners("Shift+F4");
-            ipcRenderer.removeAllListeners("Shift+F5");
             ipcRenderer.send('unregister-shortcuts');
             ipcRenderer.send('savebutton');
         }
     }
 
     handleAudio = () => {
-        const addAudioBlock = () => {
-            const noteManager = new NoteManager();
-
-            // Add new block to the note object
-            let note = noteManager.addBlock(
-                this.state.slu,
-                {
-                    "filePath": this.state.audioRecorder.recPath,
-                    'type': 'audio'
-                }
-            );
-
-            this.setState({
-                slu: note,
-                audioRecorder: undefined
-            });
-        }
-
         const button = this.state.controlbar_button.map(button => {
             if (button.id == 'audio') {
-                if (button.src == AudioButton) {
-                    button.src = AudioStartButton;
+                if (button.src == AudioButton) button.src = AudioStartButton;
 
-                    if (!this.state.audioRecorder) {
-                        this.setState({ audioRecorder: new AudioRecorder() }, () => {
-                            this.state.audioRecorder.init(addAudioBlock).then(() => {
-                                this.state.audioRecorder.startRecording();
-                            });
-                        });
-                    }
-                } else {
-                    button.src = AudioButton;
-                    this.state.audioRecorder.stopRecording();
-                }
+                button.src = AudioButton;
             }
             return button;
         });
@@ -199,7 +153,7 @@ export default class ControlBar extends Component {
         this.setState({ button });
         ipcRenderer.send('video-click');
     }
-    
+
     //close the program
     handleQuit = () => {
         ipcRenderer.send('quit-click');
