@@ -7,6 +7,8 @@ import AudioBlock from "../components/AudioBlock";
 
 import { ipcRenderer } from "electron";
 import { AudioRecorder } from '../renderer/audio-recorder';
+import { videoRecordStart, videoRecordStop } from '../renderer/video-recorder';
+import { videoRecorder } from '../renderer/video-recorder';
 import { JSONManager } from "../renderer/json-manager";
 import { NoteManager } from "../renderer/note-manager";
 
@@ -163,7 +165,7 @@ export class BlockContainer extends Component {
         });
 
         ipcRenderer.on('record-video', () => {
-            this.handleVideo();
+            this.handleVideo(videoRecorder);
         });
     }
 
@@ -437,6 +439,26 @@ export class BlockContainer extends Component {
         audioRecorder = null;
 
         return audioRecorder;
+    }
+
+    handleVideo = () => {
+        const addVideoBlock = (path) => {
+            const noteManager = new NoteManager();
+
+            // Add new block to the note object
+            let note = noteManager.addBlock(
+                this.state.slu,
+                { "filePath": path, 'type': 'video' }
+            );
+
+            this.setState({ slu: note });
+        }
+
+        if (!videoRecorder) {
+            videoRecordStart();
+        } else {
+            videoRecordStop(addVideoBlock);
+        }
     }
 
     //decide the type of each block

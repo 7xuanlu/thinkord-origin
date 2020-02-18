@@ -5,7 +5,6 @@ import './css/ControlBar.css';
 
 const { ipcRenderer } = require('electron');
 
-import { videoRecordStart, videoRecordStop } from '../renderer/video-recorder';
 import { JSONManager } from '../renderer/json-manager';
 import { NoteManager } from '../renderer/note-manager';
 
@@ -126,27 +125,10 @@ export default class ControlBar extends Component {
     }
 
     handleVideo = () => {
-        const addVideoBlock = (path) => {
-            const noteManager = new NoteManager();
-
-            // Add new block to the note object
-            let note = noteManager.addBlock(
-                this.state.slu,
-                { "filePath": path, 'type': 'video' }
-            );
-
-            this.setState({ slu: note });
-        }
-
         const button = this.state.controlbar_button.map(button => {
             if (button.id == 'video') {
-                if (button.src == VideoButton) {
-                    button.src = VideoStartButton;
-                    videoRecordStart();
-                } else {
-                    button.src = VideoButton;
-                    videoRecordStop(addVideoBlock);
-                }
+                if (button.src == VideoButton) button.src = VideoStartButton;
+                button.src = VideoButton;
             }
             return button;
         });
