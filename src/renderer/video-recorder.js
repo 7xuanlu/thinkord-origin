@@ -7,7 +7,7 @@ const path = require('path');
 const uuidv1 = require('uuid/v1');
 
 const userPath = app.getPath('userData').replace(/\\/g, '\\\\');
-export let videoRecorder;
+let videoRecorder;
 let videoChunks, videoBlob;
 let reader;
 
@@ -15,7 +15,7 @@ let reader;
  * Start recording video
  * @function
  */
-export function videoRecordStart() {
+const videoRecordStart = () => {
     desktopCapturer.getSources({ types: ['window', 'screen'] }, () => {
         navigator.mediaDevices.getUserMedia({
             audio: { mandatory: { chromeMediaSource: 'desktop' } },
@@ -42,7 +42,7 @@ export function videoRecordStart() {
  * @function
  * @param {function} addVideoBlock 
  */
-export function videoRecordStop(addVideoBlock) {
+const videoRecordStop = (addVideoBlock) => {
     let recPath = path.join(userPath, 'MediaResource', `${uuidv1()}.mp4`);
     reader = new FileReader();
     videoRecorder.stop();
@@ -65,3 +65,5 @@ export function videoRecordStop(addVideoBlock) {
         reader.readAsArrayBuffer(videoBlob);
     };
 }
+
+export { videoRecorder, videoRecordStart, videoRecordStop };
