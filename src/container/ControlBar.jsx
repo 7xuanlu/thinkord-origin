@@ -5,10 +5,6 @@ import './css/ControlBar.css';
 
 const { ipcRenderer } = require('electron');
 
-// Import media API modules
-import { getScreenshot } from '../renderer/screenshot';
-import { AudioRecorder } from '../renderer/audio-recorder';
-import { videoRecordStart, videoRecordStop } from '../renderer/video-recorder';
 import { JSONManager } from '../renderer/json-manager';
 import { NoteManager } from '../renderer/note-manager';
 
@@ -49,40 +45,9 @@ export default class ControlBar extends Component {
     }
 
     componentDidMount() {
-        ipcRenderer.send('cb-init-slu');
-        ipcRenderer.on('cb-init-slu', (event, args) => {
-            this.state.jsonManager.readJSON(args.path).then((slu) => {
-                this.setState({
-                    slu: slu,
-                    sluPath: args.path
-                });
-
-                ipcRenderer.send('cb-sync-with-slu', {
-                    slu: this.state.slu,
-                    sluPath: this.state.sluPath
-                });
-            });
-        });
-
-        ipcRenderer.on('tl-init-slu', () => {
-            ipcRenderer.send('cb-sync-with-slu', {
-                slu: this.state.slu,
-                sluPath: this.state.sluPath
-            });
-        });
-
         ipcRenderer.on('Ctrl+Shift+s', () => {
             this.handleStart();
         });
-    }
-
-    componentDidUpdate() {
-        if (this.state.isRecord) {
-            ipcRenderer.send('cb-sync-with-slu', {
-                slu: this.state.slu,
-                sluPath: this.state.sluPath
-            });
-        }
     }
 
     //start to record the note
@@ -114,7 +79,6 @@ export default class ControlBar extends Component {
 
             ipcRenderer.send('register-shortcuts');
             ipcRenderer.send('hidesavebutton');
-            this.ipcOnShortcut();
             this.setState({ controlbar_button: button })
         } else {
             this.setState({ isRecord: false })
@@ -141,120 +105,56 @@ export default class ControlBar extends Component {
             });
 
             this.setState({ controlbar_button: button });
-            ipcRenderer.removeAllListeners("Shift+F1");
-            ipcRenderer.removeAllListeners("Shift+F2");
-            ipcRenderer.removeAllListeners("Shift+F3");
-            ipcRenderer.removeAllListeners("Shift+F4");
-            ipcRenderer.removeAllListeners("Shift+F5");
             ipcRenderer.send('unregister-shortcuts');
             ipcRenderer.send('savebutton');
         }
     }
 
-    handleFullsnip = () => {
-        const addSnipBlock = (path) => {
-            const noteManager = new NoteManager();
-            // Add new block to the note object
-            let note = noteManager.addBlock(this.state.slu, { "filePath": path });
-            this.setState({ slu: note });
-        }
+    /**
+     * Send message to ipcMain with channel 'click-text-btn'
+     * @method
+     */
+    handleText = () => ipcRenderer.send('click-text-btn');
 
-        getScreenshot(addSnipBlock);
-    }
+    /**
+     * Send message to ipcMain with channel 'click-dragsnip-btn'
+     * @method
+     */
+    handleDragsnip = () => ipcRenderer.send('click-dragsnip-btn');
 
+    /**
+     * Send message to ipcMain with channel 'click-audio-btn'
+     * Toggle state for audio icon to inform user if it's recording. 
+     * @method
+     */
     handleAudio = () => {
-        const addAudioBlock = () => {
-            const noteManager = new NoteManager();
-
-            // Add new block to the note object
-            let note = noteManager.addBlock(
-                this.state.slu,
-                {
-                    "filePath": this.state.audioRecorder.recPath,
-                    'type': 'audio'
-                }
-            );
-
-            this.setState({
-                slu: note,
-                audioRecorder: undefined
-            });
-        }
-
         const button = this.state.controlbar_button.map(button => {
             if (button.id == 'audio') {
-                if (button.src == AudioButton) {
-                    button.src = AudioStartButton;
-
-                    if (!this.state.audioRecorder) {
-                        this.setState({ audioRecorder: new AudioRecorder() }, () => {
-                            this.state.audioRecorder.init(addAudioBlock).then(() => {
-                                this.state.audioRecorder.startRecording();
-                            });
-                        });
-                    }
-                } else {
-                    button.src = AudioButton;
-                    this.state.audioRecorder.stopRecording();
-                }
+                if (button.src == AudioButton) button.src = AudioStartButton;
+                else button.src = AudioButton;
             }
             return button;
         });
         this.setState({ button });
 
-        ipcRenderer.send('audio-click');
+        ipcRenderer.send('click-audio-btn');
     }
 
+    /**
+     * Send message to ipcMain with channel 'click-video-btn'
+     * Toggle state for video icon to inform user if it's recording.
+     * @method
+     */
     handleVideo = () => {
-        const addVideoBlock = (path) => {
-            const noteManager = new NoteManager();
-
-            // Add new block to the note object
-            let note = noteManager.addBlock(
-                this.state.slu,
-                { "filePath": path, 'type': 'video' }
-            );
-
-            this.setState({ slu: note });
-        }
-
         const button = this.state.controlbar_button.map(button => {
             if (button.id == 'video') {
-                if (button.src == VideoButton) {
-                    button.src = VideoStartButton;
-                    videoRecordStart();
-                } else {
-                    button.src = VideoButton;
-                    videoRecordStop(addVideoBlock);
-                }
+                if (button.src == VideoButton) button.src = VideoStartButton;
+                else button.src = VideoButton;
             }
             return button;
         });
         this.setState({ button });
-        ipcRenderer.send('video-click');
-    }
-
-    handleText = () => {
-        ipcRenderer.send('text-click');
-        ipcRenderer.once('main-save-twin-value', (event, args) => {
-            const noteManager = new NoteManager();
-
-            // Add new text block to the note object
-            let note = noteManager.addBlock(this.state.slu, args);
-            this.setState({ slu: note });
-        });
-    }
-
-    handleDragsnip = () => {
-        ipcRenderer.send('capture-screen');
-        ipcRenderer.removeAllListeners('dragsnip-saved');
-        ipcRenderer.once('dragsnip-saved', (event, dragsnipPath) => {
-            const noteManager = new NoteManager();
-
-            // Add new block to the note object
-            let note = noteManager.addBlock(this.state.slu, { "filePath": dragsnipPath });
-            this.setState({ slu: note });
-        });
+        ipcRenderer.send('click-video-btn');
     }
 
     //close the program
@@ -265,28 +165,6 @@ export default class ControlBar extends Component {
     //get to the main page
     EnterHome = () => {
         ipcRenderer.send('main-click');
-    }
-
-    ipcOnShortcut = () => {
-        ipcRenderer.on('Shift+F1', () => {
-            this.handleFullsnip();
-        });
-
-        ipcRenderer.on('Shift+F2', () => {
-            this.handleText();
-        });
-
-        ipcRenderer.on('Shift+F3', () => {
-            this.handleDragsnip();
-        });
-
-        ipcRenderer.on('Shift+F4', () => {
-            this.handleAudio();
-        });
-
-        ipcRenderer.on('Shift+F5', () => {
-            this.handleVideo();
-        });
     }
 
     render() {

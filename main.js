@@ -55,28 +55,28 @@ app.on('activate', () => {
 // When pressed Shift+F1, it will send message with channel 'Shift+F1'.
 ipcMain.on('register-shortcuts', () => {
     globalShortcut.register('Shift+F1', () => {
-        // Send message to control bar window with channel 'Shift+F1'
-        controlbarWin.webContents.send('Shift+F1');
+        // Send message to home window with channel 'full-snip'
+        homeWin.webContents.send('full-snip');
     });
 
     globalShortcut.register('Shift+F2', () => {
-        // Send message to control bar window with channel 'Shift+F2'
-        controlbarWin.webContents.send('Shift+F2');
+        // Send message to home window with channel 'open-text-win'
+        homeWin.webContents.send('open-text-win');
     });
 
     globalShortcut.register('Shift+F3', () => {
-        // Send message to control bar window with channel 'Shift+F3'
-        controlbarWin.webContents.send('Shift+F3');
+        // Send message to home window with channel 'drag-snip'
+        homeWin.webContents.send('drag-snip');
     });
 
     globalShortcut.register('Shift+F4', () => {
-        // Send message to control bar window with channel 'Shift+F4'
-        controlbarWin.webContents.send('Shift+F4');
+        // Send message to home window with channel 'record-audio'
+        homeWin.webContents.send('record-audio');
     });
 
     globalShortcut.register('Shift+F5', () => {
-        // Send message to control bar window with channel 'Shift+F5'
-        controlbarWin.webContents.send('Shift+F5');
+        // Send message to home window with channel 'record-video'
+        homeWin.webContents.send('record-video');
     });
 });
 
@@ -154,6 +154,14 @@ ipcMain.on('twin-ok', (event, args) => {
     textWin = null;
 });
 
+ipcMain.on('click-text-btn', () => homeWin.webContents.send('open-text-win'));
+
+ipcMain.on('click-dragsnip-btn', () => homeWin.webContents.send('drag-snip'));
+
+ipcMain.on('click-audio-btn', () => homeWin.webContents.send('record-audio'));
+
+ipcMain.on('click-video-btn', () => homeWin.webContents.send('record-video'));
+
 // Keep listening on channel 'quit-click'.
 // If it receive message from that channel, it would close control bar window
 // and close text window if existed.
@@ -203,43 +211,19 @@ ipcMain.on('file-open-click', (event, args) => {
         }
     });
 
-    // Keep listening on channel 'cb-init-slu'.
-    ipcMain.once('cb-init-slu', () => {
+    // Keep listening on channel 'init-tl'.
+    ipcMain.once('init-tl', () => {
         // If it receive message from that channel, it would send message to 
-        // control bar window with channel 'cb-init-slu'.
-        if (args) controlbarWin.webContents.send('cb-init-slu', args);
+        // control bar window with channel 'init-tl'.
+        homeWin.webContents.send('init-tl', args);
     });
 });
 
-// Keep listening on channel 'tl-init-slu'.
-// If it receive message from that channel, it would send message to control bar window
-// with channel 'tl-init-slu'.
-ipcMain.on('tl-init-slu', () => {
-    controlbarWin.webContents.send('tl-init-slu');
-});
-
-// Keep listening on channel 'tl-sync-cb'.
-// If it receive message from that channel, it would send message to control bar window
-// with channel 'tl-sync-cb'.
-ipcMain.on('tl-sync-cb', (event, args) => {
-    controlbarWin.webContents.send('cb-init-slu', args);
-});
-
-// Keep listening on channel 'cb-sync-with-slu'.
+// Keep listening on channel 'init-tl-title'.
 // If it receive message from that channel, it would send message to home window
-// with channel 'cb-sync-with-slu'.
-ipcMain.on('cb-sync-with-slu', (event, args) => {
-    // Only sync messages when home window and control bar window are open at once.
-    if (homeWin !== null && controlbarWin !== null) {
-        homeWin.webContents.send('cb-sync-with-slu', args);
-    }
-});
-
-// Keep listening on channel 'init-slu-title'.
-// If it receive message from that channel, it would send message to home window
-// with channel 'init-slu-title'.
-ipcMain.on('init-slu-title', (event, args) => {
-    if (homeWin !== null) homeWin.webContents.send('init-slu-title', args);
+// with channel 'init-tl-title'.
+ipcMain.on('init-tl-title', (event, args) => {
+    if (homeWin !== null) homeWin.webContents.send('init-tl-title', args);
 });
 
 // Keep listening on channel 'slu-return-to-main'.

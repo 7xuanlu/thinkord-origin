@@ -28,7 +28,7 @@ class Timeline extends Component {
   }
 
   componentDidMount() {
-    ipcRenderer.once('init-slu-title', (event, title) => {
+    ipcRenderer.once('init-tl-title', (event, title) => {
       this.setState({ sluTitle: title });
     });
 

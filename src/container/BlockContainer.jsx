@@ -6,7 +6,14 @@ import TextBlock from "../components/TextBlock";
 import AudioBlock from "../components/AudioBlock";
 
 import { ipcRenderer } from "electron";
+import { AudioRecorder } from '../renderer/audio-recorder';
+import { videoRecordStart, videoRecordStop } from '../renderer/video-recorder';
+import { videoRecorder } from '../renderer/video-recorder';
 import { JSONManager } from "../renderer/json-manager";
+import { NoteManager } from "../renderer/note-manager";
+
+// Import media API modules
+import { getScreenshot } from '../renderer/screenshot';
 
 // Third-party packages
 // Notification
@@ -34,17 +41,20 @@ export class BlockContainer extends Component {
     }
 
     componentDidMount() {
-        let noti_save = null;
-        let noti_redo = null;
-        let noti_undo = null;
+        let notiSave = null;
+        let notiRedo = null;
+        let notiUndo = null;
+        let audioRecorder = null;
 
-        ipcRenderer.send('tl-init-slu');
+        ipcRenderer.send('init-tl');
 
-        ipcRenderer.on('cb-sync-with-slu', (event, args) => {
-            ipcRenderer.send('init-slu-title', args.slu.name);
-            this.setState({
-                sluPath: args.sluPath,
-                slu: args.slu
+        ipcRenderer.once('init-tl', (event, args) => {
+            jsonManager.readJSON(args.path).then((slu) => {
+                ipcRenderer.send('init-tl-title', slu.name);
+                this.setState({
+                    slu: slu,
+                    sluPath: args.path
+                });
             });
         });
 
@@ -61,7 +71,7 @@ export class BlockContainer extends Component {
             jsonManager.renameSluFile(sluPath, slu.name);
             ipcRenderer.send('tl-sync-cb', { path: sluPath });
 
-            noti_save = this.handleNoti(noti_save, type, msg);
+            notiSave = this.handleNoti(notiSave, type, msg);
         });
 
         //change the content of timeline and show the notification (frontend)
@@ -73,7 +83,7 @@ export class BlockContainer extends Component {
             } else {
                 let msg = 'Cannot undo anymore!';
                 let type = 'warning';
-                noti_undo = this.handleNoti(noti_undo, type, msg);
+                notiUndo = this.handleNoti(notiUndo, type, msg);
             }
         });
 
@@ -87,7 +97,7 @@ export class BlockContainer extends Component {
             } else {
                 let msg = 'Cannot redo anymore!';
                 let type = 'warning';
-                noti_redo = this.handleNoti(noti_redo, type, msg);
+                notiRedo = this.handleNoti(notiRedo, type, msg);
             }
         });
 
@@ -136,7 +146,27 @@ export class BlockContainer extends Component {
                     });
                 }
             });
-        })
+        });
+
+        ipcRenderer.on('full-snip', () => {
+            this.handleFullsnip();
+        });
+
+        ipcRenderer.on('open-text-win', () => {
+            this.handleText();
+        });
+
+        ipcRenderer.on('drag-snip', () => {
+            this.handleDragsnip();
+        });
+
+        ipcRenderer.on('record-audio', () => {
+            audioRecorder = this.handleAudio(audioRecorder);
+        });
+
+        ipcRenderer.on('record-video', () => {
+            this.handleVideo(videoRecorder);
+        });
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -345,6 +375,90 @@ export class BlockContainer extends Component {
         let linkedtext = Autolinker.link(text).trim();
         let element = parse(linkedtext);
         return element;
+    }
+
+    handleText = () => {
+        ipcRenderer.send('text-click');
+        ipcRenderer.once('main-save-twin-value', (event, args) => {
+            const noteManager = new NoteManager();
+
+            // Add new text block to the note object
+            let note = noteManager.addBlock(this.state.slu, args);
+            this.setState({ slu: note });
+        });
+    }
+
+    handleFullsnip = () => {
+        const addSnipBlock = (path) => {
+            const noteManager = new NoteManager();
+            // Add new block to the note object
+            let note = noteManager.addBlock(this.state.slu, { "filePath": path });
+            this.setState({ slu: note });
+        }
+
+        getScreenshot(addSnipBlock);
+    }
+
+    handleDragsnip = () => {
+        ipcRenderer.send('capture-screen');
+        ipcRenderer.removeAllListeners('dragsnip-saved');
+        ipcRenderer.once('dragsnip-saved', (event, dragsnipPath) => {
+            const noteManager = new NoteManager();
+
+            // Add new block to the note object
+            let note = noteManager.addBlock(this.state.slu, { "filePath": dragsnipPath });
+            this.setState({ slu: note });
+        });
+    }
+
+    handleAudio = (audioRecorder) => {
+        const addAudioBlock = (path) => {
+            const noteManager = new NoteManager();
+
+            // Add new block to the note object
+            let note = noteManager.addBlock(
+                this.state.slu,
+                {
+                    "filePath": path,
+                    'type': 'audio'
+                }
+            );
+
+            this.setState({ slu: note, });
+        }
+
+        if (!audioRecorder) {
+            audioRecorder = new AudioRecorder();
+
+            audioRecorder.startRecording();
+
+            return audioRecorder;
+        }
+
+        audioRecorder.stopRecording(addAudioBlock);
+        audioRecorder = null;
+
+        return audioRecorder;
+    }
+
+    handleVideo = () => {
+        const addVideoBlock = (path) => {
+            const noteManager = new NoteManager();
+
+            // Add new block to the note object
+            let note = noteManager.addBlock(
+                this.state.slu,
+                { "filePath": path, 'type': 'video' }
+            );
+
+            this.setState({ slu: note });
+        }
+
+        if (!videoRecorder) {
+            videoRecordStart();
+        } else {
+            videoRecordStop(addVideoBlock);
+        }
     }
 
     //decide the type of each block

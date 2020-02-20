@@ -7,13 +7,15 @@ const path = require('path');
 const uuidv1 = require('uuid/v1');
 
 const userPath = app.getPath('userData').replace(/\\/g, '\\\\');
-let recorder;
+let videoRecorder;
 let videoChunks, videoBlob;
 let reader;
 
-// Electron provides screen recording functions
-// see https://www.electronjs.org/docs/api/desktop-capturer#desktopcapturergetsourcesoptions-callback
-export function videoRecordStart() {
+/**
+ * Start recording video
+ * @function
+ */
+const videoRecordStart = () => {
     desktopCapturer.getSources({ types: ['window', 'screen'] }, () => {
         navigator.mediaDevices.getUserMedia({
             audio: { mandatory: { chromeMediaSource: 'desktop' } },
@@ -25,22 +27,27 @@ export function videoRecordStart() {
                 }
             }
         }).then((stream) => {
-            recorder = new MediaRecorder(stream);
-            recorder.ondataavailable = (event) => {
+            videoRecorder = new MediaRecorder(stream);
+            videoRecorder.ondataavailable = (event) => {
                 videoChunks = [];
                 videoChunks.push(event.data);
             };
-            recorder.start();
+            videoRecorder.start();
         }).catch((err) => console.log(err));
     });
 }
 
-export function videoRecordStop(addVideoBlock) {
+/**
+ * Stop recording video
+ * @function
+ * @param {function} addVideoBlock 
+ */
+const videoRecordStop = (addVideoBlock) => {
     let recPath = path.join(userPath, 'MediaResource', `${uuidv1()}.mp4`);
     reader = new FileReader();
-    recorder.stop();
+    videoRecorder.stop();
 
-    recorder.onstop = function () {
+    videoRecorder.onstop = function () {
         reader.onload = () => {
             if (reader.readyState == 2) {
                 let videoBuffer = new Buffer(reader.result);
@@ -58,3 +65,5 @@ export function videoRecordStop(addVideoBlock) {
         reader.readAsArrayBuffer(videoBlob);
     };
 }
+
+export { videoRecorder, videoRecordStart, videoRecordStop };
