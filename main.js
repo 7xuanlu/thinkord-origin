@@ -212,7 +212,7 @@ ipcMain.on('file-open-click', (event, args) => {
     });
 
     // Keep listening on channel 'init-tl'.
-    ipcMain.once('init-tl', () => {
+    ipcMain.on('init-tl', () => {
         // If it receive message from that channel, it would send message to 
         // control bar window with channel 'init-tl'.
         homeWin.webContents.send('init-tl', args);
