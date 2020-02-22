@@ -2,7 +2,10 @@
 module.exports = (sequelize, DataTypes) => {
   const Block = sequelize.define('Block', {
     blockName: DataTypes.STRING,
-    blockType: DataTypes.ENUM,
+    blockType:{ 
+      type:DataTypes.ENUM,
+      values: ['text','image','audio','video']
+    },
     title: DataTypes.STRING,
     description: DataTypes.TEXT,
     bookmark: DataTypes.BOOLEAN,
