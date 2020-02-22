@@ -30,12 +30,6 @@ app.on('ready', () => {
     homeWin = browserWindow.createHomeWindow(homeWin);
     // tray = noteTray.enable(controlbarWin);  // Show Win10's tray at bottom right of your screen
 
-    // Set up the database connection
-    db
-        .authenticate()
-        .then(() => console.log('connect successfully'))
-        .catch((err) => console.log(err))
-
     const { screen } = require('electron');
     const size = screen.getPrimaryDisplay().workAreaSize;
     browserWindow.setControlBarPosition(size);
