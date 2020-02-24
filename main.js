@@ -8,6 +8,10 @@ const browserWindow = require('./app/browser-window');  // All functions related
 const { useCapture } = require('./src/renderer/dragsnip/capture-main');
 const { initUserEnv } = require('./app/init-user-env');
 
+// Add exception module to test
+const exceptions = require('./src/exceptions/exceptions');
+const exceptionHandler = exceptions.exceptionHandler;
+
 // Path to app.json, which stores every timeline's location
 const appSettingPath = path.join(app.getPath('userData'), 'app.json');
 
@@ -21,6 +25,7 @@ let controlbarWin = null;  // Control bar window
 let textWin = null;  // Text window
 let homeWin = null;  // Home window
 // let tray = null;
+let exHandler = new exceptionHandler();
 
 // This is the entry point to the application
 app.on('ready', () => {
@@ -31,6 +36,9 @@ app.on('ready', () => {
     const { screen } = require('electron');
     const size = screen.getPrimaryDisplay().workAreaSize;
     browserWindow.setControlBarPosition(size);
+    exHandler.register("Whoops!", "baseError");
+    // exceptions.test();
+    exHandler.raiseException("baseError");
 });
 
 app.on('window-all-closed', () => {
