@@ -68,7 +68,7 @@ const captureScreen = (e, args) => {
             captureWin.blur();
         }
         // 調試用
-        // captureWin.openDevTools()
+        captureWin.openDevTools();
         captureWin.on('closed', () => {
             let index = captureWins.indexOf(captureWin);
             if (index !== -1) {
@@ -81,7 +81,7 @@ const captureScreen = (e, args) => {
     })
 }
 
-const useCapture = (controlbar) => {
+const useCapture = (homeWin) => {
     globalShortcut.register('Esc', () => {
         if (captureWins) {
             captureWins.forEach(win => win.close());
@@ -103,10 +103,10 @@ const useCapture = (controlbar) => {
         if (captureWins) {
             captureWins.forEach(win => win.minimize());
         }
-        controlbar.webContents.send('dragsnip-saved', dragsnipPath);
+        homeWin.webContents.send('dragsnip-saved', dragsnipPath);
     });
 
-    controlbar.once('closed', () => {
+    homeWin.once('closed', () => {
         ipcMain.removeAllListeners('dragsnip-saved');
     });
 }

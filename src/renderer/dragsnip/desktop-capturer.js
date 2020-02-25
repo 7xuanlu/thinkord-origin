@@ -2,6 +2,12 @@ const { getCurrentScreen } = require('./utils')
 
 const curScreen = getCurrentScreen()
 
+/**
+ * Get screen resources and create canvas and video
+ * @function
+ * 
+ * @param {function} callback 
+ */
 function getScreen(callback) {
     this.callback = callback
 
@@ -65,7 +71,7 @@ function getScreen(callback) {
         require('electron').desktopCapturer.getSources({
             types: ['screen'],
             thumbnailSize: { width: 1, height: 1 },
-        }, (e, sources) => {
+        }).then(async sources => {
             let selectSource = sources.filter(source => source.display_id + '' === curScreen.id + '')[0]
             navigator.getUserMedia({
                 audio: false,
@@ -82,7 +88,7 @@ function getScreen(callback) {
             }, (e) => {
                 this.handleStream(e)
             }, this.handleError)
-        })
+        });
     } else {
         navigator.getUserMedia({
             audio: false,

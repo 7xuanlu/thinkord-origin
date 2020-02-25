@@ -195,7 +195,7 @@ ipcMain.on('file-open-click', (event, args) => {
 
     if (controlbarWin === null) {
         controlbarWin = browserWindow.createControlBarWindow(controlbarWin);
-        useCapture(controlbarWin);
+        useCapture(homeWin);
     } else {
         controlbarWin.focus();
     }

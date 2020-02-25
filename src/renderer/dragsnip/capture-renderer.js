@@ -1,10 +1,14 @@
 import "@babel/polyfill";
 
-const { ipcRenderer, remote } = require('electron');
+// Nodejs modules
 const fs = require('fs');
-const uuidv1 = require('uuid/v1');
 const path = require('path');
+
+// Electron modules
+const { ipcRenderer, remote } = require('electron');
 const app = remote.app;
+
+const uuidv1 = require('uuid/v1');
 
 const { getScreenSources } = require('./desktop-capturer');
 const { CaptureEditor } = require('./capture-editor');
@@ -21,9 +25,9 @@ const $btnReset = document.getElementById('js-tool-reset');
 const currentScreen = getCurrentScreen();
 
 getScreenSources({}, (imgSrc) => {
+    console.log(imgSrc);
     // console.timeEnd('capture')
     let capture = new CaptureEditor($canvas, $bg, imgSrc);
-
     let onDrag = (selectRect) => {
         $toolbar.style.display = 'none'
     }
@@ -77,13 +81,11 @@ getScreenSources({}, (imgSrc) => {
         let dragsnipName = `${uuidv1()}.png`;
         let dragsnipPath = path.join(userPath, 'MediaResource', dragsnipName);
 
-        fs.writeFile(dragsnipPath, new Buffer(url.replace('data:image/png;base64,', ''), 'base64'), (err) => {
-            if (err) {
-                reject(err);
-            } else {
-                console.log("Dragsnip has been saved!")
-                ipcRenderer.send('dragsnip-saved', dragsnipPath);
-            }
+        fs.writeFile(dragsnipPath, new Buffer.from(url.replace('data:image/png;base64,', ''), 'base64'), (err) => {
+            if (err) console.log(err);
+
+            console.log("Dragsnip has been saved!")
+            ipcRenderer.send('dragsnip-saved', dragsnipPath);
         })
     });
 });

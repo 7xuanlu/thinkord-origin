@@ -404,11 +404,12 @@ export class BlockContainer extends Component {
         ipcRenderer.send('capture-screen');
         ipcRenderer.removeAllListeners('dragsnip-saved');
         ipcRenderer.once('dragsnip-saved', (event, dragsnipPath) => {
-            const noteManager = new NoteManager();
+            let noteManager = new NoteManager();
 
             // Add new block to the note object
             let note = noteManager.addBlock(this.state.slu, { "filePath": dragsnipPath });
             this.setState({ slu: note });
+            noteManager = null;
         });
     }
 

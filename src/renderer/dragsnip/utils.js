@@ -1,4 +1,5 @@
-const { remote, screen } = require('electron')
+const { remote } = require('electron');
+const screen = remote.screen;
 
 let currentWindow = remote.getCurrentWindow()
 
