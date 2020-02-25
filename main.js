@@ -36,9 +36,9 @@ app.on('ready', () => {
     const { screen } = require('electron');
     const size = screen.getPrimaryDisplay().workAreaSize;
     browserWindow.setControlBarPosition(size);
-    exHandler.register("Whoops!", "baseError");
+    // exHandler.register("Whoops!", "baseError");
     // exceptions.test();
-    exHandler.raiseException("baseError");
+    // exHandler.raiseException("baseError");
 });
 
 app.on('window-all-closed', () => {
@@ -98,6 +98,19 @@ ipcMain.on('unregister-shortcuts', () => {
     globalShortcut.register('Ctrl+Shift+s', () => {
         controlbarWin.webContents.send('Ctrl+Shift+s');
     });
+});
+
+// Keep listening on channel 'register-exceptions'.
+// If it receives message from that channel, it would register an exception through exHandler with given args.
+ipcMain.on('register-exceptions', (event, args) => {
+    console.log(args)
+    // exHandler.register(...args);
+    event.returnValue = "Registered exception";
+});
+
+ipcMain.on('raise-exception', (event, args) => {
+    console.log(args);
+    // event.returnValue = exHandler.raiseException(args).userError();
 });
 
 // Keep listening on channel 'savebutton'.

@@ -3,6 +3,8 @@ import '../container/css/Home.css';
 const { ipcRenderer } = require('electron');
 import { JSONManager } from '../renderer/json-manager';
 import FileButton from '../components/FileButton';
+// Test for Exception class
+import { exFront } from './Exceptions';
 
 // Third-party packages
 // Notification
@@ -42,6 +44,14 @@ export default class Home extends Component {
                 this.setState({ slus: args.slus.reverse() });
             };
         });
+        // Try to register a new exception
+        exFront.register("Base error message", "BaseError");
+        console.log(ipcRenderer.sendSync('register-exceptions', ["Base error message", "BaseError"]))
+        exFront.handleCondition((1==2), "success", "BaseError");
+        // ipcRenderer.on('raise-exception', (event, args) => {
+        //     console.log("Raising exceptions");
+        //     console.log(args);
+        // });
 
         ipcRenderer.on('main-reply-rename', (event, args) => {
             if (!args.err) {

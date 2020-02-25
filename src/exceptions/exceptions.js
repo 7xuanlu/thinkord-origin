@@ -1,3 +1,5 @@
+// Defining errors and error handler for backend
+
 const { dialog } = require('electron');
 
 // Base class for all custom errors
@@ -10,17 +12,30 @@ class BaseError extends Error {
      Error.captureStackTrace(this, BaseError);
    }
   }
+  // Return json object to the client side
+  toJSON() {
+    return {
+      error: {
+        name: this.name,
+        message: this.message,
+        stacktrace: this.stack
+      }
+    }
+  }
+
   // Error for development
   devError(){
-    console.error(this.message);
+    console.log("Inside dev error");
+    console.log(this.message);
     console.log(`An unexpected ${this.name} occurred!`);
-    console.error(this.stack);
+    console.log(this.stack);
+    return;
   }
 
   // Error to alert users
   userError(){
     console.log('Inside user error');
-    return noti_rename;
+    return JSON.stringify(this);
   }
 }
 
@@ -37,6 +52,7 @@ class exceptionHandler {
   raiseException(errorName){
     // throw this.errorTypes[errorName];
     this.errorTypes[errorName].devError();
+    return this.errorTypes[errorName].userError();
   }
 }
 exports.test = () => {
