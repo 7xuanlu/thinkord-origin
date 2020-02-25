@@ -129,27 +129,25 @@ ipcMain.on('modal-download-html', (event) => {
     }
 });
 
-// Keep listening on channel 'text-click'.
+// Keep listening on channel 'open-text-win'.
 // If it receive message from that channel, it would create a new text window if not existed.
-ipcMain.on('text-click', () => {
-    if (textWin === null) {
-        textWin = browserWindow.createTextWindow(textWin, controlbarWin);
-    }
+ipcMain.on('open-text-win', () => {
+    if (textWin === null) textWin = browserWindow.createTextWindow(textWin, controlbarWin);
     textWin.focus();
 });
 
-// Keep listening on channel 'twin-cancel'.
+// Keep listening on channel 'close-text-win'.
 // If it receive message from that channel, it would close text window.
-ipcMain.on('twin-cancel', () => {
+ipcMain.on('close-text-win', () => {
     textWin.close();
     textWin = null;
 });
 
 // Keep listening on channel 'twin-ok'.
 // If it receive message from that channel, it would send message with channel 
-// 'main-save-twin-value' to control bar window and close text window.
-ipcMain.on('twin-ok', (event, args) => {
-    controlbarWin.webContents.send('main-save-twin-value', args);
+// 'save-text-win-value' to control bar window and close text window.
+ipcMain.on('save-text-win-value', (event, args) => {
+    homeWin.webContents.send('save-text-win-value', args);
     textWin.close();
     textWin = null;
 });

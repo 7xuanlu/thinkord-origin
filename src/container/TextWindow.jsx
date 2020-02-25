@@ -26,12 +26,16 @@ export class TextWindow extends Component {
         }
     }
 
-    //When you click on this button, it would modify the content of timeline.
+    /**
+     * When you click on this button, it would close the text window and send title 
+     * and textarea value to main process.
+     * @method
+     */
     handleOK = () => {
         const title = this.titleRef.current;
         const textarea = this.textRef.current;
 
-        ipcRenderer.send('twin-ok', {
+        ipcRenderer.send('save-text-win-value', {
             "title": title.value,
             "text": textarea.value,
             "isMark": this.state.isMark,
@@ -39,29 +43,33 @@ export class TextWindow extends Component {
         });
     }
 
-    //When you click on this button, it would close the text window without saving anything
-    handleCancel = () => {
-        ipcRenderer.send('twin-cancel');
-    }
+    /**
+     * When you click on this button, it would close the text window without saving anything
+     * @method
+     */
+    handleCancel = () => ipcRenderer.send('close-text-win');
 
-    //When you click on this button, it will change the state of icon and the value of parameter.
+    /**
+     * When you click on this button, it will change the state of icon and the value of parameter.
+     * @method
+     */ 
     handleMark = () => {
-        if(this.state.isMark === true){
+        if (this.state.isMark === true) {
             const btn = this.state.textwindow_button.map(button => {
-                if(button.id === 'mark'){
+                if (button.id === 'mark') {
                     button.src = MarkButton
                 }
                 return button
             });
-            this.setState({textwindow_button: btn});
-        }else{
+            this.setState({ textwindow_button: btn });
+        } else {
             const btn = this.state.textwindow_button.map(button => {
-                if(button.id === 'mark'){
+                if (button.id === 'mark') {
                     button.src = MarkFillButton
                 }
                 return button
             });
-            this.setState({textwindow_button: btn});
+            this.setState({ textwindow_button: btn });
         }
         this.setState({ isMark: !this.state.isMark });
     }

@@ -378,13 +378,14 @@ export class BlockContainer extends Component {
     }
 
     handleText = () => {
-        ipcRenderer.send('text-click');
-        ipcRenderer.once('main-save-twin-value', (event, args) => {
+        ipcRenderer.send('open-text-win');
+        ipcRenderer.once('save-text-win-value', (event, args) => {
             const noteManager = new NoteManager();
 
             // Add new text block to the note object
             let note = noteManager.addBlock(this.state.slu, args);
             this.setState({ slu: note });
+            noteManager = null;
         });
     }
 
