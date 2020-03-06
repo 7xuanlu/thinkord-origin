@@ -8,7 +8,6 @@ import AudioBlock from "../components/AudioBlock";
 import { ipcRenderer } from "electron";
 import { AudioRecorder } from '../renderer/audio-recorder';
 import { videoRecordStart, videoRecordStop } from '../renderer/video-recorder';
-import { videoRecorder } from '../renderer/video-recorder';
 import { JSONManager } from "../renderer/json-manager";
 import { NoteManager } from "../renderer/note-manager";
 
@@ -37,6 +36,7 @@ export class BlockContainer extends Component {
         this.state = {
             slu: {},
             sluPath: "",
+            isVideoRecording: false,
         }
     }
 
@@ -165,7 +165,10 @@ export class BlockContainer extends Component {
         });
 
         ipcRenderer.on('record-video', () => {
-            this.handleVideo(videoRecorder);
+            let isVideoRecording = this.state.isVideoRecording;
+            this.setState({ isVideoRecording: !isVideoRecording }, () => {
+                this.handleVideo();
+            });
         });
     }
 
@@ -456,7 +459,7 @@ export class BlockContainer extends Component {
             this.setState({ slu: note });
         }
 
-        if (!videoRecorder) {
+        if (this.state.isVideoRecording) {
             videoRecordStart();
         } else {
             videoRecordStop(addVideoBlock);

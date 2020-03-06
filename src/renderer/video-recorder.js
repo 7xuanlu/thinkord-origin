@@ -1,9 +1,14 @@
+// Nodejs modules
+const fs = require('fs');
+const path = require('path');
+
+// Electron modules
 const electron = require('electron');
 const { desktopCapturer } = electron;
 const remote = require('electron').remote;
 const app = remote.app;
-const fs = require('fs');
-const path = require('path');
+
+// Third party modules
 const uuidv1 = require('uuid/v1');
 
 const userPath = app.getPath('userData').replace(/\\/g, '\\\\');
@@ -16,24 +21,41 @@ let reader;
  * @function
  */
 const videoRecordStart = () => {
-    desktopCapturer.getSources({ types: ['window', 'screen'] }, () => {
-        navigator.mediaDevices.getUserMedia({
-            audio: { mandatory: { chromeMediaSource: 'desktop' } },
-            video: {
-                mandatory: {
-                    chromeMediaSource: 'desktop',
-                    maxWidth: window.screen.width,
-                    maxHeight: window.screen.height
+    const handleStream = (stream) => {
+        videoRecorder = new MediaRecorder(stream);
+        videoRecorder.ondataavailable = (event) => {
+            videoChunks = [];
+            videoChunks.push(event.data);
+        };
+        videoRecorder.start();
+        console.log('Start video recording');
+    }
+
+    const handleError = (err) => {
+        console.log(err);
+    }
+
+    desktopCapturer.getSources({ types: ['window', 'screen'] }).then(async sources => {
+        for (const source of sources) {
+            if (source.name === 'Entire Screen') {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({
+                        audio: { mandatory: { chromeMediaSource: 'desktop' } },
+                        video: {
+                            mandatory: {
+                                chromeMediaSource: 'desktop',
+                                maxWidth: window.screen.width,
+                                maxHeight: window.screen.height
+                            }
+                        }
+                    });
+                    handleStream(stream);
+                } catch (err) {
+                    handleError(err);
                 }
+                return
             }
-        }).then((stream) => {
-            videoRecorder = new MediaRecorder(stream);
-            videoRecorder.ondataavailable = (event) => {
-                videoChunks = [];
-                videoChunks.push(event.data);
-            };
-            videoRecorder.start();
-        }).catch((err) => console.log(err));
+        }
     });
 }
 
@@ -50,7 +72,7 @@ const videoRecordStop = (addVideoBlock) => {
     videoRecorder.onstop = function () {
         reader.onload = () => {
             if (reader.readyState == 2) {
-                let videoBuffer = new Buffer(reader.result);
+                let videoBuffer = Buffer.from(reader.result);
                 fs.writeFile(recPath, videoBuffer, (err) => {
                     if (err) {
                         console.log(err);
@@ -66,4 +88,4 @@ const videoRecordStop = (addVideoBlock) => {
     };
 }
 
-export { videoRecorder, videoRecordStart, videoRecordStop };
+export { videoRecordStart, videoRecordStop };
