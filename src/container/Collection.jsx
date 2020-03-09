@@ -1,43 +1,45 @@
+// React modules
 import React, { Component } from 'react';
 import BlockContainer from "./BlockContainer";
 import Header from "../components/layout/Header";
 import Progressbar from "../components/layout/Progressbar";
 import Navigationbar from '../components/layout/Navigationbar';
 import ExportModal from '../components/ExportModal';
-import './css/Timeline.css';
+import './css/Collection.css';
 
+// ELectron module
 import { ipcRenderer } from "electron";
 
 // Third-party packages
-// This is to block UI interaction while user adding blocks to timeline
+// This is to block UI interaction while user adding blocks to collection
 import BlockUi from 'react-block-ui';
 import 'react-block-ui/style.css';
 
 // Renderer shortcut
 const Mousetrap = require('mousetrap');
 
-class Timeline extends Component {
+class Collection extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       saveSign: true,
-      sluTitle: '',
+      title: '',
       modalShow: false
     }
   }
 
   componentDidMount() {
-    ipcRenderer.once('init-tl-title', (event, title) => {
-      this.setState({ sluTitle: title });
+    ipcRenderer.once('init-collection-title', (event, title) => {
+      this.setState({ title: title });
     });
 
-    // When you press stop recording, then you could save slu
+    // When you press stop recording, then you could save collection
     ipcRenderer.on('savebutton', () => {
       this.setState({ saveSign: !this.state.saveSign });
     });
 
-    // When you press start recording, the you could not save slu
+    // When you press start recording, the you could not save collection
     ipcRenderer.on('hidesavebutton', () => {
       this.setState({ saveSign: !this.state.saveSign });
     });
@@ -57,23 +59,19 @@ class Timeline extends Component {
   }
 
   // Return to Mainwindow
-  returnToMain = () => {
-    ipcRenderer.send('slu-return-to-main');
-  }
+  returnToMain = () => ipcRenderer.send('return-to-home');
 
   // Write data to the json file
-  saveChange = () => {
-    ipcRenderer.send('navbar-save-slu');
-  }
+  saveChange = () => ipcRenderer.send('save-collection');
 
   handleExport = () => {
-    ipcRenderer.send('modal-download-html');
-    ipcRenderer.once('main-reply-html-download', () => {
+    ipcRenderer.send('download-html');
+    ipcRenderer.once('download-html', () => {
       this.setState({ modalShow: false });
     });
   }
 
-  //When you click the button, the screen would scroll to the bottom of timeline
+  // When you click the button, the screen would scroll to the bottom of collection
   scrollToBottom = () => {
     window.scrollTo({
       top: document.body.scrollHeight,
@@ -82,7 +80,7 @@ class Timeline extends Component {
     });
   }
 
-  //When you click the button, the screen would scroll to the top of timeline
+  // When you click the button, the screen would scroll to the top of collection
   scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -91,23 +89,20 @@ class Timeline extends Component {
     });
   }
 
-  //When you click the button, timeline would change its state to the previous one
+  // When you click the button, collection would change its state to the previous one
   handleClickPreviousStep = () => {
     ipcRenderer.send('pre-step-click');
   }
 
-  //When you click the button, timeline would change its state to the next one
+  // When you click the button, collection would change its state to the next one
   handleClickNextStep = () => {
     ipcRenderer.send('next-step-click');
   }
 
-  //Change the content of title
+  // Change the content of title
   handleTitle = (title) => {
-    if (title === '') {
-      return;
-    } else {
-      this.setState({ sluTitle: title });
-    }
+    if (title === '') return;
+    else this.setState({ title: title });
   }
 
   render() {
@@ -115,14 +110,14 @@ class Timeline extends Component {
       <BlockUi tag="div" blocking={!this.state.saveSign} >
         <div className="App" id="App">
           <div className="pageContent" id="content">
-            <Header title={this.state.sluTitle} handleTitle={this.handleTitle} />
+            <Header title={this.state.title} handleTitle={this.handleTitle} />
             <div><Progressbar /></div>
             <BlockContainer
               onNewBlock={this.scrollToBottom}
               ReturnToTop={this.scrollToTop}
               clickHome={this.returnToMain}
               clickSave={this.state.saveSign && this.saveChange}
-              title={this.state.sluTitle}
+              title={this.state.title}
             />
             {!this.state.modalShow &&
               <Navigationbar
@@ -136,7 +131,7 @@ class Timeline extends Component {
               />}
             <ExportModal
               show={this.state.modalShow}
-              title={this.state.sluTitle}
+              title={this.state.title}
               onExport={this.handleExport}
               onHide={() => this.setState({ modalShow: false })}
             />
@@ -147,4 +142,4 @@ class Timeline extends Component {
   }
 }
 
-export default Timeline;
+export default Collection;

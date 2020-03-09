@@ -63,7 +63,7 @@ export function speech2text(filePath, time, handleSpeechText) {
 
     // Signals that the speech service has detected that speech has stopped.
     reco.speechEndDetected = (s, e) => {
-        // Updates the recognized speech to timeline
+        // Updates the recognized speech to collection
         handleSpeechText(textResult, time);
         // Stops recognition and disposes of resources.
         reco.stopContinuousRecognitionAsync(

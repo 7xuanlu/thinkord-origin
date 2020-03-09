@@ -5,11 +5,11 @@ import BlockTitle from '../components/BlockTitle';
 import BlockDescription from "../components/BlockDescription"
 
 // import icon
-import BlockIcon from"../asset/timeline/quote-right.svg"
-import TrashIcon from"../asset/timeline/trash-alt.svg"
-import AngleIcon from"../asset/timeline/angle-up.svg"
-import MarkIcon from"../asset/timeline/bookmark.svg"
-import MarkFullIcon from"../asset/timeline/bookmark-full.svg"
+import BlockIcon from"../asset/collection/quote-right.svg"
+import TrashIcon from"../asset/collection/trash-alt.svg"
+import AngleIcon from"../asset/collection/angle-up.svg"
+import MarkIcon from"../asset/collection/bookmark.svg"
+import MarkFullIcon from"../asset/collection/bookmark-full.svg"
 
 
 export default function TextBlock(props) {
@@ -36,7 +36,7 @@ export default function TextBlock(props) {
             <BlockTitle className="blockTitle" time={props.block.timestamp} onChangeTitle={props.handleTitle} title={props.block.title} />
             <button className="iconBtn removeBtn" onClick={props.delBlock.bind(this, props.block.timestamp)}><img src={TrashIcon}></img></button>
             <form className="checkContainer">
-                <input className="check" id={checkid} type="checkbox"  /><label className="checkmark" for={checkid}></label>
+                <input className="check" id={checkid} type="checkbox"  /><label className="checkmark" htmlFor={checkid}></label>
             </form>
             <div className="iconBtn markBtn">
                 <img src={props.block.mark ? MarkFullIcon : MarkIcon} onClick={props.handleMark.bind(this, props.block.timestamp)}></img>

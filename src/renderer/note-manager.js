@@ -7,7 +7,7 @@ let getCurrentTime = () => {
 
 export class NoteManager {
     constructor() {
-        // Slu block format
+        // Block format
         this.mediaFormat = {
             "blocks": [
                 {

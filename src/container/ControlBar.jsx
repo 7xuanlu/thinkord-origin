@@ -36,8 +36,6 @@ export default class ControlBar extends Component {
                 { id: 'home', src: HomeButton, disable: false, tip: 'Home' },
                 { id: 'quit', src: QuitButton, disable: false, tip: 'Quit' }
             ],
-            slu: {},
-            sluPath: "",
             isRecord: false,
             jsonManager: jsonManager,
             audioRecorder: undefined
@@ -157,15 +155,17 @@ export default class ControlBar extends Component {
         ipcRenderer.send('click-video-btn');
     }
 
-    //close the program
-    handleQuit = () => {
-        ipcRenderer.send('quit-click');
-    }
+    /** 
+     * Close the whole application
+     * @method
+     */
+    handleQuit = () => ipcRenderer.send('quit-click');
 
-    //get to the main page
-    EnterHome = () => {
-        ipcRenderer.send('main-click');
-    }
+    /**
+     * Open the home page
+     * @method
+     */
+    EnterHome = () => ipcRenderer.send('click-home');
 
     render() {
         return (

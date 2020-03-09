@@ -1,67 +1,71 @@
+// Nodejs module
+const path = require('path');
+const fs = require('fs');
+
+// Electron module
 const remote = require('electron').remote;
 const { app } = remote;
 
-const path = require('path');
-const fs = require('fs');
+// Third party module
 const uuidv1 = require('uuid/v1');
 
 const appSettingPath = path.join(app.getPath('userData'), 'app.json');
-const sluDirPath = path.join(app.getPath('userData'), 'Slu');
+const collectionDir = path.join(app.getPath('userData'), 'Collection');
 
 export class JSONManager {
     constructor() {
-        const sluId = uuidv1();
+        const collectionId = uuidv1();
 
         // app.json's data format
-        this.initSluPathObj = {
-            "id": sluId,
+        this.initCollectionPathObj = {
+            "id": collectionId,
             "path": "",
             "name": ""
         }
 
-        // Timeline's data format
-        this.initSluObj = {
-            "id": sluId,
+        // Collection data format
+        this.initCollectionObj = {
+            "id": collectionId,
             "name": "",
             "blocks": []
         }
     }
 
-    // Initialize a new timeline in app.json and directory 'Slu'
+    // Initialize a new collection in app.json and directory 'Collection'
     async initJSON() {
         let counter = 1;
         let userDir = app.getPath('userData');  // User's directory.
         let appSettingPath = path.join(userDir, 'app.json');
-        let sluDir = path.join(userDir, 'Slu');  // Timeline's directory.
-        let sluPath = path.join(sluDir, 'Untitled 1.json');  // Default timeline's path.
-        let sluName = "Untitled 1";  // Default timeline's name.
+        let collectionDir = path.join(userDir, 'Collection');  // Collection's directory.
+        let collectionPath = path.join(collectionDir, 'Untitled 1.json');  // Default collection's path.
+        let collectionName = "Untitled 1";  // Default collection's name.
 
         // If the file "Untitled 1" is existed, it will be incremented by 1
-        while (fs.existsSync(sluPath)) {
+        while (fs.existsSync(collectionPath)) {
             counter += 1;
-            sluName = "Untitled " + counter;
-            sluPath = path.join(sluDir, "Untitled " + counter + ".json");
+            collectionName = "Untitled " + counter;
+            collectionPath = path.join(collectionDir, "Untitled " + counter + ".json");
         }
 
-        this.initSluObj.name = sluName;  // Update timeline's name.
+        this.initCollectionObj.name = collectionName;  // Update collection's name.
 
-        let jsonString = JSON.stringify(this.initSluObj); // Convert JS Object to string.
+        let jsonString = JSON.stringify(this.initCollectionObj); // Convert JS Object to string.
 
-        // Write the string to timeline's file.
-        fs.writeFile(sluPath, jsonString, (err) => {
+        // Write the string to collection's file.
+        fs.writeFile(collectionPath, jsonString, (err) => {
             if (err) throw err;
         });
 
-        // Insert newly created timeline's path to app.json
+        // Insert newly created collection's path to app.json
         fs.readFile(appSettingPath, (err, data) => {
             if (err) throw err;
 
             let json = JSON.parse(data);  // Parse string to JS object
 
-            // Record the path, which is user's newly created timeline.
-            this.initSluPathObj.path = sluPath;  // Update timeline's path.
-            this.initSluPathObj.name = sluName;  // Update timeline's name.
-            json['slus'].push(this.initSluPathObj);
+            // Record the path, which is user's newly created collection.
+            this.initCollectionPathObj.path = collectionPath;  // Update collection's path.
+            this.initCollectionPathObj.name = collectionName;  // Update collection's name.
+            json['collections'].push(this.initCollectionPathObj);
 
             let jsonString = JSON.stringify(json);  // Convert JS object to string.
 
@@ -71,19 +75,19 @@ export class JSONManager {
             });
         });
 
-        return sluPath;
+        return collectionPath;
     }
 
-    // Get user's timeline file
-    readJSON(sluPath) {
+    // Get user's collection file
+    readJSON(collectionPath) {
         // Return a promise object, waiting for it to be resolved.
         return new Promise((resolve, reject) => {
             // Check whether the file is existed.
-            fs.access(sluPath, (err) => {
+            fs.access(collectionPath, (err) => {
                 if (err) throw err;
 
-                console.log('File existed, trying to read slu json file')
-                fs.readFile(sluPath, (err, data) => {
+                console.log('File existed, trying to read collection json')
+                fs.readFile(collectionPath, (err, data) => {
                     if (err) throw err
 
                     let json = JSON.parse(data);  // Parse json to JS object
@@ -94,21 +98,21 @@ export class JSONManager {
         });
     }
 
-    // Write data to user's timeline file.
-    async writeJSON(json, sluPath) {
+    // Write data to user's collection file.
+    async writeJSON(json, collectionPath) {
         let jsonString = JSON.stringify(json);  // Convert JS object to string.
 
-        // Write the string to the original timeline file
-        fs.writeFile(sluPath, jsonString, 'utf8', (err) => {
+        // Write the string to the original collection file
+        fs.writeFile(collectionPath, jsonString, 'utf8', (err) => {
             if (err) throw err;
         });
     }
 
-    // Rename timeline in app.json
-    renameSluAppJSON(sluId, newSluName) {
-        const newSluPath = path.join(sluDirPath, newSluName + '.json');
-        // const newSluName = args.newSluName;
-        let oldSluName = null;
+    // Rename collection in app.json
+    renameCollectionAppJSON(collectionId, newCollectionName) {
+        const newCollectionPath = path.join(collectionDir, newCollectionName + '.json');
+        // const newcollectionName = args.newcollectionName;
+        let oldCollectionName = null;
 
         fs.readFile(appSettingPath, (err, data) => {
             if (err) throw err;
@@ -116,11 +120,11 @@ export class JSONManager {
             let json = JSON.parse(data);  // Parse string to JS object
 
             // Loop through array.
-            json["slus"].map((item, index) => {
-                if (item["id"] === sluId) {
-                    oldSluName = json["slus"][index].name;
-                    json["slus"][index].path = newSluPath;  // Update timeline's path.
-                    json["slus"][index].name = newSluName;  // Update timeline's name.
+            json["collections"].map((item, index) => {
+                if (item["id"] === collectionId) {
+                    oldCollectionName = json["collections"][index].name;
+                    json["collections"][index].path = newCollectionPath;  // Update collection's path.
+                    json["collections"][index].name = newCollectionName;  // Update collection's name.
                 }
             });
 
@@ -132,11 +136,11 @@ export class JSONManager {
         });
     }
 
-    // Rename timeline's name in file system.
-    renameSluFile(sluPath, newSluName) {
-        const newSluPath = path.join(sluDirPath, newSluName + '.json');
+    // Rename collection's name in file system.
+    renameCollection(collectionPath, newCollectionName) {
+        const newCollectionPath = path.join(collectionDir, newCollectionName + '.json');
 
-        fs.rename(sluPath, newSluPath, (err) => {
+        fs.rename(collectionPath, newCollectionPath, (err) => {
             if (err) throw err;
         });
     }

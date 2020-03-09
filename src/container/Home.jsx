@@ -1,25 +1,29 @@
+// React module
 import React, { Component } from 'react';
-import '../container/css/Home.css';
+
+// Electron module
 const { ipcRenderer } = require('electron');
+
+// Third-party packages
+import '../container/css/Home.css';
 import { JSONManager } from '../renderer/json-manager';
 import FileButton from '../components/FileButton';
 
-// Third-party packages
 // Notification
 import Noty from 'noty';
 import 'noty/lib/noty.css';
 import 'noty/lib/themes/mint.css';
 import 'noty/lib/themes/relax.css';
 
-//import icon
-import UserLoginIcon from"../asset/user.svg"
+// Import icon
+import UserLoginIcon from "../asset/user.svg"
 
 export default class Home extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            slus: [],
+            collections: [],
             home_page: false,
             help_page: true,
             about_us_page: true,
@@ -28,30 +32,30 @@ export default class Home extends Component {
     }
 
     componentDidMount() {
-        let noti_rename = null;  // Show notification after renaming the slu
-        let noti_delete = null;  // Show notification after deleting the slu
+        let noti_rename = null;  // Show notification after renaming the collection
+        let noti_delete = null;  // Show notification after deleting the collection
 
         // Initialize home
-        ipcRenderer.send('main-sync');
+        ipcRenderer.send('update-collections');
 
-        ipcRenderer.once('main-reply-sync', (event, args) => {
-            let stateSlu = JSON.stringify(this.state.slus)
-            let nextStateSlu = JSON.stringify(args.slus)
-            // Update state only when there exists some changes to slu
-            if (stateSlu !== nextStateSlu) {
-                this.setState({ slus: args.slus.reverse() });
+        ipcRenderer.once('update-collections', (event, args) => {
+            let stateCollection = JSON.stringify(this.state.collections)
+            let nextStateCollection = JSON.stringify(args.collections)
+            // Update state only when there exists some changes to collection
+            if (stateCollection !== nextStateCollection) {
+                this.setState({ collections: args.collections.reverse() });
             };
         });
 
-        ipcRenderer.on('main-reply-rename', (event, args) => {
+        ipcRenderer.on('rename-collection', (event, args) => {
             if (!args.err) {
-                let nextSlus = this.state.slus;
-                nextSlus[args.sluIdx].path = args.newSluPath;
-                nextSlus[args.sluIdx].name = args.newSluName;
-                this.setState({ slus: nextSlus });
+                let nextCollections = this.state.collections;
+                nextCollections[args.collectionIdx].path = args.newCollectionPath;
+                nextCollections[args.collectionIdx].name = args.newCollectionName;
+                this.setState({ collections: nextCollections });
                 noti_rename = this.handleNoti(noti_rename, args.msg);
             } else {
-                document.getElementById("label_" + args.sluIdx).innerText = args.oldSluName;
+                document.getElementById("label_" + args.collectionIdx).innerText = args.oldCollectionName;
                 noti_rename = new Noty({
                     type: 'error',
                     theme: 'relax',
@@ -61,13 +65,13 @@ export default class Home extends Component {
             }
         });
 
-        ipcRenderer.on('main-reply-delete', (event, args) => {
+        ipcRenderer.on('delete-collection', (event, args) => {
             if (!args.err) {
-                this.state.slus.map((slu) => {
-                    if (slu.path === args.sluPath) {
-                        let nextSlus = this.state.slus;
-                        nextSlus.splice(args.sluIdx, 1);  // Delete slu from array slus
-                        this.setState({ slus: nextSlus });
+                this.state.collection.map((collection) => {
+                    if (collection.path === args.collectionPath) {
+                        let nextCollections = this.state.collections;
+                        nextCollections.splice(args.collectionIdx, 1);  // Delete collection from array collections
+                        this.setState({ collections: nextCollections });
                     }
                 });
                 noti_delete = this.handleNoti(noti_delete, args.msg);
@@ -105,7 +109,7 @@ export default class Home extends Component {
         }
     }
 
-    //modify the css content while clicking the button of menu
+    // Modify the css content while clicking the button of menu
     handleMenuOpen = () => {
         const page = document.getElementById('page');
         page.classList.toggle('shazam');
@@ -116,13 +120,13 @@ export default class Home extends Component {
         page.classList.remove('shazam');
     }
 
-    //add a new file
+    // Add a new file
     handleAddClick = () => {
         const jsonManager = new JSONManager();
 
-        jsonManager.initJSON().then((sluPath) => {
+        jsonManager.initJSON().then((path) => {
             ipcRenderer.send('file-open-click', {
-                path: sluPath
+                path: path
             });
         });
     }
@@ -184,7 +188,7 @@ export default class Home extends Component {
         });
     }
 
-    //change the content in search bar according to whether user focus on search bar or not
+    // Change the content in search bar according to whether user focus on search bar or not
     handleSearchBarFocusOrNot = () => {
         var search_content = document.getElementById("main_search").value;
         if (search_content === 'Search...') {
@@ -194,27 +198,25 @@ export default class Home extends Component {
         }
     }
 
-    //search the file in local file system according to the text that user enter
+    // Search the file in local file system according to the text that user enter
     handleSearchClick = () => {
         var search_file = document.getElementById("main_search").value.toLowerCase();
-        var new_slus = [];
-        for (var i = 0; i < this.state.slus.length; i++) {
-            if (this.state.slus[i].path.split("\\").pop().toLowerCase().includes(search_file)) {
-                new_slus.push(this.state.slus[i]);
+        var new_collections = [];
+        for (var i = 0; i < this.state.collections.length; i++) {
+            if (this.state.collections[i].path.split("\\").pop().toLowerCase().includes(search_file)) {
+                new_collections.push(this.state.collections[i]);
             }
         }
-        this.setState({
-            slus: new_slus
-        });
+        this.setState({ collections: new_collections });
         document.getElementById("main_search").value = "Search...";
     }
 
-    //view all the file in local file system
+    // View all the file in local file system
     handleViewAllClick = () => {
-        ipcRenderer.send('main-sync');
+        ipcRenderer.send('update-collections');
 
-        ipcRenderer.once('main-reply-sync', (event, args) => {
-            this.setState({ slus: args.slus.reverse() });
+        ipcRenderer.once('update-collections', (event, args) => {
+            this.setState({ collections: args.collections.reverse() });
         });
     }
 
@@ -231,10 +233,10 @@ export default class Home extends Component {
                     <li><a href="#"><i className="icon fas fa-users" onClick={this.handleAboutUsClick}></i> About us</a></li>
                 </ul>
                 <main className="content" onClick={this.handleMenuClose}>
-                    
+
                     <div className="content_inner" hidden={this.state.home_page}>
-                        <h1>Thinkord</h1><br /> 
-    
+                        <h1>Thinkord</h1><br />
+
                         <div className="user_login"><button><img src={UserLoginIcon}></img></button>Login</div>
 
                         <div className="content_search">
@@ -250,18 +252,18 @@ export default class Home extends Component {
                             </button>
                             <button
                                 className="open_recent_btn expand"
-                                disabled={this.state.slus.length > 5 ? false : true}
+                                disabled={this.state.collections.length > 5 ? false : true}
                                 onClick={this.state.expand ? () => this.OpenRecentRemove() : () => this.OpenRecentToggle()}
                             >
                                 <i className="fas fa-chevron-circle-down"></i>
                             </button>
                         </h2><br />
                         <div className="pop_trigger">
-                            {this.state.slus.map((file) => {
-                                if (this.state.slus.indexOf(file) < 10) {
+                            {this.state.collections.map((file) => {
+                                if (this.state.collections.indexOf(file) < 10) {
                                     return <FileButton
                                         key={file.path}
-                                        index={this.state.slus.indexOf(file)}
+                                        index={this.state.collections.indexOf(file)}
                                         file={file}
                                         expand={this.state.expand}
                                     ></FileButton>

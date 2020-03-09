@@ -3,11 +3,11 @@ import BlockTitle from "../components/BlockTitle"
 import BlockDescription from "../components/BlockDescription"
 
 // import icon
-import BlockIcon from"../asset/timeline/images.svg"
-import TrashIcon from"../asset/timeline/trash-alt.svg"
-import AngleIcon from"../asset/timeline/angle-up.svg"
-import MarkIcon from"../asset/timeline/bookmark.svg"
-import MarkFullIcon from"../asset/timeline/bookmark-full.svg"
+import BlockIcon from"../asset/collection/images.svg"
+import TrashIcon from"../asset/collection/trash-alt.svg"
+import AngleIcon from"../asset/collection/angle-up.svg"
+import MarkIcon from"../asset/collection/bookmark.svg"
+import MarkFullIcon from"../asset/collection/bookmark-full.svg"
 
 
 export default function ImageBlock(props) {

@@ -44,7 +44,7 @@ After packaging the application, folder dist would be created and you could clic
 <img src="./src/asset/architecture.png">  
 
 •	React  
-    A Javascript front-end development architecture, originally developed by Facebook. We use it to build timeline note and control bar. 
+    A Javascript front-end development architecture, originally developed by Facebook. We use it to build collection note and control bar. 
 
 •	Electron & Node.js  
     A cross-platform desktop application development framework, developed by GitHub. We use it to invoke APIs that interact with the operating system. Such as screenshots, screen recording, audio recording.

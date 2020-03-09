@@ -137,22 +137,22 @@ exports.createHomeWindow = (homeWin) => {
     return homeWin;
 }
 
-exports.changeHomeToTimeline = (homeWin) => {
+exports.changeHomeToCollection = (homeWin) => {
     homeWin.minimize();
     if (mode === "development") {
         // Load index.html via webpack dev server.
-        homeWin.loadURL('http://localhost:3071/timeline.html');
+        homeWin.loadURL('http://localhost:3071/collection.html');
         // Open the DevTools.
         // home.webContents.openDevTools();
     } else {
         // Load index.html from the file system.
-        homeWin.loadFile('build/timeline.html');
+        homeWin.loadFile('build/collection.html');
     }
 
     return homeWin;
 }
 
-exports.changeTimelineToHome = (homeWin) => {
+exports.changeCollectionToHome = (homeWin) => {
     if (mode === "development") {
         // Load index.html via webpack dev server.
         homeWin.loadURL('http://localhost:3071/home.html');

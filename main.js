@@ -1,18 +1,19 @@
-const { app, ipcMain, globalShortcut, dialog } = require('electron');
+// Nodejs module
 const fs = require('fs');
 const path = require('path');
-require('dotenv').config();
 
+// Electron module
+const { app, ipcMain, globalShortcut, dialog } = require('electron');
 const noteTray = require('./app/note-tray');
 const browserWindow = require('./app/browser-window');  // All functions related to browser window are defined here
+
+// Third party module
 const { useCapture } = require('./src/renderer/dragsnip/capture-main');
 const { initUserEnv } = require('./app/init-user-env');
 
-// Path to app.json, which stores every timeline's location
-const appSettingPath = path.join(app.getPath('userData'), 'app.json');
-
-// Path to directory Slu, which stores timeline's blocks and media files
-const sluDirPath = path.join(app.getPath('userData'), 'Slu');
+let appSettingPath;  // Path to app.json, which stores every collection's location
+let collectionDir;  // Path to collection directory, which stores collection's blocks and media path
+let mediaDir;  // Path to media directory, which stores media files
 
 // // Make Win10 notification available
 // app.setAppUserModelId(process.execPath);
@@ -22,9 +23,16 @@ let textWin = null;  // Text window
 let homeWin = null;  // Home window
 // let tray = null;
 
+require('dotenv').config();
+initUserEnv().then(res => {
+    appSettingPath = res.appSettingPath;
+    collectionDir = res.collectionDir;
+    mediaDir = res.mediaDir;
+});
+
 // This is the entry point to the application
 app.on('ready', () => {
-    initUserEnv();  // Create required directory and files
+    // initUserEnv();  // Create required directory and files
     homeWin = browserWindow.createHomeWindow(homeWin);
     // tray = noteTray.enable(controlbarWin);  // Show Win10's tray at bottom right of your screen
 
@@ -104,16 +112,16 @@ ipcMain.on('hidesavebutton', () => {
     if (homeWin !== null) homeWin.webContents.send('hidesavebutton');
 });
 
-// Keep listening on channel 'navbar-save-slu'.
+// Keep listening on channel 'save-collection'.
 // If it receive message from that channel, it would send message with the same channel
 // back to the original sender.
-ipcMain.on('navbar-save-slu', (event) => {
-    event.reply('navbar-save-slu');
+ipcMain.on('save-collection', (event) => {
+    event.reply('save-collection');
 });
 
-// Keep listening on channel 'modal-download-html'.
+// Keep listening on channel 'download-html'.
 // If it receive message from that channel, it would show a win10 save dialog. 
-ipcMain.on('modal-download-html', (event) => {
+ipcMain.on('download-html', (event) => {
     // Show win10 native dialog to allow users to choose where to save their files.
     let result = dialog.showSaveDialog(homeWin, {
         filters: [{ name: 'webpage(.html)', extensions: ['.html'] }]
@@ -124,7 +132,7 @@ ipcMain.on('modal-download-html', (event) => {
         homeWin.webContents.savePage(result, 'HTMLComplete', (err) => {
             if (err) console.log(err);
             console.log('Page was saved successfully.');
-            event.reply('main-reply-html-download');
+            event.reply('download-html');
         });
     }
 });
@@ -172,26 +180,18 @@ ipcMain.on('quit-click', () => {
     }
 });
 
-// Keep listening on channel 'main-click'.
+// Keep listening on channel 'click-home'.
 // If it receive message from that channel, it would create a new home window if not existed.
-ipcMain.on('main-click', () => {
-    if (homeWin === null) {
-        homeWin = browserWindow.createHomeWindow();
-        homeWin.maximize();
-        homeWin.on('closed', () => {
-            homeWin = null;
-        });
-    }
-
-    // If home window is existed, we would first maximize and focus on it.
+ipcMain.on('click-home', () => {
+    // Maximize and focus on it.
     homeWin.maximize();
     homeWin.focus();
 });
 
 // Keep listening on channel 'file-open-click'.
 ipcMain.on('file-open-click', (event, args) => {
-    // Load timeline.html to home window. 
-    homeWin = browserWindow.changeHomeToTimeline(homeWin);
+    // Load collection.html to home window. 
+    homeWin = browserWindow.changeHomeToCollection(homeWin);
 
     if (controlbarWin === null) {
         controlbarWin = browserWindow.createControlBarWindow(controlbarWin);
@@ -209,25 +209,25 @@ ipcMain.on('file-open-click', (event, args) => {
         }
     });
 
-    // Keep listening on channel 'init-tl'.
-    ipcMain.on('init-tl', () => {
+    // Keep listening on channel 'init-collection'.
+    ipcMain.on('init-collection', () => {
         // If it receive message from that channel, it would send message to 
-        // control bar window with channel 'init-tl'.
-        homeWin.webContents.send('init-tl', args);
+        // control bar window with channel 'init-collection'.
+        homeWin.webContents.send('init-collection', args);
     });
 });
 
-// Keep listening on channel 'init-tl-title'.
+// Keep listening on channel 'init-collection-title'.
 // If it receive message from that channel, it would send message to home window
-// with channel 'init-tl-title'.
-ipcMain.on('init-tl-title', (event, args) => {
-    if (homeWin !== null) homeWin.webContents.send('init-tl-title', args);
+// with channel 'init-collection-title'.
+ipcMain.on('init-collection-title', (event, args) => {
+    if (homeWin !== null) homeWin.webContents.send('init-collection-title', args);
 });
 
-// Keep listening on channel 'slu-return-to-main'.
-ipcMain.on('slu-return-to-main', () => {
+// Keep listening on channel 'return-to-home'.
+ipcMain.on('return-to-home', () => {
     // Load home.html into home window.
-    homeWin = browserWindow.changeTimelineToHome(homeWin);
+    homeWin = browserWindow.changeCollectionToHome(homeWin);
 
     // Close control bar window if existed.
     if (controlbarWin !== null) {
@@ -236,8 +236,8 @@ ipcMain.on('slu-return-to-main', () => {
     }
 });
 
-// Keep listening on channel 'main-sync'.
-ipcMain.on('main-sync', (event) => {
+// Keep listening on channel 'update-collections'.
+ipcMain.on('update-collections', (event) => {
     // Read data from path 'appSettingPath'
     fs.readFile(appSettingPath, (err, data) => {
         if (err) throw err;
@@ -245,30 +245,30 @@ ipcMain.on('main-sync', (event) => {
         // Parse string to JS object.
         let json = JSON.parse(data);
 
-        // Send JS object back to the original sender with channel 'main-reply-sync'.
-        event.reply('main-reply-sync', json);
+        // Send JS object back to the original sender with channel 'update-collections'.
+        event.reply('update-collections', json);
     });
 });
 
-// Keep listening on channel 'main-rename-slu'.
-ipcMain.on('main-rename-slu', (event, args) => {
-    const newSluPath = path.join(sluDirPath, args.newSluName + '.json');  // Timeline path to be changed.
-    const newSluName = args.newSluName;  // Timeline name to be changed.
-    let oldSluName = null;  // Original note name.
+// Keep listening on channel 'rename-collection'.
+ipcMain.on('rename-collection', (event, args) => {
+    const newCollectionPath = path.join(collectionDir, args.newCollectionName + '.json');  // Collection path to be changed.
+    const newCollectionName = args.newCollectionName;  // Collection name to be changed.
+    let oldCollectionName = null;  // Original note name.
 
-    // Rename timeline in path 'appSettingPath'.
+    // Rename collection in path 'appSettingPath'.
     fs.readFile(appSettingPath, (err, data) => {
         if (err) throw err;
 
         let json = JSON.parse(data);  // Parse string to JS object.
 
         // Loop through array.
-        json["slus"].map((item, index) => {
+        json["collections"].map((item, index) => {
             // Search the object that is equal to the original one.
-            if (item["path"] === args.sluPath) {
-                oldSluName = json["slus"][index].name;
-                json["slus"][index].path = newSluPath;  // Update timeline path.
-                json["slus"][index].name = newSluName;  // Update timeline name.
+            if (item["path"] === args.collectionPath) {
+                oldCollectionName = json["collections"][index].name;
+                json["collections"][index].path = newCollectionPath;  // Update collection path.
+                json["collections"][index].name = newCollectionName;  // Update collection name.
             }
         });
 
@@ -277,53 +277,55 @@ ipcMain.on('main-rename-slu', (event, args) => {
         // Write the updated data to path 'appSettingPath'.
         fs.writeFile(appSettingPath, jsonString, (err) => {
             if (err) throw err;
+
+            console.log(`Collection renamed`);
         });
     });
 
-    // Rename timeline's json name in directory 'Slu'
-    fs.rename(args.sluPath, newSluPath, (err) => {
+    // Rename collection's json name in directory 'Collection'
+    fs.rename(args.collectionPath, newCollectionPath, (err) => {
         let msg = "";  // Message to be displayed on home window.
 
-        // Send message back to the original sender with channel 'main-reply-rename'
+        // Send message back to the original sender with channel 'rename-collection'
         // if errors occur.
         if (err) {
             msg = `There's something wrong with renaming file`;
-            event.reply('main-reply-rename', {
+            event.reply('rename-collection', {
                 err: err,
                 msg: msg,
-                oldSluName: oldSluName,
-                sluIdx: args.sluIdx
+                oldCollectionName: oldCollectionName,
+                CollectionIdx: args.collectionIdx
             });
         }
 
-        // Send message back to the original sender with channel 'main-reply-rename'
-        // if timeline renamed.
-        msg = `${oldSluName} has been renamed to ${newSluName}`;
-        event.reply('main-reply-rename', {
+        // Send message back to the original sender with channel 'rename-collection'
+        // if collection renamed.
+        msg = `${oldCollectionName} has been renamed to ${newCollectionName}`;
+        event.reply('rename-collection', {
             err: err,
             msg: msg,
-            sluIdx: args.sluIdx,
-            sluPath: args.sluPath,
-            newSluPath: newSluPath,
-            newSluName: newSluName
+            collectionIdx: args.collectionIdx,
+            collectionPath: args.collectionPath,
+            newCollectionPath: newCollectionPath,
+            newCollectionName: newCollectionName
         });
     });
 });
 
-// Keep listening on channel 'main-delete-file'.
-ipcMain.on('main-delete-file', async (event, args) => {
-    // Delete timeline from app.json.
+// Keep listening on channel 'delete-collection'.
+ipcMain.on('delete-file', async (event, args) => {
+    // Delete collection from app.json.
     fs.readFile(appSettingPath, (err, data) => {
         if (err) throw err;
 
         let json = JSON.parse(data);  // Parse string to JS object
 
         // Loop through array.
-        json["slus"].map((item, index) => {
+        json["collections"].map((item, index) => {
             // Search the object that is equal to the original one.
-            if (item["path"] === args.sluPath) {
-                oldSluName = json["slus"][index].name;
-                json["slus"].splice(index, 1);  // Delete timeline from array.
+            if (item["path"] === args.collectionPath) {
+                oldCollectionName = json["collections"][index].name;
+                json["collections"].splice(index, 1);  // Delete collection from array.
             }
         });
 
@@ -332,32 +334,34 @@ ipcMain.on('main-delete-file', async (event, args) => {
         // Write updated data to path 'appSettingPath'. 
         fs.writeFile(appSettingPath, jsonString, (err) => {
             if (err) throw err;
+
+            console.log(`Collection deleted`);
         });
     });
 
-    // Delete timeline file in directory 'sluDirPath'.
-    fs.unlink(args.sluPath, (err) => {
+    // Delete collection file in directory collection.
+    fs.unlink(args.collectionPath, (err) => {
         let msg = "";  // Message to be displayed on home window.
 
-        // Send message back to the original sender with channel 'main-reply-delete'
+        // Send message back to the original sender with channel 'delete-collection'
         // if errors occur.
         if (err) {
             msg = `There's something wrong with deleting file`;
-            event.reply('main-reply-delete', {
+            event.reply('delete-collection', {
                 err: err,
                 msg: msg,
-                sluIdx: args.sluIdx
+                collectionIdx: args.collectionIdx
             });
         }
 
-        // Send message back to the original sender with channel 'main-reply-delete'
-        // if timeline deleted.
+        // Send message back to the original sender with channel 'delete-collection'
+        // if collection deleted.
         msg = `File has been deleted`;
-        event.reply('main-reply-delete', {
+        event.reply('delete-collection', {
             err: err,
             msg: msg,
-            sluPath: args.sluPath,
-            sluIdx: args.sluIdx
+            collectionPath: args.collectionPath,
+            collectionIdx: args.collectionIdx
         });
     });
 });

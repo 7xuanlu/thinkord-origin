@@ -9,7 +9,7 @@ module.exports = {
         controlbar: './src/indexCB.jsx',
         textwindow: './src/indexTW.jsx',
         home: './src/indexHome.jsx',
-        timeline: './src/indexTL.jsx',
+        collection: './src/indexCollection.jsx',
         dragsnip: './src/renderer/dragsnip/capture-renderer.js'
     },
     target: 'electron-renderer',
@@ -85,9 +85,9 @@ module.exports = {
             chunks: ['home']
         }), 
         new HtmlWebpackPlugin({
-            filename: 'timeline.html',
-            template: './src/indexTL.html',
-            chunks: ['timeline']
+            filename: 'collection.html',
+            template: './src/indexCollection.html',
+            chunks: ['collection']
         }),
         new HtmlWebpackPlugin({
             filename: 'dragsnip.html',

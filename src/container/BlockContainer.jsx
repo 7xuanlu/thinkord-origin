@@ -1,3 +1,4 @@
+// React module
 import React, { Component } from 'react';
 
 import ImageBlock from '../components/ImageBlock';
@@ -5,7 +6,10 @@ import VideoBlock from "../components/VideoBlock";
 import TextBlock from "../components/TextBlock";
 import AudioBlock from "../components/AudioBlock";
 
+// Electron module
 import { ipcRenderer } from "electron";
+
+// Third party module
 import { AudioRecorder } from '../renderer/audio-recorder';
 import { videoRecordStart, videoRecordStop } from '../renderer/video-recorder';
 import { JSONManager } from "../renderer/json-manager";
@@ -14,7 +18,6 @@ import { NoteManager } from "../renderer/note-manager";
 // Import media API modules
 import { getScreenshot } from '../renderer/screenshot';
 
-// Third-party packages
 // Notification
 import Noty from 'noty';
 import 'noty/lib/noty.css';
@@ -34,8 +37,8 @@ export class BlockContainer extends Component {
         super(props);
 
         this.state = {
-            slu: {},
-            sluPath: "",
+            collection: {},
+            collectionPath: "",
             isVideoRecording: false,
         }
     }
@@ -46,40 +49,40 @@ export class BlockContainer extends Component {
         let notiUndo = null;
         let audioRecorder = null;
 
-        ipcRenderer.send('init-tl');
+        ipcRenderer.send('init-collection');
 
-        ipcRenderer.once('init-tl', (event, args) => {
-            jsonManager.readJSON(args.path).then((slu) => {
-                ipcRenderer.send('init-tl-title', slu.name);
+        ipcRenderer.once('init-collection', (event, args) => {
+            jsonManager.readJSON(args.path).then((collection) => {
+                ipcRenderer.send('init-collection-title', collection.name);
                 this.setState({
-                    slu: slu,
-                    sluPath: args.path
+                    collection: collection,
+                    collectionPath: args.path
                 });
             });
         });
 
-        ipcRenderer.on('navbar-save-slu', () => {
+        ipcRenderer.on('save-collection', () => {
             let msg = 'Changes have been saved successfully!';
             let type = 'success';
-            let slu = this.state.slu;
-            let sluPath = this.state.sluPath;
+            let collection = this.state.collection;
+            let collectionPath = this.state.collectionPath;
 
-            slu.name = this.props.title;
-            this.setState({ slu: slu });
-            jsonManager.writeJSON(slu, sluPath);
-            jsonManager.renameSluAppJSON(slu.id, slu.name);
-            jsonManager.renameSluFile(sluPath, slu.name);
-            ipcRenderer.send('tl-sync-cb', { path: sluPath });
+            collection.name = this.props.title;
+            this.setState({ collection: collection });
+            jsonManager.writeJSON(collection, collectionPath);
+            jsonManager.renameCollectionAppJSON(collection.id, collection.name);
+            jsonManager.renameCollection(collectionPath, collection.name);
+            ipcRenderer.send('tl-sync-cb', { path: collectionPath });
 
             notiSave = this.handleNoti(notiSave, type, msg);
         });
 
-        //change the content of timeline and show the notification (frontend)
+        //change the content of collection and show the notification (frontend)
         ipcRenderer.on('pre-step-click', () => {
             var pre = pre_step.pop();
             if (typeof (pre) !== "undefined") {
-                next_step.push(this.state.slu);
-                this.setState({ slu: pre });
+                next_step.push(this.state.collection);
+                this.setState({ collection: pre });
             } else {
                 let msg = 'Cannot undo anymore!';
                 let type = 'warning';
@@ -90,9 +93,9 @@ export class BlockContainer extends Component {
         ipcRenderer.on('next-step-click', () => {
             var next = next_step.pop();
             if (typeof (next) !== "undefined") {
-                pre_step.push(this.state.slu);
+                pre_step.push(this.state.collection);
                 this.setState({
-                    slu: next
+                    collection: next
                 });
             } else {
                 let msg = 'Cannot redo anymore!';
@@ -104,15 +107,15 @@ export class BlockContainer extends Component {
         //delete the blocks that user selected
         ipcRenderer.on('delete-selected-click', () => {
             let selected = document.getElementsByClassName("check");
-            pre_step.push(this.state.slu);
+            pre_step.push(this.state.collection);
             Array.from(selected).forEach(block => {
                 if (block.checked === true) {
                     let time = block.id.split('_').pop();
                     document.getElementById(time).classList.toggle("removed-item");
                     setTimeout(() => {
                         this.setState({
-                            slu: {
-                                blocks: [...this.state.slu.blocks.filter(block => block.timestamp !== time)]
+                            collection: {
+                                blocks: [...this.state.collection.blocks.filter(block => block.timestamp !== time)]
                             }
                         });
                     }, 700);
@@ -123,11 +126,11 @@ export class BlockContainer extends Component {
         //mark the blocks that user selected
         ipcRenderer.on('mark-selected-click', () => {
             let selected = document.getElementsByClassName("check");
-            pre_step.push(this.state.slu);
+            pre_step.push(this.state.collection);
             Array.from(selected).forEach(block => {
                 if (block.checked === true) {
                     let time = block.id.split('_').pop();
-                    const note = this.state.slu.blocks.map(block => {
+                    const note = this.state.collection.blocks.map(block => {
                         // assign the description to the block you want
                         if (block.timestamp === time) {
                             if (block.mark === true) {
@@ -140,7 +143,7 @@ export class BlockContainer extends Component {
                     });
 
                     this.setState({
-                        slu: {
+                        collection: {
                             blocks: note
                         }
                     });
@@ -173,12 +176,12 @@ export class BlockContainer extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (typeof prevState.slu.blocks === "undefined") { }
+        if (typeof prevState.collection.blocks === "undefined") { }
         else {
-            if (pre_step.includes(prevState.slu) || next_step.includes(prevState.slu)) {
+            if (pre_step.includes(prevState.collection) || next_step.includes(prevState.collection)) {
                 //do nothing
             } else {
-                this.state.slu.blocks.length > prevState.slu.blocks.length ? this.props.onNewBlock() : {}
+                this.state.collection.blocks.length > prevState.collection.blocks.length ? this.props.onNewBlock() : {}
             }
         }
     }
@@ -208,12 +211,12 @@ export class BlockContainer extends Component {
     // Delete the block you choose (frontend)
     delBlock = (time) => {
         // console.log('Now you choose the block', time);
-        pre_step.push(this.state.slu);
+        pre_step.push(this.state.collection);
         document.getElementById(time).classList.toggle("removed-item");
         setTimeout(() => {
             this.setState({
-                slu: {
-                    blocks: [...this.state.slu.blocks.filter(block => block.timestamp !== time)]
+                collection: {
+                    blocks: [...this.state.collection.blocks.filter(block => block.timestamp !== time)]
                 }
             });
         }, 700);
@@ -221,40 +224,40 @@ export class BlockContainer extends Component {
 
     // Add description (frontend)
     addDescription = (des, time) => {
-        const note = this.state.slu.blocks.map(block => {
+        const note = this.state.collection.blocks.map(block => {
             // assign the description to the block you want
             if (block.timestamp === time) {
                 block = { ...block, description: des };
             }
             return block;
         });
-        pre_step.push(this.state.slu);
+        pre_step.push(this.state.collection);
 
         this.setState({
-            slu: {
+            collection: {
                 blocks: note
             }
         });
     }
 
     handleSpeechText = (text, time) => {
-        const note = this.state.slu.blocks.map(block => {
+        const note = this.state.collection.blocks.map(block => {
             if (block.timestamp === time) {
                 block = { ...block, speechText: text }
             }
             return block;
         });
 
-        pre_step.push(this.state.slu);
+        pre_step.push(this.state.collection);
 
         this.setState({
-            slu: { blocks: note }
+            collection: { blocks: note }
         });
     }
 
     //change the state of mark icon of each block(frontend)
     handleMark = (time) => {
-        const note = this.state.slu.blocks.map(block => {
+        const note = this.state.collection.blocks.map(block => {
             // assign the description to the block you want
             if (block.timestamp === time) {
                 if (block.mark === true) {
@@ -265,10 +268,10 @@ export class BlockContainer extends Component {
             }
             return block;
         });
-        pre_step.push(this.state.slu);
+        pre_step.push(this.state.collection);
 
         this.setState({
-            slu: {
+            collection: {
                 blocks: note
             }
         });
@@ -276,28 +279,28 @@ export class BlockContainer extends Component {
 
     // Change the title (frontend)
     handleTitle = (title, time) => {
-        const note = this.state.slu.blocks.map(block => {
+        const note = this.state.collection.blocks.map(block => {
             // assign the description to the block you want
             if (block.timestamp === time) {
                 block = { ...block, title: title }
             }
             return block;
         });
-        pre_step.push(this.state.slu);
+        pre_step.push(this.state.collection);
 
         this.setState({
-            slu: {
+            collection: {
                 blocks: note
             }
         });
     }
 
-    //Add slu information
+    //Add collection information
     addDate = (block) => {
         let new_date = block.timestamp.split(' ')[0].split('/')
         new_date = new_date[1] + ' / ' + new_date[2]
 
-        let blocks = this.state.slu.blocks;
+        let blocks = this.state.collection.blocks;
         let old_date;
         let isDateEqual;
 
@@ -331,7 +334,7 @@ export class BlockContainer extends Component {
 
     // Add file (frontend)
     addFile = (files, time) => {
-        const note = this.state.slu.blocks.map(block => {
+        const note = this.state.collection.blocks.map(block => {
             // assign the description to the block you want
             if (block.timestamp === time) {
                 files.map((file) => {
@@ -344,10 +347,10 @@ export class BlockContainer extends Component {
             }
             return block;
         });
-        pre_step.push(this.state.slu);
+        pre_step.push(this.state.collection);
 
         this.setState({
-            slu: {
+            collection: {
                 blocks: note
             }
         });
@@ -355,7 +358,7 @@ export class BlockContainer extends Component {
 
     // Delete file (frontend)
     delFile = (files, time) => {
-        const note = this.state.slu.blocks.map(block => {
+        const note = this.state.collection.blocks.map(block => {
             // assign the description to the block you want
             if (block.timestamp === time) {
                 block = { ...block, paths: [block.paths[0]] }
@@ -365,10 +368,10 @@ export class BlockContainer extends Component {
             }
             return block;
         });
-        pre_step.push(this.state.slu);
+        pre_step.push(this.state.collection);
 
         this.setState({
-            slu: {
+            collection: {
                 blocks: note
             }
         });
@@ -386,8 +389,8 @@ export class BlockContainer extends Component {
             const noteManager = new NoteManager();
 
             // Add new text block to the note object
-            let note = noteManager.addBlock(this.state.slu, args);
-            this.setState({ slu: note });
+            let note = noteManager.addBlock(this.state.collection, args);
+            this.setState({ collection: note });
             noteManager = null;
         });
     }
@@ -396,8 +399,8 @@ export class BlockContainer extends Component {
         const addSnipBlock = (path) => {
             const noteManager = new NoteManager();
             // Add new block to the note object
-            let note = noteManager.addBlock(this.state.slu, { "filePath": path });
-            this.setState({ slu: note });
+            let note = noteManager.addBlock(this.state.collection, { "filePath": path });
+            this.setState({ collection: note });
         }
 
         getScreenshot(addSnipBlock);
@@ -410,8 +413,8 @@ export class BlockContainer extends Component {
             let noteManager = new NoteManager();
 
             // Add new block to the note object
-            let note = noteManager.addBlock(this.state.slu, { "filePath": dragsnipPath });
-            this.setState({ slu: note });
+            let note = noteManager.addBlock(this.state.collection, { "filePath": dragsnipPath });
+            this.setState({ collection: note });
             noteManager = null;
         });
     }
@@ -422,14 +425,14 @@ export class BlockContainer extends Component {
 
             // Add new block to the note object
             let note = noteManager.addBlock(
-                this.state.slu,
+                this.state.collection,
                 {
                     "filePath": path,
                     'type': 'audio'
                 }
             );
 
-            this.setState({ slu: note, });
+            this.setState({ collection: note, });
         }
 
         if (!audioRecorder) {
@@ -452,11 +455,11 @@ export class BlockContainer extends Component {
 
             // Add new block to the note object
             let note = noteManager.addBlock(
-                this.state.slu,
+                this.state.collection,
                 { "filePath": path, 'type': 'video' }
             );
 
-            this.setState({ slu: note });
+            this.setState({ collection: note });
         }
 
         if (this.state.isVideoRecording) {
@@ -533,12 +536,12 @@ export class BlockContainer extends Component {
 
     render() {
         // Yield undefined, because the first value it gets is undefined
-        if (this.state.slu.blocks === undefined) { return null }
-        // console.log(this.state.slu.blocks)
+        if (this.state.collection.blocks === undefined) { return null }
+        // console.log(this.state.collection.blocks)
 
         return (
             <div className="allBlocks">
-                {this.state.slu.blocks.map((block, id) => (
+                {this.state.collection.blocks.map((block, id) => (
                     <div key={id}>
                         {this.distBlock(block)}
                     </div>

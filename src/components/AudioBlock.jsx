@@ -6,11 +6,11 @@ import BlockDescription from '../components/BlockDescription';
 import { speech2text } from '../renderer/speech2text';
 
 // import icon
-import BlockIcon from"../asset/timeline/microphone.svg"
-import TrashIcon from"../asset/timeline/trash-alt.svg"
-import AngleIcon from"../asset/timeline/angle-up.svg"
-import MarkIcon from"../asset/timeline/bookmark.svg"
-import MarkFullIcon from"../asset/timeline/bookmark-full.svg"
+import BlockIcon from"../asset/collection/microphone.svg"
+import TrashIcon from"../asset/collection/trash-alt.svg"
+import AngleIcon from"../asset/collection/angle-up.svg"
+import MarkIcon from"../asset/collection/bookmark.svg"
+import MarkFullIcon from"../asset/collection/bookmark-full.svg"
 
 export default function AudioBlock(props) {
     const scaleid = "scale_" + props.block.timestamp;

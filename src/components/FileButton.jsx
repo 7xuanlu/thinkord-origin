@@ -17,12 +17,12 @@ export default class FileButton extends Component {
         }
     }
 
-    //when you click the file button, the timeline will show
-    EnterTimeLine = (sluPath) => {
-        ipcRenderer.send('file-open-click', { path: sluPath });
+    // When you click the file button, the collection will show
+    EnterCollection = (path) => {
+        ipcRenderer.send('file-open-click', { path: path });
     }
 
-    //show the rename dialog
+    // Show the rename dialog
     handleRenameDialog = (path) => {
         let filename = path.split('\\').pop();
         filename = filename.split('.')[0];
@@ -32,24 +32,24 @@ export default class FileButton extends Component {
         });
     }
 
-    //close the rename dialog
+    // Close the rename dialog
     handleRenameDialogClose = () => {
         this.setState({ rename_show: false });
     }
 
-    //change the file name
-    handleRename = (sluPath, index) => {
-        let newSluName = document.getElementById('new_filename').value;
-        document.getElementById("label_" + index).innerText = newSluName;
-        ipcRenderer.send('main-rename-slu', {
-            sluPath: sluPath,
-            newSluName: newSluName,
-            sluIdx: index
+    // Change the collection name
+    handleRename = (path, index) => {
+        let newCollectionName = document.getElementById('new_filename').value;
+        document.getElementById("label_" + index).innerText = newCollectionName;
+        ipcRenderer.send('rename-collection', {
+            collectionPath: path,
+            newCollectionName: newCollectionName,
+            collectionIdx: index
         });
         this.setState({ rename_show: false });
     }
 
-    //show the delete dialog
+    // Show the delete dialog
     handleDeleteDialog = (path) => {
         let filename = path.split('\\').pop();
         filename = filename.split('.')[0];
@@ -59,14 +59,14 @@ export default class FileButton extends Component {
         });
     }
 
-    //close the delete dialog
+    // Close the delete dialog
     handleDeleteDialogClose = () => { this.setState({ delete_show: false }); }
 
-    //delete file
-    handleDelete = (sluPath, index) => {
-        ipcRenderer.send('main-delete-file', {
-            sluPath: sluPath,
-            sluIdx: index
+    // Delete the collectioin
+    handleDelete = (path, index) => {
+        ipcRenderer.send('delete-collection', {
+            collectionPath: path,
+            collectionIdx: index
         });
         this.setState({ delete_show: false });
     }
@@ -80,7 +80,7 @@ export default class FileButton extends Component {
                     <button
                         id={this.props.index}
                         className={this.props.index > 4 && this.props.expand === false ? "btn hidden" : "btn"}
-                        onDoubleClick={() => this.EnterTimeLine(this.props.file.path)}
+                        onDoubleClick={() => this.EnterCollection(this.props.file.path)}
                     >
                         <img className="file_icon" src={FileIcon} /><br />
                         <div id={labelid}>{this.props.file.name}</div>

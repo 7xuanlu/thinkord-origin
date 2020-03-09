@@ -110,7 +110,7 @@ export class AudioRecorder {
                             let resultBlob = await bufferToWave(renderedBuffer, offlineAudioCtx.length);
                             reader = new FileReader();
                             reader.addEventListener('loadend', () => {
-                                let resultBuffer = new Buffer(reader.result);
+                                let resultBuffer = Buffer.from(reader.result);
                                 fs.writeFile(this.recPath, resultBuffer, (err) => {
                                     if (err) console.log(err);
 
