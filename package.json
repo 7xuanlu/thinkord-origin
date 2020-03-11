@@ -9,7 +9,7 @@
     "build": "webpack --config build-utils/webpack.config.js --env.env=prod",
     "start": "electron .",
     "win": "electron-builder",
-    "test": "webpack-dev-server --config build-utils/webpack.config.js --env.env=test"
+    "test": "webpack --config build-utils/webpack.config.js --env.env=prod && mocha"
   },
   "keywords": [],
   "author": "3071",

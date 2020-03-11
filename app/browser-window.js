@@ -2,9 +2,9 @@ const { app, BrowserWindow, shell, globalShortcut } = require('electron');
 
 // if environment mode is not set, it will default to be in development
 // for development: 
-const mode = require('../env.json').env_dev;
+// const mode = require('../env.json').env_dev;
 // for production: 
-// const mode = require('../env.json').env_pro;
+const mode = require('../env.json').env_pro;
 
 
 let controlbar_x = null;
