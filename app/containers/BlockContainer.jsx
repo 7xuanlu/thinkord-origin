@@ -10,13 +10,13 @@ import AudioBlock from "../components/AudioBlock";
 import { ipcRenderer } from "electron";
 
 // Third party module
-import { AudioRecorder } from '../renderer/audio-recorder';
-import { videoRecordStart, videoRecordStop } from '../renderer/video-recorder';
+import { AudioRecorder } from '../media-capturer/audio-recorder';
+import { videoRecordStart, videoRecordStop } from '../media-capturer/video-recorder';
 import { JSONManager } from "../renderer/json-manager";
 import { NoteManager } from "../renderer/note-manager";
 
 // Import media API modules
-import { getScreenshot } from '../renderer/screenshot';
+import { getScreenshot } from '../media-capturer/screenshot';
 
 // Notification
 import Noty from 'noty';

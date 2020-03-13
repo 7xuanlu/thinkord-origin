@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import BlockTitle from './BlockTitle';
 import BlockDescription from './BlockDescription';
 
-import { speech2text } from '../renderer/speech2text';
+import { speech2text } from '../media-capturer/speech2text';
 
 // Icons
 import BlockIcon from "../asset/collection/microphone.svg";

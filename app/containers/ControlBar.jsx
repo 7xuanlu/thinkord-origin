@@ -5,9 +5,6 @@ import './css/ControlBar.css';
 
 const { ipcRenderer } = require('electron');
 
-import { JSONManager } from '../renderer/json-manager';
-import { NoteManager } from '../renderer/note-manager';
-
 // Import icon from assets folder
 import StartButton from '../asset/play-button.png';
 import StopButton from '../asset/stop.png';
@@ -24,7 +21,7 @@ import QuitButton from '../asset/error.png';
 export default class ControlBar extends Component {
     constructor(props) {
         super(props);
-        const jsonManager = new JSONManager();
+
         this.state = {
             controlbar_button: [
                 { id: 'start', src: StartButton, disable: false, tip: 'Start record (Ctrl+Shift+s)' },
@@ -37,7 +34,6 @@ export default class ControlBar extends Component {
                 { id: 'quit', src: QuitButton, disable: false, tip: 'Quit' }
             ],
             isRecord: false,
-            jsonManager: jsonManager,
             audioRecorder: undefined
         };
     }

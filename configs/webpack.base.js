@@ -10,7 +10,7 @@ module.exports = {
         textwindow: './app/indexTW.jsx',
         home: './app/indexHome.jsx',
         collection: './app/indexCollection.jsx',
-        dragsnip: './app/renderer/dragsnip/capture-renderer.js'
+        dragsnip: './app/media-capturer/dragsnip/capture-renderer.js'
     },
     target: 'electron-renderer',
     output: {
