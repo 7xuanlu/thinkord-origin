@@ -8,7 +8,7 @@ const browserWindow = require('./app/browser-window');  // All functions related
 const { useCapture } = require('./src/renderer/dragsnip/capture-main');
 const { initUserEnv } = require('./app/init-user-env');
 
-const db = require('./app/config/database')
+
 // Path to app.json, which stores every timeline's location
 const appSettingPath = path.join(app.getPath('userData'), 'app.json');
 
