@@ -6,11 +6,11 @@ const path = require('path');
 module.exports = {
     entry: {
         polyfill: '@babel/polyfill',
-        controlbar: './src/indexCB.jsx',
-        textwindow: './src/indexTW.jsx',
-        home: './src/indexHome.jsx',
-        collection: './src/indexCollection.jsx',
-        dragsnip: './src/renderer/dragsnip/capture-renderer.js'
+        controlbar: './app/indexCB.jsx',
+        textwindow: './app/indexTW.jsx',
+        home: './app/indexHome.jsx',
+        collection: './app/indexCollection.jsx',
+        dragsnip: './app/renderer/dragsnip/capture-renderer.js'
     },
     target: 'electron-renderer',
     output: {
@@ -71,27 +71,27 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             filename: 'controlbar.html',
-            template: './src/indexCB.html',
+            template: './app/indexCB.html',
             chunks: ['controlbar']
         }),
         new HtmlWebpackPlugin({
             filename: 'textwindow.html',
-            template: './src/indexTW.html',
+            template: './app/indexTW.html',
             chunks: ['textwindow']
         }),
         new HtmlWebpackPlugin({
             filename: 'home.html',
-            template: './src/indexHome.html',
+            template: './app/indexHome.html',
             chunks: ['home']
         }), 
         new HtmlWebpackPlugin({
             filename: 'collection.html',
-            template: './src/indexCollection.html',
+            template: './app/indexCollection.html',
             chunks: ['collection']
         }),
         new HtmlWebpackPlugin({
             filename: 'dragsnip.html',
-            template: './src/dragsnip.html',
+            template: './app/dragsnip.html',
             chunks: ['dragsnip']
         }),
         new webpack.HotModuleReplacementPlugin(),

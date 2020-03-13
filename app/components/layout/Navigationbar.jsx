@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import { ipcRenderer } from 'electron';
 
-//import icon
-import ArrowLeftIcon from "../../asset/collection/NavBar/arrow-left.svg"
-import NavMarkIcon from "../../asset/collection/NavBar/nav-bookmark.svg"
-import CheckSquareIcon from "../../asset/collection/NavBar/check-square.svg"
-import ListIcon from "../../asset/collection/NavBar/list.svg"
-import AngelDownIcon from "../../asset/collection/NavBar/nav-angle-down.svg"
-import AngelUpIcon from "../../asset/collection/NavBar/nav-angle-up.svg"
-import SaveIcon from "../../asset/collection/NavBar/nav-download.svg"
-import HomeIcon from "../../asset/collection/NavBar/nav-home.svg"
-import TrashIcon from "../../asset/collection/NavBar/nav-trash.svg"
-import RedoIcon from "../../asset/collection/NavBar/redo-alt.svg"
-import ExportIcon from "../../asset/collection/NavBar/share-square.svg"
-import UndoIcon from "../../asset/collection/NavBar/undo-alt.svg"
+// Icons
+import ArrowLeftIcon from "../../asset/collection/NavBar/arrow-left.svg";
+import NavMarkIcon from "../../asset/collection/NavBar/nav-bookmark.svg";
+import CheckSquareIcon from "../../asset/collection/NavBar/check-square.svg";
+import ListIcon from "../../asset/collection/NavBar/list.svg";
+import AngelDownIcon from "../../asset/collection/NavBar/nav-angle-down.svg";
+import AngelUpIcon from "../../asset/collection/NavBar/nav-angle-up.svg";
+import SaveIcon from "../../asset/collection/NavBar/nav-download.svg";
+import HomeIcon from "../../asset/collection/NavBar/nav-home.svg";
+import TrashIcon from "../../asset/collection/NavBar/nav-trash.svg";
+import RedoIcon from "../../asset/collection/NavBar/redo-alt.svg";
+import ExportIcon from "../../asset/collection/NavBar/share-square.svg";
+import UndoIcon from "../../asset/collection/NavBar/undo-alt.svg";
 
 export class Navigationbar extends Component {
     constructor(props) {

@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 const { ipcRenderer } = require('electron');
 
 // Third-party packages
-import '../container/css/Home.css';
+import './css/Home.css';
 import { JSONManager } from '../renderer/json-manager';
 import FileButton from '../components/FileButton';
 
@@ -15,8 +15,8 @@ import 'noty/lib/noty.css';
 import 'noty/lib/themes/mint.css';
 import 'noty/lib/themes/relax.css';
 
-// Import icon
-import UserLoginIcon from "../asset/user.svg"
+// Icons
+import UserLoginIcon from "../asset/user.svg";
 
 export default class Home extends Component {
     constructor(props) {

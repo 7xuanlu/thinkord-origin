@@ -8,7 +8,7 @@ const noteTray = require('./app/note-tray');
 const browserWindow = require('./app/browser-window');  // All functions related to browser window are defined here
 
 // Third party module
-const { useCapture } = require('./src/renderer/dragsnip/capture-main');
+const { useCapture } = require('./app/renderer/dragsnip/capture-main');
 const { initUserEnv } = require('./app/init-user-env');
 
 let appSettingPath;  // Path to app.json, which stores every collection's location

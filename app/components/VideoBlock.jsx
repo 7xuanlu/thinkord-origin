@@ -1,16 +1,18 @@
-import React, { useState } from 'react'
-import BlockTitle from "../components/BlockTitle"
-import BlockDescription from "../components/BlockDescription"
+import React, { useState } from 'react';
+import { Player, BigPlayButton } from 'video-react';
+import '../../node_modules/video-react/dist/video-react.css';
+import BlockTitle from "./BlockTitle";
+import BlockDescription from "./BlockDescription";
+import Upload from "./Upload";
 
-// import icon
-import BlockIcon from"../asset/collection/images.svg"
-import TrashIcon from"../asset/collection/trash-alt.svg"
-import AngleIcon from"../asset/collection/angle-up.svg"
-import MarkIcon from"../asset/collection/bookmark.svg"
-import MarkFullIcon from"../asset/collection/bookmark-full.svg"
+// Icons
+import BlockIcon from "../asset/collection/youtube.svg";
+import TrashIcon from "../asset/collection/trash-alt.svg";
+import AngleIcon from "../asset/collection/angle-up.svg";
+import MarkIcon from "../asset/collection/bookmark.svg";
+import MarkFullIcon from "../asset/collection/bookmark-full.svg";
 
-
-export default function ImageBlock(props) {
+export default function VideoBlock(props) {
     const scaleid = "scale_" + props.block.timestamp;
     const checkid = "check_" + props.block.timestamp;
 
@@ -28,17 +30,14 @@ export default function ImageBlock(props) {
         setScaling(!scaling)
     }
 
-    let showImageWindow = () => {
-        window.open(props.block.paths[0]);
-    }
-
     return (
-        <div id={props.block.timestamp} className="picBlock blockContent">
+        <div id={props.block.timestamp} className="videoBlock blockContent" >
             <div className="borderLine"></div>
             <BlockTitle className="blockTitle" time={props.block.timestamp} onChangeTitle={props.handleTitle} title={props.block.title} />
+
             <button className="iconBtn removeBtn" onClick={props.delBlock.bind(this, props.block.timestamp)}><img src={TrashIcon}></img></button>
             <form className="checkContainer">
-                <input className="check" id={checkid} type="checkbox"  /><label className="checkmark" htmlFor={checkid}></label>
+                <input className="check" id={checkid} type="checkbox" /><label className="checkmark" htmlFor={checkid}></label>
             </form>
             <div className="iconBtn markBtn">
                 <img src={props.block.mark ? MarkFullIcon : MarkIcon} onClick={props.handleMark.bind(this, props.block.timestamp)}></img>
@@ -49,13 +48,21 @@ export default function ImageBlock(props) {
             <button className="iconBtn scaleBtn" onClick={handleScaling}><img src={AngleIcon} id={scaleid}></img></button>
             {scaling &&
                 <div className="blockMain">
-                    <img src={props.block.paths[0]} onDoubleClick={showImageWindow}/>
+                    <Player>
+                        <BigPlayButton position="center" />
+                        <source src={props.block.paths[0]} />
+                    </Player>
                     <BlockDescription
                         description={props.block.description}
                         addDescription={props.addDescription}
                         time={props.block.timestamp}
                         handleLinker={props.handleLinker}
                     />
+                    <Upload
+                        paths={props.block.paths}
+                        time={props.block.timestamp}
+                        addFile={props.addFile}
+                        delFile={props.delFile} />
                 </div>
             }
         </div>

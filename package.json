@@ -18,12 +18,11 @@
     "files": [
       "app/",
       "build/",
-      "src/",
       "main.js",
       "env.json"
     ],
     "win": {
-      "icon": "src/asset/icon.png"
+      "icon": "app/asset/icon.png"
     }
   },
   "devDependencies": {
