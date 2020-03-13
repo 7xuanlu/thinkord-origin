@@ -40,14 +40,14 @@ exports.createControlBarWindow = (controlbarWin) => {
     });
 
     if (mode === "development") {
-        // Load index.html via webpack dev server.
+        // Load controlbar.html via webpack dev server.
         controlbarWin.loadURL('http://localhost:3071/controlbar.html');
 
         // Open the DevTools.
         // controlbarWin.webContents.openDevTools();
     } else {
-        // Load index.html from the file system.
-        controlbarWin.loadFile('build/controlbar.html');
+        // Load controlbar.html from the file system.
+        controlbarWin.loadFile('../build/controlbar.html');
     }
 
     // controlbarWin.removeMenu();
@@ -79,15 +79,15 @@ exports.createTextWindow = (textWin, controlbarWin) => {
     });
 
     if (mode === "development") {
-        // Load index.html via webpack dev server.
+        // Load textwindow.html via webpack dev server.
         textWin.loadURL('http://localhost:3071/textwindow.html');
 
         // Open the DevTools.
         // home.webContents.openDevTools();
     }
     else {
-        // Load index.html from the file system.
-        textWin.loadFile('build/textwindow.html');
+        // Load textwindow.html from the file system.
+        textWin.loadURL('../build/textwindow.html');
     }
 
     return textWin;
@@ -126,8 +126,8 @@ exports.createHomeWindow = (homeWin) => {
         // Open the DevTools.
         // home.webContents.openDevTools();
     } else {
-        // Load index.html from the file system.
-        homeWin.loadFile('build/home.html');
+        // Load home.html from the file system.
+        homeWin.loadFile('../build/home.html');
     }
 
     return homeWin;
@@ -136,13 +136,13 @@ exports.createHomeWindow = (homeWin) => {
 exports.changeHomeToCollection = (homeWin) => {
     homeWin.minimize();
     if (mode === "development") {
-        // Load index.html via webpack dev server.
+        // Load collection.html via webpack dev server.
         homeWin.loadURL('http://localhost:3071/collection.html');
         // Open the DevTools.
         // home.webContents.openDevTools();
     } else {
-        // Load index.html from the file system.
-        homeWin.loadFile('build/collection.html');
+        // Load collection.html from the file system.
+        homeWin.loadFile(`../build/collection.html`);
     }
 
     return homeWin;
@@ -155,8 +155,8 @@ exports.changeCollectionToHome = (homeWin) => {
         // Open the DevTools.
         // homeWin.webContents.openDevTools();
     } else {
-        // Load index.html from the file system.
-        homeWin.loadFile('build/home.html');
+        // Load home.html from the file system.
+        homeWin.loadFile('../build/home.html');
     }
 
     return homeWin;

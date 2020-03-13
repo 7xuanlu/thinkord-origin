@@ -4,12 +4,12 @@ const path = require('path');
 
 // Electron module
 const { app, ipcMain, globalShortcut, dialog } = require('electron');
-const noteTray = require('./app/note-tray');
-const browserWindow = require('./app/browser-window');  // All functions related to browser window are defined here
+// const noteTray = require('./note-tray');
+const browserWindow = require('./browser-window');  // All functions related to browser window are defined here
 
 // Third party module
-const { useCapture } = require('./app/renderer/dragsnip/capture-main');
-const { initUserEnv } = require('./app/init-user-env');
+const { useCapture } = require('./renderer/dragsnip/capture-main');
+const { initUserEnv } = require('./init-user-env');
 
 let appSettingPath;  // Path to app.json, which stores every collection's location
 let collectionDir;  // Path to collection directory, which stores collection's blocks and media path
