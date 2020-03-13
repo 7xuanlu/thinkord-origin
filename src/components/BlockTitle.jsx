@@ -18,14 +18,14 @@ export default class BlockTitle extends Component {
         }
     }
 
-    //when user click the description, it would allow user to modify the content
+    // When user click the description, it would allow user to modify the content
     handleClick = () => {
         this.setState({
             whileInput: true
         });
     }
 
-    //when the description lose its focus, user is not allowed to modify
+    // When the description lose its focus, user is not allowed to modify
     handleBlur = (e) => {
         e.preventDefault();
         this.setState({
@@ -33,14 +33,14 @@ export default class BlockTitle extends Component {
         });
     }
 
-    //save the content of title(frontend)
+    // Save the content of title(frontend)
     handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         })
     }
 
-    //sync the modified content to timeline
+    // Sync the modified content to collection
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.onChangeTitle(this.state.title, this.props.time);
