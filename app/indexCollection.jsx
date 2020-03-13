@@ -2,6 +2,6 @@ import "@babel/polyfill";
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Collection from './container/Collection'
+import Collection from './containers/Collection'
 
 ReactDOM.render(<Collection />, document.getElementById('root'));
