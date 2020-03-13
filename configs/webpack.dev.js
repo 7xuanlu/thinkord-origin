@@ -1,10 +1,13 @@
 const webpack = require('webpack');
+const merge = require('webpack-merge');
+const baseConfig = require('./webpack.base.js');
+
 const path = require('path');
 const { spawn } = require('child_process');
 
-module.exports = {
+module.exports = merge.smart(baseConfig, {
     mode: "development",
-    plugins:[
+    plugins: [
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('development')
         })
@@ -22,4 +25,4 @@ module.exports = {
                 .on('error', spawnError => console.error(spawnError))
         }
     }
-};
+});

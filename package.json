@@ -5,10 +5,11 @@
   "private": true,
   "main": "main.js",
   "scripts": {
-    "dev": "webpack-dev-server --config configs/webpack.config.js --env.env=dev",
-    "build": "webpack --config configs/webpack.config.js --env.env=prod",
-    "start": "electron .",
-    "win": "electron-builder"
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --config configs/webpack.dev.js",
+    "build": "cross-env NODE_ENV=production webpack --config configs/webpack.prod.js",
+    "start": "cross-env NODE_ENV=production electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "keywords": [],
   "author": "3071",

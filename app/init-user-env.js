@@ -22,7 +22,7 @@ exports.initUserEnv = async () => {
     let appSettingStr = JSON.stringify(appSettingObj);
 
     // Create app.json for user if not existed
-    fs.access(appSettingPath, (err) => {
+    fs.access(appSettingPath, fs.constants.F_OK, (err) => {
         if (err) {
             fs.writeFile(appSettingPath, appSettingStr, (err) => {
                 if (err) throw err;

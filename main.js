@@ -32,7 +32,6 @@ initUserEnv().then(res => {
 
 // This is the entry point to the application
 app.on('ready', () => {
-    // initUserEnv();  // Create required directory and files
     homeWin = browserWindow.createHomeWindow(homeWin);
     // tray = noteTray.enable(controlbarWin);  // Show Win10's tray at bottom right of your screen
 
