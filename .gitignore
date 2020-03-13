@@ -2,3 +2,5 @@ node_modules
 .vs
 build
 .env
+
+.sqlite3
