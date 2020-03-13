@@ -3,4 +3,4 @@ node_modules
 build
 .env
 
-.sqlite3
+app/*.sqlite3

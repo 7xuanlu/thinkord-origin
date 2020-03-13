@@ -10,15 +10,15 @@ const File = model.File
 /** Create data */
 
 /** Test: Feed the data into the Folders table */
-// Folder
-//     .create({
-//         folder_name: "Test Folder"
-//     })
-//     .then((newFolder) => {
-//         console.log(newFolder)
-//     }).catch((err) => {
-//         console.log("Error while folder creation: ", err)
-//     });
+Folder
+    .create({
+        folder_name: "Test Folder"
+    })
+    .then((newFolder) => {
+        console.log(newFolder)
+    }).catch((err) => {
+        console.log("Error while folder creation: ", err)
+    });
 
 /** Test: Feed the data into the Collections table */
 // Collection
@@ -77,34 +77,34 @@ const File = model.File
 //     });
 
 
-File
-    .bulkCreate([
-        {
-            fileName: 'test.pdf'
-        },
-        {
-            fileName: 'hello.pdf'
-        },
-        {
-            fileName: 'yo.ppt'
-        }
-    ])
-    .then((files) => {
-        Block
-            .findAll({ where: { id: [1, 4] }, include: ['files'] })
-            .then((blocks) => {
-                blocks.forEach(block => {
-                    block
-                        .setFiles(files)
-                        .then((joinedBlocksFiles) => {
-                            console.log(joinedBlocksFiles)
-                        }).catch((err) => {
-                            console.log("Error while joining Blocks and Files: ", err)
-                        });
-                })
-            }).catch((err) => {
-                console.log("Error while Blocks search: ", err)
-            });
-    }).catch((err) => {
-        console.log("Error while File creation: ", err)
-    });
+// File
+//     .bulkCreate([
+//         {
+//             fileName: 'test.pdf'
+//         },
+//         {
+//             fileName: 'hello.pdf'
+//         },
+//         {
+//             fileName: 'yo.ppt'
+//         }
+//     ])
+//     .then((files) => {
+//         Block
+//             .findAll({ where: { id: [1, 4] }, include: ['files'] })
+//             .then((blocks) => {
+//                 blocks.forEach(block => {
+//                     block
+//                         .setFiles(files)
+//                         .then((joinedBlocksFiles) => {
+//                             console.log(joinedBlocksFiles)
+//                         }).catch((err) => {
+//                             console.log("Error while joining Blocks and Files: ", err)
+//                         });
+//                 })
+//             }).catch((err) => {
+//                 console.log("Error while Blocks search: ", err)
+//             });
+//     }).catch((err) => {
+//         console.log("Error while File creation: ", err)
+//     });
