@@ -5,8 +5,8 @@
   "private": true,
   "main": "main.js",
   "scripts": {
-    "dev": "webpack-dev-server --config build-utils/webpack.config.js --env.env=dev",
-    "build": "webpack --config build-utils/webpack.config.js --env.env=prod",
+    "dev": "webpack-dev-server --config configs/webpack.config.js --env.env=dev",
+    "build": "webpack --config configs/webpack.config.js --env.env=prod",
     "start": "electron .",
     "win": "electron-builder"
   },
