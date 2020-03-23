@@ -13,10 +13,10 @@ module.exports = merge.smart(baseConfig, {
   devtool: process.env.DEBUG_PROD === 'true' ? 'source-map' : 'none',
   mode: 'production',
   target: 'electron-main',
-  entry: './app/main.dev.js',
+  entry: './app/main-dev.js',
   output: {
     path: path.join(__dirname, '..'),
-    filename: './build/main.prod.js'
+    filename: './build/main-prod.js'
   },
   optimization: {
     minimizer: process.env.E2E_BUILD

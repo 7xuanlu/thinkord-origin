@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "private": true,
-  "main": "app/main.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --config configs/webpack.dev.js",
     "build": "cross-env NODE_ENV=production webpack --config configs/webpack.prod.js",
+    "build-main": "cross-env NODE_ENV=production webpack --config ./configs/webpack.main.prod.js",
+    "build-renderer": "cross-env NODE_ENV=production webpack --config ./configs/webpack.renderer.prod.js",
     "start": "cross-env NODE_ENV=production electron app/main.js",
     "pack": "electron-builder --dir",
     "dist": "electron-builder"
@@ -18,9 +19,7 @@
     "appId": "com.3071.thinkord",
     "files": [
       "app/",
-      "build/",
-      "main.js",
-      "env.json"
+      "build/"
     ],
     "win": {
       "icon": "app/asset/icon.png"
