@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
-const baseConfig = require('./webpack.base.js');
+const baseConfig = require('./webpack.renderer.js');
 
 module.exports = merge.smart(baseConfig, {
     mode: 'production',

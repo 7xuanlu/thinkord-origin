@@ -47,7 +47,7 @@ exports.createControlBarWindow = (controlbarWin) => {
         // controlbarWin.webContents.openDevTools();
     } else {
         // Load controlbar.html from the file system.
-        controlbarWin.loadFile('../build/controlbar.html');
+        controlbarWin.loadFile(`${__dirname}/controlbar.html`);
     }
 
     // controlbarWin.removeMenu();
@@ -87,7 +87,7 @@ exports.createTextWindow = (textWin, controlbarWin) => {
     }
     else {
         // Load textwindow.html from the file system.
-        textWin.loadURL('../build/textwindow.html');
+        textWin.loadURL(`${__dirname}/textwindow.html`);
     }
 
     return textWin;
@@ -127,7 +127,7 @@ exports.createHomeWindow = (homeWin) => {
         // home.webContents.openDevTools();
     } else {
         // Load home.html from the file system.
-        homeWin.loadFile('../build/home.html');
+        homeWin.loadFile(`${__dirname}/home.html`);
     }
 
     return homeWin;
@@ -142,7 +142,7 @@ exports.changeHomeToCollection = (homeWin) => {
         // home.webContents.openDevTools();
     } else {
         // Load collection.html from the file system.
-        homeWin.loadFile(`../build/collection.html`);
+        homeWin.loadFile(`${__dirname}/collection.html`);
     }
 
     return homeWin;
@@ -156,7 +156,7 @@ exports.changeCollectionToHome = (homeWin) => {
         // homeWin.webContents.openDevTools();
     } else {
         // Load home.html from the file system.
-        homeWin.loadFile('../build/home.html');
+        homeWin.loadFile(`${__dirname}/build/home.html`);
     }
 
     return homeWin;
