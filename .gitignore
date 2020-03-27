@@ -3,4 +3,5 @@ node_modules
 build
 .env
 
+app/relationtester.js
 app/*.sqlite3
