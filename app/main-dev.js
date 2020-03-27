@@ -8,6 +8,7 @@ const { app, ipcMain, globalShortcut, dialog } = require('electron');
 const browserWindow = require('./main/browser-window');  // All functions related to browser window are defined here
 
 // Third party module
+require("regenerator-runtime/runtime");
 const { useCapture } = require('./media-capturer/dragsnip/capture-main');
 const { initUserEnv } = require('./utils/init-user-env');
 
