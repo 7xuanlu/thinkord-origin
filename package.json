@@ -1,7 +1,7 @@
 {
   "name": "thinkord",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.1.0",
+  "description": "Electron application dedicated to helping people comveniently capture their thoughts.",
   "private": true,
   "main": "build/main-prod.js",
   "scripts": {
@@ -13,9 +13,9 @@
     "pack": "npm run build && electron-builder --dir",
     "dist": "npm run build && electron-builder"
   },
-  "keywords": [],
+  "keywords": ["Electron", "React", "note"],
   "author": "3071",
-  "license": "ISC",
+  "license": "GNU GPLv3",
   "build": {
     "appId": "com.3071.thinkord",
     "files": [
@@ -24,6 +24,12 @@
       "package.json"
     ],
     "win": {
+      "icon": "app/asset/icon.png"
+    },
+    "mac": {
+      "icon": "app/asset/icon.png"
+    },
+    "linux": {
       "icon": "app/asset/icon.png"
     }
   },

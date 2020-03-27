@@ -156,7 +156,7 @@ exports.changeCollectionToHome = (homeWin) => {
         // homeWin.webContents.openDevTools();
     } else {
         // Load home.html from the file system.
-        homeWin.loadFile(`${__dirname}/build/home.html`);
+        homeWin.loadFile(`${__dirname}/home.html`);
     }
 
     return homeWin;
