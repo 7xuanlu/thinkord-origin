@@ -4,7 +4,7 @@
   "description": "",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --config configs/webpack.dev.js",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --config configs/webpack.renderer.dev.js",
     "build": "concurrently \"npm run build-main\" \"npm run build-renderer\"",
     "build-main": "cross-env NODE_ENV=production webpack --config ./configs/webpack.main.prod.js",
     "build-renderer": "cross-env NODE_ENV=production webpack --config ./configs/webpack.renderer.prod.js",

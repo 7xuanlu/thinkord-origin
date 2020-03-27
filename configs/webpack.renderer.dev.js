@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
-const baseConfig = require('./webpack.base.js');
+const baseConfig = require('./webpack.renderer.js');
 
 const path = require('path');
 const { spawn } = require('child_process');
@@ -18,7 +18,7 @@ module.exports = merge.smart(baseConfig, {
         before() {
             spawn(
                 'electron',
-                ['.'],
+                ['app/main-dev.js'],
                 { shell: true, env: process.env, stdio: 'inherit' }
             )
                 .on('close', code => process.exit(0))
