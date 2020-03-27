@@ -3,14 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "private": true,
+  "main": "build/main-prod.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --config configs/webpack.renderer.dev.js",
     "build": "concurrently \"npm run build-main\" \"npm run build-renderer\"",
     "build-main": "cross-env NODE_ENV=production webpack --config ./configs/webpack.main.prod.js",
     "build-renderer": "cross-env NODE_ENV=production webpack --config ./configs/webpack.renderer.prod.js",
     "start": "cross-env NODE_ENV=production electron ./build/main-prod.js",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "pack": "npm run build && electron-builder --dir",
+    "dist": "npm run build && electron-builder"
   },
   "keywords": [],
   "author": "3071",
@@ -18,8 +19,9 @@
   "build": {
     "appId": "com.3071.thinkord",
     "files": [
-      "app/",
-      "build/"
+      "build/",
+      "node_modules/",
+      "package.json"
     ],
     "win": {
       "icon": "app/asset/icon.png"
@@ -58,6 +60,7 @@
     "@babel/polyfill": "^7.8.3",
     "autolinker": "^3.12.0",
     "bootstrap": "^4.4.1",
+    "bufferutil": "^4.0.1",
     "concurrently": "^5.1.0",
     "dotenv": "^8.2.0",
     "html-react-parser": "^0.9.2",
@@ -74,6 +77,7 @@
     "react-dropzone": "^10.2.1",
     "regenerator-runtime": "^0.13.5",
     "styled-components": "^4.4.1",
+    "utf-8-validate": "^5.0.2",
     "video-react": "^0.13.9",
     "webrtc-adapter": "^4.2.2"
   }
