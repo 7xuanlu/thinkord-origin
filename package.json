@@ -10,29 +10,12 @@
     "build-main": "cross-env NODE_ENV=production webpack --config ./configs/webpack.main.prod.js",
     "build-renderer": "cross-env NODE_ENV=production webpack --config ./configs/webpack.renderer.prod.js",
     "start": "cross-env NODE_ENV=production electron ./build/main-prod.js",
-    "pack": "npm run build && electron-builder --dir",
-    "dist": "npm run build && electron-builder"
+    "pack": "npm run build && electron-builder --config electron-builder.json --dir",
+    "dist": "npm run build && electron-builder --config electron-builder.json"
   },
   "keywords": ["Electron", "React", "note"],
   "author": "3071",
   "license": "GNU GPLv3",
-  "build": {
-    "appId": "com.3071.thinkord",
-    "files": [
-      "build/",
-      "node_modules/",
-      "package.json"
-    ],
-    "win": {
-      "icon": "app/asset/icon.png"
-    },
-    "mac": {
-      "icon": "app/asset/icon.png"
-    },
-    "linux": {
-      "icon": "app/asset/icon.png"
-    }
-  },
   "devDependencies": {
     "@babel/core": "^7.8.4",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
