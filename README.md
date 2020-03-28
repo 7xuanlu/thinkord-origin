@@ -1,5 +1,5 @@
 # Thinkord
-<img src="./src/asset/thinkord.png" width="600">
+<img src="./app/asset/thinkord.png" width="600">
 
 Thinkord is a open source desktop application dedicated to helping people comveniently capture their thoughts.  
 
@@ -41,10 +41,10 @@ npm run win
 After packaging the application, folder dist would be created and you could click .exe to install(deploy) it to your local machine.
 
 # Architecture
-<img src="./src/asset/architecture.png">  
+<img src="./app/asset/architecture.png">  
 
 •	React  
-    A Javascript front-end development architecture, originally developed by Facebook. We use it to build timeline note and control bar. 
+    A Javascript front-end development architecture, originally developed by Facebook. We use it to build collection note and control bar. 
 
 •	Electron & Node.js  
     A cross-platform desktop application development framework, developed by GitHub. We use it to invoke APIs that interact with the operating system. Such as screenshots, screen recording, audio recording.
