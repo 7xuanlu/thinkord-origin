@@ -54,5 +54,6 @@ module.exports = {
                 use: 'file-loader?name=asset/[name].[ext]'
             }
         ]
-    }
+    },
+    externals:['pg','tedious','pg-hstore']
 }

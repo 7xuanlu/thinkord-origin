@@ -2,6 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 
+const model = require('./models/index')
 // Electron module
 const { app, ipcMain, globalShortcut, dialog } = require('electron');
 // const noteTray = require('./note-tray');
