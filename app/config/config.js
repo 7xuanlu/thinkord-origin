@@ -1,8 +1,6 @@
 
 const path = require('path');
 
-console.log(process.env.HOME)
-
 let workpath = process.env.HOME + '//AppData//Roaming//thinkord'
 module.exports = {
   "development": {
@@ -17,7 +15,7 @@ module.exports = {
   },
   "production": {
     "dialect": "sqlite",
-    "storage": path.join(workpath,'database_prd.sqlite3'),
+    "storage": '../build/database_prd.sqlite3',
     "operatorsAliases": false
   }
 }
