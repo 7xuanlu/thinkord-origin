@@ -16,7 +16,8 @@
     "start": "cross-env NODE_ENV=production electron ./build/main-prod.js",
     "pack": "npm run build && electron-builder --config electron-builder.json --dir",
     "dist": "npm run build && electron-builder --config electron-builder.json",
-    "rebuild": "electron-rebuild -f -w sqlite3"
+    "rebuild": "electron-rebuild -f -w sqlite3",
+    "postinstall": "electron-builder install-app-deps"
   },
   "keywords": [
     "Electron",
@@ -53,7 +54,7 @@
     "webpack": "^4.42.1",
     "webpack-bundle-analyzer": "^3.6.1",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3",
+    "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
