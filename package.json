@@ -64,7 +64,7 @@
     "concurrently": "^5.1.0",
     "dotenv": "^8.2.0",
     "html-react-parser": "^0.9.2",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "microsoft-cognitiveservices-speech-sdk": "^1.10.1",
     "minimist": "^1.2.5",
     "mousetrap": "^1.6.5",
