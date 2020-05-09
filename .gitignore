@@ -109,6 +109,9 @@ build/
 tmp/
 temp/
 
+#  
+app/*.sqlite3
+
 ### react ###
 .DS_*
 *.log
@@ -116,13 +119,13 @@ logs
 **/*.backup.*
 **/*.back.*
 
-node_modules
-bower_components
+.vs
 
 *.sublime*
 
 psd
 thumb
 sketch
+
 
 # End of https://www.gitignore.io/api/node
