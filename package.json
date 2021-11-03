@@ -82,7 +82,7 @@
     "sqlite3": "^4.2.0",
     "styled-components": "^4.4.1",
     "utf-8-validate": "^5.0.2",
-    "validator": "^12.2.0",
+    "validator": "^13.7.0",
     "video-react": "^0.13.9",
     "webrtc-adapter": "^4.2.2"
   }
